@@ -1,4 +1,4 @@
-# FindMe iOS and Android mobile app
+# 🐶📱 FindMe iOS and Android mobile app
 
 Written in React Native v0.64
 
