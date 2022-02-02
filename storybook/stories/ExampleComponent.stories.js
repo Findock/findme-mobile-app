@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react-native';
-import { withKnobs, text, select } from '@storybook/addon-knobs';
+import { text, select } from '@storybook/addon-knobs';
 import ExampleComponent from '../../components/ExampleComponent';
 import CenterView from './CenterView';
 
