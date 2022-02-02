@@ -14,20 +14,16 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
-    "cross-env": "^7.0.3",
     "expo": "~44.0.0",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-safe-area-context": "3.3.2",
     "react-native-web": "0.17.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "@storybook/addon-actions": "^5.3",
     "@storybook/addon-knobs": "^6.4.0",
-    "@storybook/addon-links": "^5.3",
     "@storybook/addon-ondevice-actions": "^5.3.23",
     "@storybook/addon-ondevice-knobs": "^5.3.25",
     "@storybook/react-native": "^5.3.25",

@@ -10,7 +10,6 @@ const colorOptions = [
 ]
 
 storiesOf('ExampleComponent', module)
-  .addDecorator(withKnobs)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('ExampleComponent - ExampleText', () => (
     <ExampleComponent text={text('title', 'ExampleText')} color={select('color', colorOptions, 'blue')} />
