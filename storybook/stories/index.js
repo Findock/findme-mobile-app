@@ -1,1 +1,1 @@
-import './ExampleComponent.stories';
+import './TextInput.stories';
