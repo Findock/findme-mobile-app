@@ -11,9 +11,7 @@ const style = {
   },
 };
 
-export default function CenterView({ children }) {
-  return <View style={style.main}>{children}</View>;
-}
+export const CenterView = ({ children }) => <View style={style.main}>{children}</View>;
 
 CenterView.defaultProps = {
   children: null,

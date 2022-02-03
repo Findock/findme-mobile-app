@@ -9,30 +9,34 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-  ],
+  plugins: ['react'],
   rules: {
     'no-undef': 'off',
     'func-names': 'off',
     'react/function-component-definition': 'off',
-    'array-element-newline': ['error', {
-      ArrayExpression: 'consistent',
-      ArrayPattern: { minItems: 2 },
-    }],
-    'object-property-newline': ['error', {
-      allowMultiplePropertiesPerLine: false,
-    }],
+    'array-element-newline': [
+      'error', {
+        ArrayExpression: 'consistent',
+        ArrayPattern: { minItems: 2 },
+      },
+    ],
+    'object-property-newline': [
+      'error', {
+        allowMultiplePropertiesPerLine: false,
+      },
+    ],
     'object-curly-newline': ['error'],
     'no-multi-spaces': 'error',
     'no-irregular-whitespace': 'error',
     'no-trailing-spaces': 'error',
     'import/no-extraneous-dependencies': 'off',
     'global-require': 'off',
-    'max-len': ['error', {
-      code: 140,
-      tabWidth: 2,
-    }],
+    'max-len': [
+      'error', {
+        code: 140,
+        tabWidth: 2,
+      },
+    ],
     indent: ['error', 2],
     'no-tabs': 'error',
     'react/prop-types': 'off',
@@ -46,5 +50,7 @@ module.exports = {
     'no-unused-vars': 'warn',
     'react/jsx-indent': 'off',
     'consistent-return': 'off',
+    'import/prefer-default-export': 'off',
+    'array-bracket-newline': ['error', { multiline: true }],
   },
 };
