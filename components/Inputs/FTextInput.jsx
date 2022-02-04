@@ -1,15 +1,27 @@
-import React from 'react';
 import {
-  StyleSheet, Text, TextInput, View,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
 } from 'react-native';
+
 import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 import colors from '../../themes/colors';
 import sizes from '../../themes/sizes';
 
 export const FTextInput = ({
-  value, onChangeText, icon, placeholder = '', maxLength = 256, errorMessage = '',
+  value, onChangeText, icon, iconPlacement,  placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
 }) => {
-  const calcPaddingLeft = () => (icon ? sizes.PADDING_50 : sizes.PADDING_30);
+
+  const calcPaddingLeft = () => ((icon && iconPlacement === 'left') ? sizes.PADDING_50 : sizes.PADDING_30);
+  const calcPaddingRight = () => ((icon && iconPlacement === 'right') ? sizes.PADDING_50 : sizes.PADDING_30);
+  const getBackgroundColors = () => rounded ? colors.WHITE : colors.GRAY;
+  const getBorderWidth = () => rounded ? sizes.BORDER_2 : 0;
+  const getBorderRadius = () => rounded ? 20 : 0;
+
 
   const drawErrorMessage = () => {
     if (!errorMessage) return;
@@ -17,44 +29,55 @@ export const FTextInput = ({
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <Ionicons
-        style={styles.icon}
-        name={icon}
-        size={sizes.ICON_22}
-        color={colors.GRAY}
-      />
-      <TextInput
-        placeholder={placeholder}
-        value={value}
-        onChangeText={onChangeText}
-        maxLength={maxLength}
-        style={{
-          ...styles.input,
-          paddingLeft: calcPaddingLeft(),
-        }}
-      />
-      {drawErrorMessage()}
-    </View>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <View style={styles.inputContainer}>
+          <Ionicons
+            style={{
+              ...styles.icon,
+              left: iconPlacement === 'left' ? sizes.POSITION_14 : null,
+              right: iconPlacement === 'right' ? 30 : null,
+            }}
+            name={icon}
+            size={sizes.ICON_22}
+            color={colors.DARK_GRAY}
+          />
+          <TextInput
+            placeholder={placeholder}
+            value={value}
+            onChangeText={onChangeText}
+            maxLength={maxLength}
+            placeholderTextColor={colors.DARK_GRAY}
+            autoCapitalize='none'
+            style={{
+              ...styles.input,
+              paddingLeft: calcPaddingLeft(),
+              paddingRight: calcPaddingRight(),
+              backgroundColor: getBackgroundColors(),
+              borderWidth: getBorderWidth(),
+              borderRadius: getBorderRadius(),
+            }}
+          />
+          {drawErrorMessage()}
+         </View>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   inputContainer: {
     position: 'relative',
+    flex: 1
   },
   icon: {
     position: 'absolute',
-    left: sizes.POSITION_14,
-    top: sizes.POSITION_14,
     zIndex: 1,
+    top: sizes.POSITION_14
   },
-  input: {
-    backgroundColor: colors.LIGHT_GRAY,
+  input: { 
     color: colors.BLACK,
     width: sizes.WIDTH_310,
     height: sizes.HEIGHT_54,
-    paddingHorizontal: sizes.PADDING_30,
+    borderColor: colors.LIGHT_GRAY,
   },
   errorMessage: {
     color: colors.RED,

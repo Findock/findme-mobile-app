@@ -14,4 +14,7 @@ export default {
 
   // POSITION
   POSITION_14: 14,
+
+  // BORDER
+  BORDER_2: 2,
 };
