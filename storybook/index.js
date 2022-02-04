@@ -1,4 +1,6 @@
-import { getStorybookUI, configure, addDecorator } from '@storybook/react-native';
+import {
+  getStorybookUI, configure, addDecorator,
+} from '@storybook/react-native';
 import { withKnobs } from '@storybook/addon-knobs';
 
 // Import addons
@@ -14,7 +16,7 @@ configure(() => {
 
 const StorybookUIRoot = getStorybookUI({
   asyncStorage: null,
-  tabOpen: -1
+  tabOpen: -1,
 });
 
 export default StorybookUIRoot;
