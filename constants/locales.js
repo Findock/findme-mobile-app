@@ -21,6 +21,5 @@ export default {
     ACCOUNT_SETTINGS: 'Ustawienia konta',
     LOG_OUT: 'Wyloguj się',
     WRITE_MESSAGE: "Napisz wiadomość",
-    MESSAGES: 'Wiadomości',
     FOLLOWED: 'Obserwowane'
 }
