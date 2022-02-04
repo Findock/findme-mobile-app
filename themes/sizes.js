@@ -18,4 +18,7 @@ export default {
 
   // BORDER
   BORDER_2: 2,
+
+  // BORDER RADIUS
+  RADIUS_20: 20,
 };

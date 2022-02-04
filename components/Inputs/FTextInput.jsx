@@ -13,14 +13,14 @@ import placements from '../../themes/placements';
 import sizes from '../../storybook/sizes';
 
 export const FTextInput = ({
-  value, onChangeText, icon, iconPlacement,  placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
+  value, onChangeText, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
 }) => {
 
   const calcPaddingLeft = () => ((icon && iconPlacement === placements.LEFT) ? sizes.PADDING_50 : sizes.PADDING_30);
   const calcPaddingRight = () => ((icon && iconPlacement === placements.RIGHT) ? sizes.PADDING_50 : sizes.PADDING_30);
   const getBackgroundColors = () => rounded ? colors.WHITE : colors.GRAY;
   const getBorderWidth = () => rounded ? sizes.BORDER_2 : 0;
-  const getBorderRadius = () => rounded ? 20 : 0;
+  const getBorderRadius = () => rounded ? sizes.RADIUS_20 : 0;
 
 
   const drawErrorMessage = () => {
