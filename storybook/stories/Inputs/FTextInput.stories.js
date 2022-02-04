@@ -6,7 +6,6 @@ import icons from '../../../themes/icons';
 import { storiesOf } from '@storybook/react-native';
 
 const iconOptions = [
-  '',
   icons.MAIL_OUTLINE,
   icons.LOCK_CLOSED_OUTLINE,
 ];
@@ -42,17 +41,18 @@ storiesOf('FTextInput', module)
   ))
   .add('FTextInput - no icon', () => (
     <FTextInput
-      icon={select('icon', iconOptions, '')}
+      icon={''}
       errorMessage={text('error message', '')}
       placeholder={text('placeholder', defaultPlaceholder)}
-      iconPlacement={select('iconPlacement', iconPlacementOptions, 'left')}
+      iconPlacement={''}
     />
   ))
   .add('FTextInput - rounded no icon', () => (
     <FTextInput
-      icon={select('icon', iconOptions, '')}
+      icon={''}
       placeholder={text('placeholder', defaultPlaceholder)}
       rounded={boolean('rounded', isRounded)}
+      iconPlacement={''}
     />
   ))
   .add('FTextInput - rounded with icon on the right', () => (

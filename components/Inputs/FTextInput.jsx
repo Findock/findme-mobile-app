@@ -1,23 +1,23 @@
 import {
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
 
+import { FKeyboardAvoidingView } from './../Utils/FKeyboardAvoidingView ';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import colors from '../../themes/colors';
-import sizes from '../../themes/sizes';
+import placements from '../../themes/placements';
+import sizes from '../../storybook/sizes';
 
 export const FTextInput = ({
   value, onChangeText, icon, iconPlacement,  placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
 }) => {
 
-  const calcPaddingLeft = () => ((icon && iconPlacement === 'left') ? sizes.PADDING_50 : sizes.PADDING_30);
-  const calcPaddingRight = () => ((icon && iconPlacement === 'right') ? sizes.PADDING_50 : sizes.PADDING_30);
+  const calcPaddingLeft = () => ((icon && iconPlacement === placements.LEFT) ? sizes.PADDING_50 : sizes.PADDING_30);
+  const calcPaddingRight = () => ((icon && iconPlacement === placements.RIGHT) ? sizes.PADDING_50 : sizes.PADDING_30);
   const getBackgroundColors = () => rounded ? colors.WHITE : colors.GRAY;
   const getBorderWidth = () => rounded ? sizes.BORDER_2 : 0;
   const getBorderRadius = () => rounded ? 20 : 0;
@@ -29,13 +29,13 @@ export const FTextInput = ({
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <FKeyboardAvoidingView>
         <View style={styles.inputContainer}>
           <Ionicons
             style={{
               ...styles.icon,
-              left: iconPlacement === 'left' ? sizes.POSITION_14 : null,
-              right: iconPlacement === 'right' ? 30 : null,
+              left: iconPlacement === placements.LEFT ? sizes.POSITION_14 : null,
+              right: iconPlacement === placements.RIGHT ? sizes.POSITION_30 : null,
             }}
             name={icon}
             size={sizes.ICON_22}
@@ -59,7 +59,7 @@ export const FTextInput = ({
           />
           {drawErrorMessage()}
          </View>
-    </KeyboardAvoidingView>
+    </FKeyboardAvoidingView>
   );
 };
 
