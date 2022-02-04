@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import colors from '../../themes/colors';
 import placements from '../../themes/placements';
-import sizes from '../../storybook/sizes';
+import sizes from '../../themes/sizes'
 
 export const FTextInput = ({
   value, onChangeText, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
