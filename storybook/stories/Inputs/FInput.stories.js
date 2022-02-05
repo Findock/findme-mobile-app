@@ -53,19 +53,14 @@ storiesOf('FInput', module)
   ))
   .add('FInput - no icon', () => (
     <FInput
-      icon=""
       errorMessage={text('error message', '')}
       placeholder={text('placeholder', defaultPlaceholder)}
-      iconPlacement=""
-      type={select('type', defaultType)}
     />
   ))
   .add('FInput - rounded no icon', () => (
     <FInput
-      icon=""
       placeholder={text('placeholder', defaultPlaceholder)}
       rounded={boolean('rounded', isRounded)}
-      iconPlacement=""
       type={select('type', typeOptions, defaultType)}
     />
   ))
