@@ -68,7 +68,6 @@ export const FInput = ({
           ...styles.icon,
           top: 0,
           right: 0,
-          marginLeft: 50,
           padding: sizes.PADDING_14,
         }}
         name={togglePasswordIconVisibilityName()}
