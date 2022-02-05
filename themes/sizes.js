@@ -4,16 +4,20 @@ export default {
 
   // WIDTHS
   WIDTH_310: 310,
+  WIDTH_FULL: '100%',
 
   // HEIGHTS
   HEIGHT_54: 54,
+  HEIGHT_FULL: '100%',
 
   // PADDINGS
+  PADDING_14: 14,
   PADDING_30: 30,
   PADDING_50: 50,
 
   // POSITION
   POSITION_14: 14,
+  POSITION_20: 20,
   POSITION_30: 30,
 
   // BORDER

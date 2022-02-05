@@ -19,5 +19,5 @@ export default {
   EYE_OUTLINE: 'eye-outline',
   EYE_OFF_OUTLINE: 'eye-off-outline',
   PIN: 'pin',
-  SETTINGS_OUTLINE: 'settings-outline'
+  SETTINGS_OUTLINE: 'settings-outline',
 };

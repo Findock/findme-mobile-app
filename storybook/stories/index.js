@@ -1,1 +1,1 @@
-import './Inputs/FTextInput.stories';
+import './Inputs/FInput.stories';
