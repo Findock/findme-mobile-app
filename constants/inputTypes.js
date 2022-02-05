@@ -1,6 +1,6 @@
 export default {
-    PHONE: 'phone',
-    EMAIL: 'email',
-    PASSWORD: 'password',
-    TEXT: 'text'
-}
+  PHONE: 'phone',
+  EMAIL: 'email',
+  PASSWORD: 'password',
+  TEXT: 'text',
+};

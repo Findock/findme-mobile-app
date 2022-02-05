@@ -52,5 +52,7 @@ module.exports = {
     'consistent-return': 'off',
     'import/prefer-default-export': 'off',
     'array-bracket-newline': ['error', { multiline: true }],
+    semi: ['error'],
+    'linebreak-style': 'off',
   },
 };

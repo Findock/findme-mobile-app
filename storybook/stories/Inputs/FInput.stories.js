@@ -1,10 +1,10 @@
 import { boolean, select, text } from '@storybook/addon-knobs';
 
+import { storiesOf } from '@storybook/react-native';
 import { CenterView } from '../../utils/CenterView';
 import { FInput } from '../../../components/Inputs/FInput';
 import icons from '../../../themes/icons';
 import inputTypes from '../../../constants/inputTypes';
-import { storiesOf } from '@storybook/react-native';
 
 const iconOptions = [
   icons.MAIL_OUTLINE,
@@ -16,13 +16,13 @@ const typeOptions = [
   inputTypes.EMAIL,
   inputTypes.PHONE,
   inputTypes.PASSWORD,
-  inputTypes.TEXT
-]
+  inputTypes.TEXT,
+];
 
 const iconPlacementOptions = [
   'right',
-  'left'
-]
+  'left',
+];
 
 const defaultIcon = icons.MAIL_OUTLINE;
 const defaultPlaceholder = 'Input placeholder';
@@ -53,19 +53,19 @@ storiesOf('FInput', module)
   ))
   .add('FInput - no icon', () => (
     <FInput
-      icon={''}
+      icon=""
       errorMessage={text('error message', '')}
       placeholder={text('placeholder', defaultPlaceholder)}
-      iconPlacement={''}
+      iconPlacement=""
       type={select('type', defaultType)}
     />
   ))
   .add('FInput - rounded no icon', () => (
     <FInput
-      icon={''}
+      icon=""
       placeholder={text('placeholder', defaultPlaceholder)}
       rounded={boolean('rounded', isRounded)}
-      iconPlacement={''}
+      iconPlacement=""
       type={select('type', typeOptions, defaultType)}
     />
   ))
