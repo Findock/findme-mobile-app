@@ -16,7 +16,7 @@ import placements from '../../themes/placements';
 import sizes from '../../themes/sizes';
 
 export const FInput = ({
-  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
+  value, onChangeText, type, icon, iconPlacement, placeholder = 'r', maxLength = 256, errorMessage = '', rounded = false,
 }) => {
   const [
     isPasswordVisible,
@@ -66,8 +66,10 @@ export const FInput = ({
       <Ionicons
         style={{
           ...styles.icon,
-          right: sizes.POSITION_14,
+          top: 0,
+          right: 0,
           marginLeft: 50,
+          padding: sizes.PADDING_14,
         }}
         name={togglePasswordIconVisibilityName()}
         size={sizes.ICON_22}
@@ -83,7 +85,7 @@ export const FInput = ({
           style={{
             ...styles.icon,
             left: iconPlacement === placements.LEFT ? sizes.POSITION_14 : null,
-            right: iconPlacement === placements.RIGHT ? sizes.POSITION_30 : null,
+            right: iconPlacement === placements.RIGHT ? sizes.POSITION_14 : null,
           }}
           name={icon}
           size={sizes.ICON_22}
@@ -96,7 +98,7 @@ export const FInput = ({
           maxLength={maxLength}
           placeholderTextColor={colors.DARK_GRAY}
           autoCapitalize="none"
-          secureTextEntry={!isPasswordVisible}
+          secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
           keyboardType={getKeyboardType()}
           style={{
             ...styles.input,
