@@ -6,4 +6,4 @@ export const FKeyboardAvoidingView = ({ children }) => {
         {children}
       </KeyboardAvoidingView>
     );
-    }
+}
