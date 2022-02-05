@@ -8,12 +8,12 @@ import {
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
-import { FKeyboardAvoidingView } from '../Utils/FKeyboardAvoidingView';
-import colors from '../../themes/colors';
-import icons from '../../themes/icons';
-import inputTypes from '../../constants/inputTypes';
-import placements from '../../themes/placements';
-import sizes from '../../themes/sizes';
+import colors from 'themes/colors';
+import icons from 'themes/icons';
+import inputTypes from 'constants/inputTypes';
+import placements from 'themes/placements';
+import sizes from 'themes/sizes';
+import { FKeyboardAvoidingView } from 'components/Utils/FKeyboardAvoidingView';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = 'r', maxLength = 256, errorMessage = '', rounded = false,

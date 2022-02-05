@@ -11,7 +11,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'no-undef': 'off',
+    'no-undef': 'error',
     'func-names': 'off',
     'react/function-component-definition': 'off',
     'array-element-newline': [
@@ -54,5 +54,6 @@ module.exports = {
     'array-bracket-newline': ['error', { multiline: true }],
     semi: ['error'],
     'linebreak-style': 'off',
+    'import/no-unresolved': 'off',
   },
 };

@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/react-native';
 import { text, select, number } from '@storybook/addon-knobs';
-import { FHeading } from '../../../components/Composition/FHeading';
-import { CenterView } from '../../utils/CenterView';
-import colors from '../../../themes/colors';
-import fonts from '../../../themes/fonts';
+import { FHeading } from 'components/Composition/FHeading';
+import fonts from 'themes/fonts';
+import colors from 'themes/colors';
+import { CenterView } from 'storybook/utils/CenterView';
 
 const colorOptions = [
   colors.GREEN,
