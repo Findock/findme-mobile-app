@@ -1,20 +1,19 @@
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   TextInput,
-  View,
+  TouchableWithoutFeedback,
+  View
 } from 'react-native';
 
-import { FKeyboardAvoidingView } from '../Utils/FKeyboardAvoidingView ';
+import { FKeyboardAvoidingView } from '../Utils/FKeyboardAvoidingView';
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native';
 import colors from '../../themes/colors';
 import icons from '../../themes/icons';
 import inputTypes from '../../constants/inputTypes';
 import placements from '../../themes/placements';
 import sizes from '../../themes/sizes'
-import { useState } from 'react';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
@@ -27,7 +26,6 @@ export const FInput = ({
   const getBackgroundColors = () => rounded ? colors.WHITE : colors.GRAY;
   const getBorderWidth = () => rounded ? sizes.BORDER_2 : 0;
   const getBorderRadius = () => rounded ? sizes.RADIUS_20 : 0;
-  // const setSecureTextEntry = () => type === inputTypes.PASSWORD;
 
   const getKeyboardType = () => {
     switch (type) {
