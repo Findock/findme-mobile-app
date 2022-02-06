@@ -7,11 +7,11 @@ import colors from 'themes/colors';
 import placements from 'themes/placements';
 
 export const FButton = ({
-  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress,
+  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
 }) => {
   const drawLinkButton = () => (
     <TouchableWithoutFeedback onPress={() => { navigation.push(to); }}>
-      <View>
+      <View style={buttonViewStyles}>
         <FHeading
           title={title}
           color={color}
@@ -33,7 +33,7 @@ export const FButton = ({
   const drawTextButton = () => (
     <TouchableWithoutFeedback>
       <View style={styles.buttonContainer}>
-        <View>
+        <View style={buttonViewStyles}>
           <FHeading
             title={title}
             color={color}
@@ -47,7 +47,7 @@ export const FButton = ({
   const drawIconAndTextButton = () => (
     <TouchableWithoutFeedback>
       <View style={styles.buttonContainer}>
-        <View>
+        <View style={buttonViewStyles}>
           <FHeading
             title={title}
             color={color}
