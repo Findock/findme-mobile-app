@@ -2,6 +2,7 @@
 
 Written in React Native v0.64
 
+[![CircleCI](https://circleci.com/gh/Findock/findme-mobile-app/tree/master.svg?style=svg)](https://circleci.com/gh/Findock/findme-mobile-app/tree/master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Findock_findme-mobile-app&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Findock_findme-mobile-app)  
 
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Findock_findme-mobile-app&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=Findock_findme-mobile-app)
