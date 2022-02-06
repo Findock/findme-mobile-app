@@ -22,7 +22,7 @@ export const FButton = ({
     </TouchableWithoutFeedback>
   );
   const drawIconButton = () => (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <Ionicons
         name={icon}
         color={color}
@@ -31,7 +31,7 @@ export const FButton = ({
     </TouchableWithoutFeedback>
   );
   const drawTextButton = () => (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.buttonContainer}>
         <View style={buttonViewStyles}>
           <FHeading
@@ -45,7 +45,7 @@ export const FButton = ({
     </TouchableWithoutFeedback>
   );
   const drawIconAndTextButton = () => (
-    <TouchableWithoutFeedback>
+    <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.buttonContainer}>
         <View style={buttonViewStyles}>
           <FHeading
