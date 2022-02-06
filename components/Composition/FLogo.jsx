@@ -5,6 +5,7 @@ import { FHeading } from 'components/Composition/FHeading';
 import locales from 'constants/locales';
 import icons from 'themes/icons';
 import fonts from 'themes/fonts';
+import placements from 'themes/placements';
 
 export const FLogo = ({ color, fill }) => {
   const getIconName = () => (fill ? icons.PAW : icons.PAW_OUTLINE);
@@ -28,9 +29,9 @@ export const FLogo = ({ color, fill }) => {
 };
 const styles = StyleSheet.create({
   logoContainer: {
-    width: '100%',
+    width: sizes.WIDTH_FULL,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: placements.CENTER,
   },
   icon: {
     marginRight: sizes.MARGIN_5,
