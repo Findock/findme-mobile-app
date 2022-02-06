@@ -15,6 +15,7 @@
     "test:lint": "eslint \"{components,constants,storybbok,themes}/**/*.{js,jsx}\""
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.8",
     "@types/storybook__addon-knobs": "^5.2.1",
     "cross-env": "^7.0.3",
     "expo": "~44.0.0",
