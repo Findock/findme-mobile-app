@@ -12,12 +12,16 @@ export default {
   HEIGHT_FULL: '100%',
 
   // PADDINGS
+  PADDING_5: 5,
+  PADDING_12: 12,
   PADDING_14: 14,
+  PADDING_20: 20,
   PADDING_30: 30,
   PADDING_50: 50,
 
   // MARGINS
   MARGIN_5: 5,
+  MARGIN_8: 8,
 
   // POSITION
   POSITION_14: 14,
