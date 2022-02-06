@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet,
+    StyleSheet,
   Text,
   TextInput,
   TouchableWithoutFeedback,
