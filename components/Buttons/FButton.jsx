@@ -3,7 +3,6 @@ import { TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
-import colors from 'themes/colors';
 import placements from 'themes/placements';
 
 export const FButton = ({
