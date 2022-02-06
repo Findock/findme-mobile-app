@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 export const FHeading = ({
   title, size, color, weight, align,
 }) => (
-  <View>
+  <View style={{ width: '100%' }}>
     <Text style={{
       fontSize: size,
       color,
