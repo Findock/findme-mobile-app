@@ -54,6 +54,7 @@ storiesOf('FButton', module)
       iconSize={number('iconSize', sizes.ICON_25)}
       titleSize={number('titleSize', fonts.HEADING_MEDIUM)}
       titleWeight={select('titleWeight', weightOptions, fonts.HEADING_WEIGHT_MEDIUM)}
+      backgroundColor={select('backgroundColor', colorOptions, colors.GREEN)}
     />
   ))
   .add('FButton - icon button', () => (
@@ -71,5 +72,6 @@ storiesOf('FButton', module)
       color={select('color', colorOptions, colors.WHITE)}
       titleSize={number('titleSize', fonts.HEADING_SMALL)}
       titleWeight={select('titleWeight', weightOptions, fonts.HEADING_WEIGHT_SEMIBOLD)}
+      backgroundColor={select('backgroundColor', colorOptions, colors.GREEN)}
     />
   ));

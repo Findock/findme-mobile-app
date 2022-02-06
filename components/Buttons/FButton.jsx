@@ -7,7 +7,7 @@ import colors from 'themes/colors';
 import placements from 'themes/placements';
 
 export const FButton = ({
-  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
+  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
 }) => {
   const drawLinkButton = () => (
     <TouchableWithoutFeedback onPress={() => { navigation.push(to); }}>
@@ -24,7 +24,7 @@ export const FButton = ({
   const drawIconButton = () => (
     <TouchableWithoutFeedback
       onPress={onPress}
-      style={{ padding: sizes.PADDING_14 }}
+      style={{ padding: sizes.PADDING_20 }}
     >
       <Ionicons
         name={icon}
@@ -35,7 +35,11 @@ export const FButton = ({
   );
   const drawTextButton = () => (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.buttonContainer}>
+      <View style={{
+        ...styles.buttonContainer,
+        backgroundColor,
+      }}
+      >
         <View style={buttonViewStyles}>
           <FHeading
             title={title}
@@ -49,7 +53,11 @@ export const FButton = ({
   );
   const drawIconAndTextButton = () => (
     <TouchableWithoutFeedback onPress={onPress}>
-      <View style={styles.buttonContainer}>
+      <View style={{
+        ...styles.buttonContainer,
+        backgroundColor,
+      }}
+      >
         <View style={buttonViewStyles}>
           <FHeading
             title={title}
@@ -78,8 +86,8 @@ export const FButton = ({
     case buttonTypes.LINK_BUTTON:
       return drawLinkButton();
     case buttonTypes.TEXT_BUTTON:
-      return drawTextButton();
     default:
+      return drawTextButton();
     }
   };
 
@@ -90,7 +98,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     borderRadius: sizes.RADIUS_20,
-    backgroundColor: colors.GREEN,
     paddingVertical: sizes.PADDING_12,
     paddingHorizontal: sizes.PADDING_20,
     alignItems: placements.CENTER,
