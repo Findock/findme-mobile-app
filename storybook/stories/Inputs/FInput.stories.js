@@ -1,10 +1,10 @@
 import { boolean, select, text } from '@storybook/addon-knobs';
 
 import { storiesOf } from '@storybook/react-native';
-import { CenterView } from '../../utils/CenterView';
-import { FInput } from '../../../components/Inputs/FInput';
-import icons from '../../../themes/icons';
-import inputTypes from '../../../constants/inputTypes';
+import { CenterView } from 'storybook/utils/CenterView';
+import icons from 'themes/icons';
+import inputTypes from 'constants/inputTypes';
+import { FInput } from 'components/Inputs/FInput';
 
 const iconOptions = [
   icons.MAIL_OUTLINE,
