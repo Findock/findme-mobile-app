@@ -7,7 +7,7 @@ import { select, boolean } from '@storybook/addon-knobs';
 const colorOptions = [
   colors.GREEN,
   colors.WHITE,
-  colors.DARK_GREEN,
+  colors.GREEN,
 ];
 
 const defaultFill = false;
