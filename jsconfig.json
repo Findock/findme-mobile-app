@@ -2,12 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "assets": ["./assets"],
-      "components": ["./components"],
-      "constants": ["./constants"],
-      "storybook": ["./storybook"],
-      "themes": ["./themes"],
+      "assets/*": ["./assets/*"],
       "components/*": ["./components/*"],
+      "constants/*": ["./constants/*"],
+      "storybook/*": ["./storybook/*"],
+      "themes/*": ["./themes/*"],
     }
   }
 }

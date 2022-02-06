@@ -1,14 +1,17 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 export const FHeading = ({
-  title, size, color, weight,
+  title, size, color, weight, align,
 }) => (
-  <Text style={{
-    fontSize: size,
-    color,
-    fontWeight: weight,
-  }}
-  >
-    {title}
-  </Text>
+  <View>
+    <Text style={{
+      fontSize: size,
+      color,
+      fontWeight: weight,
+      textAlign: align,
+    }}
+    >
+      {title}
+    </Text>
+  </View>
 );
