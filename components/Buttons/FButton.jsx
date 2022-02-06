@@ -22,7 +22,10 @@ export const FButton = ({
     </TouchableWithoutFeedback>
   );
   const drawIconButton = () => (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableWithoutFeedback
+      onPress={onPress}
+      style={{ padding: sizes.PADDING_14 }}
+    >
       <Ionicons
         name={icon}
         color={color}
