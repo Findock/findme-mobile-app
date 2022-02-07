@@ -1,7 +1,6 @@
 import {
   ImageBackground, StyleSheet, View,
 } from 'react-native';
-import sizes from 'themes/sizes';
 
 export const FImage = ({
   width, height, imagePath, children,
@@ -20,9 +19,6 @@ export const FImage = ({
 );
 
 const styles = StyleSheet.create({
-  imageContainer: {
-
-  },
   image: {
     resizeMode: 'cover',
     flex: 1,
