@@ -10,6 +10,6 @@ storiesOf('FImage', module)
     <FImage
       width={number('width', 314)}
       height={number('height', 210)}
-      imagePath={number('imagePath', images.registration)}
+      imagePath={number('imagePath', images.REGISTRATION())}
     />
   ));
