@@ -57,7 +57,7 @@ export const FRegistrationForm = () => {
   const checkFormValidation = () => {
     let isValid = true;
     const errs = [];
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
     if (!dataForm.email || !emailRegex.test(dataForm.email)) {
       errs.push(errorMessages.INVALID_EMAIL);
       isValid = false;
