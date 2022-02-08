@@ -69,7 +69,7 @@ export const FButton = ({
           name={icon}
           color={color}
           size={iconSize}
-          style={{ marginLeft: sizes.MARGIN_8 }}
+          style={{ marginLeft: sizes.MARGIN_10 }}
         />
 
       </View>
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: sizes.RADIUS_20,
     paddingVertical: sizes.PADDING_12,
-    paddingHorizontal: sizes.PADDING_20,
+    paddingHorizontal: sizes.PADDING_25,
     alignItems: placements.CENTER,
   },
 });
