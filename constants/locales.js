@@ -4,7 +4,7 @@ export default {
   REGISTER: 'Zarejestruj się',
   CREATE_ACCOUNT: 'Stwórz konto',
   EMAIL: 'Email',
-  USER_NAME: 'Nickname',
+  NAME: 'Imię i Nazwisko',
   PASSWORD: 'Hasło',
   PHONE: 'Numer telefonu',
   FORGOT_PASSWORD: 'Zapomniałeś hasła?',

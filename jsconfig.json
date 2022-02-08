@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "baseUrl": ".",
     "paths": {
       "assets/*": ["./assets/*"],
@@ -7,6 +8,7 @@
       "constants/*": ["./constants/*"],
       "storybook/*": ["./storybook/*"],
       "themes/*": ["./themes/*"],
+      "utils/*": ["./utils/*"],
     }
   }
 }

@@ -1,7 +1,9 @@
 export default {
   // ICONS
+  ICON_20: 20,
   ICON_22: 22,
   ICON_25: 25,
+  ICON_30: 30,
 
   // WIDTHS
   WIDTH_310: 310,
@@ -16,12 +18,18 @@ export default {
   PADDING_12: 12,
   PADDING_14: 14,
   PADDING_20: 20,
+  PADDING_25: 25,
   PADDING_30: 30,
   PADDING_50: 50,
 
   // MARGINS
+  MARGIN_3: 3,
   MARGIN_5: 5,
   MARGIN_8: 8,
+  MARGIN_10: 10,
+  MARGIN_20: 20,
+  MARGIN_25: 25,
+  MARGIN_30: 30,
 
   // POSITION
   POSITION_14: 14,

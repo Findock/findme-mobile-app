@@ -5,6 +5,7 @@ export default {
   RED: '#B91C1C',
   WHITE: '#FFFFFF',
   LIGHT_GRAY: '#EDEDED',
-  GREEN: '#519259',
+  GREEN: '#2FA15D',
   DARK_GREEN: '#064635',
+  OVERLAY: 'rgba(250,250,250, 0.5)',
 };
