@@ -83,7 +83,7 @@ export const FRegistrationForm = () => {
       }
     } catch (error) {
       setLoading(false);
-      setErrors([...errors, error.response.data.error]);
+      setErrors([...errors, errorMessages.USER_ALREADY_EXISTS]);
     }
   };
 
@@ -104,7 +104,7 @@ export const FRegistrationForm = () => {
               || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
           />
           <FInput
-            placeholder={`${locales.NAME} ${locales.SURNAME}`}
+            placeholder={locales.NAME}
             value={dataForm.name}
             icon={icons.PERSON_OUTLINE}
             iconPlacement={placements.LEFT}
