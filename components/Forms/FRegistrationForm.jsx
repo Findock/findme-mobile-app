@@ -14,8 +14,8 @@ import buttonTypes from 'constants/buttonTypes';
 import errorMessages from 'constants/errorMessages';
 import { createUserService } from 'services/createUser.service';
 import { FSpinner } from 'components/Composition/FSpinner';
-import { FInput } from '../Inputs/FInput';
-import { filterErrorMessages } from '../../utils/filterErrorMessages';
+import { FInput } from 'components/Inputs/FInput';
+import { filterErrorMessages } from 'utils/filterErrorMessages';
 
 export const FRegistrationForm = () => {
   const [

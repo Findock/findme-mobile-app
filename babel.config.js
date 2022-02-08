@@ -12,6 +12,7 @@ module.exports = function (api) {
             constants: './constants',
             storybook: './storybook',
             themes: './themes',
+            utils: './utils',
           },
           extensions: [
             '.js',

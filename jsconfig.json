@@ -8,6 +8,7 @@
       "constants/*": ["./constants/*"],
       "storybook/*": ["./storybook/*"],
       "themes/*": ["./themes/*"],
+      "utils/*": ["./utils/*"],
     }
   }
 }
