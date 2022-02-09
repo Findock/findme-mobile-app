@@ -6,10 +6,12 @@ export default {
   ICON_30: 30,
 
   // WIDTHS
+  WIDTH_22: 22,
   WIDTH_310: 310,
   WIDTH_FULL: '100%',
 
   // HEIGHTS
+  HEIGHT_22: 22,
   HEIGHT_54: 54,
   HEIGHT_210: 210,
   HEIGHT_FULL: '100%',
@@ -35,14 +37,17 @@ export default {
   MARGIN_50: 50,
 
   // POSITION
+  POSITION_N1: -1,
   POSITION_14: 14,
   POSITION_20: 20,
   POSITION_30: 30,
 
   // BORDER
+  BORDER_1: 1,
   BORDER_2: 2,
 
   // BORDER RADIUS
+  RADIUS_5: 5,
   RADIUS_20: 20,
 
 };
