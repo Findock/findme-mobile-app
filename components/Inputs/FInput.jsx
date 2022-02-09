@@ -6,7 +6,6 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
@@ -14,9 +13,11 @@ import inputTypes from 'constants/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import { FKeyboardAvoidingView } from 'components/Utils/FKeyboardAvoidingView';
+import fonts from 'themes/fonts';
 
 export const FInput = ({
-  value, onChangeText, type, icon, iconPlacement, placeholder = 'r', maxLength = 256, errorMessage = '', rounded = false,
+  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
+  marginBottom = sizes.MARGIN_25, width,
 }) => {
   const [
     isPasswordVisible,
@@ -79,7 +80,12 @@ export const FInput = ({
 
   return (
     <FKeyboardAvoidingView>
-      <View style={styles.inputContainer}>
+      <View style={{
+        ...styles.inputContainer,
+        marginBottom,
+        width,
+      }}
+      >
         <Ionicons
           style={{
             ...styles.icon,
@@ -118,7 +124,6 @@ export const FInput = ({
 const styles = StyleSheet.create({
   inputContainer: {
     position: 'relative',
-    width: sizes.WIDTH_310,
     height: sizes.HEIGHT_54,
   },
   icon: {
@@ -134,5 +139,7 @@ const styles = StyleSheet.create({
   },
   errorMessage: {
     color: colors.RED,
+    fontSize: fonts.HEADING_EXTRA_SMALL,
+    marginTop: sizes.MARGIN_3,
   },
 });

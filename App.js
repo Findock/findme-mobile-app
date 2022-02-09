@@ -15,6 +15,7 @@ const App = () => (
       imageWidth={sizes.WIDTH_FULL}
     />
   </View>
+
 );
 
 const styles = StyleSheet.create({
