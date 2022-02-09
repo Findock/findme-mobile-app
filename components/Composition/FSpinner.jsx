@@ -4,6 +4,7 @@ import {
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FSpinner = () => {
   const getSize = () => (Platform.OS === 'ios' ? 'large' : sizes.ICON_30);

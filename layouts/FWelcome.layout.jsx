@@ -1,55 +1,52 @@
 import { FHeading } from 'components/Composition/FHeading';
 import { FImage } from 'components/Composition/FImage';
 import { FLogo } from 'components/Composition/FLogo';
-import { FDismissKeyboard } from 'components/Utils/FDismissKeyboard';
-import { FKeyboardAvoidingView } from 'components/Utils/FKeyboardAvoidingView';
+import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 import {
-  View, StyleSheet, ScrollView, Keyboard,
+  View, StyleSheet,
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import React from 'react';
 
 export const FWelcomeLayout = ({
   imagePath, headingTitle, imageHeight, imageWidth, children,
 }) => (
-  <FKeyboardAvoidingView>
-    <FDismissKeyboard>
-      <View style={styles.inner}>
-        <View style={styles.logoContainer}>
-          <FLogo
-            fill={false}
-            color={colors.GREEN}
-          />
-        </View>
-        <View>
-          <FImage
-            imagePath={imagePath}
-            height={imageHeight}
-            width={imageWidth}
-          />
-        </View>
-        <View style={{ marginVertical: sizes.MARGIN_20 }}>
-          <FHeading
-            title={headingTitle}
-            color={colors.DARK_GREEN}
-            align={placements.CENTER}
-            size={fonts.HEADING_EXTRA_LARGE}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
-          />
-        </View>
-        <View style={{ flex: 1 }}>
-          {children}
-        </View>
+  <FKeyboardWrapper>
+    <View style={styles.container}>
+      <View style={styles.logoContainer}>
+        <FLogo
+          fill={false}
+          color={colors.GREEN}
+        />
       </View>
-
-    </FDismissKeyboard>
-  </FKeyboardAvoidingView>
+      <View>
+        <FImage
+          imagePath={imagePath}
+          height={imageHeight}
+          width={imageWidth}
+        />
+      </View>
+      <View style={{ marginVertical: sizes.MARGIN_20 }}>
+        <FHeading
+          title={headingTitle}
+          color={colors.DARK_GREEN}
+          align={placements.CENTER}
+          size={fonts.HEADING_EXTRA_LARGE}
+          weight={fonts.HEADING_WEIGHT_MEDIUM}
+        />
+      </View>
+      <View>
+        {children}
+      </View>
+    </View>
+  </FKeyboardWrapper>
 );
 
 const styles = StyleSheet.create({
-  inner: {
+  container: {
     flex: 1,
     padding: sizes.PADDING_30,
   },

@@ -1,5 +1,6 @@
 import { Text, View } from 'react-native';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FHeading = ({
   title, size, color, weight, align = placements.LEFT,

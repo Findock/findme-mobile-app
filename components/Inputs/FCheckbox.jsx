@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FCheckbox = ({
   checkboxColor, iconColor, value, setValue, style,

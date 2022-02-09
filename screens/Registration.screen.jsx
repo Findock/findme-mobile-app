@@ -3,6 +3,7 @@ import images from 'constants/images';
 import locales from 'constants/locales';
 import { FWelcomeLayout } from 'layouts/FWelcome.layout';
 import sizes from 'themes/sizes';
+import React from 'react';
 
 export const RegistrationScreen = () => (
   <FWelcomeLayout

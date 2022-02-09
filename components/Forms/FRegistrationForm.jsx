@@ -157,9 +157,7 @@ export const FRegistrationForm = () => {
             size={fonts.HEADING_EXTRA_SMALL}
           />
         </View>
-
       </View>
-
       <View style={styles.buttonContainer}>
         <FButton
           backgroundColor={colors.GREEN}

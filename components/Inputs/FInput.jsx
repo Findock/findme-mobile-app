@@ -12,7 +12,6 @@ import icons from 'themes/icons';
 import inputTypes from 'constants/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import { FKeyboardAvoidingView } from 'components/Utils/FKeyboardAvoidingView';
 import fonts from 'themes/fonts';
 
 export const FInput = ({
