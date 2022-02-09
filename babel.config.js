@@ -13,6 +13,7 @@ module.exports = function (api) {
             storybook: './storybook',
             themes: './themes',
             utils: './utils',
+            layouts: './layouts',
           },
           extensions: [
             '.js',

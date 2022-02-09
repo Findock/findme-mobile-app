@@ -9,6 +9,7 @@
       "storybook/*": ["./storybook/*"],
       "themes/*": ["./themes/*"],
       "utils/*": ["./utils/*"],
-    }
+      "layouts/*": ["./layouts/*"],
+    } 
   }
 }

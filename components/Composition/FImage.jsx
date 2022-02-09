@@ -1,5 +1,5 @@
 import {
-  ImageBackground, StyleSheet, View,
+  ImageBackground, View,
 } from 'react-native';
 
 export const FImage = ({
@@ -12,15 +12,12 @@ export const FImage = ({
   >
     <ImageBackground
       source={imagePath}
-      style={styles.image}
+      resizeMode="contain"
+      style={{
+        width,
+        height,
+      }}
     />
     {children}
   </View>
 );
-
-const styles = StyleSheet.create({
-  image: {
-    resizeMode: 'cover',
-    flex: 1,
-  },
-});

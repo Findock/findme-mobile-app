@@ -99,7 +99,7 @@ export const FRegistrationForm = () => {
             iconPlacement={placements.LEFT}
             onChangeText={emailInputHandler}
             type={inputTypes.EMAIL}
-            width={sizes.WIDTH_310}
+            width={sizes.WIDTH_FULL}
             errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
               || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
           />
@@ -110,7 +110,7 @@ export const FRegistrationForm = () => {
             iconPlacement={placements.LEFT}
             onChangeText={nameInputHandler}
             type={inputTypes.TEXT}
-            width={sizes.WIDTH_310}
+            width={sizes.WIDTH_FULL}
             errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
           />
           <FInput
@@ -121,7 +121,7 @@ export const FRegistrationForm = () => {
             onChangeText={passwordInputHandler}
             type={inputTypes.PASSWORD}
             maxLength={64}
-            width={sizes.WIDTH_310}
+            width={sizes.WIDTH_FULL}
             errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
           />
         </View>
@@ -135,7 +135,6 @@ export const FRegistrationForm = () => {
             title={locales.REGISTER}
             type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
             icon={icons.PAW}
-            width={sizes.WIDTH_310}
             onPress={onSubmit}
           />
         </View>
