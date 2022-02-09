@@ -9,6 +9,7 @@ export default {
 
   // HEIGHTS
   HEIGHT_54: 54,
+  HEIGHT_210: 210,
   HEIGHT_FULL: '100%',
 
   // PADDINGS
@@ -22,6 +23,12 @@ export default {
   // MARGINS
   MARGIN_5: 5,
   MARGIN_8: 8,
+  MARGIN_10: 10,
+  MARGIN_20: 20,
+  MARGIN_25: 25,
+  MARGIN_30: 30,
+  MARGIN_40: 40,
+  MARGIN_50: 50,
 
   // POSITION
   POSITION_14: 14,
