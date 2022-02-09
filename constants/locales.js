@@ -22,4 +22,5 @@ export default {
   LOG_OUT: 'Wyloguj się',
   WRITE_MESSAGE: 'Napisz wiadomość',
   FOLLOWED: 'Obserwowane',
+  ACCEPT_REGULATIONS: 'Zaakceptuj regulamin',
 };

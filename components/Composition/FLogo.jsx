@@ -25,7 +25,6 @@ export const FLogo = ({ color, fill }) => {
             color={color}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
             size={fonts.HEADING_LARGE}
-            align={placements.LEFT}
           />
         </View>
       </View>

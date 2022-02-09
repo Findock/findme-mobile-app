@@ -16,6 +16,8 @@ import { createUserService } from 'services/createUser.service';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { FCheckbox } from 'components/Inputs/FCheckbox';
+import { FHeading } from 'components/Composition/FHeading';
 
 export const FRegistrationForm = () => {
   const [
@@ -33,6 +35,10 @@ export const FRegistrationForm = () => {
   const [
     loading,
     setLoading,
+  ] = useState(false);
+  const [
+    acceptRegulations,
+    setAcceptRegulations,
   ] = useState(false);
 
   const emailInputHandler = (newEmail) => {
@@ -70,6 +76,10 @@ export const FRegistrationForm = () => {
       errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       isValid = false;
     }
+    if (!acceptRegulations) {
+      errs.push(errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
+      isValid = false;
+    }
     setErrors([...errs]);
     return isValid;
   };
@@ -90,62 +100,99 @@ export const FRegistrationForm = () => {
   return (
     <>
       {loading && <FSpinner />}
-      <View style={{ position: 'relative' }}>
-        <View>
-          <FInput
-            placeholder={locales.EMAIL}
-            value={dataForm.email}
-            icon={icons.MAIL_OUTLINE}
-            iconPlacement={placements.LEFT}
-            onChangeText={emailInputHandler}
-            type={inputTypes.EMAIL}
-            width={sizes.WIDTH_FULL}
-            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
+      <View>
+        <FInput
+          placeholder={locales.EMAIL}
+          value={dataForm.email}
+          icon={icons.MAIL_OUTLINE}
+          iconPlacement={placements.LEFT}
+          onChangeText={emailInputHandler}
+          type={inputTypes.EMAIL}
+          width={sizes.WIDTH_FULL}
+          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
               || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
+        />
+        <FInput
+          placeholder={locales.NAME}
+          value={dataForm.name}
+          icon={icons.PERSON_OUTLINE}
+          iconPlacement={placements.LEFT}
+          onChangeText={nameInputHandler}
+          type={inputTypes.TEXT}
+          width={sizes.WIDTH_FULL}
+          errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
+        />
+        <FInput
+          placeholder={locales.PASSWORD}
+          value={dataForm.password}
+          icon={icons.LOCK_CLOSED_OUTLINE}
+          iconPlacement={placements.LEFT}
+          onChangeText={passwordInputHandler}
+          type={inputTypes.PASSWORD}
+          maxLength={64}
+          width={sizes.WIDTH_FULL}
+          errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
+        />
+      </View>
+      <View>
+        <View style={styles.regulationsContainer}>
+          <FCheckbox
+            style={styles.checkbox}
+            iconColor={colors.WHITE}
+            checkboxColor={colors.GREEN}
+            setValue={setAcceptRegulations}
+            value={acceptRegulations}
           />
-          <FInput
-            placeholder={locales.NAME}
-            value={dataForm.name}
-            icon={icons.PERSON_OUTLINE}
-            iconPlacement={placements.LEFT}
-            onChangeText={nameInputHandler}
-            type={inputTypes.TEXT}
-            width={sizes.WIDTH_FULL}
-            errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
-          />
-          <FInput
-            placeholder={locales.PASSWORD}
-            value={dataForm.password}
-            icon={icons.LOCK_CLOSED_OUTLINE}
-            iconPlacement={placements.LEFT}
-            onChangeText={passwordInputHandler}
-            type={inputTypes.PASSWORD}
-            maxLength={64}
-            width={sizes.WIDTH_FULL}
-            errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
+          <FHeading
+            title={locales.ACCEPT_REGULATIONS}
+            size={fonts.HEADING_EXTRA_SMALL}
+            weight={fonts.HEADING_WEIGHT_MEDIUM}
+            color={colors.DARK_GREEN}
           />
         </View>
-        <View style={styles.buttonContainer}>
-          <FButton
-            backgroundColor={colors.GREEN}
-            color={colors.WHITE}
-            iconSize={sizes.ICON_20}
-            titleWeight={fonts.HEADING_WEIGHT_BOLD}
-            titleSize={fonts.HEADING_NORMAL}
-            title={locales.REGISTER}
-            type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-            icon={icons.PAW}
-            onPress={onSubmit}
+        <View style={styles.regulationsErrorMessageContainer}>
+          <FHeading
+            title={filterErrorMessages(errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
+            color={colors.RED}
+            size={fonts.HEADING_EXTRA_SMALL}
           />
         </View>
+
+      </View>
+
+      <View style={styles.buttonContainer}>
+        <FButton
+          backgroundColor={colors.GREEN}
+          color={colors.WHITE}
+          iconSize={sizes.ICON_20}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
+          titleSize={fonts.HEADING_NORMAL}
+          title={locales.REGISTER}
+          type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+          icon={icons.PAW}
+          onPress={onSubmit}
+        />
       </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   buttonContainer: {
     alignItems: placements.CENTER,
-    marginTop: sizes.MARGIN_20,
+    marginTop: sizes.MARGIN_40,
+  },
+  regulationsContainer: {
+    flexDirection: 'row',
+    alignItems: placements.CENTER,
+  },
+  regulationsErrorMessageContainer: {
+    marginTop: sizes.MARGIN_10,
+  },
+  checkbox: {
+    marginRight: sizes.MARGIN_10,
   },
 });
