@@ -12,7 +12,6 @@ import icons from 'themes/icons';
 import inputTypes from 'constants/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import { FKeyboardAvoidingView } from 'components/Utils/FKeyboardAvoidingView';
 import fonts from 'themes/fonts';
 
 export const FInput = ({
@@ -79,45 +78,44 @@ export const FInput = ({
   );
 
   return (
-    <FKeyboardAvoidingView>
-      <View style={{
-        ...styles.inputContainer,
-        marginBottom,
-        width,
-      }}
-      >
-        <Ionicons
-          style={{
-            ...styles.icon,
-            left: iconPlacement === placements.LEFT ? sizes.POSITION_14 : null,
-            right: iconPlacement === placements.RIGHT ? sizes.POSITION_14 : null,
-          }}
-          name={icon}
-          size={sizes.ICON_22}
-          color={colors.DARK_GRAY}
-        />
-        <TextInput
-          placeholder={placeholder}
-          value={value}
-          onChangeText={onChangeText}
-          maxLength={maxLength}
-          placeholderTextColor={colors.DARK_GRAY}
-          autoCapitalize="none"
-          secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
-          keyboardType={getKeyboardType()}
-          style={{
-            ...styles.input,
-            paddingLeft: calcPaddingLeft(),
-            paddingRight: calcPaddingRight(),
-            backgroundColor: getBackgroundColors(),
-            borderWidth: getBorderWidth(),
-            borderRadius: getBorderRadius(),
-          }}
-        />
-        {drawPasswordVisibilityIcon()}
-        {drawErrorMessage()}
-      </View>
-    </FKeyboardAvoidingView>
+
+    <View style={{
+      ...styles.inputContainer,
+      marginBottom,
+      width,
+    }}
+    >
+      <Ionicons
+        style={{
+          ...styles.icon,
+          left: iconPlacement === placements.LEFT ? sizes.POSITION_14 : null,
+          right: iconPlacement === placements.RIGHT ? sizes.POSITION_14 : null,
+        }}
+        name={icon}
+        size={sizes.ICON_22}
+        color={colors.DARK_GRAY}
+      />
+      <TextInput
+        placeholder={placeholder}
+        value={value}
+        onChangeText={onChangeText}
+        maxLength={maxLength}
+        placeholderTextColor={colors.DARK_GRAY}
+        autoCapitalize="none"
+        secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
+        keyboardType={getKeyboardType()}
+        style={{
+          ...styles.input,
+          paddingLeft: calcPaddingLeft(),
+          paddingRight: calcPaddingRight(),
+          backgroundColor: getBackgroundColors(),
+          borderWidth: getBorderWidth(),
+          borderRadius: getBorderRadius(),
+        }}
+      />
+      {drawPasswordVisibilityIcon()}
+      {drawErrorMessage()}
+    </View>
   );
 };
 

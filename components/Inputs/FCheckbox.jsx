@@ -5,17 +5,25 @@ import { Ionicons } from '@expo/vector-icons';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FCheckbox = ({
-  checkboxColor, iconColor, value, setValue,
+  checkboxColor, iconColor, value, setValue, style,
 }) => {
   const getBackgroundColor = () => (value ? checkboxColor : 'transparent');
 
   return (
     <TouchableWithoutFeedback
       onPress={() => setValue(!value)}
+      hitSlop={{
+        top: sizes.POSITION_20,
+        left: sizes.POSITION_20,
+        bottom: sizes.POSITION_20,
+        right: sizes.POSITION_20,
+      }}
     >
       <View style={{
+        ...style,
         ...styles.checkboxCointainer,
         borderColor: checkboxColor,
         backgroundColor: getBackgroundColor(),

@@ -6,6 +6,7 @@ import locales from 'constants/locales';
 import icons from 'themes/icons';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FLogo = ({ color, fill }) => {
   const getIconName = () => (fill ? icons.PAW : icons.PAW_OUTLINE);
@@ -25,7 +26,6 @@ export const FLogo = ({ color, fill }) => {
             color={color}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
             size={fonts.HEADING_LARGE}
-            align={placements.LEFT}
           />
         </View>
       </View>

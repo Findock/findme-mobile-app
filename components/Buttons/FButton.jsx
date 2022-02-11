@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
+import React from 'react';
 
 export const FButton = ({
   type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
