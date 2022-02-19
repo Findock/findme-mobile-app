@@ -1,10 +1,10 @@
 import Constants from 'expo-constants';
-import { RegistrationScreen } from 'screens/Registration.screen';
+import { Navigation } from 'navigation/Navigation';
 
 import storybook from './storybook';
 
 const App = () => (
-  <RegistrationScreen />
+  <Navigation />
 );
 
 export default Constants.manifest.extra.storybookMode ? storybook : App;
