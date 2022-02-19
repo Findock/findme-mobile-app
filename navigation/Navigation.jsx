@@ -15,7 +15,6 @@ export const Navigation = () => {
           component={RegistrationScreen}
           options={{
             headerShown: false,
-            title: stackNavigatorNames.REGISTRATION,
           }}
         />
       </Stack.Navigator>
