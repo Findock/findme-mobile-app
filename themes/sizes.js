@@ -14,6 +14,7 @@ export default {
   HEIGHT_22: 22,
   HEIGHT_54: 54,
   HEIGHT_210: 210,
+  HEIGHT_325: 325,
   HEIGHT_FULL: '100%',
 
   // PADDINGS

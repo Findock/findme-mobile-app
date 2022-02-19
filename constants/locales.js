@@ -23,4 +23,5 @@ export default {
   WRITE_MESSAGE: 'Napisz wiadomość',
   FOLLOWED: 'Obserwowane',
   ACCEPT_REGULATIONS: 'Zaakceptuj regulamin',
+  HAVE_ACCOUNT_ALREADY: 'Masz już konto? Zaloguj się',
 };
