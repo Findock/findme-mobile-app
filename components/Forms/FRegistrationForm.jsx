@@ -1,7 +1,7 @@
 import locales from 'constants/locales';
 import React, { useState } from 'react';
 import {
-  View, StyleSheet,
+  View, StyleSheet, Dimensions,
 } from 'react-native';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
@@ -18,8 +18,9 @@ import { FInput } from 'components/Inputs/FInput';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FCheckbox } from 'components/Inputs/FCheckbox';
 import { FHeading } from 'components/Composition/FHeading';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
-export const FRegistrationForm = () => {
+export const FRegistrationForm = ({ navigation }) => {
   const [
     dataForm,
     setDataForm,
@@ -158,7 +159,7 @@ export const FRegistrationForm = () => {
           />
         </View>
       </View>
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonsContainer}>
         <FButton
           backgroundColor={colors.GREEN}
           color={colors.WHITE}
@@ -170,6 +171,19 @@ export const FRegistrationForm = () => {
           icon={icons.PAW}
           onPress={onSubmit}
         />
+        <View style={{ marginTop: sizes.MARGIN_20 }}>
+          <FButton
+            color={colors.DARK_GRAY}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_NORMAL}
+            title={locales.HAVE_ACCOUNT_ALREADY}
+            type={buttonTypes.LINK_BUTTON}
+            onPress={onSubmit}
+            navigation={navigation}
+            to={stackNavigatorNames.LOGIN}
+          />
+        </View>
+
       </View>
     </>
   );
@@ -179,16 +193,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  buttonContainer: {
+  buttonsContainer: {
     alignItems: placements.CENTER,
-    marginTop: sizes.MARGIN_40,
+    marginTop: Dimensions.get('window').height < 800 ? Dimensions.get('window').height * 0.02 : sizes.MARGIN_40,
   },
   regulationsContainer: {
     flexDirection: 'row',
     alignItems: placements.CENTER,
   },
   regulationsErrorMessageContainer: {
-    marginTop: sizes.MARGIN_10,
+    marginTop: sizes.MARGIN_5,
   },
   checkbox: {
     marginRight: sizes.MARGIN_10,

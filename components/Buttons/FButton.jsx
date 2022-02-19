@@ -10,8 +10,16 @@ export const FButton = ({
   type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
 }) => {
   const drawLinkButton = () => (
-    <TouchableWithoutFeedback onPress={() => { navigation.push(to); }}>
-      <View style={buttonViewStyles}>
+    <TouchableWithoutFeedback onPress={() => { navigation.navigate(to); }}>
+      <View
+        style={buttonViewStyles}
+        hitSlop={{
+          top: sizes.POSITION_20,
+          left: sizes.POSITION_20,
+          bottom: sizes.POSITION_20,
+          right: sizes.POSITION_20,
+        }}
+      >
         <FHeading
           title={title}
           color={color}
