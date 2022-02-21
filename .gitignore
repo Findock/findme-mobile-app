@@ -12,5 +12,7 @@ web-build/
 package-lock.json
 yarn-error.log
 
+.env
+
 # macOS
 .DS_Store
