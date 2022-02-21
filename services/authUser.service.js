@@ -1,6 +1,5 @@
-import appConfig from 'app.config';
-import axios from 'axios';
+import noAuthClient from 'api/noAuthClient';
 
-export const authUserService = (data) => axios.post(`${appConfig.extra.apiUrl}auth/login`, {
+export const authUserService = (data) => noAuthClient.post('auth/login', {
   ...data,
 });

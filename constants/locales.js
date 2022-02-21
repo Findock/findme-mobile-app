@@ -24,4 +24,5 @@ export default {
   FOLLOWED: 'Obserwowane',
   ACCEPT_REGULATIONS: 'Zaakceptuj regulamin',
   HAVE_ACCOUNT_ALREADY: 'Masz już konto? Zaloguj się',
+  CHECK_YOUR_NETWORK_CONNECTION: 'Sprawdź połączenie internetowe',
 };

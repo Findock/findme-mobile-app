@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 
 const authClient = axios.create({
   baseURL: appConfig.extra.apiUrl,
+  timeout: 20000,
 });
 
 authClient.interceptors.request.use(async (req) => {

@@ -61,40 +61,45 @@ export const FRegistrationForm = ({ navigation }) => {
     });
   };
 
-  const checkFormValidation = () => {
-    let isValid = true;
+  const checkFormValidation = (error) => {
+    const { message, statusCode } = error;
     const errs = [];
-    const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    if (!dataForm.email || !emailRegex.test(dataForm.email)) {
-      errs.push(errorMessages.INVALID_EMAIL);
-      isValid = false;
+    if (statusCode === 400) {
+      if (message.join(' ').includes('email')) {
+        errs.push(errorMessages.INVALID_EMAIL);
+      }
+      if (message.join(' ').includes('password')) {
+        errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+      }
+      if (message.join(' ').includes('name')) {
+        errs.push(errorMessages.NAME_CANNOT_BE_EMPTY);
+      }
     }
-    if (!dataForm.name) {
-      errs.push(errorMessages.NAME_CANNOT_BE_EMPTY);
-      isValid = false;
-    }
-    if (dataForm.password.length < 6) {
-      errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
-      isValid = false;
-    }
-    if (!acceptRegulations) {
-      errs.push(errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
-      isValid = false;
+    if (statusCode === 409) {
+      if (message.join(' ').includes('email')) {
+        errs.push(errorMessages.USER_ALREADY_EXISTS);
+      }
     }
     setErrors([...errs]);
-    return isValid;
   };
 
   const onSubmit = async () => {
     try {
-      if (checkFormValidation()) {
+      if (!acceptRegulations) {
+        setErrors([...errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS]);
+      } else {
         setLoading(true);
         await createUserService(dataForm);
         setLoading(false);
+        setErrors([]);
       }
     } catch (error) {
+      if (error.response && error.response.data) {
+        checkFormValidation(error.response.data);
+      } else {
+        setErrors([...errors, locales.CHECK_YOUR_NETWORK_CONNECTION]);
+      }
       setLoading(false);
-      setErrors([...errors, errorMessages.USER_ALREADY_EXISTS]);
     }
   };
 
