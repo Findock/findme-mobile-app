@@ -55,5 +55,6 @@ module.exports = {
     semi: ['error'],
     'linebreak-style': 'off',
     'import/no-unresolved': 'off',
+    'no-param-reassign': 'off',
   },
 };

@@ -16,6 +16,7 @@ module.exports = function (api) {
             utils: './utils',
             layouts: './layouts',
             navigation: './navigation',
+            store: './store',
           },
           extensions: [
             '.js',
