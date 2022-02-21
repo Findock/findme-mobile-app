@@ -24,5 +24,4 @@ export default {
   FOLLOWED: 'Obserwowane',
   ACCEPT_REGULATIONS: 'Zaakceptuj regulamin',
   HAVE_ACCOUNT_ALREADY: 'Masz już konto? Zaloguj się',
-  SECURE_STORE_KEY: 'Authorization',
 };

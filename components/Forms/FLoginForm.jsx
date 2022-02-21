@@ -40,7 +40,7 @@ export const FLoginForm = ({ navigation }) => {
   const onSubmit = async () => {
     try {
       const res = await authUserService(dataForm);
-      await SecureStore.setItemAsync(locales.SECURE_STORE_KEY, `${res.data.token_type} ${res.data.access_token}`);
+      await SecureStore.setItemAsync('Authorization', `${res.data.token_type} ${res.data.access_token}`);
     } catch (error) {
       console.log(error);
     }
