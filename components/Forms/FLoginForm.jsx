@@ -13,8 +13,12 @@ import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
+import { useDispatch } from 'react-redux';
+import { setToken } from 'store/auth/authSlice';
 
 export const FLoginForm = ({ navigation }) => {
+  const dispatch = useDispatch();
+
   const [
     dataForm,
     setDataForm,
@@ -41,6 +45,8 @@ export const FLoginForm = ({ navigation }) => {
     try {
       const res = await authUserService(dataForm);
       await SecureStore.setItemAsync('Authorization', `${res.data.token_type} ${res.data.access_token}`);
+      const authToken = await SecureStore.getItemAsync('Authorization');
+      dispatch(setToken(authToken));
     } catch (error) {
       console.log(error);
     }

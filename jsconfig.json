@@ -11,6 +11,7 @@
       "utils/*": ["./utils/*"],
       "layouts/*": ["./layouts/*"],
       "navigation/*": ["./navigation/*"],
+      "store/*": ["./store/*"],
     } 
   }
 }
