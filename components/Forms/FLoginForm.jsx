@@ -6,11 +6,13 @@ import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { authUserService } from 'services/authUser.service';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import * as SecureStore from 'expo-secure-store';
 
 export const FLoginForm = ({ navigation }) => {
   const [
@@ -33,6 +35,15 @@ export const FLoginForm = ({ navigation }) => {
       ...dataForm,
       password: newPassword,
     });
+  };
+
+  const onSubmit = async () => {
+    try {
+      const res = await authUserService(dataForm);
+      await SecureStore.setItemAsync(locales.SECURE_STORE_KEY, `${res.data.token_type} ${res.data.access_token}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -88,6 +99,7 @@ export const FLoginForm = ({ navigation }) => {
           title={locales.LOGIN}
           type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
           icon={icons.PAW}
+          onPress={onSubmit}
         />
       </View>
     </>
