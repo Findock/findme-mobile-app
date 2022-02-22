@@ -15,6 +15,9 @@ import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
+import errorMessages from 'constants/errorMessages';
+import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { FSpinner } from 'components/Composition/FSpinner';
 
 export const FLoginForm = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -26,6 +29,14 @@ export const FLoginForm = ({ navigation }) => {
     email: '',
     password: '',
   });
+  const [
+    errors,
+    setErrors,
+  ] = useState([]);
+  const [
+    loading,
+    setLoading,
+  ] = useState(false);
 
   const emailInputHandler = (newEmail) => {
     setDataForm({
@@ -41,19 +52,50 @@ export const FLoginForm = ({ navigation }) => {
     });
   };
 
+  const checkFormValidation = (error) => {
+    const { message, statusCode } = error;
+    const errs = [];
+    if (statusCode === 400) {
+      if (message.join(' ').includes('email')) {
+        errs.push(errorMessages.INVALID_EMAIL);
+      }
+      if (message.join(' ').includes('password')) {
+        errs.push(errorMessages.INVALID_PASSWORD);
+      }
+    }
+    if (statusCode === 401) {
+      if (message.join(' ').includes('email')) {
+        errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+      }
+    }
+    if (statusCode === 500) {
+      setLoading(false);
+    }
+    setErrors([...errs]);
+  };
+
   const onSubmit = async () => {
     try {
+      setLoading(true);
       const res = await authUserService(dataForm);
       await SecureStore.setItemAsync('Authorization', `${res.data.token_type} ${res.data.access_token}`);
       const authToken = await SecureStore.getItemAsync('Authorization');
       dispatch(setToken(authToken));
+      setLoading(false);
+      setErrors([]);
     } catch (error) {
-      console.log(error);
+      if (error.response && error.response.data) {
+        checkFormValidation(error.response.data);
+      } else {
+        setErrors([...errors, locales.CHECK_YOUR_NETWORK_CONNECTION]);
+      }
+      setLoading(false);
     }
   };
 
   return (
     <>
+      {loading && <FSpinner />}
       <View>
         <FInput
           type={inputTypes.EMAIL}
@@ -63,6 +105,8 @@ export const FLoginForm = ({ navigation }) => {
           width={sizes.WIDTH_FULL}
           onChangeText={emailInputHandler}
           value={dataForm.email}
+          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
+            || filterErrorMessages(errors, errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST)}
         />
         <FInput
           placeholder={locales.PASSWORD}
@@ -73,6 +117,7 @@ export const FLoginForm = ({ navigation }) => {
           width={sizes.WIDTH_FULL}
           onChangeText={passwordInputHandler}
           value={dataForm.password}
+          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PASSWORD)}
         />
       </View>
       <View>

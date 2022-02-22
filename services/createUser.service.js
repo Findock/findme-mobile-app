@@ -1,6 +1,5 @@
-import appConfig from 'app.config';
-import axios from 'axios';
+import noAuthClient from 'api/noAuthClient';
 
-export const createUserService = (data) => axios.post(`${appConfig.extra.apiKey}users`, {
+export const createUserService = (data) => noAuthClient.post('users', {
   ...data,
 });

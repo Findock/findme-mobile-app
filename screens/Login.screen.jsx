@@ -8,7 +8,7 @@ import sizes from 'themes/sizes';
 
 export const LoginScreen = ({ navigation }) => (
   <FWelcomeLayout
-    headingTitle={locales.CREATE_ACCOUNT}
+    headingTitle={locales.LOGIN}
     imagePath={images.LOGIN()}
     imageHeight={Dimensions.get('window').height * 0.25}
     imageWidth={sizes.WIDTH_FULL}
