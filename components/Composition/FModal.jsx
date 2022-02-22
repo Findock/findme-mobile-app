@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.OVERLAY_DARK,
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
-
   },
   modalView: {
     marginTop: 30,
