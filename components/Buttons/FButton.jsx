@@ -45,10 +45,11 @@ export const FButton = ({
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={{
         ...styles.buttonContainer,
+        ...buttonViewStyles,
         backgroundColor,
       }}
       >
-        <View style={buttonViewStyles}>
+        <View>
           <FHeading
             title={title}
             color={color}
@@ -63,10 +64,11 @@ export const FButton = ({
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={{
         ...styles.buttonContainer,
+        ...buttonViewStyles,
         backgroundColor,
       }}
       >
-        <View style={buttonViewStyles}>
+        <View>
           <FHeading
             title={title}
             color={color}

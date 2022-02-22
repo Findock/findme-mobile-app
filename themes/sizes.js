@@ -6,11 +6,13 @@ export default {
   ICON_30: 30,
 
   // WIDTHS
+  WIDTH_0: 0,
   WIDTH_22: 22,
   WIDTH_310: 310,
   WIDTH_FULL: '100%',
 
   // HEIGHTS
+  HEIGHT_2: 2,
   HEIGHT_22: 22,
   HEIGHT_54: 54,
   HEIGHT_210: 210,
@@ -24,6 +26,7 @@ export default {
   PADDING_20: 20,
   PADDING_25: 25,
   PADDING_30: 30,
+  PADDING_35: 35,
   PADDING_50: 50,
 
   // MARGINS
@@ -50,5 +53,14 @@ export default {
   // BORDER RADIUS
   RADIUS_5: 5,
   RADIUS_20: 20,
+
+  // ELEVATION
+  ELEVATION_5: 5,
+
+  // SHADOW RADIUS
+  SHADOW_RADIUS_4: 4,
+
+  // SHADOW OPACITY
+  SHADOW_OPACITY_025: 0.25,
 
 };

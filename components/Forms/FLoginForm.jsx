@@ -18,10 +18,16 @@ import { setToken } from 'store/auth/authSlice';
 import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
 
 export const FLoginForm = ({ navigation }) => {
   const dispatch = useDispatch();
 
+  const [
+    modalVisible,
+    setModalVisible,
+  ] = useState(false);
   const [
     dataForm,
     setDataForm,
@@ -87,7 +93,7 @@ export const FLoginForm = ({ navigation }) => {
       if (error.response && error.response.data) {
         checkFormValidation(error.response.data);
       } else {
-        setErrors([...errors, locales.CHECK_YOUR_NETWORK_CONNECTION]);
+        setModalVisible(true);
       }
       setLoading(false);
     }
@@ -96,6 +102,14 @@ export const FLoginForm = ({ navigation }) => {
   return (
     <>
       {loading && <FSpinner />}
+      {modalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
+          visible={modalVisible}
+          setVisible={setModalVisible}
+        />
+      )}
       <View>
         <FInput
           type={inputTypes.EMAIL}

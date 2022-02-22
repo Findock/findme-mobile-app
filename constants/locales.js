@@ -24,5 +24,8 @@ export default {
   FOLLOWED: 'Obserwowane',
   ACCEPT_REGULATIONS: 'Zaakceptuj regulamin',
   HAVE_ACCOUNT_ALREADY: 'Masz już konto? Zaloguj się',
-  CHECK_YOUR_NETWORK_CONNECTION: 'Sprawdź połączenie internetowe',
+  IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION: 'Wygląda na to, że nie masz połączenia internetowego',
+  CONTINUE: 'Kontynuuj',
+  CONFIRM: 'Potwierdź',
+  CANCEL: 'Anuluj',
 };
