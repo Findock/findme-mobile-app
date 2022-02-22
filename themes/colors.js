@@ -9,5 +9,6 @@ export default {
   GREEN: '#2FA15D',
   LIGHT_GREEN: '#6EE7B7',
   DARK_GREEN: '#064635',
-  OVERLAY: 'rgba(250,250,250, 0.5)',
+  OVERLAY: 'rgba(250, 250, 250, 0.5)',
+  OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
 };

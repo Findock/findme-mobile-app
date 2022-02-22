@@ -55,11 +55,11 @@ export const FModal = ({
     );
   };
   return (
-    <View style={styles.modalContainer}>
+    <View style={{ flex: 1 }}>
       <Modal
-        animationType="slide"
-        transparent
+        animationType="fade"
         visible={visible}
+        transparent
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalView}>
@@ -84,6 +84,10 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
     padding: sizes.PADDING_30,
+    backgroundColor: colors.OVERLAY_DARK,
+    alignItems: placements.CENTER,
+    justifyContent: placements.CENTER,
+
   },
   modalView: {
     marginTop: 30,
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
     shadowOpacity: sizes.SHADOW_OPACITY_025,
     shadowRadius: sizes.SHADOW_RADIUS_4,
     elevation: sizes.ELEVATION_5,
+    width: sizes.WIDTH_FULL,
   },
   buttonsContainer: {
     marginTop: sizes.MARGIN_20,
