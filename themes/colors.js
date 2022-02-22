@@ -1,4 +1,5 @@
 export default {
+  BODY: '#FFFFFF',
   BLACK: '#373737',
   DARK_GRAY: '#BBBBBB',
   GRAY: '#F2F2F2',
@@ -9,6 +10,6 @@ export default {
   GREEN: '#2FA15D',
   LIGHT_GREEN: '#6EE7B7',
   DARK_GREEN: '#064635',
-  OVERLAY: 'rgba(250, 250, 250, 0.5)',
+  OVERLAY: 'rgba(255, 255, 255, 0.5)',
   OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
 };

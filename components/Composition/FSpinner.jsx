@@ -15,6 +15,7 @@ export const FSpinner = () => {
       size={getSize()}
       color={colors.DARK_GRAY}
     />
+
   );
 };
 
