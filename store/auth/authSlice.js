@@ -15,8 +15,12 @@ export const authSlice = createSlice({
       if (state.token) state.isAuth = true;
       else state.isAuth = false;
     },
+    removeToken: (state) => {
+      state.token = null;
+      state.isAuth = false;
+    },
   },
 });
 
-export const { toggleAuth, setToken } = authSlice.actions;
+export const { setToken, removeToken } = authSlice.actions;
 export default authSlice.reducer;
