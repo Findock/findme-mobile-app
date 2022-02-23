@@ -56,5 +56,6 @@ module.exports = {
     'linebreak-style': 'off',
     'import/no-unresolved': 'off',
     'no-param-reassign': 'off',
+    'no-nested-ternary': 'off',
   },
 };
