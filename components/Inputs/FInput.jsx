@@ -28,7 +28,7 @@ export const FInput = ({
     if ((icon && iconPlacement === placements.RIGHT) || type === inputTypes.PASSWORD) return sizes.PADDING_50;
     return sizes.PADDING_30;
   };
-  const getBackgroundColors = () => (rounded ? colors.WHITE : colors.LIGHT_GRAY);
+  const getBackgroundColors = () => (rounded ? colors.WHITE : colors.GRAY);
   const getBorderWidth = () => (rounded ? sizes.BORDER_2 : 0);
   const getBorderRadius = () => (rounded ? sizes.RADIUS_20 : 0);
 

@@ -17,10 +17,14 @@ export const FWelcomeLayout = ({
 }) => (
   <SafeAreaView style={{
     flex: 1,
+    backgroundColor: colors.BODY,
   }}
   >
     <ScrollView
       scrollEnabled={Dimensions.get('window').height < 700}
+      style={{
+        backgroundColor: colors.BODY,
+      }}
     >
       <FKeyboardWrapper>
         <View style={styles.container}>

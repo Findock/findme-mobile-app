@@ -13,6 +13,8 @@ export const LoginScreen = ({ navigation }) => (
     imageHeight={Dimensions.get('window').height * 0.25}
     imageWidth={sizes.WIDTH_FULL}
   >
-    <FLoginForm navigation={navigation} />
+    <FLoginForm
+      navigation={navigation}
+    />
   </FWelcomeLayout>
 );

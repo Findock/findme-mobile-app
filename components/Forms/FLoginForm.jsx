@@ -89,6 +89,7 @@ export const FLoginForm = ({ navigation }) => {
       dispatch(setToken(authToken));
       setLoading(false);
       setErrors([]);
+      navigation.navigate(stackNavigatorNames.HOMEPAGE);
     } catch (error) {
       if (error.response && error.response.data) {
         checkFormValidation(error.response.data);
