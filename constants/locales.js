@@ -28,4 +28,5 @@ export default {
   CONTINUE: 'Kontynuuj',
   CONFIRM: 'Potwierdź',
   CANCEL: 'Anuluj',
+  SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
 };

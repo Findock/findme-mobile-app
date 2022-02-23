@@ -51,8 +51,10 @@ export const FLoginForm = ({ navigation }) => {
   ] = useState(false);
 
   useEffect(() => {
-    if (route.params?.showLogoutModal) setLogoutModalVisible(true);
-    navigation.setParams({ showLogoutModal: false });
+    if (route.params?.showLogoutModal) {
+      setLogoutModalVisible(true);
+      navigation.setParams({ showLogoutModal: false });
+    }
   }, [route.params?.showLogoutModal]);
 
   useEffect(() => {
@@ -126,7 +128,7 @@ export const FLoginForm = ({ navigation }) => {
       {logoutModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
-          title="ELO"
+          title={locales.SUCCESSFUL_LOGOUT}
           visible={logoutModalVisible}
           setVisible={setLogoutModalVisible}
         />
