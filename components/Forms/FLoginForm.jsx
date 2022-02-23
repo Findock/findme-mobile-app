@@ -4,7 +4,7 @@ import buttonTypes from 'constants/buttonTypes';
 import inputTypes from 'constants/inputTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { authUserService } from 'services/authUser.service';
 import colors from 'themes/colors';
@@ -13,20 +13,26 @@ import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
 import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
+import { useRoute } from '@react-navigation/native';
 
 export const FLoginForm = ({ navigation }) => {
   const dispatch = useDispatch();
-
+  const route = useRoute();
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const [
-    modalVisible,
-    setModalVisible,
+    logoutModalVisible,
+    setLogoutModalVisible,
+  ] = useState(false);
+  const [
+    noInternetConnectionModalVisible,
+    setNoInternetConnectionModalVisible,
   ] = useState(false);
   const [
     dataForm,
@@ -43,6 +49,17 @@ export const FLoginForm = ({ navigation }) => {
     loading,
     setLoading,
   ] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.showLogoutModal) {
+      setLogoutModalVisible(true);
+      navigation.setParams({ showLogoutModal: false });
+    }
+  }, [route.params?.showLogoutModal]);
+
+  useEffect(() => {
+    if (isAuth) navigation.navigate(stackNavigatorNames.HOMEPAGE);
+  }, [isAuth]);
 
   const emailInputHandler = (newEmail) => {
     setDataForm({
@@ -87,14 +104,11 @@ export const FLoginForm = ({ navigation }) => {
       await SecureStore.setItemAsync('Authorization', `${res.data.token_type} ${res.data.access_token}`);
       const authToken = await SecureStore.getItemAsync('Authorization');
       dispatch(setToken(authToken));
-      setLoading(false);
-      setErrors([]);
-      navigation.navigate(stackNavigatorNames.HOMEPAGE);
     } catch (error) {
       if (error.response && error.response.data) {
         checkFormValidation(error.response.data);
       } else {
-        setModalVisible(true);
+        setNoInternetConnectionModalVisible(true);
       }
       setLoading(false);
     }
@@ -103,12 +117,20 @@ export const FLoginForm = ({ navigation }) => {
   return (
     <>
       {loading && <FSpinner />}
-      {modalVisible && (
+      {noInternetConnectionModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
           title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
-          visible={modalVisible}
-          setVisible={setModalVisible}
+          visible={noInternetConnectionModalVisible}
+          setVisible={setNoInternetConnectionModalVisible}
+        />
+      )}
+      {logoutModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.SUCCESSFUL_LOGOUT}
+          visible={logoutModalVisible}
+          setVisible={setLogoutModalVisible}
         />
       )}
       <View>

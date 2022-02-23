@@ -29,30 +29,29 @@ export const Navigation = () => {
         {!isAuth ? (
           <>
             <Stack.Screen
-              name={stackNavigatorNames.REGISTRATION}
-              component={RegistrationScreen}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
               name={stackNavigatorNames.LOGIN}
               component={LoginScreen}
               options={{
                 headerShown: false,
               }}
             />
-          </>
-        )
-          : (
             <Stack.Screen
-              name={stackNavigatorNames.HOMEPAGE}
-              component={HomepageScreen}
+              name={stackNavigatorNames.REGISTRATION}
+              component={RegistrationScreen}
               options={{
                 headerShown: false,
               }}
             />
-          )}
+          </>
+        ) : (
+          <Stack.Screen
+            name={stackNavigatorNames.HOMEPAGE}
+            component={HomepageScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
