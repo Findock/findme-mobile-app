@@ -34,7 +34,7 @@ export const Navigation = () => {
       <Stack.Navigator>
         {isLoading ? (
           <Stack.Screen
-            name={stackNavigatorNames.LOGIN}
+            name={stackNavigatorNames.GLOBAL_LOADER}
             component={FGlobalLoader}
             options={{
               headerShown: false,
