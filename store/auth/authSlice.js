@@ -9,7 +9,6 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState: initialState(),
   reducers: {
-
     setToken: (state, action) => {
       state.token = action.payload;
       if (state.token) state.isAuth = true;

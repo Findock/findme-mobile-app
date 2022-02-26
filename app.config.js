@@ -4,5 +4,6 @@ export default {
   extra: {
     storybookMode: process.env.STORYBOOK_MODE === 'true',
     apiUrl: process.env.API_URL,
+    globalLoaderDismissTimeout: 1000,
   },
 };

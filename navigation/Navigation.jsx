@@ -8,11 +8,15 @@ import { RegistrationScreen } from 'screens/Registration.screen';
 import * as SecureStore from 'expo-secure-store';
 import { useSelector, useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
+import { FGlobalLoader } from 'components/Composition/FGlobalLoader';
+import { setGlobalLoader } from 'store/global-loader/globalLoaderSlice';
+import appConfig from 'app.config';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
   const dispatch = useDispatch();
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const isLoading = useSelector((state) => state.globalLoader.isLoading);
 
   useEffect(() => {
     setAuthToken();
@@ -21,12 +25,23 @@ export const Navigation = () => {
   const setAuthToken = async () => {
     const authToken = await SecureStore.getItemAsync('Authorization');
     dispatch(setToken(authToken));
+    setTimeout(() => {
+      dispatch(setGlobalLoader(false));
+    }, appConfig.extra.globalLoaderDismissTimeout);
   };
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {!isAuth ? (
+        {isLoading ? (
+          <Stack.Screen
+            name={stackNavigatorNames.GLOBAL_LOADER}
+            component={FGlobalLoader}
+            options={{
+              headerShown: false,
+            }}
+          />
+        ) : (!isAuth ? (
           <>
             <Stack.Screen
               name={stackNavigatorNames.LOGIN}
@@ -51,7 +66,8 @@ export const Navigation = () => {
               headerShown: false,
             }}
           />
-        )}
+        ))}
+
       </Stack.Navigator>
     </NavigationContainer>
   );
