@@ -34,6 +34,7 @@ export const FRegistrationForm = ({ navigation }) => {
     email: '',
     password: '',
     name: '',
+    termsAccepted: false,
   });
   const [
     errors,
@@ -42,10 +43,6 @@ export const FRegistrationForm = ({ navigation }) => {
   const [
     loading,
     setLoading,
-  ] = useState(false);
-  const [
-    acceptRegulations,
-    setAcceptRegulations,
   ] = useState(false);
 
   const emailInputHandler = (newEmail) => {
@@ -67,6 +64,13 @@ export const FRegistrationForm = ({ navigation }) => {
     });
   };
 
+  const termsAcceptedHandler = () => {
+    setDataForm({
+      ...dataForm,
+      termsAccepted: !dataForm.termsAccepted,
+    });
+  };
+
   const checkFormValidation = (error) => {
     const { message, statusCode } = error;
     const errs = [];
@@ -80,6 +84,9 @@ export const FRegistrationForm = ({ navigation }) => {
       if (message.join(' ').includes('name')) {
         errs.push(errorMessages.NAME_CANNOT_BE_EMPTY);
       }
+      if (message.join(' ').includes('Terms') || message.join(' ').includes('terms')) {
+        errs.push(errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
+      }
     }
     if (statusCode === 409) {
       if (message.join(' ').includes('email')) {
@@ -90,14 +97,10 @@ export const FRegistrationForm = ({ navigation }) => {
   };
   const onSubmit = async () => {
     try {
-      if (!acceptRegulations) {
-        setErrors([...errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS]);
-      } else {
-        setLoading(true);
-        await createUserService(dataForm);
-        setLoading(false);
-        setErrors([]);
-      }
+      setLoading(true);
+      await createUserService(dataForm);
+      setLoading(false);
+      setErrors([]);
     } catch (error) {
       if (error.response && error.response.data) {
         checkFormValidation(error.response.data);
@@ -159,8 +162,8 @@ export const FRegistrationForm = ({ navigation }) => {
             style={styles.checkbox}
             iconColor={colors.WHITE}
             checkboxColor={colors.GREEN}
-            setValue={setAcceptRegulations}
-            value={acceptRegulations}
+            setValue={termsAcceptedHandler}
+            value={dataForm.termsAccepted}
           />
           <FHeading
             title={locales.ACCEPT_REGULATIONS}
