@@ -99,8 +99,11 @@ export const FRegistrationForm = ({ navigation }) => {
     try {
       setLoading(true);
       await createUserService(dataForm);
-      setLoading(false);
-      setErrors([]);
+      navigation.navigate(stackNavigatorNames.LOGIN, {
+        afterRegisterEmail: dataForm.email,
+        afterRegisterPassword: dataForm.password,
+        showRegistrationModal: true,
+      });
     } catch (error) {
       if (error.response && error.response.data) {
         checkFormValidation(error.response.data);

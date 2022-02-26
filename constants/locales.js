@@ -29,4 +29,5 @@ export default {
   CONFIRM: 'Potwierdź',
   CANCEL: 'Anuluj',
   SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
+  SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
 };
