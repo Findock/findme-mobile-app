@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
 import { FGlobalLoader } from 'components/Composition/FGlobalLoader';
 import { setGlobalLoader } from 'store/global-loader/globalLoaderSlice';
+import appConfig from 'app.config';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -26,7 +27,7 @@ export const Navigation = () => {
     dispatch(setToken(authToken));
     setTimeout(() => {
       dispatch(setGlobalLoader(false));
-    }, 1000);
+    }, appConfig.extra.globalLoaderDismissTimeout);
   };
 
   return (
