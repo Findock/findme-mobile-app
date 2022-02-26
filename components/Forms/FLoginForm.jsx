@@ -35,6 +35,10 @@ export const FLoginForm = ({ navigation }) => {
     setNoInternetConnectionModalVisible,
   ] = useState(false);
   const [
+    registrationModalVisible,
+    setRegistrationModalVisible,
+  ] = useState(false);
+  const [
     dataForm,
     setDataForm,
   ] = useState({
@@ -56,6 +60,26 @@ export const FLoginForm = ({ navigation }) => {
       navigation.setParams({ showLogoutModal: false });
     }
   }, [route.params?.showLogoutModal]);
+
+  useEffect(() => {
+    if (route.params?.showRegistrationModal) {
+      setRegistrationModalVisible(true);
+      navigation.setParams({ showRegistrationModal: false });
+    }
+  }, [route.params?.showRegistrationModal]);
+  useEffect(() => {
+    if (route.params?.afterRegisterEmail && route.params?.afterRegisterPassword) {
+      setErrors([]);
+      setDataForm({
+        email: route.params.afterRegisterEmail,
+        password: route.params.afterRegisterPassword,
+      });
+      navigation.setParams({
+        afterRegisterEmail: '',
+        afterRegisterPassword: '',
+      });
+    }
+  }, [route.params?.afterRegisterEmail, route.params?.afterRegisterPassword]);
 
   useEffect(() => {
     if (isAuth) navigation.navigate(stackNavigatorNames.HOMEPAGE);
@@ -123,6 +147,14 @@ export const FLoginForm = ({ navigation }) => {
           title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
           visible={noInternetConnectionModalVisible}
           setVisible={setNoInternetConnectionModalVisible}
+        />
+      )}
+      {registrationModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.SUCCESSFUL_REGISTRATION}
+          visible={registrationModalVisible}
+          setVisible={setRegistrationModalVisible}
         />
       )}
       {logoutModalVisible && (
