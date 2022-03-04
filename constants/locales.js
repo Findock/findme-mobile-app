@@ -30,4 +30,5 @@ export default {
   CANCEL: 'Anuluj',
   SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
   SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
+  ACTIVE_SESSION: 'Aktywna sesja',
 };

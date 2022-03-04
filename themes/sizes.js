@@ -9,6 +9,7 @@ export default {
   WIDTH_0: 0,
   WIDTH_22: 22,
   WIDTH_310: 310,
+  WIDTH_HALF: '50%',
   WIDTH_FULL: '100%',
 
   // HEIGHTS
