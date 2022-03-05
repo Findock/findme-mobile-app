@@ -1,5 +1,7 @@
 import { FHeading } from 'components/Composition/FHeading';
+import { FStatus } from 'components/Composition/FStatus';
 import locales from 'constants/locales';
+import statusTypes from 'constants/statusTypes';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
@@ -11,13 +13,23 @@ export const FLoginHistoryListItem = ({
   deviceName, location, isActiveSession, date,
 }) => (
   <View style={styles.container}>
-    <FHeading
-      title={deviceName}
-      color={colors.BLACK}
-      size={fonts.HEADING_NORMAL}
-      weight={fonts.HEADING_WEIGHT_BOLD}
-      align={placements.LEFT}
-    />
+    <View style={styles.topBox}>
+      <View>
+        <FHeading
+          title={deviceName}
+          color={colors.BLACK}
+          size={fonts.HEADING_NORMAL}
+          weight={fonts.HEADING_WEIGHT_BOLD}
+          align={placements.LEFT}
+        />
+      </View>
+      {isActiveSession && (
+        <FStatus
+          status={statusTypes.ACTIVE}
+          style={styles.status}
+        />
+      )}
+    </View>
     <View style={styles.bottomBox}>
       <View style={styles.bottomBoxInner}>
         <FHeading
@@ -44,6 +56,14 @@ export const FLoginHistoryListItem = ({
 const styles = StyleSheet.create({
   container: {
     width: sizes.WIDTH_FULL,
+    justifyContent: placements.CENTER,
+  },
+  topBox: {
+    flexDirection: 'row',
+    alignItems: placements.CENTER,
+  },
+  status: {
+    marginLeft: sizes.MARGIN_10,
   },
   bottomBox: {
     flexDirection: 'row',
