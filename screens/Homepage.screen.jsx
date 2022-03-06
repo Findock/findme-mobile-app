@@ -62,7 +62,7 @@ export const HomepageScreen = ({ navigation }) => {
           setVisible={setDeniedLocationPermissionModalVisible}
         />
       )}
-      <FLoginHistoryList />
+
       <FHeading
         title="Witaj"
         align={placements.CENTER}
@@ -79,6 +79,16 @@ export const HomepageScreen = ({ navigation }) => {
           titleSize={fonts.HEADING_NORMAL}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           onPress={logout}
+        />
+        <FButton
+          title="Historia logowania"
+          color={colors.WHITE}
+          backgroundColor={colors.DARK_GRAY}
+          type={buttonTypes.TEXT_BUTTON}
+          titleSize={fonts.HEADING_NORMAL}
+          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          onPress={() => navigation.navigate(stackNavigatorNames.LOGIN_HISTORY)}
+          buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
         />
       </View>
     </View>

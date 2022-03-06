@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   container: {
     width: sizes.WIDTH_FULL,
     justifyContent: placements.CENTER,
-    marginBottom: sizes.MARGIN_30,
+    marginTop: sizes.MARGIN_30,
   },
   topBox: {
     flexDirection: 'row',

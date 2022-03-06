@@ -1,8 +1,9 @@
 import { FLoginHistoryListItem } from 'components/Scoped/LoginHistory/FLoginHistoryListItem';
 import locales from 'constants/locales';
 import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { getMyAuthTokensService } from 'services/getMyAuthTokens.service';
+import sizes from 'themes/sizes';
 
 export const FLoginHistoryList = () => {
   const [
@@ -34,7 +35,15 @@ export const FLoginHistoryList = () => {
       data={myAuthTokens}
       renderItem={drawMyAuthTokensItems}
       keyExtractor={(item) => item._id}
+      style={styles.list}
+      showsVerticalScrollIndicator={false}
     />
 
   );
 };
+
+const styles = StyleSheet.create({
+  list: {
+    width: sizes.WIDTH_FULL,
+  },
+});

@@ -12,6 +12,10 @@ import { FGlobalLoader } from 'components/Composition/FGlobalLoader';
 import { setGlobalLoader } from 'store/global-loader/globalLoaderSlice';
 import appConfig from 'app.config';
 import { authValidateTokenService } from 'services/authValidateToken.service';
+import { LoginHistoryScreen } from 'screens/LoginHistory.screen';
+import locales from 'constants/locales';
+import colors from 'themes/colors';
+import fonts from 'themes/fonts';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -73,13 +77,27 @@ export const Navigation = () => {
             />
           </>
         ) : (
-          <Stack.Screen
-            name={stackNavigatorNames.HOMEPAGE}
-            component={HomepageScreen}
-            options={{
-              headerShown: false,
-            }}
-          />
+          <>
+            <Stack.Screen
+              name={stackNavigatorNames.HOMEPAGE}
+              component={HomepageScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.LOGIN_HISTORY}
+              component={LoginHistoryScreen}
+              options={{
+                title: locales.LOGIN_HISTORY,
+                headerBackTitle: locales.GO_BACK,
+                headerTintColor: colors.BLACK,
+                headerTitleStyle: {
+                  fontSize: fonts.HEADING_LARGE,
+                },
+              }}
+            />
+          </>
         ))}
 
       </Stack.Navigator>

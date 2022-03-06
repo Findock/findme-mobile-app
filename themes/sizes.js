@@ -29,6 +29,7 @@ export default {
   PADDING_20: 20,
   PADDING_25: 25,
   PADDING_30: 30,
+  PADDING_N30: -30,
   PADDING_35: 35,
   PADDING_50: 50,
 
