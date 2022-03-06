@@ -7,6 +7,7 @@ export default {
 
   // WIDTHS
   WIDTH_0: 0,
+  WIDTH_15: 15,
   WIDTH_22: 22,
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
@@ -14,6 +15,7 @@ export default {
 
   // HEIGHTS
   HEIGHT_2: 2,
+  HEIGHT_15: 15,
   HEIGHT_22: 22,
   HEIGHT_54: 54,
   HEIGHT_210: 210,
@@ -53,6 +55,7 @@ export default {
 
   // BORDER RADIUS
   RADIUS_5: 5,
+  RADIUS_15: 15,
   RADIUS_20: 20,
 
   // ELEVATION
