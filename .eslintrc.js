@@ -57,5 +57,6 @@ module.exports = {
     'import/no-unresolved': 'off',
     'no-param-reassign': 'off',
     'no-nested-ternary': 'off',
+    'no-underscore-dangle': 'off',
   },
 };
