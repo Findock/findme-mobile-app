@@ -13,7 +13,7 @@ import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
 import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
@@ -21,15 +21,18 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { useRoute } from '@react-navigation/native';
+import * as Device from 'expo-device';
+import * as Location from 'expo-location';
 
 export const FLoginForm = ({ navigation }) => {
   const dispatch = useDispatch();
   const route = useRoute();
-  const isAuth = useSelector((state) => state.auth.isAuth);
+
   const [
     logoutModalVisible,
     setLogoutModalVisible,
   ] = useState(false);
+
   const [
     noInternetConnectionModalVisible,
     setNoInternetConnectionModalVisible,
@@ -44,6 +47,8 @@ export const FLoginForm = ({ navigation }) => {
   ] = useState({
     email: '',
     password: '',
+    deviceName: Device.modelName,
+    localizationDescription: null,
   });
   const [
     errors,
@@ -67,6 +72,7 @@ export const FLoginForm = ({ navigation }) => {
       navigation.setParams({ showRegistrationModal: false });
     }
   }, [route.params?.showRegistrationModal]);
+
   useEffect(() => {
     if (route.params?.afterRegisterEmail && route.params?.afterRegisterPassword) {
       setErrors([]);
@@ -80,10 +86,6 @@ export const FLoginForm = ({ navigation }) => {
       });
     }
   }, [route.params?.afterRegisterEmail, route.params?.afterRegisterPassword]);
-
-  useEffect(() => {
-    if (isAuth) navigation.navigate(stackNavigatorNames.HOMEPAGE);
-  }, [isAuth]);
 
   const emailInputHandler = (newEmail) => {
     setDataForm({
@@ -121,10 +123,22 @@ export const FLoginForm = ({ navigation }) => {
     setErrors([...errs]);
   };
 
+  const onAccessForegroundPermissions = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status === 'granted') {
+      const { coords: { altitude, latitude } } = await Location.getCurrentPositionAsync({});
+      return `${altitude} ${latitude}`;
+    }
+    return 'unknown';
+  };
+
   const onSubmit = async () => {
     try {
       setLoading(true);
-      const res = await authUserService(dataForm);
+      const res = await authUserService({
+        ...dataForm,
+        localizationDescription: await onAccessForegroundPermissions(),
+      });
       await SecureStore.setItemAsync('Authorization', `${res.data.token_type} ${res.data.access_token}`);
       const authToken = await SecureStore.getItemAsync('Authorization');
       dispatch(setToken(authToken));

@@ -31,4 +31,5 @@ export default {
   SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
   SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
   ACTIVE_SESSION: 'Aktywna sesja',
+  LOCATION_DENIED: 'Twoja lokalizacja nie będzie udostępniana. Przejdź do ustawień, aby zezwolić na dostęp do Twojej lokalizacji.',
 };

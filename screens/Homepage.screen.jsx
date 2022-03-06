@@ -11,9 +11,37 @@ import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
 import { removeToken } from 'store/auth/authSlice';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { useEffect, useState } from 'react';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
+import { useRoute } from '@react-navigation/native';
+import * as Location from 'expo-location';
 
 export const HomepageScreen = ({ navigation }) => {
+  const [
+    deniedLocationPermissionModalVisible,
+    setDeniedLocationPermissionModalVisible,
+  ] = useState(false);
   const dispatch = useDispatch();
+  const route = useRoute();
+
+  useEffect(() => {
+    Location.getForegroundPermissionsAsync().then(async (value) => {
+      if (value.canAskAgain) {
+        const { granted } = await Location.requestForegroundPermissionsAsync();
+        setDeniedLocationPermissionModalVisible(!granted);
+      } else {
+        setDeniedLocationPermissionModalVisible(!value.granted);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (route.params?.showDeniedLocationPermissionModal) {
+      setDeniedLocationPermissionModalVisible(true);
+      navigation.setParams({ showDeniedLocationPermissionModal: false });
+    }
+  }, [route.params?.showDeniedLocationPermissionModal]);
 
   const logout = async () => {
     await SecureStore.deleteItemAsync('Authorization');
@@ -23,6 +51,14 @@ export const HomepageScreen = ({ navigation }) => {
 
   return (
     <View style={styles.screen}>
+      {deniedLocationPermissionModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.LOCATION_DENIED}
+          visible={deniedLocationPermissionModalVisible}
+          setVisible={setDeniedLocationPermissionModalVisible}
+        />
+      )}
       <FHeading
         title="Witaj"
         align={placements.CENTER}
