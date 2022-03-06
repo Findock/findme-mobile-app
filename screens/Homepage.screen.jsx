@@ -16,6 +16,7 @@ import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
+import { logoutUserService } from 'services/logoutUser.service';
 
 export const HomepageScreen = ({ navigation }) => {
   const [
@@ -44,6 +45,7 @@ export const HomepageScreen = ({ navigation }) => {
   }, [route.params?.showDeniedLocationPermissionModal]);
 
   const logout = async () => {
+    await logoutUserService();
     await SecureStore.deleteItemAsync('Authorization');
     dispatch(removeToken());
     navigation.navigate(stackNavigatorNames.LOGIN, { showLogoutModal: true });
