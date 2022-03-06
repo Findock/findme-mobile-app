@@ -23,6 +23,8 @@
     "babel-plugin-inline-dotenv": "^1.6.0",
     "cross-env": "^7.0.3",
     "expo": "~44.0.0",
+    "expo-device": "~4.1.0",
+    "expo-location": "~14.0.1",
     "expo-secure-store": "~11.1.0",
     "expo-status-bar": "~1.2.0",
     "react": "17.0.1",

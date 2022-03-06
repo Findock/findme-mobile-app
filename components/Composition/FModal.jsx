@@ -13,7 +13,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
 export const FModal = ({
-  title, type, visible, setVisible,
+  title, type, visible, setVisible, onCancel, onConfirm,
 }) => {
   const renderButtonsByModalType = () => {
     if (type === modalTypes.INFO_MODAL) {
@@ -40,7 +40,10 @@ export const FModal = ({
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
           buttonViewStyles={styles.firstButton}
-          onPress={() => setVisible(false)}
+          onPress={() => {
+            onCancel();
+            setVisible(false);
+          }}
         />
         <FButton
           title={locales.CONFIRM}
@@ -49,7 +52,10 @@ export const FModal = ({
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
-          onPress={() => setVisible(false)}
+          onPress={() => {
+            onConfirm();
+            setVisible(false);
+          }}
         />
       </>
     );
