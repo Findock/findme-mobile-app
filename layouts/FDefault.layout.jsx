@@ -71,7 +71,9 @@ export const FDefaultLayout = ({
 
     }}
     >
-      {drawLayoutDependingOnScreenWithFlatList()}
+      <FKeyboardWrapper>
+        {drawLayoutDependingOnScreenWithFlatList()}
+      </FKeyboardWrapper>
     </SafeAreaView>
   );
 };

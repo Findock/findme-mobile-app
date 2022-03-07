@@ -112,6 +112,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes.PADDING_25,
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
-
   },
 });

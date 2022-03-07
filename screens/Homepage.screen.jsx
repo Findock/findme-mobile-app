@@ -17,7 +17,6 @@ import modalTypes from 'constants/modalTypes';
 import { useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { logoutUserService } from 'services/logoutUser.service';
-import { FLoginHistoryList } from 'components/Scoped/LoginHistory/FLoginHistoryList';
 
 export const HomepageScreen = ({ navigation }) => {
   const [
