@@ -17,7 +17,6 @@ import modalTypes from 'constants/modalTypes';
 import { useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { logoutUserService } from 'services/logoutUser.service';
-import { FLoginHistoryList } from 'components/Scoped/LoginHistory/FLoginHistoryList';
 
 export const HomepageScreen = ({ navigation }) => {
   const [
@@ -62,7 +61,7 @@ export const HomepageScreen = ({ navigation }) => {
           setVisible={setDeniedLocationPermissionModalVisible}
         />
       )}
-      <FLoginHistoryList />
+
       <FHeading
         title="Witaj"
         align={placements.CENTER}
@@ -79,6 +78,16 @@ export const HomepageScreen = ({ navigation }) => {
           titleSize={fonts.HEADING_NORMAL}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           onPress={logout}
+        />
+        <FButton
+          title="Historia logowania"
+          color={colors.WHITE}
+          backgroundColor={colors.DARK_GRAY}
+          type={buttonTypes.TEXT_BUTTON}
+          titleSize={fonts.HEADING_NORMAL}
+          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          onPress={() => navigation.navigate(stackNavigatorNames.LOGIN_HISTORY)}
+          buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
         />
       </View>
     </View>

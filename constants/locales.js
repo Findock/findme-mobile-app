@@ -33,4 +33,6 @@ export default {
   ACTIVE_SESSION: 'Aktywna sesja',
   LOCATION_DENIED: 'Twoja lokalizacja nie będzie udostępniana. Przejdź do ustawień, aby zezwolić na dostęp do Twojej lokalizacji.',
   UNKNOWN_LOCALIZATION: 'Nieznana lokalizacja',
+  LOGIN_HISTORY: 'Historia logowania',
+  GO_BACK: 'Powrót',
 };

@@ -23,6 +23,7 @@ export default {
   HEIGHT_FULL: '100%',
 
   // PADDINGS
+  PADDING_N30: -30,
   PADDING_5: 5,
   PADDING_12: 12,
   PADDING_14: 14,

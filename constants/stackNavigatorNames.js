@@ -3,4 +3,5 @@ export default {
   LOGIN: 'Login',
   HOMEPAGE: 'Homepage',
   GLOBAL_LOADER: 'Global Loader',
+  LOGIN_HISTORY: 'Login History',
 };
