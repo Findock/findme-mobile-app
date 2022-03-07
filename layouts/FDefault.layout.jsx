@@ -1,5 +1,4 @@
 import { FLogo } from 'components/Composition/FLogo';
-import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 import React from 'react';
 import {
   SafeAreaView, ScrollView, Dimensions, StyleSheet, Platform, View,
@@ -71,9 +70,7 @@ export const FDefaultLayout = ({
 
     }}
     >
-      <FKeyboardWrapper>
-        {drawLayoutDependingOnScreenWithFlatList()}
-      </FKeyboardWrapper>
+      {drawLayoutDependingOnScreenWithFlatList()}
     </SafeAreaView>
   );
 };
