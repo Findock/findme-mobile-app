@@ -7,3 +7,4 @@ import './Inputs/FCheckbox.stories';
 import './Compositional/FModal.stories';
 import './Scoped/LoginHistory/FLoginHistoryListItem.stories';
 import './Compositional/FStatus.stories';
+import './Compositional/FAvatar.stories';

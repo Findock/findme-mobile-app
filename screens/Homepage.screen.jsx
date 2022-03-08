@@ -2,7 +2,9 @@ import { FButton } from 'components/Buttons/FButton';
 import { FHeading } from 'components/Composition/FHeading';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import { StyleSheet, View } from 'react-native';
+import {
+  StyleSheet, View,
+} from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
@@ -17,12 +19,17 @@ import modalTypes from 'constants/modalTypes';
 import { useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { logoutUserService } from 'services/logoutUser.service';
+import { FAvatar } from 'components/Composition/FAvatar';
 
 export const HomepageScreen = ({ navigation }) => {
   const [
     deniedLocationPermissionModalVisible,
     setDeniedLocationPermissionModalVisible,
   ] = useState(false);
+  const [
+    image,
+    setImage,
+  ] = useState(null);
   const dispatch = useDispatch();
   const route = useRoute();
 
@@ -61,6 +68,13 @@ export const HomepageScreen = ({ navigation }) => {
           setVisible={setDeniedLocationPermissionModalVisible}
         />
       )}
+
+      <FAvatar
+        size={100}
+        image={image}
+        setImage={setImage}
+        isEditable
+      />
 
       <FHeading
         title="Witaj"

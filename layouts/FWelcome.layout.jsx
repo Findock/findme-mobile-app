@@ -39,6 +39,7 @@ export const FWelcomeLayout = ({
               imagePath={imagePath}
               height={imageHeight}
               width={imageWidth}
+              resizeMode={sizes.CONTAIN}
             />
           </View>
           <View style={{ marginVertical: sizes.MARGIN_20 }}>

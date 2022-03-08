@@ -15,6 +15,7 @@ export default {
 
   // HEIGHTS
   HEIGHT_2: 2,
+  HEIGHT_4: 4,
   HEIGHT_15: 15,
   HEIGHT_22: 22,
   HEIGHT_54: 54,
@@ -60,6 +61,7 @@ export default {
   RADIUS_20: 20,
 
   // ELEVATION
+  ELEVATION_1: 1,
   ELEVATION_5: 5,
 
   // SHADOW RADIUS
@@ -67,5 +69,9 @@ export default {
 
   // SHADOW OPACITY
   SHADOW_OPACITY_025: 0.25,
+
+  // RESIZE MODE
+  CONTAIN: 'contain',
+  COVER: 'cover',
 
 };
