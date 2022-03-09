@@ -1,5 +1,5 @@
 import { FHeading } from 'components/Composition/FHeading';
-import { TouchableWithoutFeedback, View, StyleSheet } from 'react-native';
+import { TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
@@ -10,7 +10,7 @@ export const FButton = ({
   type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
 }) => {
   const drawLinkButton = () => (
-    <TouchableWithoutFeedback onPress={() => { navigation.navigate(to); }}>
+    <TouchableOpacity onPress={() => { navigation.navigate(to); }}>
       <View
         style={buttonViewStyles}
         hitSlop={{
@@ -27,10 +27,10 @@ export const FButton = ({
           weight={titleWeight}
         />
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
   const drawIconButton = () => (
-    <TouchableWithoutFeedback
+    <TouchableOpacity
       onPress={onPress}
       style={{ padding: sizes.PADDING_20 }}
     >
@@ -39,10 +39,10 @@ export const FButton = ({
         color={color}
         size={iconSize}
       />
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
   const drawTextButton = () => (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
@@ -58,10 +58,10 @@ export const FButton = ({
           />
         </View>
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
   const drawIconAndTextButton = () => (
-    <TouchableWithoutFeedback onPress={onPress}>
+    <TouchableOpacity onPress={onPress}>
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
@@ -84,7 +84,7 @@ export const FButton = ({
         />
 
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 
   const drawButtonByType = () => {
