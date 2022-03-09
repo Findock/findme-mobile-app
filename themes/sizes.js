@@ -9,6 +9,7 @@ export default {
   WIDTH_0: 0,
   WIDTH_15: 15,
   WIDTH_22: 22,
+  WIDTH_50: 50,
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
   WIDTH_FULL: '100%',
@@ -18,6 +19,7 @@ export default {
   HEIGHT_4: 4,
   HEIGHT_15: 15,
   HEIGHT_22: 22,
+  HEIGHT_50: 50,
   HEIGHT_54: 54,
   HEIGHT_210: 210,
   HEIGHT_325: 325,
@@ -73,5 +75,8 @@ export default {
   // RESIZE MODE
   CONTAIN: 'contain',
   COVER: 'cover',
+
+  // OPACITY
+  OPACITY_08: 0.8,
 
 };
