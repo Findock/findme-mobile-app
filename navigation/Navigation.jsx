@@ -16,6 +16,8 @@ import { LoginHistoryScreen } from 'screens/LoginHistory.screen';
 import locales from 'constants/locales';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
+import { getMeService } from 'services/getMe.service';
+import { setMe } from 'store/me/meSlice';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -26,6 +28,7 @@ export const Navigation = () => {
 
   useEffect(() => {
     setAuthToken();
+    fetchMe();
   }, []);
 
   useEffect(() => {
@@ -38,6 +41,11 @@ export const Navigation = () => {
     setTimeout(() => {
       dispatch(setGlobalLoader(false));
     }, appConfig.extra.globalLoaderDismissTimeout);
+  };
+
+  const fetchMe = async () => {
+    const res = await getMeService();
+    dispatch(setMe(res.data));
   };
 
   const checkIfAuthTokenIsValid = async () => {
