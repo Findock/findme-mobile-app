@@ -31,6 +31,8 @@ export const Navigation = () => {
     fetchMe();
   }, []);
 
+  useEffect(() => isAuth && fetchMe(), [isAuth]);
+
   useEffect(() => {
     checkIfAuthTokenIsValid();
   }, [token]);

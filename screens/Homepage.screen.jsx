@@ -10,7 +10,7 @@ import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { removeToken } from 'store/auth/authSlice';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useEffect, useState } from 'react';
@@ -32,7 +32,6 @@ export const HomepageScreen = ({ navigation }) => {
   ] = useState(null);
   const dispatch = useDispatch();
   const route = useRoute();
-  const me = useSelector((state) => state.me.me);
 
   useEffect(() => {
     Location.getForegroundPermissionsAsync().then(async (value) => {
