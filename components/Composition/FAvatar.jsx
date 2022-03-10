@@ -5,6 +5,7 @@ import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import images from 'constants/images';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
+import opacities from 'themes/opacities';
 
 export const FAvatar = ({
   size, setImage, image, isEditable,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
       height: sizes.HEIGHT_4,
     },
     shadowColor: colors.BLACK,
-    shadowOpacity: sizes.SHADOW_OPACITY_025,
+    shadowOpacity: opacities.SHADOW_OPACITY_025,
     shadowRadius: sizes.SHADOW_RADIUS_4,
     overflow: 'hidden',
     backgroundColor: colors.WHITE,
