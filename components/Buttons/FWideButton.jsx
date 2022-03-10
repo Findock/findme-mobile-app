@@ -7,13 +7,14 @@ import { FHeading } from 'components/Composition/FHeading';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import opacities from 'themes/opacities';
 
 export const FWideButton = ({
   icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor, onPress,
 }) => (
   <TouchableOpacity
     onPress={onPress}
-    activeOpacity={sizes.OPACITY_08}
+    activeOpacity={opacities.OPACITY_08}
   >
     <View style={{
       ...styles.wideButtonContainer,

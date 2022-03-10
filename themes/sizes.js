@@ -69,14 +69,8 @@ export default {
   // SHADOW RADIUS
   SHADOW_RADIUS_4: 4,
 
-  // SHADOW OPACITY
-  SHADOW_OPACITY_025: 0.25,
-
   // RESIZE MODE
   CONTAIN: 'contain',
   COVER: 'cover',
-
-  // OPACITY
-  OPACITY_08: 0.8,
 
 };

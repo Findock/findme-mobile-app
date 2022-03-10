@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
+import opacities from 'themes/opacities';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
       width: sizes.WIDTH_0,
       height: sizes.HEIGHT_2,
     },
-    shadowOpacity: sizes.SHADOW_OPACITY_025,
+    shadowOpacity: opacities.SHADOW_OPACITY_025,
     shadowRadius: sizes.SHADOW_RADIUS_4,
     elevation: sizes.ELEVATION_5,
     width: sizes.WIDTH_FULL,
