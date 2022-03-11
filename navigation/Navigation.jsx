@@ -18,6 +18,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
+import { UserProfileScreen } from 'screens/UserProfile.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -104,6 +105,13 @@ export const Navigation = () => {
                 headerTitleStyle: {
                   fontSize: fonts.HEADING_LARGE,
                 },
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.USER_PROFILE}
+              component={UserProfileScreen}
+              options={{
+                headerShown: false,
               }}
             />
           </>

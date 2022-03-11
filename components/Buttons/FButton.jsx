@@ -7,7 +7,8 @@ import placements from 'themes/placements';
 import React from 'react';
 
 export const FButton = ({
-  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
+  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
+  backgroundColor, iconPlacement = placements.RIGHT,
 }) => {
   const drawLinkButton = () => (
     <TouchableOpacity onPress={() => { navigation.navigate(to); }}>
@@ -68,20 +69,43 @@ export const FButton = ({
         backgroundColor,
       }}
       >
-        <View>
-          <FHeading
-            title={title}
-            color={color}
-            size={titleSize}
-            weight={titleWeight}
-          />
-        </View>
-        <Ionicons
-          name={icon}
-          color={color}
-          size={iconSize}
-          style={{ marginLeft: sizes.MARGIN_10 }}
-        />
+        {
+          iconPlacement === placements.LEFT ? (
+            <>
+              <Ionicons
+                name={icon}
+                color={color}
+                size={iconSize}
+                style={{ marginRight: sizes.MARGIN_10 }}
+              />
+              <View>
+                <FHeading
+                  title={title}
+                  color={color}
+                  size={titleSize}
+                  weight={titleWeight}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              <View>
+                <FHeading
+                  title={title}
+                  color={color}
+                  size={titleSize}
+                  weight={titleWeight}
+                />
+              </View>
+              <Ionicons
+                name={icon}
+                color={color}
+                size={iconSize}
+                style={{ marginLeft: sizes.MARGIN_10 }}
+              />
+            </>
+          )
+        }
 
       </View>
     </TouchableOpacity>

@@ -10,15 +10,17 @@ import sizes from 'themes/sizes';
 import opacities from 'themes/opacities';
 
 export const FWideButton = ({
-  icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor, onPress,
+  icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor,
+  onPress, style, isLink, navigateTo, navigation,
 }) => (
   <TouchableOpacity
-    onPress={onPress}
+    onPress={isLink ? () => navigation.navigate(navigateTo) : onPress}
     activeOpacity={opacities.OPACITY_08}
   >
     <View style={{
       ...styles.wideButtonContainer,
       backgroundColor: buttonBgColor,
+      ...style,
     }}
     >
       <View style={styles.viewWithIconAndTitle}>
@@ -41,15 +43,16 @@ export const FWideButton = ({
           align={placements.LEFT}
         />
       </View>
-      <Ionicons
-        name={icons.CHEVRON_FORWARD_OUTLINE}
-        color={titleColor}
-        size={iconSize}
-      />
+      {isLink && (
+        <Ionicons
+          name={icons.CHEVRON_FORWARD_OUTLINE}
+          color={titleColor}
+          size={iconSize}
+        />
+      )}
     </View>
   </TouchableOpacity>
 );
-
 const styles = StyleSheet.create({
   wideButtonContainer: {
     flexDirection: 'row',

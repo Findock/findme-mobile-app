@@ -1,26 +1,31 @@
 import { FLogo } from 'components/Composition/FLogo';
 import React from 'react';
 import {
-  SafeAreaView, ScrollView, Dimensions, StyleSheet, Platform, View,
+  SafeAreaView, ScrollView, StyleSheet, Platform, View,
 } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
+import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
-  children, withLogo, hasFlatList, noPaddingVertical = false,
+  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle,
 }) => {
   const drawLayoutDependingOnScreenWithLogo = () => {
     if (withLogo) {
       return (
         <>
-          <View style={styles.topBox}>
+          <View style={{
+            ...styles.topBox,
+            ...topBoxStyle,
+          }}
+          >
             {children[0]}
             <FLogo
               fill={false}
               color={colors.GREEN}
             />
           </View>
-          <View>
+          <View style={{ flex: 1 }}>
             {children[1]}
           </View>
         </>
@@ -46,11 +51,8 @@ export const FDefaultLayout = ({
     }
     return (
       <ScrollView
-        scrollEnabled={Dimensions.get('window').height < 700}
-        style={{
-          flex: 1,
-          backgroundColor: colors.BODY,
-        }}
+        scrollEnabled={isSmallScreen()}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
         <View style={{
           ...styles.container,
@@ -77,7 +79,7 @@ export const FDefaultLayout = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: sizes.PADDING_30,
     backgroundColor: colors.BODY,
   },

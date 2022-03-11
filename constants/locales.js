@@ -17,7 +17,6 @@ export default {
   LOCATION: 'Lokalizacja',
   CATEGORY: 'Kategoria',
   SEARCH: 'Szukaj',
-  CONTACT_DETAILS: 'Dane kontaktowe',
   ACCOUNT_SETTINGS: 'Ustawienia konta',
   LOG_OUT: 'Wyloguj się',
   WRITE_MESSAGE: 'Napisz wiadomość',
@@ -35,4 +34,6 @@ export default {
   UNKNOWN_LOCALIZATION: 'Nieznana lokalizacja',
   LOGIN_HISTORY: 'Historia logowania',
   GO_BACK: 'Powrót',
+  YOUR_ANNOUNCEMENTS: 'Twoje ogłoszenia',
+  ADD_ANNOUNCEMENT: 'Dodaj ogłoszenie',
 };
