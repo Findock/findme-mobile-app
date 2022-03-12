@@ -5,9 +5,11 @@ import { withKnobs } from '@storybook/addon-knobs';
 
 // Import addons
 import './rn-addons';
+import { reactNavigationDecorator } from 'storybook/StoryNavigator';
 
 // Global knobs decorator
 addDecorator(withKnobs);
+addDecorator(reactNavigationDecorator);
 
 // Load all stories
 configure(() => {

@@ -15,11 +15,12 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useEffect, useState } from 'react';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { logoutUserService } from 'services/logoutUser.service';
 
-export const HomepageScreen = ({ navigation }) => {
+export const HomepageScreen = () => {
+  const navigation = useNavigation();
   const [
     deniedLocationPermissionModalVisible,
     setDeniedLocationPermissionModalVisible,

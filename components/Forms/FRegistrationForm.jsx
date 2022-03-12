@@ -21,8 +21,10 @@ import { FHeading } from 'components/Composition/FHeading';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
+import { useNavigation } from '@react-navigation/native';
 
-export const FRegistrationForm = ({ navigation }) => {
+export const FRegistrationForm = () => {
+  const navigation = useNavigation();
   const [
     modalVisible,
     setModalVisible,

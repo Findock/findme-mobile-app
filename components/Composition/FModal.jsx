@@ -14,7 +14,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
 export const FModal = ({
-  title, type, visible, setVisible, onCancel, onConfirm,
+  title, type, visible, setVisible, onCancel = () => { }, onConfirm = () => { }, onContinue = () => { },
 }) => {
   const renderButtonsByModalType = () => {
     if (type === modalTypes.INFO_MODAL) {
@@ -26,7 +26,10 @@ export const FModal = ({
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
-          onPress={() => setVisible(false)}
+          onPress={() => {
+            setVisible(false);
+            onContinue();
+          }}
         />
       );
     }
@@ -35,10 +38,9 @@ export const FModal = ({
       <>
         <FButton
           title={locales.CANCEL}
-          type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.LIGHT_RED}
-          color={colors.WHITE}
-          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          type={buttonTypes.OUTLINE_TEXT_BUTTON}
+          color={colors.GREEN}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
           buttonViewStyles={styles.firstButton}
           onPress={() => {
@@ -49,9 +51,9 @@ export const FModal = ({
         <FButton
           title={locales.CONFIRM}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.LIGHT_GREEN}
+          backgroundColor={colors.GREEN}
           color={colors.WHITE}
-          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
           onPress={() => {
             onConfirm();
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     justifyContent: placements.CENTER,
   },
   modalView: {
-    marginTop: 30,
+    marginTop: sizes.MARGIN_30,
     backgroundColor: colors.WHITE,
     borderRadius: sizes.RADIUS_20,
     padding: sizes.PADDING_35,

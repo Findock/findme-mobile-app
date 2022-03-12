@@ -16,10 +16,12 @@ import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
+import { useNavigation } from '@react-navigation/native';
+import opacities from 'themes/opacities';
 
-export const UserProfileScreen = ({ navigation }) => {
+export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
-
+  const navigation = useNavigation();
   const [
     image,
     setImage,
@@ -92,8 +94,6 @@ export const UserProfileScreen = ({ navigation }) => {
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
-            onPress={() => { }}
-            navigation={navigation}
           />
           <FWideButton
             icon={icons.SETTINGS}
@@ -106,8 +106,6 @@ export const UserProfileScreen = ({ navigation }) => {
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
-            onPress={() => { }}
-            navigation={navigation}
           />
           <FWideButton
             icon={icons.RECEIPT}
@@ -121,7 +119,6 @@ export const UserProfileScreen = ({ navigation }) => {
             titleSize={fonts.HEADING_NORMAL}
             isLink
             navigateTo={stackNavigatorNames.LOGIN_HISTORY}
-            navigation={navigation}
           />
           <FWideButton
             icon={icons.STAR}
@@ -134,7 +131,6 @@ export const UserProfileScreen = ({ navigation }) => {
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
-            navigation={navigation}
           />
           <FWideButton
             icon={icons.DUPLICATE}
@@ -161,7 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
-    marginVertical: 30,
+    marginVertical: sizes.MARGIN_30,
   },
   headingsContainer: {
     marginTop: sizes.MARGIN_10,
@@ -179,7 +175,7 @@ const styles = StyleSheet.create({
       height: 0,
     },
     shadowColor: colors.BLACK,
-    shadowOpacity: 0.1,
+    shadowOpacity: opacities.SHADOW_OPACITY_01,
     shadowRadius: sizes.SHADOW_RADIUS_10,
     left: sizes.MARGIN_N30,
     borderTopLeftRadius: sizes.RADIUS_40,

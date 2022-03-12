@@ -36,4 +36,5 @@ export default {
   GO_BACK: 'Powrót',
   YOUR_ANNOUNCEMENTS: 'Twoje ogłoszenia',
   ADD_ANNOUNCEMENT: 'Dodaj ogłoszenie',
+  SOMETHING_WENT_WRONG: 'Coś poszło nie tak. Spróbuj ponownie.',
 };
