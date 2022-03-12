@@ -8,48 +8,55 @@ import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import opacities from 'themes/opacities';
+import { useNavigation } from '@react-navigation/native';
 
 export const FWideButton = ({
-  icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor, onPress,
-}) => (
-  <TouchableOpacity
-    onPress={onPress}
-    activeOpacity={opacities.OPACITY_08}
-  >
-    <View style={{
-      ...styles.wideButtonContainer,
-      backgroundColor: buttonBgColor,
-    }}
+  icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor,
+  onPress, style, isLink, navigateTo,
+}) => {
+  const navigation = useNavigation();
+  return (
+    <TouchableOpacity
+      onPress={isLink ? () => navigation.navigate(navigateTo) : onPress}
+      activeOpacity={opacities.OPACITY_08}
     >
-      <View style={styles.viewWithIconAndTitle}>
-        <View style={{
-          ...styles.iconBox,
-          backgroundColor: iconBgColor,
-        }}
-        >
-          <Ionicons
-            name={icon}
-            color={iconColor}
-            size={iconSize}
+      <View style={{
+        ...styles.wideButtonContainer,
+        backgroundColor: buttonBgColor,
+        ...style,
+      }}
+      >
+        <View style={styles.viewWithIconAndTitle}>
+          <View style={{
+            ...styles.iconBox,
+            backgroundColor: iconBgColor,
+          }}
+          >
+            <Ionicons
+              name={icon}
+              color={iconColor}
+              size={iconSize}
+            />
+          </View>
+          <FHeading
+            color={titleColor}
+            size={titleSize}
+            title={title}
+            weight={titleWeight}
+            align={placements.LEFT}
           />
         </View>
-        <FHeading
-          color={titleColor}
-          size={titleSize}
-          title={title}
-          weight={titleWeight}
-          align={placements.LEFT}
-        />
+        {isLink && (
+          <Ionicons
+            name={icons.CHEVRON_FORWARD_OUTLINE}
+            color={titleColor}
+            size={iconSize}
+          />
+        )}
       </View>
-      <Ionicons
-        name={icons.CHEVRON_FORWARD_OUTLINE}
-        color={titleColor}
-        size={iconSize}
-      />
-    </View>
-  </TouchableOpacity>
-);
-
+    </TouchableOpacity>
+  );
+};
 const styles = StyleSheet.create({
   wideButtonContainer: {
     flexDirection: 'row',

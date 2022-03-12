@@ -20,13 +20,14 @@ import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
 
-export const FLoginForm = ({ navigation }) => {
+export const FLoginForm = () => {
   const dispatch = useDispatch();
   const route = useRoute();
+  const navigation = useNavigation();
 
   const [
     logoutModalVisible,

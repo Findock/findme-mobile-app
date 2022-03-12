@@ -1,5 +1,4 @@
 import { FButton } from 'components/Buttons/FButton';
-import { FHeading } from 'components/Composition/FHeading';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
 import {
@@ -16,20 +15,17 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useEffect, useState } from 'react';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Location from 'expo-location';
 import { logoutUserService } from 'services/logoutUser.service';
-import { FAvatar } from 'components/Composition/FAvatar';
 
-export const HomepageScreen = ({ navigation }) => {
+export const HomepageScreen = () => {
+  const navigation = useNavigation();
   const [
     deniedLocationPermissionModalVisible,
     setDeniedLocationPermissionModalVisible,
   ] = useState(false);
-  const [
-    image,
-    setImage,
-  ] = useState(null);
+
   const dispatch = useDispatch();
   const route = useRoute();
 
@@ -69,20 +65,6 @@ export const HomepageScreen = ({ navigation }) => {
         />
       )}
 
-      <FAvatar
-        size={100}
-        image={image}
-        setImage={setImage}
-        isEditable
-      />
-
-      <FHeading
-        title="Witaj"
-        align={placements.CENTER}
-        color={colors.DARK_GREEN}
-        size={fonts.HEADING_EXTRA_LARGE}
-        weight={fonts.HEADING_WEIGHT_BOLD}
-      />
       <View style={styles.buttonContainer}>
         <FButton
           title={locales.LOG_OUT}
@@ -94,13 +76,13 @@ export const HomepageScreen = ({ navigation }) => {
           onPress={logout}
         />
         <FButton
-          title="Historia logowania"
+          title="Profil użytkownika"
           color={colors.WHITE}
           backgroundColor={colors.DARK_GRAY}
           type={buttonTypes.TEXT_BUTTON}
           titleSize={fonts.HEADING_NORMAL}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-          onPress={() => navigation.navigate(stackNavigatorNames.LOGIN_HISTORY)}
+          onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE)}
           buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
         />
       </View>

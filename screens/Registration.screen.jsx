@@ -6,13 +6,13 @@ import sizes from 'themes/sizes';
 import React from 'react';
 import { Dimensions } from 'react-native';
 
-export const RegistrationScreen = ({ navigation }) => (
+export const RegistrationScreen = () => (
   <FWelcomeLayout
     headingTitle={locales.CREATE_ACCOUNT}
     imagePath={images.REGISTRATION()}
     imageHeight={Dimensions.get('window').height * 0.25}
     imageWidth={sizes.WIDTH_FULL}
   >
-    <FRegistrationForm navigation={navigation} />
+    <FRegistrationForm />
   </FWelcomeLayout>
 );

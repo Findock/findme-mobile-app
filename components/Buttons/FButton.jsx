@@ -5,10 +5,14 @@ import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import colors from 'themes/colors';
 
 export const FButton = ({
-  type, icon = '', title = '', navigation, to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, backgroundColor,
+  type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
+  backgroundColor, iconPlacement = placements.RIGHT, isOutline = false,
 }) => {
+  const navigation = useNavigation();
   const drawLinkButton = () => (
     <TouchableOpacity onPress={() => { navigation.navigate(to); }}>
       <View
@@ -60,12 +64,14 @@ export const FButton = ({
       </View>
     </TouchableOpacity>
   );
-  const drawIconAndTextButton = () => (
+  const drawOutlineTextButton = () => (
     <TouchableOpacity onPress={onPress}>
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
-        backgroundColor,
+        backgroundColor: colors.WHITE,
+        borderWidth: sizes.BORDER_2,
+        borderColor: color,
       }}
       >
         <View>
@@ -76,12 +82,54 @@ export const FButton = ({
             weight={titleWeight}
           />
         </View>
-        <Ionicons
-          name={icon}
-          color={color}
-          size={iconSize}
-          style={{ marginLeft: sizes.MARGIN_10 }}
-        />
+      </View>
+    </TouchableOpacity>
+  );
+  const drawIconAndTextButton = () => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={{
+        ...styles.buttonContainer,
+        ...buttonViewStyles,
+        backgroundColor,
+      }}
+      >
+        {
+          iconPlacement === placements.LEFT ? (
+            <>
+              <Ionicons
+                name={icon}
+                color={color}
+                size={iconSize}
+                style={{ marginRight: sizes.MARGIN_10 }}
+              />
+              <View>
+                <FHeading
+                  title={title}
+                  color={color}
+                  size={titleSize}
+                  weight={titleWeight}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              <View>
+                <FHeading
+                  title={title}
+                  color={color}
+                  size={titleSize}
+                  weight={titleWeight}
+                />
+              </View>
+              <Ionicons
+                name={icon}
+                color={color}
+                size={iconSize}
+                style={{ marginLeft: sizes.MARGIN_10 }}
+              />
+            </>
+          )
+        }
 
       </View>
     </TouchableOpacity>
@@ -95,6 +143,8 @@ export const FButton = ({
       return drawIconButton();
     case buttonTypes.LINK_BUTTON:
       return drawLinkButton();
+    case buttonTypes.OUTLINE_TEXT_BUTTON:
+      return drawOutlineTextButton();
     case buttonTypes.TEXT_BUTTON:
     default:
       return drawTextButton();
