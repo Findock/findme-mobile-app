@@ -26,7 +26,7 @@ export const FLoginHistoryList = () => {
   const [
     isDeleteAuthTokenErrorModalShown,
     setIsDeleteAuthTokenErrorModalShown,
-  ] = useState(true);
+  ] = useState(false);
   const [
     myAuthTokens,
     setMyAuthTokens,
