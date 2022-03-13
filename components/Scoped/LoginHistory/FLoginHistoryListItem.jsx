@@ -22,7 +22,10 @@ export const FLoginHistoryListItem = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={{
+      ...styles.container,
+    }}
+    >
       <View style={styles.topBox}>
         <View>
           <FHeading
@@ -68,7 +71,9 @@ const styles = StyleSheet.create({
   container: {
     width: sizes.WIDTH_FULL,
     justifyContent: placements.CENTER,
-    marginTop: sizes.MARGIN_30,
+    paddingVertical: sizes.PADDING_10,
+    paddingHorizontal: sizes.PADDING_30,
+    backgroundColor: colors.WHITE,
   },
   topBox: {
     flexDirection: 'row',

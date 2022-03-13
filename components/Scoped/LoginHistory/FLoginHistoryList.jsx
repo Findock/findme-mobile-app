@@ -1,11 +1,15 @@
 import { useNavigation } from '@react-navigation/native';
+import { FSwipeButton } from 'components/Buttons/FSwipeButton/FSwipeButton';
 import { FModal } from 'components/Composition/FModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FLoginHistoryListItem } from 'components/Scoped/LoginHistory/FLoginHistoryListItem';
 import locales from 'constants/locales';
 import modalTypes from 'constants/modalTypes';
+import swipeButtonCellActionTypes from 'constants/swipeButtonCellActionTypes';
+import swipeButtonCellTypes from 'constants/swipeButtonCellTypes';
 import React, { useEffect, useState } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { deleteAuthTokenService } from 'services/deleteAuthToken.service';
 import { getMyAuthTokensService } from 'services/getMyAuthTokens.service';
 import sizes from 'themes/sizes';
 
@@ -19,6 +23,10 @@ export const FLoginHistoryList = () => {
     isErrorModalShown,
     setIsErrorModalShown,
   ] = useState(false);
+  const [
+    isDeleteAuthTokenErrorModalShown,
+    setIsDeleteAuthTokenErrorModalShown,
+  ] = useState(true);
   const [
     myAuthTokens,
     setMyAuthTokens,
@@ -40,19 +48,42 @@ export const FLoginHistoryList = () => {
     }
   };
 
-  const drawMyAuthTokensItems = ({ item }) => (
-    <FLoginHistoryListItem
-      key={item._id}
-      date={item.lastUse}
-      deviceName={item.deviceName}
-      isActiveSession={item.active}
-      location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
-    />
-  );
+  const deleteAuthTokenById = async (id) => {
+    try {
+      await deleteAuthTokenService(id);
+      await fetchMyAuthTokens();
+    } catch (error) {
+      setIsDeleteAuthTokenErrorModalShown(true);
+    }
+  };
+
+  const drawMyAuthTokensItems = ({ item }) => {
+    const actions = [
+      {
+        cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
+        cellAction: swipeButtonCellActionTypes.DELETE,
+        onActionPress: () => deleteAuthTokenById(item._id),
+      },
+    ];
+
+    return (
+      <FSwipeButton
+        actions={actions}
+      >
+        <FLoginHistoryListItem
+          key={item._id}
+          date={item.lastUse}
+          deviceName={item.deviceName}
+          isActiveSession={item.active}
+          location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
+        />
+      </FSwipeButton>
+    );
+  };
 
   return (
     <>
-      {isLoading && <FSpinner />}
+      {isLoading && <FSpinner style={{ paddingTop: sizes.PADDING_30 }} />}
       {isErrorModalShown && (
         <FModal
           setVisible={setIsErrorModalShown}
@@ -62,12 +93,28 @@ export const FLoginHistoryList = () => {
           onContinue={() => navigation.goBack()}
         />
       )}
+      {isDeleteAuthTokenErrorModalShown && (
+        <FModal
+          setVisible={setIsDeleteAuthTokenErrorModalShown}
+          visible={isDeleteAuthTokenErrorModalShown}
+          type={modalTypes.INFO_MODAL}
+          title={locales.SOMETHING_WENT_WRONG}
+        />
+      )}
       <FlatList
         data={myAuthTokens}
         renderItem={drawMyAuthTokensItems}
         keyExtractor={(item) => item._id}
         style={styles.list}
         showsVerticalScrollIndicator={false}
+        // eslint-disable-next-line react/no-unstable-nested-components
+        ItemSeparatorComponent={() => (
+          <View style={{
+            width: sizes.WIDTH_FULL,
+            paddingTop: sizes.PADDING_10,
+          }}
+          />
+        )}
       />
     </>
   );
@@ -76,5 +123,6 @@ export const FLoginHistoryList = () => {
 const styles = StyleSheet.create({
   list: {
     width: sizes.WIDTH_FULL,
+    paddingTop: sizes.PADDING_10,
   },
 });

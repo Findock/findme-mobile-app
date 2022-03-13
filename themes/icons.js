@@ -27,4 +27,5 @@ export default {
   STAR: 'star',
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
+  TRASH: 'trash',
 };

@@ -11,4 +11,5 @@ export default {
   OVERLAY: 'rgba(255, 255, 255, 0.5)',
   OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
   LIGHT_ORANGE: '#FFB660',
+  LIGHT_RED: '#FF6584',
 };

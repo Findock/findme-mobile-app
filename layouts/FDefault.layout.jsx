@@ -8,7 +8,7 @@ import sizes from 'themes/sizes';
 import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
-  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle,
+  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false,
 }) => {
   const drawLayoutDependingOnScreenWithLogo = () => {
     if (withLogo) {
@@ -42,7 +42,8 @@ export const FDefaultLayout = ({
       return (
         <View style={{
           ...styles.container,
-          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? 30 : 0,
+          paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
+          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
           {drawLayoutDependingOnScreenWithLogo()}
@@ -56,7 +57,8 @@ export const FDefaultLayout = ({
       >
         <View style={{
           ...styles.container,
-          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? 30 : 0,
+          paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
+          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
           {drawLayoutDependingOnScreenWithLogo()}
@@ -80,7 +82,6 @@ export const FDefaultLayout = ({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: sizes.PADDING_30,
     backgroundColor: colors.BODY,
   },
   topBox: {
