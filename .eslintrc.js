@@ -58,5 +58,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-nested-ternary': 'off',
     'no-underscore-dangle': 'off',
+    'react/no-array-index-key': 'off',
   },
 };

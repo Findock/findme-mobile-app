@@ -7,6 +7,7 @@ export const LoginHistoryScreen = () => (
     withLogo={false}
     hasFlatList
     noPaddingVertical
+    noPaddingHorizontal
   >
     <FLoginHistoryList />
   </FDefaultLayout>

@@ -6,16 +6,18 @@ import colors from 'themes/colors';
 import placements from 'themes/placements';
 import React from 'react';
 
-export const FSpinner = () => {
+export const FSpinner = ({ style }) => {
   const getSize = () => (Platform.OS === 'ios' ? 'large' : sizes.ICON_30);
   return (
     <ActivityIndicator
-      style={styles.spinnerContainer}
+      style={{
+        ...styles.spinnerContainer,
+        ...style,
+      }}
       animating
       size={getSize()}
       color={colors.DARK_GRAY}
     />
-
   );
 };
 

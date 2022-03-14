@@ -14,7 +14,7 @@ export const FButton = ({
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
-    <TouchableOpacity onPress={() => { navigation.navigate(to); }}>
+    <TouchableOpacity onPress={() => navigation.navigate(to)}>
       <View
         style={buttonViewStyles}
         hitSlop={{

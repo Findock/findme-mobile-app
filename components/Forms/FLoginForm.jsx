@@ -58,7 +58,7 @@ export const FLoginForm = () => {
   const [
     loading,
     setLoading,
-  ] = useState(false);
+  ] = useState(true);
 
   useEffect(() => {
     if (route.params?.showLogoutModal) {
