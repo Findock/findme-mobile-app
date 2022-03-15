@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import {
-  View, StyleSheet, ScrollView, Platform,
+  View, StyleSheet, Platform,
 } from 'react-native';
 import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';

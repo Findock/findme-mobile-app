@@ -3,7 +3,7 @@ import { FInput } from 'components/Inputs/FInput';
 import inputTypes from 'constants/inputTypes';
 import React from 'react';
 import {
-  View, Text, StyleSheet, Platform,
+  View, Text, StyleSheet,
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';

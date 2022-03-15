@@ -23,7 +23,6 @@ import modalTypes from 'constants/modalTypes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
-import appConfig from 'app.config';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
