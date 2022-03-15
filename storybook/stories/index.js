@@ -9,4 +9,4 @@ import './Scoped/LoginHistory/FLoginHistoryListItem.stories';
 import './Compositional/FStatus.stories';
 import './Compositional/FAvatar.stories';
 import './Buttons/FWideButton.stories';
-import './Compositional/FSwitch.stories';
+import './Inputs/FSwitch.stories';

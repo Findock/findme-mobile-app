@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Switch } from 'react-native';
 import colors from 'themes/colors';
 
-const FSwitch = ({ colorOn, isDisabled }) => {
+export const FSwitch = ({ colorOn, isDisabled }) => {
   const [
     isEnabled,
     setIsEnabled,
@@ -25,5 +25,3 @@ const FSwitch = ({ colorOn, isDisabled }) => {
     </View>
   );
 };
-
-export default FSwitch;

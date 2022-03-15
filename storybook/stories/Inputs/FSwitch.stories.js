@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react-native';
 import { CenterView } from 'storybook/utils/CenterView';
 import colors from 'themes/colors';
-import FSwitch from 'components/Composition/FSwitch';
+import FSwitch from 'components/Inputs/FSwitch';
 
 storiesOf('FSwitch', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
