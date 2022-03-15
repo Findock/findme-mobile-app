@@ -1,7 +1,19 @@
 import { storiesOf } from '@storybook/react-native';
 import { CenterView } from 'storybook/utils/CenterView';
-import FSwitch from '../../../components/Composition/FSwitch';
+import colors from 'themes/colors';
+import FSwitch from 'components/Composition/FSwitch';
 
 storiesOf('FSwitch', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
-  .add('FSwitch', () => <FSwitch />);
+  .add('FSwitch', () => (
+    <FSwitch
+      colorOn={colors.GREEN}
+      isDisabled={false}
+    />
+  ))
+  .add('FSwitchDisabled', () => (
+    <FSwitch
+      colorOn={colors.GREEN}
+      isDisabled
+    />
+  ));
