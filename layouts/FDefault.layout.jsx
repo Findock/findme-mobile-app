@@ -8,7 +8,7 @@ import sizes from 'themes/sizes';
 import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
-  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false,
+  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false, isAlwaysScrollable = false,
 }) => {
   const drawLayoutDependingOnScreenWithLogo = () => {
     if (withLogo) {
@@ -52,7 +52,7 @@ export const FDefaultLayout = ({
     }
     return (
       <ScrollView
-        scrollEnabled={isSmallScreen()}
+        scrollEnabled={isAlwaysScrollable ? true : isSmallScreen()}
         contentContainerStyle={{ flexGrow: 1 }}
       >
         <View style={{

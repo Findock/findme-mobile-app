@@ -16,7 +16,7 @@ import fonts from 'themes/fonts';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
-  marginBottom = sizes.MARGIN_25, width,
+  marginBottom = sizes.MARGIN_25, width, outline = false,
 }) => {
   const [
     isPasswordVisible,
@@ -28,8 +28,15 @@ export const FInput = ({
     if ((icon && iconPlacement === placements.RIGHT) || type === inputTypes.PASSWORD) return sizes.PADDING_50;
     return sizes.PADDING_30;
   };
-  const getBackgroundColors = () => (rounded ? colors.WHITE : colors.GRAY);
-  const getBorderWidth = () => (rounded ? sizes.BORDER_2 : 0);
+  const getBackgroundColors = () => {
+    if (rounded) return colors.WHITE;
+    if (outline) return colors.TRANSPARENT;
+    return colors.GRAY;
+  };
+  const getBorderWidth = () => {
+    if (rounded || outline) return sizes.BORDER_2;
+    return 0;
+  };
   const getBorderRadius = () => (rounded ? sizes.RADIUS_20 : 0);
 
   const getKeyboardType = () => {
@@ -78,11 +85,11 @@ export const FInput = ({
   );
 
   return (
-
     <View style={{
       ...styles.inputContainer,
       marginBottom,
       width,
+      height: type === inputTypes.TEXTAREA ? sizes.HEIGHT_80 : sizes.HEIGHT_54,
     }}
     >
       <Ionicons
@@ -104,6 +111,7 @@ export const FInput = ({
         autoCapitalize="none"
         secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
         keyboardType={getKeyboardType()}
+        multiline={type === inputTypes.TEXTAREA}
         style={{
           ...styles.input,
           paddingLeft: calcPaddingLeft(),
@@ -122,7 +130,6 @@ export const FInput = ({
 const styles = StyleSheet.create({
   inputContainer: {
     position: 'relative',
-    height: sizes.HEIGHT_54,
   },
   icon: {
     position: 'absolute',
@@ -131,7 +138,7 @@ const styles = StyleSheet.create({
   },
   input: {
     color: colors.BLACK,
-    borderColor: colors.LIGHT_GRAY,
+    borderColor: colors.GRAY,
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_FULL,
   },
