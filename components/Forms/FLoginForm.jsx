@@ -221,6 +221,8 @@ export const FLoginForm = () => {
             color={colors.DARK_GRAY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
+            navigation={navigation}
+            to={stackNavigatorNames.FORGOT_PASSWORD}
           />
         </View>
       </View>
