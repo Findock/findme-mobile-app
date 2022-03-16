@@ -49,4 +49,7 @@ export default {
   NONE: 'Brak',
   EDIT: 'Edytuj',
   SAVE: 'Zapisz',
+  PASSWORD_RECOVERY: 'Odzyskiwanie hasła',
+  FORGOT_YOUR_PASSWORD: 'Zapomniałeś hasła?',
+  RESET_PASSWORD: 'Zresetuj hasło',
 };
