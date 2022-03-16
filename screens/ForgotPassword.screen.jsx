@@ -63,17 +63,17 @@ export const ForgotPasswordScreen = () => (
 
 const style = {
   image: {
-    marginVertical: '10%',
+    marginVertical: sizes.MARGIN_10,
   },
   inputContainer: {
-    marginVertical: '5%',
+    marginVertical: sizes.MARGIN_5,
   },
   button: {
-    width: '55%',
+    width: sizes.WIDTH_HALF,
   },
   buttonContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: sizes.WIDTH_FULL,
+    alignItems: placements.CENTER,
   },
 
 };
