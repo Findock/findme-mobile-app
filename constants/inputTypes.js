@@ -3,4 +3,5 @@ export default {
   EMAIL: 'email',
   PASSWORD: 'password',
   TEXT: 'text',
+  TEXTAREA: 'textarea',
 };

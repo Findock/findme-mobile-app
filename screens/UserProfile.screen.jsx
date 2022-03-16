@@ -106,6 +106,7 @@ export const UserProfileScreen = () => {
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
+            navigateTo={stackNavigatorNames.SETTINGS}
           />
           <FWideButton
             icon={icons.RECEIPT}

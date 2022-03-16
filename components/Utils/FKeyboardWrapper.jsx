@@ -1,10 +1,12 @@
-import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from 'react-native';
+import {
+  Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform,
+} from 'react-native';
 import React from 'react';
 
 export const FKeyboardWrapper = ({ children }) => (
   <KeyboardAvoidingView
     behavior="position"
-    keyboardVerticalOffset={-150}
+    keyboardVerticalOffset={Platform.OS === 'ios' ? -50 : -500}
     contentContainerStyle={{
       flex: 1,
     }}
