@@ -52,7 +52,7 @@ export const ForgotPasswordScreen = () => (
         backgroundColor={colors.GREEN}
         color={colors.WHITE}
         titleWeight={fonts.HEADING_WEIGHT_BOLD}
-        titleSize={fonts.HEADING_SMALL}
+        titleSize={fonts.HEADING_MEDIUM}
         buttonViewStyles={
           style.button
         }
@@ -69,7 +69,7 @@ const style = {
     marginVertical: '5%',
   },
   button: {
-    width: '50%',
+    width: '55%',
   },
   buttonContainer: {
     width: '100%',
