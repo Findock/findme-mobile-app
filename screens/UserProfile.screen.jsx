@@ -73,7 +73,7 @@ export const UserProfileScreen = () => {
             </View>
             <View style={styles.bioContainer}>
               <FHeading
-                title="Jestem sobie użytkownikiem Find Me, najlepszej aplikacji na świecie"
+                title={me?.bio}
                 color={colors.DARK_GRAY}
                 weight={fonts.HEADING_WEIGHT_MEDIUM}
                 size={fonts.HEADING_NORMAL}

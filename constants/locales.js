@@ -49,4 +49,5 @@ export default {
   NONE: 'Brak',
   EDIT: 'Edytuj',
   SAVE: 'Zapisz',
+  SAVED_SUCCESSFULLY: 'Zapisano pomyślnie!',
 };
