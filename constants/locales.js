@@ -50,4 +50,5 @@ export default {
   EDIT: 'Edytuj',
   SAVE: 'Zapisz',
   SAVED_SUCCESSFULLY: 'Zapisano pomyślnie!',
+  DELETE_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
 };

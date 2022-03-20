@@ -10,7 +10,7 @@ import colors from 'themes/colors';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
-  backgroundColor, iconPlacement = placements.RIGHT, isOutline = false,
+  backgroundColor, iconPlacement = placements.RIGHT, style,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
@@ -36,7 +36,11 @@ export const FButton = ({
   const drawIconButton = () => (
     <TouchableOpacity
       onPress={onPress}
-      style={{ padding: sizes.PADDING_20 }}
+      style={{
+        padding: sizes.PADDING_20,
+        backgroundColor,
+        ...style,
+      }}
     >
       <Ionicons
         name={icon}

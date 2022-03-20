@@ -8,7 +8,6 @@ export const FImage = ({
   width, height, imagePath, children, style, resizeMode, networkImageUrl,
 }) => {
   const getUri = () => {
-    console.log(networkImageUrl);
     if (networkImageUrl) return networkImageUrl;
     if (imagePath) return Image.resolveAssetSource(imagePath).uri;
     return null;
