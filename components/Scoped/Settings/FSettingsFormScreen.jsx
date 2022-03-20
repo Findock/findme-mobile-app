@@ -1,7 +1,7 @@
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import {
@@ -12,8 +12,18 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
+import { updateUserService } from 'services/updateUser.service';
+import errorMessages from 'constants/errorMessages';
+import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { FSpinner } from 'components/Composition/FSpinner';
+import { useDispatch } from 'react-redux';
+import { getMeService } from 'services/getMe.service';
+import { setMe } from 'store/me/meSlice';
+import * as Linking from 'expo-linking';
+import * as Location from 'expo-location';
 
-export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
+export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
+  const dispatch = useDispatch();
   const [
     dataForm,
     setDataForm,
@@ -24,6 +34,23 @@ export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
     city: me.city,
     bio: me.bio,
   });
+  const [
+    loading,
+    setLoading,
+  ] = useState(false);
+  const [
+    errors,
+    setErrors,
+  ] = useState([]);
+
+  useEffect(() => {
+    const a = async () => {
+      await Location.requestForegroundPermissionsAsync();
+    };
+    if (!status?.granted) {
+      a();
+    }
+  }, [status]);
 
   const nameInputhandler = (newName) => {
     setDataForm({
@@ -56,9 +83,45 @@ export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
     });
   };
 
+  const checkFormValidation = (error) => {
+    const { message, statusCode } = error;
+    const errs = [];
+    if (statusCode === 400) {
+      if (message.join(' ').includes('phone')) {
+        errs.push(errorMessages.INVALID_PHONE_NUMBER);
+      }
+    }
+    setErrors([...errs]);
+  };
+
+  const fetchMe = async () => {
+    const res = await getMeService();
+    dispatch(setMe(res.data));
+  };
+
+  const onUpdateUserProfile = async () => {
+    try {
+      setLoading(true);
+      await updateUserService(dataForm);
+      await fetchMe();
+      setErrors([]);
+      setIsForm(false);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        checkFormValidation(error.response.data);
+        setLoading(false);
+      }
+    }
+  };
+
+  const onLocationPermissionOn = async () => {
+    await Linking.openSettings();
+  };
+
   return (
     <FKeyboardWrapper>
       <>
+        {loading && <FSpinner />}
         <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
           <FHeading
             title={locales.GENERAL_SETTINGS}
@@ -71,8 +134,11 @@ export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
             isForm
             withSwitch
             label={locales.LOCALIZATION_SERVICE}
-            value={status?.status === 'granted' ? locales.TURN_ON : locales.TURN_OFF}
+            value={status?.granted ? locales.TURN_ON : locales.TURN_OFF}
             style={styles.headerSpace}
+            // isDisabled={status?.status === 'granted'}
+            onSwitchValueChange={onLocationPermissionOn}
+            switchValue={false}
           />
         </View>
         <View style={{ marginTop: sizes.MARGIN_50 }}>
@@ -99,6 +165,7 @@ export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
             style={styles.settingRowSpace}
             onChangeText={phoneInputhandler}
             isPhoneInput
+            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PHONE_NUMBER)}
           />
           <FSettingsRow
             isForm
@@ -145,7 +212,7 @@ export const FSettingsFormScreen = ({ me, status, setIsForm }) => {
             backgroundColor={colors.GREEN}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
-            onPress={() => setIsForm(false)}
+            onPress={() => onUpdateUserProfile()}
           />
         </View>
       </>

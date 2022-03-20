@@ -1,9 +1,10 @@
 import { FHeading } from 'components/Composition/FHeading';
 import { FInput } from 'components/Inputs/FInput';
+import { FSwitch } from 'components/Inputs/FSwitch';
 import inputTypes from 'constants/inputTypes';
 import React from 'react';
 import {
-  View, Text, StyleSheet,
+  View, StyleSheet,
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -11,7 +12,8 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
 export const FSettingsRow = ({
-  label, value, isForm, withSwitch, style, onChangeText = () => { }, isPhoneInput, error, maxLength, isTextarea = false,
+  label, value, isForm, withSwitch, style, onChangeText = () => { }, isPhoneInput, errorMessage, maxLength, isTextarea = false,
+  onSwitchValueChange, switchValue, isDisabled,
 }) => {
   const getInputType = () => {
     if (isPhoneInput) return inputTypes.PHONE;
@@ -42,7 +44,11 @@ export const FSettingsRow = ({
               </View>
             </View>
             <View>
-              <Text>SWITCH</Text>
+              <FSwitch
+                onValueChange={onSwitchValueChange}
+                value={switchValue}
+                isDisabled={isDisabled}
+              />
             </View>
           </>
         );
@@ -65,7 +71,7 @@ export const FSettingsRow = ({
               value={value}
               width={sizes.WIDTH_FULL}
               type={getInputType()}
-              errorMessage={error}
+              errorMessage={errorMessage}
               rounded={false}
               marginBottom={0}
               outline
@@ -96,7 +102,6 @@ export const FSettingsRow = ({
       </View>
     );
   };
-
   return (
     <View style={{
       ...styles.row,

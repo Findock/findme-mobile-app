@@ -9,6 +9,7 @@ import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
   children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false, isAlwaysScrollable = false,
+  scrollViewRef,
 }) => {
   const drawLayoutDependingOnScreenWithLogo = () => {
     if (withLogo) {
@@ -54,6 +55,7 @@ export const FDefaultLayout = ({
       <ScrollView
         scrollEnabled={isAlwaysScrollable ? true : isSmallScreen()}
         contentContainerStyle={{ flexGrow: 1 }}
+        ref={scrollViewRef}
       >
         <View style={{
           ...styles.container,
@@ -71,7 +73,6 @@ export const FDefaultLayout = ({
     <SafeAreaView style={{
       flex: 1,
       backgroundColor: colors.BODY,
-
     }}
     >
       {drawLayoutDependingOnScreenWithFlatList()}

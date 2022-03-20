@@ -28,6 +28,12 @@ export const FInput = ({
     if ((icon && iconPlacement === placements.RIGHT) || type === inputTypes.PASSWORD) return sizes.PADDING_50;
     return sizes.PADDING_30;
   };
+  const getValue = () => {
+    if (type === inputTypes.PHONE) {
+      if (value.slice(0, 3).toString() !== '+48' && value.length < 3) return '+48';
+    }
+    return value;
+  };
   const getBackgroundColors = () => {
     if (rounded) return colors.WHITE;
     if (outline) return colors.TRANSPARENT;
@@ -104,9 +110,9 @@ export const FInput = ({
       />
       <TextInput
         placeholder={placeholder}
-        value={value}
+        value={getValue()}
         onChangeText={onChangeText}
-        maxLength={maxLength}
+        maxLength={type === inputTypes.PHONE ? 12 : maxLength}
         placeholderTextColor={colors.DARK_GRAY}
         autoCapitalize="none"
         secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}

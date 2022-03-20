@@ -10,7 +10,7 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 
-export const FSettingsScreen = ({ status, me, setIsForm }) => (
+export const FSettingsScreen = ({ me, setIsForm, status }) => (
   <>
     <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
       <FHeading
