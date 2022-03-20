@@ -32,7 +32,7 @@ export const FInput = ({
     if (type === inputTypes.PHONE) {
       if (value.slice(0, 3).toString() !== '+48' && value.length < 3) return '+48';
     }
-    return value;
+    return value.trim();
   };
   const getBackgroundColors = () => {
     if (rounded) return colors.WHITE;

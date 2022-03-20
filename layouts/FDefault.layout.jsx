@@ -9,7 +9,7 @@ import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
   children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false, isAlwaysScrollable = false,
-  scrollViewRef,
+  scrollViewRef, backgroundColor = colors.BODY,
 }) => {
   const drawLayoutDependingOnScreenWithLogo = () => {
     if (withLogo) {
@@ -43,6 +43,7 @@ export const FDefaultLayout = ({
       return (
         <View style={{
           ...styles.container,
+          backgroundColor,
           paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
           paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
@@ -72,7 +73,7 @@ export const FDefaultLayout = ({
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: colors.BODY,
+      backgroundColor,
     }}
     >
       {drawLayoutDependingOnScreenWithFlatList()}
@@ -83,7 +84,6 @@ export const FDefaultLayout = ({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: colors.BODY,
   },
   topBox: {
     flexDirection: 'row',

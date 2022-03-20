@@ -31,8 +31,8 @@ export const FAvatar = ({
 
   return wrapper(
     <FImage
-      height={size}
-      width={size}
+      height={size + 4}
+      width={size + 4}
       style={{
         borderRadius: getBorderRadius(),
         ...styles.avatar,
@@ -55,5 +55,7 @@ const styles = StyleSheet.create({
     shadowRadius: sizes.SHADOW_RADIUS_4,
     overflow: 'hidden',
     backgroundColor: colors.WHITE,
+    borderWidth: sizes.BORDER_4,
+    borderColor: colors.WHITE,
   },
 });

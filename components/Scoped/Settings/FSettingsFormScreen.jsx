@@ -190,7 +190,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
             value={dataForm.bio}
             style={styles.settingRowSpace}
             onChangeText={bioInputhandler}
-            maxLength={256}
+            maxLength={100}
             isTextarea
             numberOfLines={3}
 

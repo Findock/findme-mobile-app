@@ -5,11 +5,12 @@ import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
 
 export const FCard = ({
-  children, width, paddingVertical, paddingHorizontal,
+  children, width, paddingVertical, paddingHorizontal, style,
 }) => (
   <View style={{
     width,
     ...styles.card,
+    ...style,
     paddingHorizontal,
     paddingVertical,
   }}
