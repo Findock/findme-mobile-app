@@ -18,6 +18,10 @@ import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import { useNavigation } from '@react-navigation/native';
 import opacities from 'themes/opacities';
+import { FCard } from 'components/Composition/FCard';
+import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
+import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
+import { parseLocation } from '../utils/parseLocation';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -32,6 +36,8 @@ export const UserProfileScreen = () => {
       withLogo
       hasFlatList={false}
       topBoxStyle={styles.topBox}
+      backgroundColor={colors.GRAY}
+      isAlwaysScrollable
     >
       <View style={{
         left: sizes.POSITION_N30,
@@ -50,25 +56,45 @@ export const UserProfileScreen = () => {
         />
       </View>
       <View style={{
-        marginTop: sizes.MARGIN_50,
         flex: 1,
       }}
       >
-        <View style={styles.userInformationContainer}>
-          <FAvatar
-            isEditable
-            image={image}
-            setImage={setImage}
-            size={sizes.WIDTH_150}
-          />
+        <FCard
+          width={sizes.WIDTH_FULL}
+          paddingHorizontal={sizes.PADDING_25}
+          paddingVertical={sizes.PADDING_25}
+          style={{
+            marginTop: sizes.MARGIN_80,
+            ...styles.centerView,
+          }}
+        >
+          <View style={styles.avatarContainer}>
+            <FAvatar
+              isEditable
+              image={image}
+              setImage={setImage}
+              size={sizes.WIDTH_120}
+            />
+          </View>
           <View style={styles.headingsContainer}>
-            <View>
-              <FHeading
-                title={me?.name}
-                color={colors.BLACK}
-                weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-                size={fonts.HEADING_EXTRA_LARGE}
-                align={placements.CENTER}
+            <FHeading
+              title={me?.name}
+              color={colors.BLACK}
+              weight={fonts.HEADING_WEIGHT_BOLD}
+              size={fonts.HEADING_EXTRA_LARGE}
+              align={placements.CENTER}
+            />
+            <View style={styles.locationContainer}>
+              <FHeadingWithIcon
+                icon={icons.LOCATION_OUTLINE}
+                iconSize={sizes.ICON_20}
+                iconColor={colors.DARK_GRAY}
+                iconPlacement={placements.LEFT}
+                title={parseLocation(me.street, me.city)}
+                titleColor={colors.DARK_GRAY}
+                titleWeight={Platform.OS === 'android' ? fonts.HEADING_WEIGHT_SEMIBOLD : fonts.HEADING_WEIGHT_MEDIUM}
+                titleSize={fonts.HEADING_MEDIUM}
+                titleStyle={{ marginLeft: sizes.MARGIN_3 }}
               />
             </View>
             <View style={styles.bioContainer}>
@@ -80,9 +106,26 @@ export const UserProfileScreen = () => {
                 align={placements.CENTER}
               />
             </View>
+            {me?.phoneNumber !== '' && (
+              <FPhoneNumber
+                style={{ marginTop: sizes.MARGIN_20 }}
+                phoneNumber={me.phoneNumber}
+                color={colors.BLACK}
+                weight={fonts.HEADING_WEIGHT_BOLD}
+                size={fonts.HEADING_EXTRA_LARGE}
+                align={placements.CENTER}
+              />
+            )}
           </View>
-        </View>
-        <View style={styles.wideButtonsContainer}>
+        </FCard>
+        <FCard
+          width={sizes.WIDTH_FULL}
+          paddingVertical={sizes.PADDING_12}
+          style={{
+            marginTop: sizes.MARGIN_20,
+            overflow: 'hidden',
+          }}
+        >
           <FWideButton
             icon={icons.MEGAPHONE}
             iconBgColor={colors.GREEN}
@@ -147,23 +190,33 @@ export const UserProfileScreen = () => {
             style={styles.lastWideButton}
             isLink
           />
-        </View>
+        </FCard>
       </View>
     </FDefaultLayout>
   );
 };
 
 const styles = StyleSheet.create({
-  userInformationContainer: {
-    flex: 1,
+  avatarContainer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: sizes.POSITION_N60,
+    alignItems: placements.CENTER,
+  },
+  centerView: {
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
-    marginVertical: sizes.MARGIN_30,
   },
   headingsContainer: {
-    marginTop: sizes.MARGIN_10,
+    width: sizes.WIDTH_FULL,
+    marginTop: sizes.MARGIN_50,
+  },
+  locationContainer: {
+    width: sizes.WIDTH_FULL,
   },
   bioContainer: {
+    width: sizes.WIDTH_FULL,
     marginTop: sizes.MARGIN_8,
   },
   wideButtonsContainer: {

@@ -5,5 +5,6 @@ export default {
 
   // SHADOW OPACITY
   SHADOW_OPACITY_01: 0.1,
+  SHADOW_OPACITY_018: 0.18,
   SHADOW_OPACITY_025: 0.25,
 };

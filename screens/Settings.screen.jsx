@@ -27,7 +27,7 @@ export const SettingsScreen = () => {
     <FDefaultLayout
       hasFlatList={false}
       withLogo={false}
-      isAlwaysScrollable={isForm}
+      isAlwaysScrollable
       scrollViewRef={scrollViewRef}
     >
       {!me ? <FSpinner /> : (

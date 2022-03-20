@@ -10,3 +10,4 @@ import './Compositional/FStatus.stories';
 import './Compositional/FAvatar.stories';
 import './Buttons/FWideButton.stories';
 import './Inputs/FSwitch.stories';
+import './Compositional/FCard.stories';
