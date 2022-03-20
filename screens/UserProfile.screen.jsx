@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { FWideButton } from 'components/Buttons/FWideButton';
@@ -21,19 +21,17 @@ import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
-import appConfig from 'app.config';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
+import { setMe } from 'store/me/meSlice';
 import { parseLocation } from '../utils/parseLocation';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const navigation = useNavigation();
-  const [
-    image,
-    setImage,
-  ] = useState(null);
+  const dispatch = useDispatch();
+
   const [
     showConfirmDeleteUserProfileImageModal,
     setShowConfirmDeleteUserProfileImageModal,
@@ -46,7 +44,8 @@ export const UserProfileScreen = () => {
   const deleteImage = async () => {
     try {
       if (showConfirmDeleteUserProfileImageModal) {
-        await deleteUserProfileImageService();
+        const res = await deleteUserProfileImageService();
+        dispatch(setMe(res.data));
       }
     } catch (error) {
       setShowErrorModal(true);
@@ -70,7 +69,7 @@ export const UserProfileScreen = () => {
             type={modalTypes.CONFIRM_MODAL}
             setVisible={setShowConfirmDeleteUserProfileImageModal}
             visible={showConfirmDeleteUserProfileImageModal}
-            title={locales.DELETE_ACCOUNT_CONFIRMATION}
+            title={locales.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
             onConfirm={deleteImage}
           />
         )}
@@ -110,9 +109,7 @@ export const UserProfileScreen = () => {
           <View style={styles.avatarContainer}>
             <FAvatar
               isEditable
-              image={image}
-              imageUrl={appConfig.extra.apiUrl.substring(0, appConfig.extra.apiUrl.length - 1) + (me.profileImageUrl || '')}
-              setImage={setImage}
+              imageUrl={me?.profileImageUrl}
               size={sizes.WIDTH_120}
               setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
               setShowErrorModal={setShowErrorModal}

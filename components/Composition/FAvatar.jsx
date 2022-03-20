@@ -13,17 +13,14 @@ import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import icons from 'themes/icons';
 import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
+import appConfig from 'app.config';
 
 export const FAvatar = ({
-  size, image, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
+  size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
 }) => {
   const dispath = useDispatch();
 
-  const getImage = () => {
-    if (imageUrl) return imageUrl;
-    if (!image) return images.USER_AVATAR();
-    return image;
-  };
+  const getImageUrl = () => appConfig.extra.apiUrl.substring(0, appConfig.extra.apiUrl.length - 1) + imageUrl;
 
   const uploadImage = async () => {
     try {
@@ -83,8 +80,8 @@ export const FAvatar = ({
         borderRadius: getHalfBorderRadius(size),
         ...styles.avatar,
       }}
-      networkImageUrl={getImage()}
-      imagePath={getImage()}
+      networkImageUrl={imageUrl ? getImageUrl() : null}
+      imagePath={images.USER_AVATAR()}
       resizeMode={sizes.COVER}
     />,
   );
