@@ -1,4 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
+import { FCard } from 'components/Composition/FCard';
 import { FHeading } from 'components/Composition/FHeading';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
@@ -71,7 +72,12 @@ export const FModal = ({
         transparent
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
+          <FCard
+            style={styles.modalView}
+            paddingHorizontal={sizes.PADDING_35}
+            paddingVertical={sizes.PADDING_35}
+            width={sizes.WIDTH_FULL}
+          >
             <FHeading
               title={title}
               size={fonts.HEADING_NORMAL}
@@ -82,7 +88,7 @@ export const FModal = ({
             <View style={styles.buttonsContainer}>
               {renderButtonsByModalType()}
             </View>
-          </View>
+          </FCard>
         </View>
       </Modal>
     </View>
@@ -99,19 +105,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     marginTop: sizes.MARGIN_30,
-    backgroundColor: colors.WHITE,
-    borderRadius: sizes.RADIUS_20,
-    padding: sizes.PADDING_35,
     alignItems: placements.CENTER,
-    shadowColor: colors.BLACK,
-    shadowOffset: {
-      width: sizes.WIDTH_0,
-      height: sizes.HEIGHT_2,
-    },
-    shadowOpacity: opacities.SHADOW_OPACITY_025,
-    shadowRadius: sizes.SHADOW_RADIUS_4,
-    elevation: sizes.ELEVATION_5,
-    width: sizes.WIDTH_FULL,
   },
   buttonsContainer: {
     marginTop: sizes.MARGIN_20,
