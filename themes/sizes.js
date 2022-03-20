@@ -17,6 +17,7 @@ export default {
 
   // HEIGHTS
   HEIGHT_N1: -1,
+  HEIGHT_1: 1,
   HEIGHT_2: 2,
   HEIGHT_4: 4,
   HEIGHT_15: 15,
@@ -76,6 +77,7 @@ export default {
   ELEVATION_15: 15,
 
   // SHADOW RADIUS
+  SHADOW_RADIUS_1: 1,
   SHADOW_RADIUS_4: 4,
   SHADOW_RADIUS_10: 10,
 
