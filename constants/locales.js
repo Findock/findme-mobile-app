@@ -50,4 +50,5 @@ export default {
   EDIT: 'Edytuj',
   SAVE: 'Zapisz',
   SAVED_SUCCESSFULLY: 'Zapisano pomyślnie!',
+  DELETE_USER_PROFILE_IMAGE_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje zdjęcie profilowe? Tej akcji nie będzie można cofnąć.',
 };

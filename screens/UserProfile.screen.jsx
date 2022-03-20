@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { FWideButton } from 'components/Buttons/FWideButton';
@@ -21,15 +21,36 @@ import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
+import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
+import { setMe } from 'store/me/meSlice';
 import { parseLocation } from '../utils/parseLocation';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const [
-    image,
-    setImage,
-  ] = useState(null);
+    showConfirmDeleteUserProfileImageModal,
+    setShowConfirmDeleteUserProfileImageModal,
+  ] = useState(false);
+  const [
+    showErrorModal,
+    setShowErrorModal,
+  ] = useState(false);
+
+  const deleteImage = async () => {
+    try {
+      if (showConfirmDeleteUserProfileImageModal) {
+        const res = await deleteUserProfileImageService();
+        dispatch(setMe(res.data));
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
 
   return (
     <FDefaultLayout
@@ -43,6 +64,23 @@ export const UserProfileScreen = () => {
         left: sizes.POSITION_N30,
       }}
       >
+        {showConfirmDeleteUserProfileImageModal && (
+          <FModal
+            type={modalTypes.CONFIRM_MODAL}
+            setVisible={setShowConfirmDeleteUserProfileImageModal}
+            visible={showConfirmDeleteUserProfileImageModal}
+            title={locales.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
+            onConfirm={deleteImage}
+          />
+        )}
+        {showErrorModal && (
+          <FModal
+            type={modalTypes.INFO_MODAL}
+            setVisible={setShowErrorModal}
+            visible={showErrorModal}
+            title={locales.SOMETHING_WENT_WRONG}
+          />
+        )}
         <FButton
           type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
           title={locales.GO_BACK}
@@ -71,9 +109,10 @@ export const UserProfileScreen = () => {
           <View style={styles.avatarContainer}>
             <FAvatar
               isEditable
-              image={image}
-              setImage={setImage}
+              imageUrl={me?.profileImageUrl}
               size={sizes.WIDTH_120}
+              setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
+              setShowErrorModal={setShowErrorModal}
             />
           </View>
           <View style={styles.headingsContainer}>
