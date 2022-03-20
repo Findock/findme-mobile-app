@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import opacities from 'themes/opacities';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 

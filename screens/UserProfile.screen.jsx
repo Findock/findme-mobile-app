@@ -3,7 +3,7 @@ import { FHeading } from 'components/Composition/FHeading';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useState } from 'react';
 import {
-  View, StyleSheet, Dimensions, Platform, ScrollView,
+  View, StyleSheet, Dimensions, Platform,
 } from 'react-native';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
@@ -21,7 +21,6 @@ import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
-import { parsePhoneNumber } from '../utils/parsePhoneNumber';
 import { parseLocation } from '../utils/parseLocation';
 
 export const UserProfileScreen = () => {
