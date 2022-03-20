@@ -1,13 +1,13 @@
 import { FAvatar } from 'components/Composition/FAvatar';
 import { FHeading } from 'components/Composition/FHeading';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View, StyleSheet, Dimensions, Platform,
 } from 'react-native';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { FWideButton } from 'components/Buttons/FWideButton';
@@ -21,15 +21,25 @@ import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
+import { getMeService } from 'services/getMe.service';
+import appConfig from 'app.config';
 import { parseLocation } from '../utils/parseLocation';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [
     image,
     setImage,
   ] = useState(null);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await getMeService();
+  //     await dispatch.
+  //   })();
+  // }, [me]);
 
   return (
     <FDefaultLayout
@@ -72,6 +82,7 @@ export const UserProfileScreen = () => {
             <FAvatar
               isEditable
               image={image}
+              imageUrl={appConfig.extra.apiUrl.substring(0, appConfig.extra.apiUrl.length - 1) + (me?.profileImageUrl || '')}
               setImage={setImage}
               size={sizes.WIDTH_120}
             />

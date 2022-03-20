@@ -1,24 +1,57 @@
 import { FImage } from 'components/Composition/FImage';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import images from 'constants/images';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import opacities from 'themes/opacities';
+import { uploadUserProfileImageService } from 'services/uploadUserProfileImage.service';
 
 export const FAvatar = ({
-  size, setImage, image, isEditable,
+  size, setImage, image, isEditable, imageUrl,
 }) => {
   const getBorderRadius = () => Math.ceil(size / 2);
+
+  const getImage = () => {
+    if (imageUrl) return imageUrl;
+    if (!image) return images.USER_AVATAR();
+    return image;
+  };
+
+  const uploadImage = async () => {
+    await pickImageFromCameraRoll(setImage, {
+      allowsEditing: true,
+    });
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (image && !image.cancelled) {
+          // eslint-disable-next-line no-undef
+          const formData = new FormData();
+          const { uri, type } = image;
+          // eslint-disable-next-line no-undef
+          formData.append('file', {
+            uri,
+            name: 'gowno.png',
+            type,
+          });
+          const res = await uploadUserProfileImageService(formData);
+          setImage(res.profileImageUrl);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [image]);
 
   const wrapper = (children) => {
     if (isEditable) {
       return (
         <TouchableWithoutFeedback
-          onPress={() => pickImageFromCameraRoll(setImage, {
-            allowsEditing: true,
-          })}
+          onPress={uploadImage}
         >
           <View>
             {children}
@@ -31,13 +64,14 @@ export const FAvatar = ({
 
   return wrapper(
     <FImage
-      height={size + 4}
-      width={size + 4}
+      height={size + sizes.BORDER_4}
+      width={size + sizes.BORDER_4}
       style={{
         borderRadius: getBorderRadius(),
         ...styles.avatar,
       }}
-      imagePath={!image ? images.USER_AVATAR() : image}
+      networkImageUrl={getImage()}
+      imagePath={getImage()}
       resizeMode={sizes.COVER}
     />,
   );

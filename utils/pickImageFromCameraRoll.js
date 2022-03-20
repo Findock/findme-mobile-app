@@ -4,5 +4,7 @@ export const pickImageFromCameraRoll = async (setImage, options) => {
   const result = await ImagePicker.launchImageLibraryAsync({
     ...options,
   });
-  if (!result.cancelled) return setImage(result);
+  if (!result.cancelled) {
+    setImage(result);
+  }
 };
