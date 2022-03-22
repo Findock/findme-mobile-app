@@ -23,9 +23,13 @@ import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
+import { deleteAccountService } from 'services/deleteAccount.service';
+import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
+import { useNavigation } from '@react-navigation/native';
 
 export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [
     dataForm,
     setDataForm,
@@ -47,6 +51,10 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
   const [
     showDeleteAccountConfirmationModal,
     setShowDeleteAccountConfirmationModal,
+  ] = useState(false);
+  const [
+    showErrorModal,
+    setShowErrorModal,
   ] = useState(false);
 
   useEffect(() => {
@@ -120,10 +128,20 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
     }
   };
 
+  const onDeleteAccount = async () => {
+    try {
+      await deleteAccountService();
+      redirectToLoginScreen(dispatch, navigation, {
+        showDeleteAccountModal: true,
+      });
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
   const onLocationPermissionOn = async () => {
     await Linking.openSettings();
   };
-
   return (
     <FKeyboardWrapper>
       <>
@@ -134,6 +152,15 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
             setVisible={setShowDeleteAccountConfirmationModal}
             visible={showDeleteAccountConfirmationModal}
             title={locales.DELETE_USER_ACCOUNT_CONFIRMATION}
+            onConfirm={onDeleteAccount}
+          />
+        )}
+        {showErrorModal && (
+          <FModal
+            type={modalTypes.INFO_MODAL}
+            setVisible={setShowErrorModal}
+            visible={showErrorModal}
+            title={locales.SOMETHING_WENT_WRONG}
           />
         )}
         <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>

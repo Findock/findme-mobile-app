@@ -51,19 +51,21 @@ export const FAvatar = ({
           onPress={uploadImage}
         >
           <View>
-            <FButton
-              type={buttonTypes.ICON_BUTTON}
-              icon={icons.TRASH}
-              color={colors.WHITE}
-              iconSize={sizes.ICON_20}
-              backgroundColor={colors.DARK_PRIMARY}
-              style={{
-                padding: sizes.PADDING_10,
-                borderRadius: getHalfBorderRadius(sizes.WIDTH_50),
-                ...styles.deleteButton,
-              }}
-              onPress={() => setShowConfirmDeleteUserProfileImageModal(true)}
-            />
+            {imageUrl !== '' && (
+              <FButton
+                type={buttonTypes.ICON_BUTTON}
+                icon={icons.TRASH}
+                color={colors.WHITE}
+                iconSize={sizes.ICON_20}
+                backgroundColor={colors.DARK_PRIMARY}
+                style={{
+                  padding: sizes.PADDING_10,
+                  borderRadius: getHalfBorderRadius(sizes.WIDTH_50),
+                  ...styles.deleteButton,
+                }}
+                onPress={() => setShowConfirmDeleteUserProfileImageModal(true)}
+              />
+            )}
             {children}
           </View>
         </TouchableWithoutFeedback>
@@ -107,5 +109,13 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 3,
+    elevation: sizes.ELEVATION_3,
+    shadowColor: colors.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: sizes.HEIGHT_1,
+    },
+    shadowOpacity: opacities.SHADOW_OPACITY_01,
+    shadowRadius: sizes.SHADOW_RADIUS_1,
   },
 });

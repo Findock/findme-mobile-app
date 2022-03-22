@@ -77,6 +77,7 @@ export default {
 
   // ELEVATION
   ELEVATION_1: 1,
+  ELEVATION_3: 3,
   ELEVATION_5: 5,
   ELEVATION_15: 15,
 

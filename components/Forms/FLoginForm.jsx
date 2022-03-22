@@ -43,6 +43,10 @@ export const FLoginForm = () => {
     setRegistrationModalVisible,
   ] = useState(false);
   const [
+    deleteAccountModalVisible,
+    setDeleteAccountModalVisible,
+  ] = useState(false);
+  const [
     dataForm,
     setDataForm,
   ] = useState({
@@ -72,7 +76,14 @@ export const FLoginForm = () => {
       setRegistrationModalVisible(true);
       navigation.setParams({ showRegistrationModal: false });
     }
-  }, [route.params?.showRegistrationModal]);
+  }, [route.params?.showDeleteAccountModal]);
+
+  useEffect(() => {
+    if (route.params?.showDeleteAccountModal) {
+      setDeleteAccountModalVisible(true);
+      navigation.setParams({ showDeleteAccountModal: false });
+    }
+  }, [route.params?.showDeleteAccountModal]);
 
   useEffect(() => {
     if (route.params?.afterRegisterEmail && route.params?.afterRegisterPassword) {
@@ -80,6 +91,7 @@ export const FLoginForm = () => {
       setDataForm({
         email: route.params.afterRegisterEmail,
         password: route.params.afterRegisterPassword,
+        deviceName: Device.modelName,
       });
       navigation.setParams({
         afterRegisterEmail: '',
@@ -116,6 +128,9 @@ export const FLoginForm = () => {
     if (statusCode === 401) {
       if (message.join(' ').includes('email')) {
         errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+      }
+      if (message.join(' ').includes('password')) {
+        errs.push(errorMessages.INVALID_PASSWORD);
       }
     }
     if (statusCode === 500) {
@@ -178,6 +193,14 @@ export const FLoginForm = () => {
           title={locales.SUCCESSFUL_LOGOUT}
           visible={logoutModalVisible}
           setVisible={setLogoutModalVisible}
+        />
+      )}
+      {deleteAccountModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.SUCCESSFUL_ACCOUNT_DELETING}
+          visible={deleteAccountModalVisible}
+          setVisible={setDeleteAccountModalVisible}
         />
       )}
       <View>
