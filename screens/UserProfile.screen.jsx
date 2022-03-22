@@ -171,7 +171,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.BLACK}
+            titleColor={colors.DARK_GRAY}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.YOUR_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -184,7 +184,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.BLACK}
+            titleColor={colors.DARK_GRAY}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.SETTINGS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -198,7 +198,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.BLACK}
+            titleColor={colors.DARK_GRAY}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.LOGIN_HISTORY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -212,7 +212,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.BLACK}
+            titleColor={colors.DARK_GRAY}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
