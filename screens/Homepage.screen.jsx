@@ -69,7 +69,7 @@ export const HomepageScreen = () => {
         <FButton
           title={locales.LOG_OUT}
           color={colors.WHITE}
-          backgroundColor={colors.GREEN}
+          backgroundColor={colors.DARK_PRIMARY}
           type={buttonTypes.TEXT_BUTTON}
           titleSize={fonts.HEADING_NORMAL}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}

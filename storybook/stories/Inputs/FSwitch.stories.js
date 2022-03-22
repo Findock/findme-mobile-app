@@ -7,13 +7,13 @@ storiesOf('FSwitch', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('FSwitch', () => (
     <FSwitch
-      colorOn={colors.GREEN}
+      colorOn={colors.SUCCESS}
       isDisabled={false}
     />
   ))
   .add('FSwitchDisabled', () => (
     <FSwitch
-      colorOn={colors.GREEN}
+      colorOn={colors.SUCCESS}
       isDisabled
     />
   ));

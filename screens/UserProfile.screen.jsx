@@ -57,7 +57,7 @@ export const UserProfileScreen = () => {
       withLogo
       hasFlatList={false}
       topBoxStyle={styles.topBox}
-      backgroundColor={colors.GRAY}
+      backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
       <View style={{
@@ -118,7 +118,7 @@ export const UserProfileScreen = () => {
           <View style={styles.headingsContainer}>
             <FHeading
               title={me?.name}
-              color={colors.BLACK}
+              color={colors.DARK_PRIMARY}
               weight={fonts.HEADING_WEIGHT_BOLD}
               size={fonts.HEADING_EXTRA_LARGE}
               align={placements.CENTER}
@@ -149,7 +149,7 @@ export const UserProfileScreen = () => {
               <FPhoneNumber
                 style={{ marginTop: sizes.MARGIN_20 }}
                 phoneNumber={me.phoneNumber}
-                color={colors.BLACK}
+                color={colors.DARK_PRIMARY}
                 weight={fonts.HEADING_WEIGHT_BOLD}
                 size={fonts.HEADING_EXTRA_LARGE}
                 align={placements.CENTER}
@@ -167,11 +167,12 @@ export const UserProfileScreen = () => {
         >
           <FWideButton
             icon={icons.MEGAPHONE}
-            iconBgColor={colors.GREEN}
+            iconBgColor={colors.DARK_PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
+            arrowColor={colors.DARK_PRIMARY}
             title={locales.YOUR_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -179,11 +180,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.SETTINGS}
-            iconBgColor={colors.GREEN}
+            iconBgColor={colors.DARK_PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
+            arrowColor={colors.DARK_PRIMARY}
             title={locales.SETTINGS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -192,11 +194,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.RECEIPT}
-            iconBgColor={colors.GREEN}
+            iconBgColor={colors.DARK_PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
+            arrowColor={colors.DARK_PRIMARY}
             title={locales.LOGIN_HISTORY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -205,11 +208,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.STAR}
-            iconBgColor={colors.GREEN}
+            iconBgColor={colors.DARK_PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
+            arrowColor={colors.DARK_PRIMARY}
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -218,10 +222,11 @@ export const UserProfileScreen = () => {
           <FWideButton
             icon={icons.DUPLICATE}
             iconBgColor={colors.WHITE}
-            iconColor={colors.GREEN}
+            iconColor={colors.DARK_PRIMARY}
             iconSize={sizes.ICON_20}
-            buttonBgColor={colors.GREEN}
+            buttonBgColor={colors.DARK_PRIMARY}
             titleColor={colors.WHITE}
+            arrowColor={colors.WHITE}
             title={locales.ADD_ANNOUNCEMENT}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -253,6 +258,7 @@ const styles = StyleSheet.create({
   },
   locationContainer: {
     width: sizes.WIDTH_FULL,
+    marginTop: sizes.MARGIN_5,
   },
   bioContainer: {
     width: sizes.WIDTH_FULL,

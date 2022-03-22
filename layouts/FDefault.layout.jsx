@@ -23,7 +23,7 @@ export const FDefaultLayout = ({
             {children[0]}
             <FLogo
               fill={false}
-              color={colors.GREEN}
+              color={colors.DARK_PRIMARY}
             />
           </View>
           <View style={{ flex: 1 }}>

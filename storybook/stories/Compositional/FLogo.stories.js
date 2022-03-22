@@ -5,9 +5,9 @@ import colors from 'themes/colors';
 import { select, boolean } from '@storybook/addon-knobs';
 
 const colorOptions = [
-  colors.GREEN,
+  colors.SUCCESS,
   colors.WHITE,
-  colors.GREEN,
+  colors.DARK_GRAY,
 ];
 
 const defaultFill = false;
@@ -16,7 +16,7 @@ storiesOf('FLogo', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('FLogo - outline green', () => (
     <FLogo
-      color={select('color', colorOptions, colors.GREEN)}
+      color={select('color', colorOptions, colors.SUCCESS)}
       fill={boolean('fill', defaultFill)}
     />
   ))
