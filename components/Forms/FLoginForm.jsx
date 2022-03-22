@@ -209,9 +209,9 @@ export const FLoginForm = () => {
           <FButton
             type={buttonTypes.LINK_BUTTON}
             title={locales.CREATE_ACCOUNT}
-            color={colors.GREEN}
-            titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            titleSize={fonts.HEADING_NORMAL}
+            color={colors.DARK_PRIMARY}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_MEDIUM}
             navigation={navigation}
             to={stackNavigatorNames.REGISTRATION}
           />
@@ -226,7 +226,7 @@ export const FLoginForm = () => {
       </View>
       <View style={styles.buttonContainer}>
         <FButton
-          backgroundColor={colors.GREEN}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           iconSize={sizes.ICON_20}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}

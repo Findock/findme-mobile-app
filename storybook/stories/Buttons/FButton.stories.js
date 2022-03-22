@@ -15,7 +15,7 @@ const iconOptions = [
 ];
 
 const colorOptions = [
-  colors.GREEN,
+  colors.SUCCESS,
   colors.BLACK,
   colors.WHITE,
 ];
@@ -40,7 +40,7 @@ storiesOf('FButton', module)
     <FButton
       type={select('type', typeOptions, buttonTypes.LINK_BUTTON)}
       title={text('title', 'Stwórz konto')}
-      color={select('color', colorOptions, colors.GREEN)}
+      color={select('color', colorOptions, colors.SUCCESS)}
       titleSize={number('titleSize', fonts.HEADING_NORMAL)}
       titleWeight={select('titleWeight', weightOptions, fonts.HEADING_WEIGHT_BOLD)}
     />
@@ -54,13 +54,13 @@ storiesOf('FButton', module)
       iconSize={number('iconSize', sizes.ICON_25)}
       titleSize={number('titleSize', fonts.HEADING_MEDIUM)}
       titleWeight={select('titleWeight', weightOptions, fonts.HEADING_WEIGHT_MEDIUM)}
-      backgroundColor={select('backgroundColor', colorOptions, colors.GREEN)}
+      backgroundColor={select('backgroundColor', colorOptions, colors.SUCCESS)}
     />
   ))
   .add('FButton - icon button', () => (
     <FButton
       type={select('type', typeOptions, buttonTypes.ICON_BUTTON)}
-      color={select('color', colorOptions, colors.GREEN)}
+      color={select('color', colorOptions, colors.SUCCESS)}
       icon={select('icon', iconOptions, icons.MENU)}
       iconSize={number('iconSize', sizes.ICON_25)}
     />
@@ -72,6 +72,6 @@ storiesOf('FButton', module)
       color={select('color', colorOptions, colors.WHITE)}
       titleSize={number('titleSize', fonts.HEADING_SMALL)}
       titleWeight={select('titleWeight', weightOptions, fonts.HEADING_WEIGHT_SEMIBOLD)}
-      backgroundColor={select('backgroundColor', colorOptions, colors.GREEN)}
+      backgroundColor={select('backgroundColor', colorOptions, colors.SUCCESS)}
     />
   ));

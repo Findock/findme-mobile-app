@@ -14,10 +14,10 @@ const iconOptions = [
 
 const colorsOptions = [
   colors.BLACK,
-  colors.GREEN,
-  colors.LIGHT_GREEN,
+  colors.DARK_PRIMARY,
+  colors.LIGHT_PRIMARY,
   colors.DARK_GRAY,
-  colors.DARK_GREEN,
+  colors.PRIMARY,
   colors.WHITE,
 ];
 

@@ -8,9 +8,9 @@ export const FStatus = ({ status, style }) => {
   const getStatusBgColorByStatus = () => {
     switch (status) {
     case statusTypes.ACTIVE:
-      return colors.GREEN;
+      return colors.SUCCESS;
     case statusTypes.NEW_MESSAGE:
-      return colors.LIGHT_ORANGE;
+      return colors.WARNING;
     default:
       return '';
     }

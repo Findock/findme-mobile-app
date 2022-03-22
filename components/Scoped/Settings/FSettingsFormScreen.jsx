@@ -21,6 +21,8 @@ import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
 
 export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
   const dispatch = useDispatch();
@@ -42,6 +44,10 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
     errors,
     setErrors,
   ] = useState([]);
+  const [
+    showDeleteAccountConfirmationModal,
+    setShowDeleteAccountConfirmationModal,
+  ] = useState(false);
 
   useEffect(() => {
     const a = async () => {
@@ -122,10 +128,18 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
     <FKeyboardWrapper>
       <>
         {loading && <FSpinner />}
+        {showDeleteAccountConfirmationModal && (
+          <FModal
+            type={modalTypes.CONFIRM_MODAL}
+            setVisible={setShowDeleteAccountConfirmationModal}
+            visible={showDeleteAccountConfirmationModal}
+            title={locales.DELETE_USER_ACCOUNT_CONFIRMATION}
+          />
+        )}
         <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
           <FHeading
             title={locales.GENERAL_SETTINGS}
-            color={colors.GREEN}
+            color={colors.DARK_PRIMARY}
             size={fonts.HEADING_LARGE}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
             align={placements.LEFT}
@@ -144,7 +158,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
         <View style={{ marginTop: sizes.MARGIN_50 }}>
           <FHeading
             title={locales.ACCOUNT_SETTINGS}
-            color={colors.GREEN}
+            color={colors.DARK_PRIMARY}
             size={fonts.HEADING_LARGE}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
             align={placements.LEFT}
@@ -196,11 +210,21 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
 
           />
         </View>
+        <View style={{ marginTop: sizes.MARGIN_30 }}>
+          <FButton
+            title={locales.DELETE_ACCOUNT}
+            type={buttonTypes.OUTLINE_TEXT_BUTTON}
+            color={colors.DANGER}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_MEDIUM}
+            onPress={() => setShowDeleteAccountConfirmationModal(true)}
+          />
+        </View>
         <View style={styles.buttonsContainer}>
           <FButton
             title={locales.CANCEL}
             type={buttonTypes.OUTLINE_TEXT_BUTTON}
-            color={colors.GREEN}
+            color={colors.DARK_PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
             onPress={() => setIsForm(false)}
@@ -209,7 +233,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
             title={locales.SAVE}
             type={buttonTypes.TEXT_BUTTON}
             color={colors.WHITE}
-            backgroundColor={colors.GREEN}
+            backgroundColor={colors.DARK_PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
             onPress={() => onUpdateUserProfile()}
@@ -228,7 +252,7 @@ const styles = StyleSheet.create({
     marginTop: sizes.MARGIN_20,
   },
   buttonsContainer: {
-    marginTop: sizes.MARGIN_40,
+    marginTop: sizes.MARGIN_30,
     width: sizes.WIDTH_FULL,
     justifyContent: 'space-between',
     alignItems: placements.CENTER,

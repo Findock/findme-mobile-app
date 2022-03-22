@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export const FWideButton = ({
   icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor,
-  onPress, style, isLink, navigateTo,
+  arrowColor, onPress, style, isLink, navigateTo,
 }) => {
   const navigation = useNavigation();
   return (
@@ -49,7 +49,7 @@ export const FWideButton = ({
         {isLink && (
           <Ionicons
             name={icons.CHEVRON_FORWARD_OUTLINE}
-            color={titleColor}
+            color={arrowColor}
             size={iconSize}
           />
         )}

@@ -22,7 +22,7 @@ export const FModal = ({
         <FButton
           title={locales.CONTINUE}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.DARK_GRAY}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
@@ -39,7 +39,7 @@ export const FModal = ({
         <FButton
           title={locales.CANCEL}
           type={buttonTypes.OUTLINE_TEXT_BUTTON}
-          color={colors.GREEN}
+          color={colors.DARK_PRIMARY}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
           buttonViewStyles={styles.firstButton}
@@ -51,7 +51,7 @@ export const FModal = ({
         <FButton
           title={locales.CONFIRM}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.GREEN}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
@@ -81,7 +81,7 @@ export const FModal = ({
               title={title}
               size={fonts.HEADING_NORMAL}
               weight={fonts.HEADING_WEIGHT_MEDIUM}
-              color={colors.BLACK}
+              color={colors.DARK_GRAY}
               align={placements.CENTER}
             />
             <View style={styles.buttonsContainer}>

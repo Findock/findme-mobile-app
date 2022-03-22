@@ -12,7 +12,7 @@ export const FSwitch = ({
       <Switch
         trackColor={{
           false: colors.DARK_GRAY,
-          true: colors.GREEN,
+          true: colors.SUCCESS,
         }}
         onValueChange={toggleSwitch}
         thumbColor={colors.WHITE}

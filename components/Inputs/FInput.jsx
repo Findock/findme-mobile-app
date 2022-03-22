@@ -37,7 +37,7 @@ export const FInput = ({
   const getBackgroundColors = () => {
     if (rounded) return colors.WHITE;
     if (outline) return colors.TRANSPARENT;
-    return colors.GRAY;
+    return colors.LIGHT_GRAY;
   };
   const getBorderWidth = () => {
     if (rounded || outline) return sizes.BORDER_2;
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     height: sizes.HEIGHT_FULL,
   },
   errorMessage: {
-    color: colors.RED,
+    color: colors.DANGER,
     fontSize: fonts.HEADING_EXTRA_SMALL,
     marginTop: sizes.MARGIN_3,
   },

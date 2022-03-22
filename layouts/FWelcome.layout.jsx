@@ -31,7 +31,7 @@ export const FWelcomeLayout = ({
           <View style={styles.logoContainer}>
             <FLogo
               fill={false}
-              color={colors.GREEN}
+              color={colors.DARK_PRIMARY}
             />
           </View>
           <View>
@@ -45,7 +45,7 @@ export const FWelcomeLayout = ({
           <View style={{ marginVertical: sizes.MARGIN_20 }}>
             <FHeading
               title={headingTitle}
-              color={colors.DARK_GREEN}
+              color={colors.SECONDARY}
               align={placements.CENTER}
               size={fonts.HEADING_EXTRA_LARGE}
               weight={fonts.HEADING_WEIGHT_MEDIUM}
