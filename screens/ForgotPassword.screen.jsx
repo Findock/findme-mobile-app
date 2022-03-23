@@ -52,9 +52,6 @@ export const ForgotPasswordScreen = () => (
         color={colors.WHITE}
         titleWeight={fonts.HEADING_WEIGHT_BOLD}
         titleSize={fonts.HEADING_MEDIUM}
-        buttonViewStyles={
-          styles.button
-        }
       />
     </View>
   </FDefaultLayout>
@@ -69,12 +66,7 @@ const styles = {
   inputContainer: {
     marginVertical: sizes.MARGIN_20,
   },
-  button: {
-    width: sizes.WIDTH_HALF,
-  },
   buttonContainer: {
-    width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
   },
-
 };
