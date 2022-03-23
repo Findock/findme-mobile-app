@@ -32,7 +32,7 @@ export const FSwipeButtonCell = ({
   const getColorByCellAction = () => {
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
-      return colors.LIGHT_RED;
+      return colors.DANGER;
     default: return '';
     }
   };

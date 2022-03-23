@@ -32,7 +32,7 @@ export const FLoginHistoryListItem = ({
             title={deviceName}
             color={colors.BLACK}
             size={fonts.HEADING_NORMAL}
-            weight={fonts.HEADING_WEIGHT_BOLD}
+            weight={fonts.HEADING_WEIGHT_MEDIUM}
             align={placements.LEFT}
           />
         </View>
@@ -47,9 +47,9 @@ export const FLoginHistoryListItem = ({
         <View style={styles.bottomBoxInner}>
           <FHeading
             title={isActiveSession ? locales.ACTIVE_SESSION : drawDateDependingOnPassedTime()}
-            color={isActiveSession ? colors.GREEN : colors.DARK_GRAY}
+            color={isActiveSession ? colors.SUCCESS : colors.DARK_GRAY}
             size={fonts.HEADING_NORMAL}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
             align={placements.LEFT}
           />
         </View>
@@ -58,7 +58,7 @@ export const FLoginHistoryListItem = ({
             title={location}
             color={colors.DARK_GRAY}
             size={fonts.HEADING_NORMAL}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
             align={placements.RIGHT}
           />
         </View>

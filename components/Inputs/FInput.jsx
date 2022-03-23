@@ -28,10 +28,16 @@ export const FInput = ({
     if ((icon && iconPlacement === placements.RIGHT) || type === inputTypes.PASSWORD) return sizes.PADDING_50;
     return sizes.PADDING_30;
   };
+  const getValue = () => {
+    if (type === inputTypes.PHONE) {
+      if (value.slice(0, 3).toString() !== '+48' && value.length < 3) return '+48';
+    }
+    return value;
+  };
   const getBackgroundColors = () => {
     if (rounded) return colors.WHITE;
     if (outline) return colors.TRANSPARENT;
-    return colors.GRAY;
+    return colors.LIGHT_GRAY;
   };
   const getBorderWidth = () => {
     if (rounded || outline) return sizes.BORDER_2;
@@ -104,9 +110,9 @@ export const FInput = ({
       />
       <TextInput
         placeholder={placeholder}
-        value={value}
+        value={getValue()}
         onChangeText={onChangeText}
-        maxLength={maxLength}
+        maxLength={type === inputTypes.PHONE ? 12 : maxLength}
         placeholderTextColor={colors.DARK_GRAY}
         autoCapitalize="none"
         secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
@@ -143,7 +149,7 @@ const styles = StyleSheet.create({
     height: sizes.HEIGHT_FULL,
   },
   errorMessage: {
-    color: colors.RED,
+    color: colors.DANGER,
     fontSize: fonts.HEADING_EXTRA_SMALL,
     marginTop: sizes.MARGIN_3,
   },

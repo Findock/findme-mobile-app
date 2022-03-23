@@ -1,4 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
+import { FCard } from 'components/Composition/FCard';
 import { FHeading } from 'components/Composition/FHeading';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
@@ -9,7 +10,6 @@ import {
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import opacities from 'themes/opacities';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
@@ -22,7 +22,7 @@ export const FModal = ({
         <FButton
           title={locales.CONTINUE}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.DARK_GRAY}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
@@ -39,7 +39,7 @@ export const FModal = ({
         <FButton
           title={locales.CANCEL}
           type={buttonTypes.OUTLINE_TEXT_BUTTON}
-          color={colors.GREEN}
+          color={colors.DARK_PRIMARY}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
           buttonViewStyles={styles.firstButton}
@@ -51,7 +51,7 @@ export const FModal = ({
         <FButton
           title={locales.CONFIRM}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.GREEN}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_SMALL}
@@ -71,18 +71,23 @@ export const FModal = ({
         transparent
       >
         <View style={styles.modalContainer}>
-          <View style={styles.modalView}>
+          <FCard
+            style={styles.modalView}
+            paddingHorizontal={sizes.PADDING_35}
+            paddingVertical={sizes.PADDING_35}
+            width={sizes.WIDTH_FULL}
+          >
             <FHeading
               title={title}
               size={fonts.HEADING_NORMAL}
               weight={fonts.HEADING_WEIGHT_MEDIUM}
-              color={colors.BLACK}
+              color={colors.DARK_GRAY}
               align={placements.CENTER}
             />
             <View style={styles.buttonsContainer}>
               {renderButtonsByModalType()}
             </View>
-          </View>
+          </FCard>
         </View>
       </Modal>
     </View>
@@ -99,19 +104,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     marginTop: sizes.MARGIN_30,
-    backgroundColor: colors.WHITE,
-    borderRadius: sizes.RADIUS_20,
-    padding: sizes.PADDING_35,
     alignItems: placements.CENTER,
-    shadowColor: colors.BLACK,
-    shadowOffset: {
-      width: sizes.WIDTH_0,
-      height: sizes.HEIGHT_2,
-    },
-    shadowOpacity: opacities.SHADOW_OPACITY_025,
-    shadowRadius: sizes.SHADOW_RADIUS_4,
-    elevation: sizes.ELEVATION_5,
-    width: sizes.WIDTH_FULL,
   },
   buttonsContainer: {
     marginTop: sizes.MARGIN_20,

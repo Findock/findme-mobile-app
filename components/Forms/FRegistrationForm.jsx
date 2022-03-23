@@ -166,7 +166,7 @@ export const FRegistrationForm = () => {
           <FCheckbox
             style={styles.checkbox}
             iconColor={colors.WHITE}
-            checkboxColor={colors.GREEN}
+            checkboxColor={colors.DARK_PRIMARY}
             setValue={termsAcceptedHandler}
             value={dataForm.termsAccepted}
           />
@@ -174,20 +174,20 @@ export const FRegistrationForm = () => {
             title={locales.ACCEPT_REGULATIONS}
             size={fonts.HEADING_EXTRA_SMALL}
             weight={fonts.HEADING_WEIGHT_MEDIUM}
-            color={colors.DARK_GREEN}
+            color={colors.DARK_GRAY}
           />
         </View>
         <View style={styles.regulationsErrorMessageContainer}>
           <FHeading
             title={filterErrorMessages(errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
-            color={colors.RED}
+            color={colors.DANGER}
             size={fonts.HEADING_EXTRA_SMALL}
           />
         </View>
       </View>
       <View style={styles.buttonsContainer}>
         <FButton
-          backgroundColor={colors.GREEN}
+          backgroundColor={colors.DARK_PRIMARY}
           color={colors.WHITE}
           iconSize={sizes.ICON_20}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}

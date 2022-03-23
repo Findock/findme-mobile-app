@@ -1,24 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Switch } from 'react-native';
 import colors from 'themes/colors';
 
-export const FSwitch = ({ colorOn, isDisabled }) => {
-  const [
-    isEnabled,
-    setIsEnabled,
-  ] = useState(false);
+export const FSwitch = ({
+  isDisabled, value, onValueChange,
+}) => {
+  const toggleSwitch = () => onValueChange((previousState) => !previousState);
 
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   return (
     <View>
       <Switch
         trackColor={{
           false: colors.DARK_GRAY,
-          true: colorOn,
+          true: colors.SUCCESS,
         }}
         onValueChange={toggleSwitch}
         thumbColor={colors.WHITE}
-        value={isEnabled}
+        value={value}
         ios_backgroundColor={colors.DARK_GRAY}
         disabled={isDisabled}
       />

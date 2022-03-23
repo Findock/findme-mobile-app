@@ -10,12 +10,12 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 
-export const FSettingsScreen = ({ status, me, setIsForm }) => (
+export const FSettingsScreen = ({ me, setIsForm, status }) => (
   <>
     <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
       <FHeading
         title={locales.GENERAL_SETTINGS}
-        color={colors.GREEN}
+        color={colors.DARK_PRIMARY}
         size={fonts.HEADING_LARGE}
         weight={fonts.HEADING_WEIGHT_SEMIBOLD}
         align={placements.LEFT}
@@ -31,7 +31,7 @@ export const FSettingsScreen = ({ status, me, setIsForm }) => (
     <View style={{ marginTop: sizes.MARGIN_50 }}>
       <FHeading
         title={locales.ACCOUNT_SETTINGS}
-        color={colors.GREEN}
+        color={colors.DARK_PRIMARY}
         size={fonts.HEADING_LARGE}
         weight={fonts.HEADING_WEIGHT_SEMIBOLD}
         align={placements.LEFT}
@@ -76,7 +76,7 @@ export const FSettingsScreen = ({ status, me, setIsForm }) => (
       <FButton
         title={locales.EDIT}
         type={buttonTypes.OUTLINE_TEXT_BUTTON}
-        color={colors.GREEN}
+        color={colors.DARK_PRIMARY}
         titleWeight={fonts.HEADING_WEIGHT_BOLD}
         titleSize={fonts.HEADING_MEDIUM}
         onPress={() => setIsForm(true)}
