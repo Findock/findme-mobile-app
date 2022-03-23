@@ -20,15 +20,15 @@ export const ForgotPasswordScreen = () => (
       <Ionicons
         name={icons.LOCK_CLOSED_OUTLINE}
         size={sizes.ICON_100}
-        color={colors.DARK_GRAY}
+        color={colors.DARK_PRIMARY}
       />
     </View>
     <FHeading
       title={locales.FORGOT_YOUR_PASSWORD}
-      color={colors.DARK_GREEN}
+      color={colors.SECONDARY}
       align={placements.CENTER}
       size={fonts.HEADING_EXTRA_LARGE}
-      weight={fonts.HEADING_WEIGHT_MEDIUM}
+      weight={fonts.HEADING_WEIGHT_SEMIBOLD}
     />
     <FHeading
       title={locales.ENTER_EMAIL_TO_RESET_PASSWORD}
@@ -47,7 +47,7 @@ export const ForgotPasswordScreen = () => (
       <FButton
         title={locales.RESET_PASSWORD}
         type={buttonTypes.TEXT_BUTTON}
-        backgroundColor={colors.GREEN}
+        backgroundColor={colors.DARK_PRIMARY}
         color={colors.WHITE}
         titleWeight={fonts.HEADING_WEIGHT_BOLD}
         titleSize={fonts.HEADING_MEDIUM}
