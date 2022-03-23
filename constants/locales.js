@@ -52,4 +52,5 @@ export default {
   PASSWORD_RECOVERY: 'Odzyskiwanie hasła',
   FORGOT_YOUR_PASSWORD: 'Zapomniałeś hasła?',
   RESET_PASSWORD: 'Zresetuj hasło',
+  ENTER_EMAIL_TO_RESET_PASSWORD: 'Wprowadź email na który wyślemy wiadmość z linkiem do utworzenia nowego hasła.',
 };
