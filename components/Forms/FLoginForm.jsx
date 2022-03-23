@@ -212,6 +212,7 @@ export const FLoginForm = () => {
             color={colors.DARK_PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
+            navigation={navigation}
             to={stackNavigatorNames.REGISTRATION}
           />
           <FButton
