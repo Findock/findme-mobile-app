@@ -4,6 +4,7 @@ export default {
   ICON_22: 22,
   ICON_25: 25,
   ICON_30: 30,
+  ICON_100: 100,
 
   // WIDTHS
   WIDTH_0: 0,
