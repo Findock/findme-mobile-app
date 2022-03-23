@@ -35,15 +35,14 @@ export const ForgotPasswordScreen = () => (
       align={placements.CENTER}
       size={fonts.HEADING_SMALL}
       weight={fonts.HEADING_WEIGHT_REGULAR}
+      marginBottom={sizes.MARGIN_20}
     />
-    <View style={styles.inputContainer}>
       <FInput
         iconPlacement={placements.LEFT}
         type={inputTypes.EMAIL}
         icon={icons.MAIL_OUTLINE}
         placeholder={locales.EMAIL}
       />
-    </View>
     <View style={styles.buttonContainer}>
       <FButton
         title={locales.RESET_PASSWORD}
@@ -63,10 +62,8 @@ const styles = {
     alignItems: placements.CENTER,
     marginVertical: sizes.MARGIN_10,
   },
-  inputContainer: {
-    marginVertical: sizes.MARGIN_20,
-  },
   buttonContainer: {
     alignItems: placements.CENTER,
+    marginVertical: sizes.MARGIN_20,
   },
 };
