@@ -37,12 +37,12 @@ export const ForgotPasswordScreen = () => (
       weight={fonts.HEADING_WEIGHT_REGULAR}
       marginBottom={sizes.MARGIN_20}
     />
-      <FInput
-        iconPlacement={placements.LEFT}
-        type={inputTypes.EMAIL}
-        icon={icons.MAIL_OUTLINE}
-        placeholder={locales.EMAIL}
-      />
+    <FInput
+      iconPlacement={placements.LEFT}
+      type={inputTypes.EMAIL}
+      icon={icons.MAIL_OUTLINE}
+      placeholder={locales.EMAIL}
+    />
     <View style={styles.buttonContainer}>
       <FButton
         title={locales.RESET_PASSWORD}
