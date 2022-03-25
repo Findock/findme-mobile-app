@@ -32,11 +32,7 @@ export const FDefaultLayout = ({
         </>
       );
     }
-    return (
-      <View>
-        {children}
-      </View>
-    );
+    return children;
   };
   const drawLayoutDependingOnScreenWithFlatList = () => {
     if (hasFlatList) {
