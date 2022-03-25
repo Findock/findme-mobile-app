@@ -9,7 +9,6 @@ import placements from 'themes/placements';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import colors from 'themes/colors';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
