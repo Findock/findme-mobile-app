@@ -54,4 +54,9 @@ export default {
   DELETE_ACCOUNT: 'Usuń konto',
   DELETE_USER_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
   CHANGE_PASSWORD: 'Zmień hasło',
+  PASS_OLD_PASSWORD: 'Podaj stare hasło',
+  PASS_NEW_PASSWORD: 'Podaj nowe hasło',
+  REPEAT_NEW_PASSWORD: 'Powtórz nowe hasło',
+  OLD_PASSWORD: 'Stare hasło',
+  NEW_PASSWORD: 'Nowe hasło',
 };

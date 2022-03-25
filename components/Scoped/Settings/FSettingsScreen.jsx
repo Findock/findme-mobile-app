@@ -12,87 +12,88 @@ import placements from 'themes/placements';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useNavigation } from '@react-navigation/native';
 
-export const FSettingsScreen = ({ me, setIsForm, status }) => {
-  const navigation = useNavigation();
-  return (
-    <>
-      <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
-        <FHeading
-          title={locales.GENERAL_SETTINGS}
-          color={colors.DARK_PRIMARY}
-          size={fonts.HEADING_LARGE}
-          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-          align={placements.LEFT}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch
-          label={locales.LOCALIZATION_SERVICE}
-          value={status?.status === 'granted' ? locales.TURN_ON : locales.TURN_OFF}
-          style={styles.headerSpace}
-        />
-        <FButton
-          title={locales.CHANGE_PASSWORD}
-          onPress={() => navigation.navigate(stackNavigatorNames.PASSWORD_CHANGE)}
-        />
-      </View>
-      <View style={{ marginTop: sizes.MARGIN_20 }}>
-        <FHeading
-          title={locales.ACCOUNT_SETTINGS}
-          color={colors.DARK_PRIMARY}
-          size={fonts.HEADING_LARGE}
-          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-          align={placements.LEFT}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch={false}
-          label={locales.NAME}
-          value={me.name}
-          style={styles.headerSpace}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch={false}
-          label={locales.PHONE}
-          value={me.phoneNumber}
-          style={styles.settingRowSpace}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch={false}
-          label={locales.STREET}
-          value={!me.street ? locales.NO_INFORMATION : me.street}
-          style={styles.settingRowSpace}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch={false}
-          label={locales.CITY}
-          value={!me.city ? locales.NO_INFORMATION : me.city}
-          style={styles.settingRowSpace}
-        />
-        <FSettingsRow
-          isForm={false}
-          withSwitch={false}
-          label={locales.BIO}
-          value={!me.bio ? locales.NONE : me.bio}
-          style={styles.settingRowSpace}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <FButton
-          title={locales.EDIT}
-          type={buttonTypes.OUTLINE_TEXT_BUTTON}
-          color={colors.DARK_PRIMARY}
-          titleWeight={fonts.HEADING_WEIGHT_BOLD}
-          titleSize={fonts.HEADING_MEDIUM}
-          onPress={() => setIsForm(true)}
-        />
-      </View>
-    </>
-  );
-};
+export const FSettingsScreen = ({ me, setIsForm, status }) => (
+  <>
+    <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
+      <FHeading
+        title={locales.GENERAL_SETTINGS}
+        color={colors.DARK_PRIMARY}
+        size={fonts.HEADING_LARGE}
+        weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+        align={placements.LEFT}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch
+        label={locales.LOCALIZATION_SERVICE}
+        value={status?.status === 'granted' ? locales.TURN_ON : locales.TURN_OFF}
+        style={styles.headerSpace}
+      />
+      <FButton
+        type={buttonTypes.LINK_BUTTON}
+        title={locales.CHANGE_PASSWORD}
+        titleWeight={fonts.HEADING_WEIGHT_BOLD}
+        titleSize={fonts.HEADING_NORMAL}
+        to={stackNavigatorNames.PASSWORD_CHANGE}
+        buttonViewStyles={styles.headerSpace}
+      />
+    </View>
+    <View style={{ marginTop: sizes.MARGIN_20 }}>
+      <FHeading
+        title={locales.ACCOUNT_SETTINGS}
+        color={colors.DARK_PRIMARY}
+        size={fonts.HEADING_LARGE}
+        weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+        align={placements.LEFT}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch={false}
+        label={locales.NAME}
+        value={me.name}
+        style={styles.headerSpace}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch={false}
+        label={locales.PHONE}
+        value={me.phoneNumber}
+        style={styles.settingRowSpace}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch={false}
+        label={locales.STREET}
+        value={!me.street ? locales.NO_INFORMATION : me.street}
+        style={styles.settingRowSpace}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch={false}
+        label={locales.CITY}
+        value={!me.city ? locales.NO_INFORMATION : me.city}
+        style={styles.settingRowSpace}
+      />
+      <FSettingsRow
+        isForm={false}
+        withSwitch={false}
+        label={locales.BIO}
+        value={!me.bio ? locales.NONE : me.bio}
+        style={styles.settingRowSpace}
+      />
+    </View>
+    <View style={styles.buttonContainer}>
+      <FButton
+        title={locales.EDIT}
+        type={buttonTypes.OUTLINE_TEXT_BUTTON}
+        color={colors.DARK_PRIMARY}
+        titleWeight={fonts.HEADING_WEIGHT_BOLD}
+        titleSize={fonts.HEADING_MEDIUM}
+        onPress={() => setIsForm(true)}
+      />
+    </View>
+  </>
+);
 
 const styles = StyleSheet.create({
   headerSpace: {
