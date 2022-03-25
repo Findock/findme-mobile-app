@@ -53,4 +53,5 @@ export default {
   DELETE_USER_PROFILE_IMAGE_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje zdjęcie profilowe? Tej akcji nie będzie można cofnąć.',
   DELETE_ACCOUNT: 'Usuń konto',
   DELETE_USER_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
+  CHANGE_PASSWORD: 'Zmień hasło',
 };

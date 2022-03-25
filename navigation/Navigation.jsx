@@ -20,6 +20,7 @@ import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
 import { UserProfileScreen } from 'screens/UserProfile.screen';
 import { SettingsScreen } from 'screens/Settings.screen';
+import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -120,6 +121,18 @@ export const Navigation = () => {
               component={SettingsScreen}
               options={{
                 title: locales.SETTINGS,
+                headerBackTitle: locales.GO_BACK,
+                headerTintColor: colors.BLACK,
+                headerTitleStyle: {
+                  fontSize: fonts.HEADING_LARGE,
+                },
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.PASSWORD_CHANGE}
+              component={ChangePasswordScreen}
+              options={{
+                title: locales.CHANGE_PASSWORD,
                 headerBackTitle: locales.GO_BACK,
                 headerTintColor: colors.BLACK,
                 headerTitleStyle: {
