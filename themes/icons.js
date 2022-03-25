@@ -28,5 +28,4 @@ export default {
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
   TRASH: 'trash',
-  REFRESH: 'refresh-outline',
 };

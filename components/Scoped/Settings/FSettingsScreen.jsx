@@ -10,7 +10,6 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { useNavigation } from '@react-navigation/native';
 
 export const FSettingsScreen = ({ me, setIsForm, status }) => (
   <>
