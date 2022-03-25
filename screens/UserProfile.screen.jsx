@@ -102,7 +102,7 @@ export const UserProfileScreen = () => {
           paddingHorizontal={sizes.PADDING_25}
           paddingVertical={sizes.PADDING_25}
           style={{
-            marginTop: sizes.MARGIN_80,
+            marginTop: sizes.MARGIN_20,
             ...styles.centerView,
           }}
         >
@@ -118,8 +118,8 @@ export const UserProfileScreen = () => {
           <View style={styles.headingsContainer}>
             <FHeading
               title={me?.name}
-              color={colors.DARK_PRIMARY}
-              weight={fonts.HEADING_WEIGHT_BOLD}
+              color={colors.BLACK}
+              weight={fonts.HEADING_WEIGHT_SEMIBOLD}
               size={fonts.HEADING_EXTRA_LARGE}
               align={placements.CENTER}
             />
@@ -131,7 +131,7 @@ export const UserProfileScreen = () => {
                 iconPlacement={placements.LEFT}
                 title={parseLocation(me.street, me.city)}
                 titleColor={colors.DARK_GRAY}
-                titleWeight={Platform.OS === 'android' ? fonts.HEADING_WEIGHT_SEMIBOLD : fonts.HEADING_WEIGHT_MEDIUM}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
                 titleSize={fonts.HEADING_MEDIUM}
                 titleStyle={{ marginLeft: sizes.MARGIN_3 }}
               />
@@ -149,8 +149,8 @@ export const UserProfileScreen = () => {
               <FPhoneNumber
                 style={{ marginTop: sizes.MARGIN_20 }}
                 phoneNumber={me.phoneNumber}
-                color={colors.DARK_PRIMARY}
-                weight={fonts.HEADING_WEIGHT_BOLD}
+                color={colors.BLACK}
+                weight={fonts.HEADING_WEIGHT_SEMIBOLD}
                 size={fonts.HEADING_EXTRA_LARGE}
                 align={placements.CENTER}
               />
@@ -171,7 +171,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.YOUR_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -184,7 +184,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.SETTINGS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -198,7 +198,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.LOGIN_HISTORY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -212,7 +212,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -242,10 +242,6 @@ export const UserProfileScreen = () => {
 
 const styles = StyleSheet.create({
   avatarContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: sizes.POSITION_N60,
     alignItems: placements.CENTER,
   },
   centerView: {
@@ -254,7 +250,7 @@ const styles = StyleSheet.create({
   },
   headingsContainer: {
     width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_50,
+    marginTop: sizes.MARGIN_20,
   },
   locationContainer: {
     width: sizes.WIDTH_FULL,
