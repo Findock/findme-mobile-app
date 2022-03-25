@@ -5,7 +5,7 @@ import React from 'react';
 import sizes from 'themes/sizes';
 
 export const FImage = ({
-  width, height, imagePath, children, style, resizeMode, networkImageUrl,
+  width, height, imagePath, children, containerStyle, resizeMode, networkImageUrl, imageStyle,
 }) => {
   const getUri = () => {
     if (networkImageUrl) return networkImageUrl;
@@ -16,7 +16,7 @@ export const FImage = ({
     <View style={{
       width,
       height,
-      ...style,
+      ...containerStyle,
     }}
     >
       <ImageBackground
@@ -27,6 +27,7 @@ export const FImage = ({
         style={{
           width: sizes.WIDTH_FULL,
           height: sizes.WIDTH_FULL,
+          ...imageStyle,
         }}
       />
       {children}

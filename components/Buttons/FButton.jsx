@@ -1,5 +1,7 @@
 import { FHeading } from 'components/Composition/FHeading';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  View, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
@@ -7,6 +9,7 @@ import placements from 'themes/placements';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import colors from 'themes/colors';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
@@ -35,7 +38,12 @@ export const FButton = ({
   );
   const drawIconButton = () => (
     <TouchableOpacity
-      onPress={onPress}
+      // containerStyle={{
+      //   padding: sizes.PADDING_20,
+      //   backgroundColor,
+      //   ...style,
+      // }}
+      onPressIn={onPress}
       style={{
         padding: sizes.PADDING_20,
         backgroundColor,
@@ -134,7 +142,6 @@ export const FButton = ({
             </>
           )
         }
-
       </View>
     </TouchableOpacity>
   );
