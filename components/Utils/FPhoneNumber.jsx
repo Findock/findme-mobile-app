@@ -5,7 +5,7 @@ import * as Linking from 'expo-linking';
 import { parsePhoneNumber } from '../../utils/parsePhoneNumber';
 
 export const FPhoneNumber = ({
-  phoneNumber, weight, size, color, align, style,
+  phoneNumber, weight, size, color, align, style, isUnderline,
 }) => (
   <TouchableOpacity onPress={() => Linking.openURL(`tel:${phoneNumber}`)}>
     <View style={{ ...style }}>
@@ -15,6 +15,7 @@ export const FPhoneNumber = ({
         title={phoneNumber && parsePhoneNumber(phoneNumber)}
         weight={weight}
         align={align}
+        isUnderline={isUnderline}
       />
     </View>
   </TouchableOpacity>

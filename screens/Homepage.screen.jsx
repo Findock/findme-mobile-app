@@ -85,6 +85,16 @@ export const HomepageScreen = () => {
           onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE)}
           buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
         />
+        <FButton
+          title="Inny użytkownik"
+          color={colors.WHITE}
+          backgroundColor={colors.DARK_GRAY}
+          type={buttonTypes.TEXT_BUTTON}
+          titleSize={fonts.HEADING_NORMAL}
+          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW)}
+          buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+        />
       </View>
     </View>
   );
