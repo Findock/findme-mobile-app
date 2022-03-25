@@ -7,4 +7,5 @@ export default {
   USER_PROFILE: 'User Profile',
   SETTINGS: 'Settings',
   PASSWORD_CHANGE: 'Password Change',
+  FORGOT_PASSWORD: 'Forgot Password',
 };

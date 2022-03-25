@@ -21,6 +21,7 @@ import { setMe } from 'store/me/meSlice';
 import { UserProfileScreen } from 'screens/UserProfile.screen';
 import { SettingsScreen } from 'screens/Settings.screen';
 import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
+import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -85,6 +86,18 @@ export const Navigation = () => {
               component={RegistrationScreen}
               options={{
                 headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.FORGOT_PASSWORD}
+              component={ForgotPasswordScreen}
+              options={{
+                title: locales.PASSWORD_RECOVERY,
+                headerBackTitle: locales.GO_BACK,
+                headerTintColor: colors.BLACK,
+                headerTitleStyle: {
+                  fontSize: fonts.HEADING_LARGE,
+                },
               }}
             />
           </>
