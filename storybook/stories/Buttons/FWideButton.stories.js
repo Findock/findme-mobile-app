@@ -14,7 +14,7 @@ const iconOptions = [
 
 const colorsOptions = [
   colors.BLACK,
-  colors.DARK_PRIMARY,
+  colors.PRIMARY,
   colors.LIGHT_PRIMARY,
   colors.DARK_GRAY,
   colors.PRIMARY,

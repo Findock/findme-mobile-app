@@ -17,7 +17,6 @@ import { View } from 'react-native';
 export const ForgotPasswordScreen = () => (
   <FDefaultLayout
     hasFlatList={false}
-    withLogo={false}
   >
     <View style={{
       flexGrow: 1,
@@ -28,12 +27,12 @@ export const ForgotPasswordScreen = () => (
         <Ionicons
           name={icons.LOCK_CLOSED_OUTLINE}
           size={sizes.ICON_100}
-          color={colors.DARK_PRIMARY}
+          color={colors.PRIMARY}
         />
       </View>
       <FHeading
         title={locales.FORGOT_YOUR_PASSWORD}
-        color={colors.SECONDARY}
+        color={colors.PRIMARY}
         align={placements.CENTER}
         size={fonts.HEADING_EXTRA_LARGE}
         weight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -56,7 +55,7 @@ export const ForgotPasswordScreen = () => (
         <FButton
           title={locales.RESET_PASSWORD}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.DARK_PRIMARY}
+          backgroundColor={colors.PRIMARY}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_MEDIUM}

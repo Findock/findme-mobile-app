@@ -7,7 +7,7 @@ import placements from 'themes/placements';
 export const FGlobalLoader = () => (
   <View style={styles.screen}>
     <FLogo
-      color={colors.DARK_PRIMARY}
+      color={colors.PRIMARY}
       fill={false}
     />
   </View>

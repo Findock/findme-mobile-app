@@ -3,6 +3,7 @@ export default {
   BLACK: '#000000',
   DARK_GRAY: '#979797',
   LIGHT_GRAY: '#F4F4F4',
+  LIGHTEST_GRAY: '#FBFAF7',
   GRAY: '#E6E6E6',
   DANGER: '#F0827F',
   WARNING: '#FEC779',
@@ -11,8 +12,6 @@ export default {
   OVERLAY: 'rgba(255, 255, 255, 0.5)',
   OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
   TRANSPARENT: 'transparent',
-  PRIMARY: '#DCD3C4',
-  DARK_PRIMARY: '#C2B29B',
-  LIGHT_PRIMARY: '#EFECE3',
-  SECONDARY: '#3F3D56',
+  PRIMARY: '#45A4A8',
+  SECONDARY: '#F3AC8E',
 };

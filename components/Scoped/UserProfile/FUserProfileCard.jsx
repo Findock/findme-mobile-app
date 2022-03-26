@@ -1,6 +1,6 @@
 import React from 'react';
 import sizes from 'themes/sizes';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import placements from 'themes/placements';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -79,8 +79,9 @@ export const FUserProfileCard = ({
       width={sizes.WIDTH_FULL}
       paddingHorizontal={sizes.PADDING_25}
       paddingVertical={sizes.PADDING_25}
+      backgroundColor={isMe ? colors.WHITE : colors.LIGHTEST_GRAY}
       style={{
-        marginTop: sizes.MARGIN_20,
+        marginTop: Platform.OS === 'ios' ? sizes.MARGIN_20 : sizes.MARGIN_N20,
         ...styles.centerView,
       }}
     >
@@ -126,7 +127,7 @@ export const FUserProfileCard = ({
           <View style={{ marginTop: sizes.MARGIN_20 }}>
             <FButton
               type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-              backgroundColor={colors.DARK_PRIMARY}
+              backgroundColor={colors.PRIMARY}
               title={locales.WRITE_MESSAGE}
               iconPlacement={placements.RIGHT}
               color={colors.WHITE}

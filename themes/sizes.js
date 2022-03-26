@@ -44,6 +44,7 @@ export default {
 
   // MARGINS
   MARGIN_N30: -30,
+  MARGIN_N20: -20,
   MARGIN_3: 3,
   MARGIN_5: 5,
   MARGIN_8: 8,

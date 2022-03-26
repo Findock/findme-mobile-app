@@ -13,7 +13,7 @@ import sizes from 'themes/sizes';
 
 export const FSettingsRow = ({
   label, value, isForm, withSwitch, style, onChangeText = () => { }, isPhoneInput, errorMessage, maxLength, isTextarea = false,
-  onSwitchValueChange, switchValue, isDisabled,
+  onSwitchValueChange, switchValue, isDisabled, disabledColor,
 }) => {
   const getInputType = () => {
     if (isPhoneInput) return inputTypes.PHONE;
@@ -22,37 +22,36 @@ export const FSettingsRow = ({
   };
   const drawSettingRow = () => {
     if (withSwitch) {
-      if (isForm) {
-        return (
-          <>
-            <View>
+      return (
+        <>
+          <View>
+            <FHeading
+              color={colors.BLACK}
+              size={fonts.HEADING_NORMAL}
+              title={label}
+              align={placements.LEFT}
+              weight={fonts.HEADING_WEIGHT_BOLD}
+            />
+            <View style={styles.labelSpace}>
               <FHeading
                 color={colors.BLACK}
                 size={fonts.HEADING_NORMAL}
-                title={label}
+                title={value}
                 align={placements.LEFT}
-                weight={fonts.HEADING_WEIGHT_BOLD}
-              />
-              <View style={styles.labelSpace}>
-                <FHeading
-                  color={colors.BLACK}
-                  size={fonts.HEADING_NORMAL}
-                  title={value}
-                  align={placements.LEFT}
-                  weight={fonts.HEADING_WEIGHT_REGULAR}
-                />
-              </View>
-            </View>
-            <View>
-              <FSwitch
-                onValueChange={onSwitchValueChange}
-                value={switchValue}
-                isDisabled={isDisabled}
+                weight={fonts.HEADING_WEIGHT_REGULAR}
               />
             </View>
-          </>
-        );
-      }
+          </View>
+          <View>
+            <FSwitch
+              onValueChange={onSwitchValueChange}
+              value={switchValue}
+              isDisabled={isDisabled}
+              disabledColor={disabledColor}
+            />
+          </View>
+        </>
+      );
     }
 
     if (isForm) {

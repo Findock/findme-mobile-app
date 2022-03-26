@@ -166,7 +166,7 @@ export const FRegistrationForm = () => {
           <FCheckbox
             style={styles.checkbox}
             iconColor={colors.WHITE}
-            checkboxColor={colors.DARK_PRIMARY}
+            checkboxColor={colors.PRIMARY}
             setValue={termsAcceptedHandler}
             value={dataForm.termsAccepted}
           />
@@ -187,7 +187,7 @@ export const FRegistrationForm = () => {
       </View>
       <View style={styles.buttonsContainer}>
         <FButton
-          backgroundColor={colors.DARK_PRIMARY}
+          backgroundColor={colors.PRIMARY}
           color={colors.WHITE}
           iconSize={sizes.ICON_20}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}

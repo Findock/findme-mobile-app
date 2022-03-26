@@ -22,6 +22,7 @@ import { UserProfileScreen } from 'screens/UserProfile.screen';
 import { SettingsScreen } from 'screens/Settings.screen';
 import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
+import { FLogo } from 'components/Composition/FLogo';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -61,9 +62,26 @@ export const Navigation = () => {
     }
   };
 
+  const defaultHeaderOptions = {
+    headerBackTitle: locales.GO_BACK,
+    headerTintColor: colors.BLACK,
+    headerTitleStyle: {
+      fontSize: fonts.HEADING_LARGE,
+    },
+  };
+
+  const headerWithoutShadowOptions = {
+    headerBackTitle: locales.GO_BACK,
+    headerTintColor: colors.BLACK,
+    headerShadowVisible: false,
+    headerTitle: '',
+  };
+
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        defaultScreenOptions={{ padding: 30 }}
+      >
         {isLoading ? (
           <Stack.Screen
             name={stackNavigatorNames.GLOBAL_LOADER}
@@ -71,6 +89,7 @@ export const Navigation = () => {
             options={{
               headerShown: false,
             }}
+
           />
         ) : (!isAuth ? (
           <>
@@ -92,12 +111,8 @@ export const Navigation = () => {
               name={stackNavigatorNames.FORGOT_PASSWORD}
               component={ForgotPasswordScreen}
               options={{
+                ...defaultHeaderOptions,
                 title: locales.PASSWORD_RECOVERY,
-                headerBackTitle: locales.GO_BACK,
-                headerTintColor: colors.BLACK,
-                headerTitleStyle: {
-                  fontSize: fonts.HEADING_LARGE,
-                },
               }}
             />
           </>
@@ -114,39 +129,37 @@ export const Navigation = () => {
               name={stackNavigatorNames.LOGIN_HISTORY}
               component={LoginHistoryScreen}
               options={{
+                ...defaultHeaderOptions,
                 title: locales.LOGIN_HISTORY,
-                headerBackTitle: locales.GO_BACK,
-                headerTintColor: colors.BLACK,
-                headerTitleStyle: {
-                  fontSize: fonts.HEADING_LARGE,
-                },
               }}
             />
             <Stack.Screen
               name={stackNavigatorNames.USER_PROFILE}
               component={UserProfileScreen}
               options={{
-                headerShown: false,
+                ...headerWithoutShadowOptions,
+                headerStyle: {
+                  backgroundColor: colors.LIGHT_GRAY,
+                },
+                headerRight: () => <FLogo color={colors.PRIMARY} />,
               }}
             />
             <Stack.Screen
               name={stackNavigatorNames.SETTINGS}
               component={SettingsScreen}
               options={{
+                ...defaultHeaderOptions,
                 title: locales.SETTINGS,
-                headerBackTitle: locales.GO_BACK,
-                headerTintColor: colors.BLACK,
-                headerTitleStyle: {
-                  fontSize: fonts.HEADING_LARGE,
-                },
               }}
             />
             <Stack.Screen
               name={stackNavigatorNames.USER_PROFILE_PREVIEW}
               component={UserProfilePreviewScreen}
               options={{
-                headerShown: false,
+                ...headerWithoutShadowOptions,
+                headerRight: () => <FLogo color={colors.PRIMARY} />,
               }}
+
             />
           </>
         ))}

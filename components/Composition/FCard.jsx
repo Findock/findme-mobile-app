@@ -5,7 +5,7 @@ import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
 
 export const FCard = ({
-  children, width, paddingVertical, paddingHorizontal, style,
+  children, width, paddingVertical, paddingHorizontal, style, backgroundColor = colors.WHITE,
 }) => (
   <View style={{
     width,
@@ -13,6 +13,7 @@ export const FCard = ({
     ...style,
     paddingHorizontal,
     paddingVertical,
+    backgroundColor,
   }}
   >
     {children}
@@ -21,7 +22,6 @@ export const FCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.WHITE,
     borderRadius: sizes.RADIUS_20,
     elevation: sizes.ELEVATION_1,
     shadowOffset: {

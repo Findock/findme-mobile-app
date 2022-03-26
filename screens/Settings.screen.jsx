@@ -4,11 +4,8 @@ import { useSelector } from 'react-redux';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FSettingsScreen } from 'components/Scoped/Settings/FSettingsScreen';
 import { FSettingsFormScreen } from 'components/Scoped/Settings/FSettingsFormScreen';
-import * as Location from 'expo-location';
 
 export const SettingsScreen = () => {
-  const [status] = Location.useForegroundPermissions();
-
   const me = useSelector((state) => state.me.me);
   const [
     isForm,
@@ -26,7 +23,6 @@ export const SettingsScreen = () => {
   return (
     <FDefaultLayout
       hasFlatList={false}
-      withLogo={false}
       isAlwaysScrollable
       scrollViewRef={scrollViewRef}
     >
@@ -35,14 +31,12 @@ export const SettingsScreen = () => {
           <FSettingsFormScreen
             me={me}
             setIsForm={setIsForm}
-            status={status}
           />
         ) : (
           <FSettingsScreen
             me={me}
             setIsForm={setIsForm}
             scrollViewRef={scrollViewRef}
-            status={status}
           />
         )
       )}

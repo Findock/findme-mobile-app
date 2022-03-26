@@ -232,7 +232,7 @@ export const FLoginForm = () => {
           <FButton
             type={buttonTypes.LINK_BUTTON}
             title={locales.CREATE_ACCOUNT}
-            color={colors.DARK_PRIMARY}
+            color={colors.PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
             navigation={navigation}
@@ -250,7 +250,7 @@ export const FLoginForm = () => {
       </View>
       <View style={styles.buttonContainer}>
         <FButton
-          backgroundColor={colors.DARK_PRIMARY}
+          backgroundColor={colors.PRIMARY}
           color={colors.WHITE}
           iconSize={sizes.ICON_20}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}

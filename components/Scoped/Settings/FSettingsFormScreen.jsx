@@ -1,7 +1,7 @@
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import {
@@ -19,15 +19,13 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
 import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
-import * as Linking from 'expo-linking';
-import * as Location from 'expo-location';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { deleteAccountService } from 'services/deleteAccount.service';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
 
-export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
+export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [
@@ -56,15 +54,6 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
     showErrorModal,
     setShowErrorModal,
   ] = useState(false);
-
-  useEffect(() => {
-    const a = async () => {
-      await Location.requestForegroundPermissionsAsync();
-    };
-    if (!status?.granted) {
-      a();
-    }
-  }, [status]);
 
   const nameInputhandler = (newName) => {
     setDataForm({
@@ -139,9 +128,6 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
     }
   };
 
-  const onLocationPermissionOn = async () => {
-    await Linking.openSettings();
-  };
   return (
     <FKeyboardWrapper>
       <>
@@ -163,80 +149,60 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
             title={locales.SOMETHING_WENT_WRONG}
           />
         )}
-        <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_40 }}>
-          <FHeading
-            title={locales.GENERAL_SETTINGS}
-            color={colors.DARK_PRIMARY}
-            size={fonts.HEADING_LARGE}
-            weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            align={placements.LEFT}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch
-            label={locales.LOCALIZATION_SERVICE}
-            value={status?.granted ? locales.TURN_ON : locales.TURN_OFF}
-            style={styles.headerSpace}
-            // isDisabled={status?.status === 'granted'}
-            onSwitchValueChange={onLocationPermissionOn}
-            switchValue={false}
-          />
-        </View>
-        <View style={{ marginTop: sizes.MARGIN_50 }}>
-          <FHeading
-            title={locales.ACCOUNT_SETTINGS}
-            color={colors.DARK_PRIMARY}
-            size={fonts.HEADING_LARGE}
-            weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            align={placements.LEFT}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch={false}
-            label={locales.NAME}
-            value={dataForm.name}
-            style={styles.headerSpace}
-            onChangeText={nameInputhandler}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch={false}
-            label={locales.PHONE}
-            value={dataForm.phoneNumber}
-            style={styles.settingRowSpace}
-            onChangeText={phoneInputhandler}
-            isPhoneInput
-            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PHONE_NUMBER)}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch={false}
-            label={locales.STREET}
-            value={dataForm.street}
-            style={styles.settingRowSpace}
-            onChangeText={streetInputhandler}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch={false}
-            label={locales.CITY}
-            value={dataForm.city}
-            style={styles.settingRowSpace}
-            onChangeText={cityInputhandler}
-          />
-          <FSettingsRow
-            isForm
-            withSwitch={false}
-            label={locales.BIO}
-            value={dataForm.bio}
-            style={styles.settingRowSpace}
-            onChangeText={bioInputhandler}
-            maxLength={100}
-            isTextarea
-            numberOfLines={3}
+        <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }} />
+        <FHeading
+          title={locales.ACCOUNT_SETTINGS}
+          color={colors.PRIMARY}
+          size={fonts.HEADING_LARGE}
+          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+          align={placements.LEFT}
+        />
+        <FSettingsRow
+          isForm
+          withSwitch={false}
+          label={locales.NAME}
+          value={dataForm.name}
+          style={styles.headerSpace}
+          onChangeText={nameInputhandler}
+        />
+        <FSettingsRow
+          isForm
+          withSwitch={false}
+          label={locales.PHONE}
+          value={dataForm.phoneNumber}
+          style={styles.settingRowSpace}
+          onChangeText={phoneInputhandler}
+          isPhoneInput
+          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PHONE_NUMBER)}
+        />
+        <FSettingsRow
+          isForm
+          withSwitch={false}
+          label={locales.STREET}
+          value={dataForm.street}
+          style={styles.settingRowSpace}
+          onChangeText={streetInputhandler}
+        />
+        <FSettingsRow
+          isForm
+          withSwitch={false}
+          label={locales.CITY}
+          value={dataForm.city}
+          style={styles.settingRowSpace}
+          onChangeText={cityInputhandler}
+        />
+        <FSettingsRow
+          isForm
+          withSwitch={false}
+          label={locales.BIO}
+          value={dataForm.bio}
+          style={styles.settingRowSpace}
+          onChangeText={bioInputhandler}
+          maxLength={100}
+          isTextarea
+          numberOfLines={3}
 
-          />
-        </View>
+        />
         <View style={{ marginTop: sizes.MARGIN_30 }}>
           <FButton
             title={locales.DELETE_ACCOUNT}
@@ -251,7 +217,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
           <FButton
             title={locales.CANCEL}
             type={buttonTypes.OUTLINE_TEXT_BUTTON}
-            color={colors.DARK_PRIMARY}
+            color={colors.PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
             onPress={() => setIsForm(false)}
@@ -260,7 +226,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, status }) => {
             title={locales.SAVE}
             type={buttonTypes.TEXT_BUTTON}
             color={colors.WHITE}
-            backgroundColor={colors.DARK_PRIMARY}
+            backgroundColor={colors.PRIMARY}
             titleWeight={fonts.HEADING_WEIGHT_BOLD}
             titleSize={fonts.HEADING_MEDIUM}
             onPress={() => onUpdateUserProfile()}
