@@ -23,9 +23,6 @@ export const FSpinner = ({ style }) => {
 
 const styles = StyleSheet.create({
   spinnerContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_FULL,
     alignItems: placements.CENTER,

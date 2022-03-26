@@ -1,28 +1,54 @@
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import colors from 'themes/colors';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
-import { useSelector } from 'react-redux';
+import { getOtherUserService } from 'services/getOtherUser.service';
+import { useErrorModal } from 'hooks/useErrorModal';
+import { FSpinner } from 'components/Composition/FSpinner';
 
 export const UserProfilePreviewScreen = () => {
-  const me = useSelector((state) => state.me.me);
+  const [
+    user,
+    setUser,
+  ] = useState(null);
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const res = await getOtherUserService('62377942da87663584d203d9');
+      setUser(res.data);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
   return (
     <FDefaultLayout
       hasFlatList={false}
-      // backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
+      {!user ? <FSpinner /> : (
+        <>
+          <View style={{
+            flex: 1,
+          }}
+          >
+            <FUserProfileCard
+              user={user}
+              isMe={false}
+            />
+          </View>
+          {drawErrorModal(true)}
+        </>
+      ) }
 
-      <View style={{
-        flex: 1,
-      }}
-      >
-        <FUserProfileCard
-          user={me}
-          isMe={false}
-        />
-      </View>
     </FDefaultLayout>
   );
 };

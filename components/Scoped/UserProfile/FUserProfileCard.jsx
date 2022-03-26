@@ -88,9 +88,13 @@ export const FUserProfileCard = ({
       <View style={styles.avatarContainer}>
         {drawAvatarDependingOnUser()}
       </View>
-      <View style={styles.headingsContainer}>
+      <View style={styles.widthFull}>
         {drawNameHeadingDependingOnUser()}
-        <View style={styles.locationContainer}>
+        <View style={{
+          ...styles.widthFull,
+          marginTop: !user.bio ? 0 : sizes.MARGIN_5,
+        }}
+        >
           <FHeadingWithIcon
             icon={icons.LOCATION_OUTLINE}
             iconSize={sizes.ICON_20}
@@ -103,7 +107,11 @@ export const FUserProfileCard = ({
             titleStyle={{ marginLeft: sizes.MARGIN_3 }}
           />
         </View>
-        <View style={styles.bioContainer}>
+        <View style={{
+          ...styles.widthFull,
+          marginBottom: !user.phoneNumber ? 0 : sizes.MARGIN_8,
+        }}
+        >
           <FHeading
             title={user?.bio}
             color={colors.DARK_GRAY}
@@ -124,7 +132,7 @@ export const FUserProfileCard = ({
           />
         )}
         {!isMe && (
-          <View style={{ marginTop: sizes.MARGIN_20 }}>
+          <View style={{ marginTop: !user.phoneNumber ? 0 : sizes.MARGIN_20 }}>
             <FButton
               type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
               backgroundColor={colors.PRIMARY}
@@ -150,16 +158,7 @@ const styles = StyleSheet.create({
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
   },
-  headingsContainer: {
+  widthFull: {
     width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_20,
-  },
-  locationContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_5,
-  },
-  bioContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_8,
   },
 });

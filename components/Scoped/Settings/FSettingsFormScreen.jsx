@@ -24,6 +24,7 @@ import modalTypes from 'constants/modalTypes';
 import { deleteAccountService } from 'services/deleteAccount.service';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
+import { useErrorModal } from 'hooks/useErrorModal';
 
 export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();
@@ -50,10 +51,10 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
     showDeleteAccountConfirmationModal,
     setShowDeleteAccountConfirmationModal,
   ] = useState(false);
-  const [
-    showErrorModal,
+  const {
     setShowErrorModal,
-  ] = useState(false);
+    drawErrorModal,
+  } = useErrorModal();
 
   const nameInputhandler = (newName) => {
     setDataForm({
@@ -141,14 +142,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
             onConfirm={onDeleteAccount}
           />
         )}
-        {showErrorModal && (
-          <FModal
-            type={modalTypes.INFO_MODAL}
-            setVisible={setShowErrorModal}
-            visible={showErrorModal}
-            title={locales.SOMETHING_WENT_WRONG}
-          />
-        )}
+        {drawErrorModal()}
         <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }} />
         <FHeading
           title={locales.ACCOUNT_SETTINGS}

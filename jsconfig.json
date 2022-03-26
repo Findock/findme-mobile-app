@@ -12,6 +12,7 @@
       "layouts/*": ["./layouts/*"],
       "navigation/*": ["./navigation/*"],
       "store/*": ["./store/*"],
+      "hooks/*": ["./hooks/*"],
     } 
   }
 }

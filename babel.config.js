@@ -17,6 +17,7 @@ module.exports = function (api) {
             layouts: './layouts',
             navigation: './navigation',
             store: './store',
+            hooks: './hooks',
           },
           extensions: [
             '.js',

@@ -18,6 +18,7 @@ import modalTypes from 'constants/modalTypes';
 import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
+import { useErrorModal } from 'hooks/useErrorModal';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -27,10 +28,10 @@ export const UserProfileScreen = () => {
     showConfirmDeleteUserProfileImageModal,
     setShowConfirmDeleteUserProfileImageModal,
   ] = useState(false);
-  const [
-    showErrorModal,
+  const {
     setShowErrorModal,
-  ] = useState(false);
+    drawErrorModal,
+  } = useErrorModal();
 
   const deleteImage = async () => {
     try {
@@ -58,14 +59,7 @@ export const UserProfileScreen = () => {
           onConfirm={deleteImage}
         />
       )}
-      {showErrorModal && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          setVisible={setShowErrorModal}
-          visible={showErrorModal}
-          title={locales.SOMETHING_WENT_WRONG}
-        />
-      )}
+      {drawErrorModal()}
       <View style={{
         flex: 1,
       }}
