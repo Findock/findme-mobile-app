@@ -1,6 +1,6 @@
 import React from 'react';
 import sizes from 'themes/sizes';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import placements from 'themes/placements';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
