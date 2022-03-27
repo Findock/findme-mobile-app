@@ -1,11 +1,8 @@
-import { FAvatar } from 'components/Composition/FAvatar';
-import { FHeading } from 'components/Composition/FHeading';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useState } from 'react';
 import {
   View, StyleSheet, Dimensions, Platform,
 } from 'react-native';
-import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import { useSelector, useDispatch } from 'react-redux';
 import colors from 'themes/colors';
@@ -14,22 +11,17 @@ import { FWideButton } from 'components/Buttons/FWideButton';
 import icons from 'themes/icons';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
-import { useNavigation } from '@react-navigation/native';
 import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
-import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
-import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
 import { setMe } from 'store/me/meSlice';
-import { parseLocation } from '../utils/parseLocation';
+import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
+import { FBackButton } from 'components/Buttons/FBackButton';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const [
@@ -56,7 +48,6 @@ export const UserProfileScreen = () => {
     <FDefaultLayout
       withLogo
       hasFlatList={false}
-      topBoxStyle={styles.topBox}
       backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
@@ -81,82 +72,19 @@ export const UserProfileScreen = () => {
             title={locales.SOMETHING_WENT_WRONG}
           />
         )}
-        <FButton
-          type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-          title={locales.GO_BACK}
-          icon={Platform.OS === 'android' ? icons.ARROW_BACK : icons.CHEVRON_BACK_OUTLINE}
-          iconSize={sizes.ICON_22}
-          iconPlacement={placements.LEFT}
-          titleSize={fonts.HEADING_MEDIUM}
-          color={colors.BLACK}
-          iconColor={colors.BLACK}
-          onPress={() => navigation.navigate(stackNavigatorNames.HOMEPAGE)}
-        />
+        <FBackButton navigateTo={stackNavigatorNames.HOMEPAGE} />
       </View>
       <View style={{
         flex: 1,
       }}
       >
-        <FCard
-          width={sizes.WIDTH_FULL}
-          paddingHorizontal={sizes.PADDING_25}
-          paddingVertical={sizes.PADDING_25}
-          style={{
-            marginTop: sizes.MARGIN_80,
-            ...styles.centerView,
-          }}
-        >
-          <View style={styles.avatarContainer}>
-            <FAvatar
-              isEditable
-              imageUrl={me?.profileImageUrl}
-              size={sizes.WIDTH_120}
-              setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
-              setShowErrorModal={setShowErrorModal}
-            />
-          </View>
-          <View style={styles.headingsContainer}>
-            <FHeading
-              title={me?.name}
-              color={colors.DARK_PRIMARY}
-              weight={fonts.HEADING_WEIGHT_BOLD}
-              size={fonts.HEADING_EXTRA_LARGE}
-              align={placements.CENTER}
-            />
-            <View style={styles.locationContainer}>
-              <FHeadingWithIcon
-                icon={icons.LOCATION_OUTLINE}
-                iconSize={sizes.ICON_20}
-                iconColor={colors.DARK_GRAY}
-                iconPlacement={placements.LEFT}
-                title={parseLocation(me.street, me.city)}
-                titleColor={colors.DARK_GRAY}
-                titleWeight={Platform.OS === 'android' ? fonts.HEADING_WEIGHT_SEMIBOLD : fonts.HEADING_WEIGHT_MEDIUM}
-                titleSize={fonts.HEADING_MEDIUM}
-                titleStyle={{ marginLeft: sizes.MARGIN_3 }}
-              />
-            </View>
-            <View style={styles.bioContainer}>
-              <FHeading
-                title={me?.bio}
-                color={colors.DARK_GRAY}
-                weight={fonts.HEADING_WEIGHT_MEDIUM}
-                size={fonts.HEADING_NORMAL}
-                align={placements.CENTER}
-              />
-            </View>
-            {me?.phoneNumber !== '' && (
-              <FPhoneNumber
-                style={{ marginTop: sizes.MARGIN_20 }}
-                phoneNumber={me.phoneNumber}
-                color={colors.DARK_PRIMARY}
-                weight={fonts.HEADING_WEIGHT_BOLD}
-                size={fonts.HEADING_EXTRA_LARGE}
-                align={placements.CENTER}
-              />
-            )}
-          </View>
-        </FCard>
+        <FUserProfileCard
+          user={me}
+          isMe
+          setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
+          setShowErrorModal={setShowErrorModal}
+        />
+
         <FCard
           width={sizes.WIDTH_FULL}
           paddingVertical={sizes.PADDING_12}
@@ -171,7 +99,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.YOUR_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -184,7 +112,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.SETTINGS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -198,7 +126,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.LOGIN_HISTORY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -212,7 +140,7 @@ export const UserProfileScreen = () => {
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
-            titleColor={colors.DARK_GRAY}
+            titleColor={colors.BLACK}
             arrowColor={colors.DARK_PRIMARY}
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -241,29 +169,6 @@ export const UserProfileScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  avatarContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: sizes.POSITION_N60,
-    alignItems: placements.CENTER,
-  },
-  centerView: {
-    alignItems: placements.CENTER,
-    justifyContent: placements.CENTER,
-  },
-  headingsContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_50,
-  },
-  locationContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_5,
-  },
-  bioContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_8,
-  },
   wideButtonsContainer: {
     paddingTop: sizes.PADDING_12,
     width: Dimensions.get('window').width,

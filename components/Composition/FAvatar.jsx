@@ -51,19 +51,21 @@ export const FAvatar = ({
           onPress={uploadImage}
         >
           <View>
-            <FButton
-              type={buttonTypes.ICON_BUTTON}
-              icon={icons.TRASH}
-              color={colors.WHITE}
-              iconSize={sizes.ICON_20}
-              backgroundColor={colors.DARK_PRIMARY}
-              style={{
-                padding: sizes.PADDING_10,
-                borderRadius: getHalfBorderRadius(sizes.WIDTH_50),
-                ...styles.deleteButton,
-              }}
-              onPress={() => setShowConfirmDeleteUserProfileImageModal(true)}
-            />
+            {imageUrl !== '' && (
+              <FButton
+                type={buttonTypes.ICON_BUTTON}
+                icon={icons.TRASH}
+                color={colors.WHITE}
+                iconSize={sizes.ICON_20}
+                backgroundColor={colors.DARK_PRIMARY}
+                style={{
+                  padding: sizes.PADDING_10,
+                  borderRadius: getHalfBorderRadius(sizes.WIDTH_50),
+                  ...styles.deleteButton,
+                }}
+                onPress={() => setShowConfirmDeleteUserProfileImageModal(true)}
+              />
+            )}
             {children}
           </View>
         </TouchableWithoutFeedback>
@@ -76,9 +78,13 @@ export const FAvatar = ({
     <FImage
       height={size + sizes.BORDER_4}
       width={size + sizes.BORDER_4}
-      style={{
+      containerStyle={{
         borderRadius: getHalfBorderRadius(size),
         ...styles.avatar,
+      }}
+      imageStyle={{
+        ...styles.image,
+        borderRadius: getHalfBorderRadius(size + sizes.BORDER_4),
       }}
       networkImageUrl={imageUrl ? getImageUrl() : null}
       imagePath={images.USER_AVATAR()}
@@ -88,16 +94,18 @@ export const FAvatar = ({
 };
 
 const styles = StyleSheet.create({
+  image: {
+    overflow: 'hidden',
+  },
   avatar: {
-    elevation: sizes.ELEVATION_1,
+    elevation: sizes.ELEVATION_3,
     shadowOffset: {
       width: 0,
-      height: sizes.HEIGHT_4,
+      height: sizes.HEIGHT_1,
     },
     shadowColor: colors.BLACK,
-    shadowOpacity: opacities.SHADOW_OPACITY_025,
-    shadowRadius: sizes.SHADOW_RADIUS_4,
-    overflow: 'hidden',
+    shadowOpacity: opacities.SHADOW_OPACITY_022,
+    shadowRadius: sizes.SHADOW_RADIUS_2_22,
     backgroundColor: colors.WHITE,
     borderWidth: sizes.BORDER_4,
     borderColor: colors.WHITE,
@@ -106,6 +114,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    zIndex: 3,
+    elevation: sizes.ELEVATION_5,
+    shadowColor: colors.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: sizes.HEIGHT_1,
+    },
+    shadowOpacity: opacities.SHADOW_OPACITY_01,
+    shadowRadius: sizes.SHADOW_RADIUS_1,
+    zIndex: 1,
   },
 });

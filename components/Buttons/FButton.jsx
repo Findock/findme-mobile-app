@@ -1,5 +1,7 @@
 import { FHeading } from 'components/Composition/FHeading';
-import { TouchableOpacity, View, StyleSheet } from 'react-native';
+import {
+  View, StyleSheet, TouchableOpacity,
+} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/buttonTypes';
 import sizes from 'themes/sizes';
@@ -35,7 +37,12 @@ export const FButton = ({
   );
   const drawIconButton = () => (
     <TouchableOpacity
-      onPress={onPress}
+      // containerStyle={{
+      //   padding: sizes.PADDING_20,
+      //   backgroundColor,
+      //   ...style,
+      // }}
+      onPressIn={onPress}
       style={{
         padding: sizes.PADDING_20,
         backgroundColor,
@@ -134,7 +141,6 @@ export const FButton = ({
             </>
           )
         }
-
       </View>
     </TouchableOpacity>
   );

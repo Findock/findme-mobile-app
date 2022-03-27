@@ -22,6 +22,7 @@ import { UserProfileScreen } from 'screens/UserProfile.screen';
 import { SettingsScreen } from 'screens/Settings.screen';
 import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
+import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -151,6 +152,13 @@ export const Navigation = () => {
                 headerTitleStyle: {
                   fontSize: fonts.HEADING_LARGE,
                 },
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.USER_PROFILE_PREVIEW}
+              component={UserProfilePreviewScreen}
+              options={{
+                headerShown: false,
               }}
             />
           </>

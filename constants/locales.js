@@ -63,4 +63,6 @@ export default {
   REPEAT_NEW_PASSWORD: 'Powtórz nowe hasło',
   OLD_PASSWORD: 'Stare hasło',
   NEW_PASSWORD: 'Nowe hasło',
+  DELETE_USER_ACCOUNT_SECOND_CONFIRMATION: 'Potwierdzasz usunięcie swojego konta?',
+  SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
 };

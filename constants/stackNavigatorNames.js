@@ -8,4 +8,5 @@ export default {
   SETTINGS: 'Settings',
   PASSWORD_CHANGE: 'Password Change',
   FORGOT_PASSWORD: 'Forgot Password',
+  USER_PROFILE_PREVIEW: 'User Profile Preview',
 };

@@ -4,7 +4,7 @@ import React from 'react';
 import sizes from 'themes/sizes';
 
 export const FHeading = ({
-  title, size, color, weight, align = placements.LEFT, style, marginBottom = 0,
+  title, size, color, weight, align = placements.LEFT, style, marginBottom = 0, isUnderline = false,
 }) => (
   <View style={{
     width: sizes.WIDTH_FULL,
@@ -17,6 +17,7 @@ export const FHeading = ({
       color,
       fontWeight: weight,
       textAlign: align,
+      textDecorationLine: isUnderline ? 'underline' : 'none',
     }}
     >
       {title}
