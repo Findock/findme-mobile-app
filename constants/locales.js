@@ -57,6 +57,12 @@ export default {
   DELETE_USER_PROFILE_IMAGE_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje zdjęcie profilowe? Tej akcji nie będzie można cofnąć.',
   DELETE_ACCOUNT: 'Usuń konto',
   DELETE_USER_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
+  CHANGE_PASSWORD: 'Zmień hasło',
+  PASS_OLD_PASSWORD: 'Podaj stare hasło',
+  PASS_NEW_PASSWORD: 'Podaj nowe hasło',
+  REPEAT_NEW_PASSWORD: 'Powtórz nowe hasło',
+  OLD_PASSWORD: 'Stare hasło',
+  NEW_PASSWORD: 'Nowe hasło',
   DELETE_USER_ACCOUNT_SECOND_CONFIRMATION: 'Potwierdzasz usunięcie swojego konta?',
   SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
 };

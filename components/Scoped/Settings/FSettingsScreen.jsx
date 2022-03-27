@@ -9,6 +9,7 @@ import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FSettingsScreen = ({ me, setIsForm, status }) => (
   <>
@@ -27,8 +28,16 @@ export const FSettingsScreen = ({ me, setIsForm, status }) => (
         value={status?.status === 'granted' ? locales.TURN_ON : locales.TURN_OFF}
         style={styles.headerSpace}
       />
+      <FButton
+        type={buttonTypes.LINK_BUTTON}
+        title={locales.CHANGE_PASSWORD}
+        titleWeight={fonts.HEADING_WEIGHT_BOLD}
+        titleSize={fonts.HEADING_NORMAL}
+        to={stackNavigatorNames.PASSWORD_CHANGE}
+        buttonViewStyles={styles.headerSpace}
+      />
     </View>
-    <View style={{ marginTop: sizes.MARGIN_50 }}>
+    <View style={{ marginTop: sizes.MARGIN_20 }}>
       <FHeading
         title={locales.ACCOUNT_SETTINGS}
         color={colors.DARK_PRIMARY}

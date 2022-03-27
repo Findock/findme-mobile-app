@@ -26,6 +26,7 @@ export default {
   HEIGHT_50: 50,
   HEIGHT_54: 54,
   HEIGHT_80: 80,
+  HEIGHT_120: 120,
   HEIGHT_210: 210,
   HEIGHT_325: 325,
   HEIGHT_FULL: '100%',
