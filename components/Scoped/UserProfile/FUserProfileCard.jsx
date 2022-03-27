@@ -85,7 +85,11 @@ export const FUserProfileCard = ({
         ...styles.centerView,
       }}
     >
-      <View style={styles.avatarContainer}>
+      <View style={{
+        ...styles.avatarContainer,
+        marginBottom: !user.name ? 0 : sizes.MARGIN_8,
+      }}
+      >
         {drawAvatarDependingOnUser()}
       </View>
       <View style={styles.widthFull}>
@@ -93,19 +97,23 @@ export const FUserProfileCard = ({
         <View style={{
           ...styles.widthFull,
           marginTop: !user.bio ? 0 : sizes.MARGIN_5,
+          marginBottom: sizes.MARGIN_5,
         }}
         >
-          <FHeadingWithIcon
-            icon={icons.LOCATION_OUTLINE}
-            iconSize={sizes.ICON_20}
-            iconColor={colors.DARK_GRAY}
-            iconPlacement={placements.LEFT}
-            title={parseLocation(user.street, user.city)}
-            titleColor={colors.DARK_GRAY}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            titleSize={fonts.HEADING_MEDIUM}
-            titleStyle={{ marginLeft: sizes.MARGIN_3 }}
-          />
+          {parseLocation(user.street, user.city) && (
+            <FHeadingWithIcon
+              icon={icons.LOCATION_OUTLINE}
+              iconSize={sizes.ICON_20}
+              iconColor={colors.DARK_GRAY}
+              iconPlacement={placements.LEFT}
+              title={parseLocation(user.street, user.city)}
+              titleColor={colors.DARK_GRAY}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              titleSize={fonts.HEADING_MEDIUM}
+              titleStyle={{ marginLeft: sizes.MARGIN_3 }}
+            />
+          )}
+
         </View>
         <View style={{
           ...styles.widthFull,
@@ -122,7 +130,7 @@ export const FUserProfileCard = ({
         </View>
         {user?.phoneNumber !== '' && (
           <FPhoneNumber
-            style={{ marginTop: sizes.MARGIN_20 }}
+            style={{ marginTop: !user.bio ? 0 : sizes.MARGIN_20 }}
             phoneNumber={user.phoneNumber}
             color={colors.BLACK}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}

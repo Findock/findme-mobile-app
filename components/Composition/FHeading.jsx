@@ -18,6 +18,7 @@ export const FHeading = ({
       fontWeight: weight,
       textAlign: align,
       textDecorationLine: isUnderline ? 'underline' : 'none',
+      includeFontPadding: false,
     }}
     >
       {title}

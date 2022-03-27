@@ -14,7 +14,7 @@ export const UserProfilePreviewScreen = () => {
   const {
     setShowErrorModal,
     drawErrorModal,
-  } = useErrorModal();
+  } = useErrorModal(true);
 
   useEffect(() => {
     fetchUser();
