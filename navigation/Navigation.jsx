@@ -79,9 +79,7 @@ export const Navigation = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        defaultScreenOptions={{ padding: 30 }}
-      >
+      <Stack.Navigator>
         {isLoading ? (
           <Stack.Screen
             name={stackNavigatorNames.GLOBAL_LOADER}

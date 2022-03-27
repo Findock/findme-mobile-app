@@ -80,10 +80,7 @@ export const FUserProfileCard = ({
       paddingHorizontal={sizes.PADDING_25}
       paddingVertical={sizes.PADDING_25}
       backgroundColor={isMe ? colors.WHITE : colors.LIGHTEST_GRAY}
-      style={{
-        marginTop: Platform.OS === 'ios' ? sizes.MARGIN_20 : sizes.MARGIN_N20,
-        ...styles.centerView,
-      }}
+      style={{ ...styles.centerView }}
     >
       <View style={{
         ...styles.avatarContainer,

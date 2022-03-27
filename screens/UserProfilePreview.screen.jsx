@@ -22,13 +22,12 @@ export const UserProfilePreviewScreen = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await getOtherUserService('62377942da87663584d203d9');
+      const res = await getOtherUserService('62377943da87663584d203dc');
       setUser(res.data);
     } catch (error) {
       setShowErrorModal(true);
     }
   };
-
   return (
     <FDefaultLayout
       hasFlatList={false}
