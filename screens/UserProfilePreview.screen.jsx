@@ -1,10 +1,11 @@
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { getOtherUserService } from 'services/getOtherUser.service';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
+import sizes from 'themes/sizes';
 
 export const UserProfilePreviewScreen = () => {
   const [
@@ -37,6 +38,7 @@ export const UserProfilePreviewScreen = () => {
         <>
           <View style={{
             flex: 1,
+            marginTop: Platform.OS === 'ios' ? sizes.MARGIN_10 : 0,
           }}
           >
             <FUserProfileCard

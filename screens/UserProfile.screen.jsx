@@ -47,7 +47,7 @@ export const UserProfileScreen = () => {
   return (
     <FDefaultLayout
       hasFlatList={false}
-      backgroundColor={colors.LIGHT_GRAY}
+      // backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
       {showConfirmDeleteUserProfileImageModal && (
@@ -75,7 +75,6 @@ export const UserProfileScreen = () => {
           paddingVertical={sizes.PADDING_12}
           style={{
             marginTop: sizes.MARGIN_20,
-            overflow: 'hidden',
           }}
         >
           <FWideButton

@@ -136,9 +136,6 @@ export const Navigation = () => {
               component={UserProfileScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerStyle: {
-                  backgroundColor: colors.LIGHT_GRAY,
-                },
                 headerRight: () => <FLogo color={colors.PRIMARY} />,
               }}
             />

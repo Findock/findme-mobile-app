@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
     paddingVertical: sizes.PADDING_12,
     paddingHorizontal: sizes.PADDING_25,
+    overflow: 'hidden',
   },
   viewWithIconAndTitle: {
     flexDirection: 'row',

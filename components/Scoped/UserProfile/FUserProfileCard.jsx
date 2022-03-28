@@ -79,7 +79,6 @@ export const FUserProfileCard = ({
       width={sizes.WIDTH_FULL}
       paddingHorizontal={sizes.PADDING_25}
       paddingVertical={sizes.PADDING_25}
-      backgroundColor={isMe ? colors.WHITE : colors.LIGHTEST_GRAY}
       style={{ ...styles.centerView }}
     >
       <View style={{

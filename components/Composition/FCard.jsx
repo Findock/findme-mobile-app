@@ -23,13 +23,13 @@ export const FCard = ({
 const styles = StyleSheet.create({
   card: {
     borderRadius: sizes.RADIUS_20,
-    elevation: sizes.ELEVATION_1,
+    elevation: sizes.ELEVATION_3,
     shadowOffset: {
       width: 0,
       height: sizes.HEIGHT_1,
     },
-    shadowOpacity: opacities.SHADOW_OPACITY_018,
-    shadowRadius: sizes.SHADOW_RADIUS_1,
+    shadowOpacity: opacities.SHADOW_OPACITY_020,
+    shadowRadius: sizes.SHADOW_RADIUS_2,
     shadowColor: colors.BLACK,
   },
 });

@@ -32,7 +32,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
       <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }}>
         <FHeading
           title={locales.GENERAL_SETTINGS}
-          color={colors.SECONDARY}
+          color={colors.PRIMARY}
           size={fonts.HEADING_LARGE}
           weight={fonts.HEADING_WEIGHT_SEMIBOLD}
           align={placements.LEFT}
@@ -52,7 +52,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
       <View style={{ marginTop: sizes.MARGIN_50 }}>
         <FHeading
           title={locales.ACCOUNT_SETTINGS}
-          color={colors.SECONDARY}
+          color={colors.PRIMARY}
           size={fonts.HEADING_LARGE}
           weight={fonts.HEADING_WEIGHT_SEMIBOLD}
           align={placements.LEFT}

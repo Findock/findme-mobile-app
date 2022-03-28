@@ -8,14 +8,13 @@ import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
   children, hasFlatList, noPaddingVertical = false, noPaddingHorizontal = false, isAlwaysScrollable = false,
-  scrollViewRef, backgroundColor = colors.BODY,
+  scrollViewRef,
 }) => {
   const drawLayoutDependingOnScreenWithFlatList = () => {
     if (hasFlatList) {
       return (
         <View style={{
           ...styles.container,
-          backgroundColor,
           paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
           paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
@@ -45,7 +44,7 @@ export const FDefaultLayout = ({
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor,
+      backgroundColor: colors.WHITE,
     }}
     >
       {drawLayoutDependingOnScreenWithFlatList()}
