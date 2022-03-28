@@ -57,7 +57,7 @@ export const FAvatar = ({
                 icon={icons.TRASH}
                 color={colors.WHITE}
                 iconSize={sizes.ICON_20}
-                backgroundColor={colors.DARK_PRIMARY}
+                backgroundColor={colors.PRIMARY}
                 style={{
                   padding: sizes.PADDING_10,
                   borderRadius: getHalfBorderRadius(sizes.WIDTH_50),

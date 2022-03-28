@@ -18,7 +18,7 @@ import modalTypes from 'constants/modalTypes';
 import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
-import { FBackButton } from 'components/Buttons/FBackButton';
+import { useErrorModal } from 'hooks/useErrorModal';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -28,10 +28,10 @@ export const UserProfileScreen = () => {
     showConfirmDeleteUserProfileImageModal,
     setShowConfirmDeleteUserProfileImageModal,
   ] = useState(false);
-  const [
-    showErrorModal,
+  const {
     setShowErrorModal,
-  ] = useState(false);
+    drawErrorModal,
+  } = useErrorModal();
 
   const deleteImage = async () => {
     try {
@@ -46,34 +46,20 @@ export const UserProfileScreen = () => {
 
   return (
     <FDefaultLayout
-      withLogo
       hasFlatList={false}
-      backgroundColor={colors.LIGHT_GRAY}
+      // backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
-      <View style={{
-        left: sizes.POSITION_N30,
-      }}
-      >
-        {showConfirmDeleteUserProfileImageModal && (
-          <FModal
-            type={modalTypes.CONFIRM_MODAL}
-            setVisible={setShowConfirmDeleteUserProfileImageModal}
-            visible={showConfirmDeleteUserProfileImageModal}
-            title={locales.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
-            onConfirm={deleteImage}
-          />
-        )}
-        {showErrorModal && (
-          <FModal
-            type={modalTypes.INFO_MODAL}
-            setVisible={setShowErrorModal}
-            visible={showErrorModal}
-            title={locales.SOMETHING_WENT_WRONG}
-          />
-        )}
-        <FBackButton navigateTo={stackNavigatorNames.HOMEPAGE} />
-      </View>
+      {showConfirmDeleteUserProfileImageModal && (
+        <FModal
+          type={modalTypes.CONFIRM_MODAL}
+          setVisible={setShowConfirmDeleteUserProfileImageModal}
+          visible={showConfirmDeleteUserProfileImageModal}
+          title={locales.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
+          onConfirm={deleteImage}
+        />
+      )}
+      {drawErrorModal()}
       <View style={{
         flex: 1,
       }}
@@ -84,23 +70,22 @@ export const UserProfileScreen = () => {
           setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
           setShowErrorModal={setShowErrorModal}
         />
-
         <FCard
           width={sizes.WIDTH_FULL}
           paddingVertical={sizes.PADDING_12}
           style={{
             marginTop: sizes.MARGIN_20,
-            overflow: 'hidden',
+            paddingTop: sizes.PADDING_17,
           }}
         >
           <FWideButton
             icon={icons.MEGAPHONE}
-            iconBgColor={colors.DARK_PRIMARY}
+            iconBgColor={colors.PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
-            arrowColor={colors.DARK_PRIMARY}
+            arrowColor={colors.PRIMARY}
             title={locales.YOUR_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -108,12 +93,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.SETTINGS}
-            iconBgColor={colors.DARK_PRIMARY}
+            iconBgColor={colors.PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
-            arrowColor={colors.DARK_PRIMARY}
+            arrowColor={colors.PRIMARY}
             title={locales.SETTINGS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -122,12 +107,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.RECEIPT}
-            iconBgColor={colors.DARK_PRIMARY}
+            iconBgColor={colors.PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
-            arrowColor={colors.DARK_PRIMARY}
+            arrowColor={colors.PRIMARY}
             title={locales.LOGIN_HISTORY}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -136,12 +121,12 @@ export const UserProfileScreen = () => {
           />
           <FWideButton
             icon={icons.STAR}
-            iconBgColor={colors.DARK_PRIMARY}
+            iconBgColor={colors.PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
-            arrowColor={colors.DARK_PRIMARY}
+            arrowColor={colors.PRIMARY}
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
@@ -150,9 +135,9 @@ export const UserProfileScreen = () => {
           <FWideButton
             icon={icons.DUPLICATE}
             iconBgColor={colors.WHITE}
-            iconColor={colors.DARK_PRIMARY}
+            iconColor={colors.PRIMARY}
             iconSize={sizes.ICON_20}
-            buttonBgColor={colors.DARK_PRIMARY}
+            buttonBgColor={colors.PRIMARY}
             titleColor={colors.WHITE}
             arrowColor={colors.WHITE}
             title={locales.ADD_ANNOUNCEMENT}

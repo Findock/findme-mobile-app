@@ -3,7 +3,7 @@ import { View, Switch } from 'react-native';
 import colors from 'themes/colors';
 
 export const FSwitch = ({
-  isDisabled, value, onValueChange,
+  isDisabled, value, onValueChange, disabledColor = colors.DARK_GRAY,
 }) => {
   const toggleSwitch = () => onValueChange((previousState) => !previousState);
 
@@ -11,7 +11,7 @@ export const FSwitch = ({
     <View>
       <Switch
         trackColor={{
-          false: colors.DARK_GRAY,
+          false: disabledColor,
           true: colors.SUCCESS,
         }}
         onValueChange={toggleSwitch}

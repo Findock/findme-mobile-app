@@ -5,13 +5,13 @@ import { CenterView } from 'storybook/utils/CenterView';
 import colors from 'themes/colors';
 
 const colorOptions = [
-  colors.DARK_PRIMARY,
+  colors.PRIMARY,
   colors.DARK_GRAY,
   colors.SUCCESS,
   colors.WHITE,
 ];
 
-const defaultColor = colors.DARK_PRIMARY;
+const defaultColor = colors.PRIMARY;
 
 storiesOf('FCheckbox', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)

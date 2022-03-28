@@ -14,8 +14,7 @@ import { FCard } from 'components/Composition/FCard';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import { FStatus } from 'components/Composition/FStatus';
-import statusTypes from 'constants/statusTypes';
+import { FBadge } from 'components/Composition/FBadge';
 
 export const FUserProfileCard = ({
   user, isMe, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -53,11 +52,7 @@ export const FUserProfileCard = ({
       );
     }
     return (
-      <View style={{
-        ...styles.centerView,
-        flexDirection: 'row',
-      }}
-      >
+      <View style={styles.centerView}>
         <View>
           <FHeading
             title={user?.name}
@@ -67,10 +62,6 @@ export const FUserProfileCard = ({
             align={placements.CENTER}
           />
         </View>
-        <FStatus
-          status={statusTypes.ACTIVE}
-          style={{ marginLeft: sizes.MARGIN_8 }}
-        />
       </View>
     );
   };
@@ -79,30 +70,57 @@ export const FUserProfileCard = ({
       width={sizes.WIDTH_FULL}
       paddingHorizontal={sizes.PADDING_25}
       paddingVertical={sizes.PADDING_25}
-      style={{
-        marginTop: sizes.MARGIN_20,
-        ...styles.centerView,
-      }}
+      style={{ ...styles.centerView }}
     >
-      <View style={styles.avatarContainer}>
+      <View style={{
+        ...styles.avatarContainer,
+        marginBottom: !user.name ? 0 : sizes.MARGIN_8,
+      }}
+      >
         {drawAvatarDependingOnUser()}
       </View>
-      <View style={styles.headingsContainer}>
-        {drawNameHeadingDependingOnUser()}
-        <View style={styles.locationContainer}>
-          <FHeadingWithIcon
-            icon={icons.LOCATION_OUTLINE}
-            iconSize={sizes.ICON_20}
-            iconColor={colors.DARK_GRAY}
-            iconPlacement={placements.LEFT}
-            title={parseLocation(user.street, user.city)}
-            titleColor={colors.DARK_GRAY}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            titleSize={fonts.HEADING_MEDIUM}
-            titleStyle={{ marginLeft: sizes.MARGIN_3 }}
+      {!isMe && (
+        <View style={{
+          ...styles.widthFull,
+          ...styles.centerView,
+          marginBottom: sizes.MARGIN_5,
+        }}
+        >
+          <FBadge
+            title={locales.ONLINE}
+            isFill={false}
+            color={colors.SUCCESS}
           />
         </View>
-        <View style={styles.bioContainer}>
+      )}
+      <View style={styles.widthFull}>
+        {drawNameHeadingDependingOnUser()}
+        <View style={{
+          ...styles.widthFull,
+          marginTop: !user.bio ? 0 : sizes.MARGIN_5,
+          marginBottom: sizes.MARGIN_5,
+        }}
+        >
+          {parseLocation(user.street, user.city) && (
+            <FHeadingWithIcon
+              icon={icons.LOCATION_OUTLINE}
+              iconSize={sizes.ICON_20}
+              iconColor={colors.DARK_GRAY}
+              iconPlacement={placements.LEFT}
+              title={parseLocation(user.street, user.city)}
+              titleColor={colors.DARK_GRAY}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              titleSize={fonts.HEADING_MEDIUM}
+              titleStyle={{ marginLeft: sizes.MARGIN_3 }}
+            />
+          )}
+
+        </View>
+        <View style={{
+          ...styles.widthFull,
+          marginBottom: !user.phoneNumber ? 0 : sizes.MARGIN_8,
+        }}
+        >
           <FHeading
             title={user?.bio}
             color={colors.DARK_GRAY}
@@ -113,7 +131,7 @@ export const FUserProfileCard = ({
         </View>
         {user?.phoneNumber !== '' && (
           <FPhoneNumber
-            style={{ marginTop: sizes.MARGIN_20 }}
+            style={{ marginTop: !user.bio ? 0 : sizes.MARGIN_20 }}
             phoneNumber={user.phoneNumber}
             color={colors.BLACK}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
@@ -123,10 +141,10 @@ export const FUserProfileCard = ({
           />
         )}
         {!isMe && (
-          <View style={{ marginTop: sizes.MARGIN_20 }}>
+          <View style={{ marginTop: !user.phoneNumber ? 0 : sizes.MARGIN_20 }}>
             <FButton
               type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-              backgroundColor={colors.DARK_PRIMARY}
+              backgroundColor={colors.PRIMARY}
               title={locales.WRITE_MESSAGE}
               iconPlacement={placements.RIGHT}
               color={colors.WHITE}
@@ -149,16 +167,7 @@ const styles = StyleSheet.create({
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
   },
-  headingsContainer: {
+  widthFull: {
     width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_20,
-  },
-  locationContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_5,
-  },
-  bioContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_8,
   },
 });

@@ -1,4 +1,3 @@
-import { FLogo } from 'components/Composition/FLogo';
 import React from 'react';
 import {
   SafeAreaView, ScrollView, StyleSheet, Platform, View,
@@ -8,43 +7,19 @@ import sizes from 'themes/sizes';
 import { isSmallScreen } from 'utils/isSmallScreen';
 
 export const FDefaultLayout = ({
-  children, withLogo, hasFlatList, noPaddingVertical = false, topBoxStyle, noPaddingHorizontal = false, isAlwaysScrollable = false,
-  scrollViewRef, backgroundColor = colors.BODY,
+  children, hasFlatList, noPaddingVertical = false, noPaddingHorizontal = false, isAlwaysScrollable = false,
+  scrollViewRef,
 }) => {
-  const drawLayoutDependingOnScreenWithLogo = () => {
-    if (withLogo) {
-      return (
-        <>
-          <View style={{
-            ...styles.topBox,
-            ...topBoxStyle,
-          }}
-          >
-            {children[0]}
-            <FLogo
-              fill={false}
-              color={colors.DARK_PRIMARY}
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            {children[1]}
-          </View>
-        </>
-      );
-    }
-    return children;
-  };
   const drawLayoutDependingOnScreenWithFlatList = () => {
     if (hasFlatList) {
       return (
         <View style={{
           ...styles.container,
-          backgroundColor,
           paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
           paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
-          {drawLayoutDependingOnScreenWithLogo()}
+          {children}
         </View>
       );
     }
@@ -60,7 +35,7 @@ export const FDefaultLayout = ({
           paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
-          {drawLayoutDependingOnScreenWithLogo()}
+          {children}
         </View>
       </ScrollView>
     );
@@ -69,7 +44,7 @@ export const FDefaultLayout = ({
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor,
+      backgroundColor: colors.WHITE,
     }}
     >
       {drawLayoutDependingOnScreenWithFlatList()}

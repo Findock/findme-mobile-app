@@ -8,7 +8,7 @@ import placements from 'themes/placements';
 
 const colorOptions = [
   colors.SUCCESS,
-  colors.DARK_PRIMARY,
+  colors.PRIMARY,
   colors.DARK_GRAY,
   colors.BLACK,
 ];
@@ -31,7 +31,7 @@ storiesOf('FHeading', module)
   .add('FHeading - large semibold green', () => (
     <FHeading
       title={text('title', 'Find Me')}
-      color={select('color', colorOptions, colors.DARK_PRIMARY)}
+      color={select('color', colorOptions, colors.PRIMARY)}
       size={number('size', fonts.HEADING_LARGE)}
       weight={select('weight', weightOptions, fonts.HEADING_WEIGHT_SEMIBOLD)}
     />

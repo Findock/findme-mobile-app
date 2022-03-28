@@ -4,7 +4,6 @@ import React from 'react';
 
 export const LoginHistoryScreen = () => (
   <FDefaultLayout
-    withLogo={false}
     hasFlatList
     noPaddingVertical
     noPaddingHorizontal
