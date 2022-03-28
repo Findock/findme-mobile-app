@@ -20,6 +20,7 @@ import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
 import { UserProfileScreen } from 'screens/UserProfile.screen';
 import { SettingsScreen } from 'screens/Settings.screen';
+import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
 import { FLogo } from 'components/Composition/FLogo';
@@ -145,6 +146,18 @@ export const Navigation = () => {
               options={{
                 ...defaultHeaderOptions,
                 title: locales.SETTINGS,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.PASSWORD_CHANGE}
+              component={ChangePasswordScreen}
+              options={{
+                title: locales.CHANGE_PASSWORD,
+                headerBackTitle: locales.GO_BACK,
+                headerTintColor: colors.BLACK,
+                headerTitleStyle: {
+                  fontSize: fonts.HEADING_LARGE,
+                },
               }}
             />
             <Stack.Screen

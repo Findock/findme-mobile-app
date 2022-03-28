@@ -6,6 +6,7 @@ export default {
   LOGIN_HISTORY: 'Login History',
   USER_PROFILE: 'User Profile',
   SETTINGS: 'Settings',
+  PASSWORD_CHANGE: 'Password Change',
   FORGOT_PASSWORD: 'Forgot Password',
   USER_PROFILE_PREVIEW: 'User Profile Preview',
 };
