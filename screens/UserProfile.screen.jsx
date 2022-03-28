@@ -75,6 +75,7 @@ export const UserProfileScreen = () => {
           paddingVertical={sizes.PADDING_12}
           style={{
             marginTop: sizes.MARGIN_20,
+            paddingTop: sizes.PADDING_17,
           }}
         >
           <FWideButton

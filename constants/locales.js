@@ -59,4 +59,5 @@ export default {
   DELETE_USER_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
   DELETE_USER_ACCOUNT_SECOND_CONFIRMATION: 'Potwierdzasz usunięcie swojego konta?',
   SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
+  ONLINE: 'online',
 };

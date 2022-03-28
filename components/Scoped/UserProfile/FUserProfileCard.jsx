@@ -14,8 +14,7 @@ import { FCard } from 'components/Composition/FCard';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import { FStatus } from 'components/Composition/FStatus';
-import statusTypes from 'constants/statusTypes';
+import { FBadge } from 'components/Composition/FBadge';
 
 export const FUserProfileCard = ({
   user, isMe, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -53,11 +52,7 @@ export const FUserProfileCard = ({
       );
     }
     return (
-      <View style={{
-        ...styles.centerView,
-        flexDirection: 'row',
-      }}
-      >
+      <View style={styles.centerView}>
         <View>
           <FHeading
             title={user?.name}
@@ -67,10 +62,6 @@ export const FUserProfileCard = ({
             align={placements.CENTER}
           />
         </View>
-        <FStatus
-          status={statusTypes.ACTIVE}
-          style={{ marginLeft: sizes.MARGIN_8 }}
-        />
       </View>
     );
   };
@@ -88,6 +79,20 @@ export const FUserProfileCard = ({
       >
         {drawAvatarDependingOnUser()}
       </View>
+      {!isMe && (
+        <View style={{
+          ...styles.widthFull,
+          ...styles.centerView,
+          marginBottom: sizes.MARGIN_5,
+        }}
+        >
+          <FBadge
+            title={locales.ONLINE}
+            isFill={false}
+            color={colors.SUCCESS}
+          />
+        </View>
+      )}
       <View style={styles.widthFull}>
         {drawNameHeadingDependingOnUser()}
         <View style={{

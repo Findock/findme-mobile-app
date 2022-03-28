@@ -11,3 +11,4 @@ import './Compositional/FAvatar.stories';
 import './Buttons/FWideButton.stories';
 import './Inputs/FSwitch.stories';
 import './Compositional/FCard.stories';
+import './Compositional/FBadge.stories';
