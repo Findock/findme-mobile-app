@@ -52,7 +52,7 @@ export default {
   PASSWORD_RECOVERY: 'Odzyskiwanie hasła',
   FORGOT_YOUR_PASSWORD: 'Zapomniałeś hasła?',
   RESET_PASSWORD: 'Zresetuj hasło',
-  ENTER_EMAIL_TO_RESET_PASSWORD: 'Wprowadź email na który wyślemy wiadmość z linkiem do utworzenia nowego hasła.',
+  ENTER_EMAIL_TO_RESET_PASSWORD: 'Wprowadź email na który wyślemy wiadomość z linkiem do utworzenia nowego hasła.',
   SAVED_SUCCESSFULLY: 'Zapisano pomyślnie!',
   DELETE_USER_PROFILE_IMAGE_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje zdjęcie profilowe? Tej akcji nie będzie można cofnąć.',
   DELETE_ACCOUNT: 'Usuń konto',
