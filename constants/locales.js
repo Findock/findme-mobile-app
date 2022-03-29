@@ -66,4 +66,5 @@ export default {
   DELETE_USER_ACCOUNT_SECOND_CONFIRMATION: 'Potwierdzasz usunięcie swojego konta?',
   SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
   ONLINE: 'online',
+  MESSAGE_SEND_SUCCESS: 'Wiadomość wysłana pomyślnie!',
 };
