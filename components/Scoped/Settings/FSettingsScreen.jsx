@@ -1,7 +1,7 @@
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import React, { useEffect } from 'react';
+import React from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { View, StyleSheet, Platform } from 'react-native';
@@ -9,24 +9,12 @@ import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
-import * as Linking from 'expo-linking';
-import * as Location from 'expo-location';
+
+import { useLocationPermission } from 'hooks/useLocationPermission';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
-  const [status] = Location.useForegroundPermissions();
+  const { handleChangeLocationPermission, granted: status } = useLocationPermission();
 
-  useEffect(() => {
-    const a = async () => {
-      await Location.requestForegroundPermissionsAsync();
-    };
-    if (!status?.granted) {
-      a();
-    }
-  }, [status]);
-
-  const onLocationPermissionOn = async () => {
-    await Linking.openSettings();
-  };
   return (
     <>
       <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }}>
@@ -43,10 +31,9 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           label={locales.LOCALIZATION_SERVICE}
           value={status?.granted ? locales.TURN_ON : locales.TURN_OFF}
           style={styles.headerSpace}
-          isDisabled={status?.granted}
           disabledColor={colors.SUCCESS}
-          onSwitchValueChange={onLocationPermissionOn}
-          switchValue={status?.granted}
+          onSwitchValueChange={handleChangeLocationPermission}
+          switchValue={status}
         />
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>

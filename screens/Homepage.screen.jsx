@@ -1,51 +1,23 @@
+import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
+import * as SecureStore from 'expo-secure-store';
 import {
   StyleSheet, View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { logoutUserService } from 'services/logoutUser.service';
+import { removeToken } from 'store/auth/authSlice';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import * as SecureStore from 'expo-secure-store';
-import { useDispatch } from 'react-redux';
-import { removeToken } from 'store/auth/authSlice';
-import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { useEffect, useState } from 'react';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import * as Location from 'expo-location';
-import { logoutUserService } from 'services/logoutUser.service';
 
 export const HomepageScreen = () => {
   const navigation = useNavigation();
-  const [
-    deniedLocationPermissionModalVisible,
-    setDeniedLocationPermissionModalVisible,
-  ] = useState(false);
-
   const dispatch = useDispatch();
-  const route = useRoute();
-
-  useEffect(() => {
-    Location.getForegroundPermissionsAsync().then(async (value) => {
-      if (value.canAskAgain) {
-        const { granted } = await Location.requestForegroundPermissionsAsync();
-        setDeniedLocationPermissionModalVisible(!granted);
-      } else {
-        setDeniedLocationPermissionModalVisible(!value.granted);
-      }
-    });
-  }, []);
-
-  useEffect(() => {
-    if (route.params?.showDeniedLocationPermissionModal) {
-      setDeniedLocationPermissionModalVisible(true);
-      navigation.setParams({ showDeniedLocationPermissionModal: false });
-    }
-  }, [route.params?.showDeniedLocationPermissionModal]);
 
   const logout = async () => {
     await logoutUserService();
@@ -56,15 +28,6 @@ export const HomepageScreen = () => {
 
   return (
     <View style={styles.screen}>
-      {deniedLocationPermissionModalVisible && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.LOCATION_DENIED}
-          visible={deniedLocationPermissionModalVisible}
-          setVisible={setDeniedLocationPermissionModalVisible}
-        />
-      )}
-
       <View style={styles.buttonContainer}>
         <FButton
           title={locales.LOG_OUT}
