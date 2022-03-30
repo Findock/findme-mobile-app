@@ -17,7 +17,7 @@ export const FSwitch = ({
         onValueChange={toggleSwitch}
         thumbColor={colors.WHITE}
         value={value}
-        ios_backgroundColor={colors.WHITE}
+        ios_backgroundColor={colors.LIGHT_GRAY}
         disabled={isDisabled}
       />
     </View>
