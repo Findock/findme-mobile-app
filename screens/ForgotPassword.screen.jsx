@@ -26,8 +26,8 @@ export const ForgotPasswordScreen = () => {
     email: '',
   });
   const [
-    noInternetConnectionModalVisible,
-    setNoInternetConnectionModalVisible,
+    somethingWentWrongModalVisible,
+    setSomethingWentWrongModalVisible,
   ] = useState(false);
   const [
     errors,
@@ -43,6 +43,7 @@ export const ForgotPasswordScreen = () => {
     mailSendedSuccessModalVisible,
     setMailSendedSuccessVisible,
   ] = useState(false);
+
   const checkEmailValidation = (error) => {
     const { message, statusCode } = error;
     const errs = [];
@@ -63,20 +64,20 @@ export const ForgotPasswordScreen = () => {
       if (error.response && error.response.data) {
         checkEmailValidation(error.response.data);
       } else {
-        setNoInternetConnectionModalVisible(true);
+        setSomethingWentWrongModalVisible(true);
       }
-      setMailSendedSuccessVisible(true);
     }
+    setMailSendedSuccessVisible(true);
   };
 
   return (
     <>
-      {noInternetConnectionModalVisible && (
+      {somethingWentWrongModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
-          title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
-          visible={noInternetConnectionModalVisible}
-          setVisible={setNoInternetConnectionModalVisible}
+          title={locales.SOMETHING_WENT_WRONG}
+          visible={somethingWentWrongModalVisible}
+          setVisible={setSomethingWentWrongModalVisible}
         />
       )}
       {mailSendedSuccessModalVisible && (
