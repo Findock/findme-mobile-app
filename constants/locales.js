@@ -67,4 +67,5 @@ export default {
   SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
   ONLINE: 'online',
   MESSAGE_SEND_SUCCESS: 'Wiadomość wysłana pomyślnie!',
+  PASSWORD_CHANGED_SUCCESSFULLY: 'Hasło zostało zmienione pomyślnie!',
 };

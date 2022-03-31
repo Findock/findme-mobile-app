@@ -7,4 +7,6 @@ export default {
   INVALID_PASSWORD: 'Nieprawidłowe hasło',
   USER_WITH_THIS_EMAIL_DOES_NOT_EXIST: 'Użytkownik z takim adresem email nie istnieje',
   INVALID_PHONE_NUMBER: 'Nieprawidłowy numer telefonu',
+  INVALID_OLD_PASSWORD: 'Nieprawidłowe stare hasło',
+  NEW_PASSWORDS_ARE_NOT_THE_SAME: 'Nowe hasła różnią się od siebie',
 };

@@ -14,32 +14,84 @@ import { View, StyleSheet, Platform } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
+import errorMessages from 'constants/errorMessages';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
+import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { updatePasswordService } from '../services/updatePassword.service';
 
 export const ChangePasswordScreen = () => {
   const [
-    oldEmail,
-    setOldEmail,
-  ] = useState('');
+    errors,
+    setErrors,
+  ] = useState([]);
+
   const [
-    newEmail,
-    setNewEmail,
-  ] = useState('');
+    dataForm,
+    setDataForm,
+  ] = useState({
+    oldPassword: '',
+    newPassword: '',
+  });
   const [
-    confirmNewEmail,
-    setConfirmNewEmail,
+    confirmNewPassword,
+    setConfirmNewPassword,
   ] = useState('');
 
-  const oldEmailInputHandler = (email) => {
-    setOldEmail(email);
+  const [
+    passwordChangeSuccessModalVisible,
+    setPasswordChangeSuccessModalVisible,
+  ] = useState(false);
+
+  const oldPasswordInputHandler = (password) => {
+    setDataForm({
+      ...dataForm,
+      oldPassword: password,
+    });
   };
-  const confirmNewEmailInputHandler = (email) => {
-    setConfirmNewEmail(email);
+  const newPasswordInputHandler = (password) => {
+    setDataForm({
+      ...dataForm,
+      newPassword: password,
+    });
   };
-  const newEmailInputHandler = (email) => {
-    setNewEmail(email);
+  const confirmNewPasswordInputHandler = (password) => {
+    setConfirmNewPassword(password);
+  };
+
+  const checkPasswordValidation = (response) => {
+    const { statusCode } = response;
+    const errs = [];
+
+    if (statusCode === 400) {
+      errs.push(errorMessages.INVALID_OLD_PASSWORD);
+    }
+    if (dataForm.newPassword !== confirmNewPassword) {
+      errs.push(errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME);
+    }
+    setErrors([...errs]);
+  };
+  const onSubmit = async () => {
+    try {
+      await updatePasswordService(dataForm);
+      setPasswordChangeSuccessModalVisible(true);
+      setErrors([]);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        checkPasswordValidation(error.response.data);
+      }
+    }
   };
   return (
     <FDefaultLayout>
+      {passwordChangeSuccessModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.PASSWORD_CHANGED_SUCCESSFULLY}
+          visible={passwordChangeSuccessModalVisible}
+          setVisible={setPasswordChangeSuccessModalVisible}
+        />
+      )}
       <FKeyboardWrapper>
         <>
           <View style={styles.imageContainer}>
@@ -55,21 +107,24 @@ export const ChangePasswordScreen = () => {
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={locales.PASS_OLD_PASSWORD}
             marginBottom={sizes.MARGIN_30}
-            onChangeText={oldEmailInputHandler}
+            onChangeText={oldPasswordInputHandler}
+            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_OLD_PASSWORD)}
           />
           <FInput
             iconPlacement={placements.LEFT}
             type={inputTypes.PASSWORD}
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={locales.PASS_NEW_PASSWORD}
-            onChangeText={newEmailInputHandler}
+            onChangeText={newPasswordInputHandler}
+            errorMessage={filterErrorMessages(errors, errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME)}
           />
           <FInput
             iconPlacement={placements.LEFT}
             type={inputTypes.PASSWORD}
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={locales.REPEAT_NEW_PASSWORD}
-            onChangeText={confirmNewEmailInputHandler}
+            onChangeText={confirmNewPasswordInputHandler}
+            errorMessage={filterErrorMessages(errors, errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME)}
           />
           <View style={styles.buttonContainer}>
             <FButton
@@ -79,6 +134,7 @@ export const ChangePasswordScreen = () => {
               color={colors.WHITE}
               titleWeight={fonts.HEADING_WEIGHT_BOLD}
               titleSize={fonts.HEADING_MEDIUM}
+              onPress={onSubmit}
             />
           </View>
         </>
