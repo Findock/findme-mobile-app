@@ -43,16 +43,15 @@ export const ForgotPasswordScreen = () => {
   };
 
   const checkEmailValidation = (response) => {
-    const { message, statusCode } = response;
+    const { statusCode } = response;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.INVALID_EMAIL);
-      }
+      errs.push(errorMessages.INVALID_EMAIL);
     }
-    if (statusCode === 404) { errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST); } else {
-      setShowErrorModal(true);
-    }
+    if (statusCode === 404) {
+      errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+    } else { setShowErrorModal(true); }
+
     setErrors([...errs]);
   };
 
