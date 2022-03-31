@@ -42,8 +42,8 @@ export const ForgotPasswordScreen = () => {
     setEmail(newEmail);
   };
 
-  const checkEmailValidation = (error) => {
-    const { message, statusCode } = error;
+  const checkEmailValidation = (response) => {
+    const { message, statusCode } = response;
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('email')) {
@@ -61,73 +61,72 @@ export const ForgotPasswordScreen = () => {
     } catch (error) {
       if (error.response && error.response.data) {
         checkEmailValidation(error.response.data);
-        setShowErrorModal(true);
       }
+      setShowErrorModal(true);
     }
   };
 
   return (
     <FDefaultLayout>
+      {mailSentSuccessModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.MESSAGE_SEND_SUCCESS}
+          visible={mailSentSuccessModalVisible}
+          setVisible={setMailSentSuccessModalVisible}
+        />
+      )}
+      {drawErrorModal()}
       <FKeyboardWrapper>
-        <>
-          {mailSentSuccessModalVisible && (
-            <FModal
-              type={modalTypes.INFO_MODAL}
-              title={locales.MESSAGE_SEND_SUCCESS}
-              visible={mailSentSuccessModalVisible}
-              setVisible={setMailSentSuccessModalVisible}
+        <View style={{
+          flexGrow: 1,
+          // justifyContent: placements.CENTER,
+        }}
+        >
+          <View style={styles.imageContainer}>
+            <Ionicons
+              name={icons.LOCK_OPEN_OUTLINE}
+              size={sizes.ICON_100}
+              color={colors.PRIMARY}
             />
-          )}
-          {drawErrorModal()}
-          <View style={{
-            flexGrow: 1,
-          }}
-          >
-            <View style={styles.imageContainer}>
-              <Ionicons
-                name={icons.LOCK_OPEN_OUTLINE}
-                size={sizes.ICON_100}
-                color={colors.PRIMARY}
-              />
-            </View>
-            <FHeading
-              title={locales.FORGOT_YOUR_PASSWORD}
-              color={colors.BLACK}
-              align={placements.CENTER}
-              size={fonts.HEADING_EXTRA_LARGE}
-              weight={fonts.HEADING_WEIGHT_MEDIUM}
-            />
-            <FHeading
-              title={locales.ENTER_EMAIL_TO_RESET_PASSWORD}
-              align={placements.CENTER}
-              size={fonts.HEADING_SMALL}
-              weight={fonts.HEADING_WEIGHT_REGULAR}
-              marginBottom={sizes.MARGIN_20}
-              style={styles.marginTop}
-            />
-            <FInput
-              iconPlacement={placements.LEFT}
-              type={inputTypes.EMAIL}
-              icon={icons.MAIL_OUTLINE}
-              placeholder={locales.EMAIL}
-              errorMessage={errors}
-              onChangeText={emailInputHandler}
-              value={email}
-            />
-
-            <View style={styles.buttonContainer}>
-              <FButton
-                title={locales.RESET_PASSWORD}
-                type={buttonTypes.TEXT_BUTTON}
-                backgroundColor={colors.PRIMARY}
-                color={colors.WHITE}
-                titleWeight={fonts.HEADING_WEIGHT_BOLD}
-                titleSize={fonts.HEADING_MEDIUM}
-                onPress={onSubmit}
-              />
-            </View>
           </View>
-        </>
+          <FHeading
+            title={locales.FORGOT_YOUR_PASSWORD}
+            color={colors.BLACK}
+            align={placements.CENTER}
+            size={fonts.HEADING_EXTRA_LARGE}
+            weight={fonts.HEADING_WEIGHT_MEDIUM}
+          />
+          <FHeading
+            title={locales.ENTER_EMAIL_TO_RESET_PASSWORD}
+            align={placements.CENTER}
+            size={fonts.HEADING_SMALL}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
+            marginBottom={sizes.MARGIN_20}
+            style={styles.marginTop}
+          />
+          <FInput
+            iconPlacement={placements.LEFT}
+            type={inputTypes.EMAIL}
+            icon={icons.MAIL_OUTLINE}
+            placeholder={locales.EMAIL}
+            errorMessage={errors}
+            onChangeText={emailInputHandler}
+            value={email}
+          />
+
+          <View style={styles.buttonContainer}>
+            <FButton
+              title={locales.RESET_PASSWORD}
+              type={buttonTypes.TEXT_BUTTON}
+              backgroundColor={colors.PRIMARY}
+              color={colors.WHITE}
+              titleWeight={fonts.HEADING_WEIGHT_BOLD}
+              titleSize={fonts.HEADING_MEDIUM}
+              onPress={onSubmit}
+            />
+          </View>
+        </View>
       </FKeyboardWrapper>
     </FDefaultLayout>
   );
