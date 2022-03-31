@@ -50,6 +50,9 @@ export const ForgotPasswordScreen = () => {
         errs.push(errorMessages.INVALID_EMAIL);
       }
     }
+    if (statusCode === 404) { errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST); } else {
+      setShowErrorModal(true);
+    }
     setErrors([...errs]);
   };
 
@@ -62,7 +65,6 @@ export const ForgotPasswordScreen = () => {
       if (error.response && error.response.data) {
         checkEmailValidation(error.response.data);
       }
-      setShowErrorModal(true);
     }
   };
 
@@ -80,7 +82,6 @@ export const ForgotPasswordScreen = () => {
       <FKeyboardWrapper>
         <View style={{
           flexGrow: 1,
-          // justifyContent: placements.CENTER,
         }}
         >
           <View style={styles.imageContainer}>

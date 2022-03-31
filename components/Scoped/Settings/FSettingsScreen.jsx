@@ -11,6 +11,7 @@ import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
   const [status] = Location.useForegroundPermissions();
@@ -47,6 +48,18 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           disabledColor={colors.SUCCESS}
           onSwitchValueChange={onLocationPermissionOn}
           switchValue={status?.granted}
+        />
+        <FButton
+          title={locales.CHANGE_PASSWORD}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
+          titleSize={fonts.HEADING_NORMAL}
+          type={buttonTypes.LINK_BUTTON}
+          to={stackNavigatorNames.PASSWORD_CHANGE}
+          isUnderline
+          buttonViewStyles={{
+            justifyContent: placements.LEFT,
+            marginTop: sizes.MARGIN_20,
+          }}
         />
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>
