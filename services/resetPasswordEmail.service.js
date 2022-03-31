@@ -1,3 +1,3 @@
 import authClient from 'api/authClient';
 
-export const resetPasswordEmailService = async () => authClient.post('auth/send-reset-password-email');
+export const resetPasswordEmailService = (email) => authClient.post('auth/send-reset-password-email', email);

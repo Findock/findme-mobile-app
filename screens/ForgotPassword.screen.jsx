@@ -38,8 +38,8 @@ export const ForgotPasswordScreen = () => {
     drawErrorModal,
   } = useErrorModal();
 
-  const emailInputHandler = (oldEmail) => {
-    setEmail(oldEmail);
+  const emailInputHandler = (newEmail) => {
+    setEmail(newEmail);
   };
 
   const checkEmailValidation = (error) => {
@@ -56,14 +56,14 @@ export const ForgotPasswordScreen = () => {
   const onSubmit = async () => {
     try {
       await resetPasswordEmailService({ email });
+      setMailSentSuccessModalVisible(true);
+      setErrors([]);
     } catch (error) {
       if (error.response && error.response.data) {
         checkEmailValidation(error.response.data);
-      } else {
         setShowErrorModal(true);
       }
     }
-    setMailSentSuccessModalVisible(true);
   };
 
   return (
