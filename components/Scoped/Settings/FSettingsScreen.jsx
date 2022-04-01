@@ -11,6 +11,7 @@ import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import * as Linking from 'expo-linking';
 import * as Location from 'expo-location';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
   const [status] = Location.useForegroundPermissions();
@@ -48,6 +49,16 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           onSwitchValueChange={onLocationPermissionOn}
           switchValue={status?.granted}
         />
+        <View style={styles.buttonContainer}>
+          <FButton
+            title={locales.CHANGE_PASSWORD}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_NORMAL}
+            type={buttonTypes.LINK_BUTTON}
+            to={stackNavigatorNames.PASSWORD_CHANGE}
+            isUnderline
+          />
+        </View>
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>
         <FHeading
@@ -115,7 +126,8 @@ const styles = StyleSheet.create({
     marginTop: sizes.MARGIN_20,
   },
   buttonContainer: {
-    marginTop: sizes.MARGIN_40,
+    marginTop: sizes.MARGIN_30,
     alignItems: 'flex-start',
+    width: sizes.WIDTH_FULL,
   },
 });
