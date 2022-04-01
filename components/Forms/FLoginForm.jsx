@@ -17,12 +17,12 @@ import { useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
 import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
-import { FSpinner } from 'components/Composition/FSpinner';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
+import { FSpinner } from 'components/Composition/FSpinner';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
@@ -167,7 +167,6 @@ export const FLoginForm = () => {
       setLoading(false);
     }
   };
-
   return (
     <>
       {loading && <FSpinner />}

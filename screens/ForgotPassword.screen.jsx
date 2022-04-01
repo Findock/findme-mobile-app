@@ -12,7 +12,7 @@ import inputTypes from 'constants/inputTypes';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import errorMessages from 'constants/errorMessages';
 import { resetPasswordEmailService } from 'services/resetPasswordEmail.service';
 import { FModal } from 'components/Composition/FModal';
@@ -47,11 +47,11 @@ export const ForgotPasswordScreen = () => {
     const errs = [];
     if (statusCode === 400) {
       errs.push(errorMessages.INVALID_EMAIL);
-    }
-    if (statusCode === 404) {
+    } else if (statusCode === 404) {
       errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
-    } else { setShowErrorModal(true); }
-
+    } else {
+      setShowErrorModal(true);
+    }
     setErrors([...errs]);
   };
 
@@ -132,7 +132,7 @@ export const ForgotPasswordScreen = () => {
   );
 };
 
-const styles = {
+const styles = StyleSheet.create({
   imageContainer: {
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
@@ -145,4 +145,4 @@ const styles = {
   marginTop: {
     marginTop: sizes.MARGIN_10,
   },
-};
+});

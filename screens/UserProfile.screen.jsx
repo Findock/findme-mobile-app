@@ -47,7 +47,6 @@ export const UserProfileScreen = () => {
   return (
     <FDefaultLayout
       hasFlatList={false}
-      // backgroundColor={colors.LIGHT_GRAY}
       isAlwaysScrollable
     >
       {showConfirmDeleteUserProfileImageModal && (
