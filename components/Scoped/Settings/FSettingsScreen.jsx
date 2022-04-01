@@ -49,18 +49,16 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           onSwitchValueChange={onLocationPermissionOn}
           switchValue={status?.granted}
         />
-        <FButton
-          title={locales.CHANGE_PASSWORD}
-          titleWeight={fonts.HEADING_WEIGHT_BOLD}
-          titleSize={fonts.HEADING_NORMAL}
-          type={buttonTypes.LINK_BUTTON}
-          to={stackNavigatorNames.PASSWORD_CHANGE}
-          isUnderline
-          buttonViewStyles={{
-            justifyContent: placements.LEFT,
-            marginTop: sizes.MARGIN_20,
-          }}
-        />
+        <View style={styles.buttonContainer}>
+          <FButton
+            title={locales.CHANGE_PASSWORD}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_NORMAL}
+            type={buttonTypes.LINK_BUTTON}
+            to={stackNavigatorNames.PASSWORD_CHANGE}
+            isUnderline
+          />
+        </View>
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>
         <FHeading
@@ -130,5 +128,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: sizes.MARGIN_40,
     alignItems: 'flex-start',
+    justifyContent: placements.LEFT,
+    width: sizes.WIDTH_FULL,
   },
 });

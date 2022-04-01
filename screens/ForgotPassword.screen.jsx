@@ -47,10 +47,11 @@ export const ForgotPasswordScreen = () => {
     const errs = [];
     if (statusCode === 400) {
       errs.push(errorMessages.INVALID_EMAIL);
-    }
-    if (statusCode === 404) {
+    } else if (statusCode === 404) {
       errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
-    } else { setShowErrorModal(true); }
+    } else {
+      setShowErrorModal(true);
+    }
 
     setErrors([...errs]);
   };
