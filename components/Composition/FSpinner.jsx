@@ -1,5 +1,5 @@
 import {
-  StyleSheet, ActivityIndicator, Platform, View,
+  StyleSheet, ActivityIndicator, Platform,
 } from 'react-native';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
