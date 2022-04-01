@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import locales from 'constants/locales';
 import colors from 'themes/colors';
 import placements from 'themes/placements';
@@ -12,64 +12,131 @@ import inputTypes from 'constants/inputTypes';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import errorMessages from 'constants/errorMessages';
+import { resetPasswordEmailService } from 'services/resetPasswordEmail.service';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/modalTypes';
+import { useErrorModal } from 'hooks/useErrorModal';
+import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 
-export const ForgotPasswordScreen = () => (
-  <FDefaultLayout
-    hasFlatList={false}
-  >
-    <View style={{
-      flexGrow: 1,
-      justifyContent: placements.CENTER,
-    }}
-    >
-      <View style={styles.imageContainer}>
-        <Ionicons
-          name={icons.LOCK_CLOSED_OUTLINE}
-          size={sizes.ICON_100}
-          color={colors.PRIMARY}
-        />
-      </View>
-      <FHeading
-        title={locales.FORGOT_YOUR_PASSWORD}
-        color={colors.PRIMARY}
-        align={placements.CENTER}
-        size={fonts.HEADING_EXTRA_LARGE}
-        weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-      />
-      <FHeading
-        title={locales.ENTER_EMAIL_TO_RESET_PASSWORD}
-        align={placements.CENTER}
-        size={fonts.HEADING_SMALL}
-        weight={fonts.HEADING_WEIGHT_REGULAR}
-        marginBottom={sizes.MARGIN_20}
-        style={styles.marginTop}
-      />
-      <FInput
-        iconPlacement={placements.LEFT}
-        type={inputTypes.EMAIL}
-        icon={icons.MAIL_OUTLINE}
-        placeholder={locales.EMAIL}
-      />
-      <View style={styles.buttonContainer}>
-        <FButton
-          title={locales.RESET_PASSWORD}
-          type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.PRIMARY}
-          color={colors.WHITE}
-          titleWeight={fonts.HEADING_WEIGHT_BOLD}
-          titleSize={fonts.HEADING_MEDIUM}
-        />
-      </View>
-    </View>
-  </FDefaultLayout>
-);
+export const ForgotPasswordScreen = () => {
+  const [
+    email,
+    setEmail,
+  ] = useState('');
+  const [
+    errors,
+    setErrors,
+  ] = useState([]);
+  const [
+    mailSentSuccessModalVisible,
+    setMailSentSuccessModalVisible,
+  ] = useState(false);
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal();
 
-const styles = {
+  const emailInputHandler = (newEmail) => {
+    setEmail(newEmail);
+  };
+
+  const checkEmailValidation = (response) => {
+    const { statusCode } = response;
+    const errs = [];
+    if (statusCode === 400) {
+      errs.push(errorMessages.INVALID_EMAIL);
+    } else if (statusCode === 404) {
+      errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+    } else {
+      setShowErrorModal(true);
+    }
+    setErrors([...errs]);
+  };
+
+  const onSubmit = async () => {
+    try {
+      await resetPasswordEmailService({ email });
+      setMailSentSuccessModalVisible(true);
+      setErrors([]);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        checkEmailValidation(error.response.data);
+      }
+    }
+  };
+
+  return (
+    <FDefaultLayout>
+      {mailSentSuccessModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.MESSAGE_SEND_SUCCESS}
+          visible={mailSentSuccessModalVisible}
+          setVisible={setMailSentSuccessModalVisible}
+        />
+      )}
+      {drawErrorModal()}
+      <FKeyboardWrapper>
+        <View style={{
+          flexGrow: 1,
+        }}
+        >
+          <View style={styles.imageContainer}>
+            <Ionicons
+              name={icons.LOCK_OPEN_OUTLINE}
+              size={sizes.ICON_100}
+              color={colors.PRIMARY}
+            />
+          </View>
+          <FHeading
+            title={locales.FORGOT_YOUR_PASSWORD}
+            color={colors.BLACK}
+            align={placements.CENTER}
+            size={fonts.HEADING_EXTRA_LARGE}
+            weight={fonts.HEADING_WEIGHT_MEDIUM}
+          />
+          <FHeading
+            title={locales.ENTER_EMAIL_TO_RESET_PASSWORD}
+            align={placements.CENTER}
+            size={fonts.HEADING_SMALL}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
+            marginBottom={sizes.MARGIN_20}
+            style={styles.marginTop}
+          />
+          <FInput
+            iconPlacement={placements.LEFT}
+            type={inputTypes.EMAIL}
+            icon={icons.MAIL_OUTLINE}
+            placeholder={locales.EMAIL}
+            errorMessage={errors}
+            onChangeText={emailInputHandler}
+            value={email}
+          />
+
+          <View style={styles.buttonContainer}>
+            <FButton
+              title={locales.RESET_PASSWORD}
+              type={buttonTypes.TEXT_BUTTON}
+              backgroundColor={colors.PRIMARY}
+              color={colors.WHITE}
+              titleWeight={fonts.HEADING_WEIGHT_BOLD}
+              titleSize={fonts.HEADING_MEDIUM}
+              onPress={onSubmit}
+            />
+          </View>
+        </View>
+      </FKeyboardWrapper>
+    </FDefaultLayout>
+  );
+};
+
+const styles = StyleSheet.create({
   imageContainer: {
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
-    marginVertical: sizes.MARGIN_10,
+    marginBottom: sizes.MARGIN_10,
   },
   buttonContainer: {
     alignItems: placements.CENTER,
@@ -78,4 +145,4 @@ const styles = {
   marginTop: {
     marginTop: sizes.MARGIN_10,
   },
-};
+});

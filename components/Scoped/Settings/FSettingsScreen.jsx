@@ -12,6 +12,7 @@ import placements from 'themes/placements';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
   const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
@@ -55,6 +56,16 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           onSwitchValueChange={handleChangeCameraRollPermission}
           switchValue={cameraRollStatus}
         />
+        <View style={styles.buttonContainer}>
+          <FButton
+            title={locales.CHANGE_PASSWORD}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_NORMAL}
+            type={buttonTypes.LINK_BUTTON}
+            to={stackNavigatorNames.PASSWORD_CHANGE}
+            isUnderline
+          />
+        </View>
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>
         <FHeading
@@ -122,7 +133,8 @@ const styles = StyleSheet.create({
     marginTop: sizes.MARGIN_20,
   },
   buttonContainer: {
-    marginTop: sizes.MARGIN_40,
+    marginTop: sizes.MARGIN_30,
     alignItems: 'flex-start',
+    width: sizes.WIDTH_FULL,
   },
 });

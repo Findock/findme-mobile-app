@@ -1,6 +1,7 @@
 export default {
   MAIL_OUTLINE: 'mail-outline',
   LOCK_CLOSED_OUTLINE: 'lock-closed-outline',
+  LOCK_OPEN_OUTLINE: 'lock-open-outline',
   PERSON_OUTLINE: 'person-outline',
   PERSON: 'person',
   PHONE_PORTRAIT_OUTLINE: 'phone-portrait-outline',
