@@ -18,12 +18,17 @@ import errorMessages from 'constants/errorMessages';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { useErrorModal } from 'hooks/useErrorModal';
 import { updatePasswordService } from '../services/updatePassword.service';
 
 export const ChangePasswordScreen = () => {
   const [
-    errors,
-    setErrors,
+    oldPasswordErrors,
+    setOldPasswordErrors,
+  ] = useState([]);
+  const [
+    newPasswordErrors,
+    setNewPasswordErrors,
   ] = useState([]);
 
   const [
@@ -42,6 +47,10 @@ export const ChangePasswordScreen = () => {
     passwordChangeSuccessModalVisible,
     setPasswordChangeSuccessModalVisible,
   ] = useState(false);
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal();
 
   const oldPasswordInputHandler = (password) => {
     setDataForm({
@@ -60,22 +69,35 @@ export const ChangePasswordScreen = () => {
   };
 
   const checkPasswordValidation = (response) => {
-    const { statusCode } = response;
-    const errs = [];
+    const { message, statusCode } = response;
+    const oldPasswordErrs = [];
+    const newPasswordErrs = [];
 
-    if (statusCode === 400) {
-      errs.push(errorMessages.INVALID_OLD_PASSWORD);
-    }
     if (dataForm.newPassword !== confirmNewPassword) {
-      errs.push(errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME);
+      newPasswordErrs.push(errorMessages.PASSWORDS_ARE_NOT_THE_SAME);
     }
-    setErrors([...errs]);
+    if (statusCode === 400) {
+      if (message.join(' ').includes('Invalid')) {
+        oldPasswordErrs.push(errorMessages.INVALID_OLD_PASSWORD);
+      }
+      if (message.join(' ').includes('oldPassword')) {
+        oldPasswordErrs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+      }
+      if (message.join(' ').includes('newPassword')) {
+        newPasswordErrs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+      }
+      setOldPasswordErrors([...oldPasswordErrs]);
+      setNewPasswordErrors([...newPasswordErrs]);
+    } else {
+      setShowErrorModal(true);
+    }
   };
   const onSubmit = async () => {
+    setOldPasswordErrors([]);
+    setNewPasswordErrors([]);
     try {
       await updatePasswordService(dataForm);
       setPasswordChangeSuccessModalVisible(true);
-      setErrors([]);
     } catch (error) {
       if (error.response && error.response.data) {
         checkPasswordValidation(error.response.data);
@@ -92,6 +114,7 @@ export const ChangePasswordScreen = () => {
           setVisible={setPasswordChangeSuccessModalVisible}
         />
       )}
+      {drawErrorModal()}
       <FKeyboardWrapper>
         <>
           <View style={styles.imageContainer}>
@@ -108,7 +131,8 @@ export const ChangePasswordScreen = () => {
             placeholder={locales.PASS_OLD_PASSWORD}
             marginBottom={sizes.MARGIN_30}
             onChangeText={oldPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_OLD_PASSWORD)}
+            errorMessage={filterErrorMessages(oldPasswordErrors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+              || filterErrorMessages(oldPasswordErrors, errorMessages.INVALID_OLD_PASSWORD)}
           />
           <FInput
             iconPlacement={placements.LEFT}
@@ -116,7 +140,8 @@ export const ChangePasswordScreen = () => {
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={locales.PASS_NEW_PASSWORD}
             onChangeText={newPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME)}
+            errorMessage={filterErrorMessages(newPasswordErrors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+              || filterErrorMessages(newPasswordErrors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
           />
           <FInput
             iconPlacement={placements.LEFT}
@@ -124,7 +149,8 @@ export const ChangePasswordScreen = () => {
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={locales.REPEAT_NEW_PASSWORD}
             onChangeText={confirmNewPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.NEW_PASSWORDS_ARE_NOT_THE_SAME)}
+            errorMessage={filterErrorMessages(newPasswordErrors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+              || filterErrorMessages(newPasswordErrors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
           />
           <View style={styles.buttonContainer}>
             <FButton
@@ -150,6 +176,7 @@ const styles = StyleSheet.create({
     marginVertical: Platform.OS === 'ios' ? sizes.MARGIN_50 : 0,
   },
   buttonContainer: {
+    width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
     marginVertical: sizes.MARGIN_20,
   },
