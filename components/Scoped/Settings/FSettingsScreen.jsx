@@ -126,9 +126,8 @@ const styles = StyleSheet.create({
     marginTop: sizes.MARGIN_20,
   },
   buttonContainer: {
-    marginTop: sizes.MARGIN_40,
+    marginTop: sizes.MARGIN_30,
     alignItems: 'flex-start',
-    justifyContent: placements.LEFT,
     width: sizes.WIDTH_FULL,
   },
 });

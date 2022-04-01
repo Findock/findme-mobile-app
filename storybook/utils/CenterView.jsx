@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View } from 'react-native';
+import placements from 'themes/placements';
 
 const style = {
   main: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: placements.CENTER,
+    alignItems: placements.CENTER,
     backgroundColor: '#F5FCFF',
   },
 };
