@@ -64,7 +64,7 @@ export const FModal = ({
     );
   };
   return (
-    <View style={{ flex: 1 }}>
+    <View>
       <Modal
         animationType="fade"
         visible={visible}

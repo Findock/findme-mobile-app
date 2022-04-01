@@ -1,7 +1,7 @@
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
-import React, { useEffect } from 'react';
+import React from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { View, StyleSheet, Platform } from 'react-native';
@@ -9,25 +9,16 @@ import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
-import * as Linking from 'expo-linking';
-import * as Location from 'expo-location';
+import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
+import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
+import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
-  const [status] = Location.useForegroundPermissions();
+  const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
+  const { handleChangeCameraPermission, granted: cameraStatus } = useCameraPermission();
+  const { handleChangeCameraRollPermission, granted: cameraRollStatus } = useCameraRollPermission();
 
-  useEffect(() => {
-    const a = async () => {
-      await Location.requestForegroundPermissionsAsync();
-    };
-    if (!status?.granted) {
-      a();
-    }
-  }, [status]);
-
-  const onLocationPermissionOn = async () => {
-    await Linking.openSettings();
-  };
   return (
     <>
       <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }}>
@@ -42,12 +33,28 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           isForm={false}
           withSwitch
           label={locales.LOCALIZATION_SERVICE}
-          value={status?.granted ? locales.TURN_ON : locales.TURN_OFF}
+          value={locationStatus ? locales.TURN_ON : locales.TURN_OFF}
           style={styles.headerSpace}
-          isDisabled={status?.granted}
-          disabledColor={colors.SUCCESS}
-          onSwitchValueChange={onLocationPermissionOn}
-          switchValue={status?.granted}
+          onSwitchValueChange={handleChangeLocationPermission}
+          switchValue={locationStatus}
+        />
+        <FSettingsRow
+          isForm={false}
+          withSwitch
+          label={locales.CAMERA_PERMISSION}
+          value={cameraStatus ? locales.TURN_ON : locales.TURN_OFF}
+          style={styles.headerSpace}
+          onSwitchValueChange={handleChangeCameraPermission}
+          switchValue={cameraStatus}
+        />
+        <FSettingsRow
+          isForm={false}
+          withSwitch
+          label={locales.CAMERA_ROLL_PERMISSION}
+          value={cameraRollStatus ? locales.TURN_ON : locales.TURN_OFF}
+          style={styles.headerSpace}
+          onSwitchValueChange={handleChangeCameraRollPermission}
+          switchValue={cameraRollStatus}
         />
         <View style={styles.buttonContainer}>
           <FButton

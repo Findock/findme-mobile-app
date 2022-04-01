@@ -62,22 +62,32 @@ export const FLoginHistoryList = () => {
       {
         cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
         cellAction: swipeButtonCellActionTypes.DELETE,
-        onActionPress: () => deleteAuthTokenById(item._id),
+        onActionPress: () => deleteAuthTokenById(item.id),
       },
     ];
-
+    if (item.active) {
+      return (
+        <FSwipeButton
+          actions={actions}
+        >
+          <FLoginHistoryListItem
+            key={item.id}
+            date={item.lastUse}
+            deviceName={item.deviceName}
+            isActiveSession={item.active}
+            location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
+          />
+        </FSwipeButton>
+      );
+    }
     return (
-      <FSwipeButton
-        actions={actions}
-      >
-        <FLoginHistoryListItem
-          key={item._id}
-          date={item.lastUse}
-          deviceName={item.deviceName}
-          isActiveSession={item.active}
-          location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
-        />
-      </FSwipeButton>
+      <FLoginHistoryListItem
+        key={item.id}
+        date={item.lastUse}
+        deviceName={item.deviceName}
+        isActiveSession={item.active}
+        location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
+      />
     );
   };
 
@@ -104,7 +114,7 @@ export const FLoginHistoryList = () => {
       <FlatList
         data={myAuthTokens}
         renderItem={drawMyAuthTokensItems}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id}
         style={styles.list}
         showsVerticalScrollIndicator={false}
         // eslint-disable-next-line react/no-unstable-nested-components

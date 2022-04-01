@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  SafeAreaView, ScrollView, StyleSheet, Platform, View,
+  SafeAreaView, ScrollView, StyleSheet, View,
 } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
@@ -16,7 +16,7 @@ export const FDefaultLayout = ({
         <View style={{
           ...styles.container,
           paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
-          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
+          paddingVertical: !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
           {children}
@@ -28,11 +28,12 @@ export const FDefaultLayout = ({
         scrollEnabled={isAlwaysScrollable ? true : isSmallScreen()}
         contentContainerStyle={{ flexGrow: 1 }}
         ref={scrollViewRef}
+        showsVerticalScrollIndicator={false}
       >
         <View style={{
           ...styles.container,
           paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
-          paddingVertical: Platform.OS === 'android' && !noPaddingVertical ? sizes.PADDING_30 : 0,
+          paddingVertical: !noPaddingVertical ? sizes.PADDING_30 : 0,
         }}
         >
           {children}
@@ -55,15 +56,5 @@ export const FDefaultLayout = ({
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-  },
-  topBox: {
-    flexDirection: 'row',
-    width: sizes.WIDTH_FULL,
-    justifyContent: 'space-between',
-  },
-  logoContainer: {
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end',
-    width: sizes.WIDTH_HALF,
   },
 });
