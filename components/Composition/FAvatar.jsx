@@ -20,9 +20,7 @@ import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 export const FAvatar = ({
   size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
 }) => {
-  const dispath = useDispatch();
-
-  const getImageUrl = () => appConfig.extra.apiUrl.substring(0, appConfig.extra.apiUrl.length - 1) + imageUrl;
+  const dispatch = useDispatch();
 
   const uploadImage = async () => {
     try {
@@ -36,7 +34,7 @@ export const FAvatar = ({
           type: 'image/jpeg',
         });
         const res = await uploadUserProfileImageService(formData);
-        dispath(setMe(res));
+        dispatch(setMe(res));
       }, {
         allowsEditing: true,
       });
@@ -87,7 +85,7 @@ export const FAvatar = ({
         ...styles.image,
         borderRadius: getHalfBorderRadius(size + sizes.BORDER_4),
       }}
-      networkImageUrl={imageUrl ? getImageUrl() : null}
+      networkImageUrl={imageUrl || null}
       imagePath={images.USER_AVATAR()}
       resizeMode={sizes.COVER}
     />,

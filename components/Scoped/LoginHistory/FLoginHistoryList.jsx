@@ -62,7 +62,7 @@ export const FLoginHistoryList = () => {
       {
         cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
         cellAction: swipeButtonCellActionTypes.DELETE,
-        onActionPress: () => deleteAuthTokenById(item._id),
+        onActionPress: () => deleteAuthTokenById(item.id),
       },
     ];
 
@@ -71,7 +71,7 @@ export const FLoginHistoryList = () => {
         actions={actions}
       >
         <FLoginHistoryListItem
-          key={item._id}
+          key={item.id}
           date={item.lastUse}
           deviceName={item.deviceName}
           isActiveSession={item.active}
@@ -104,7 +104,7 @@ export const FLoginHistoryList = () => {
       <FlatList
         data={myAuthTokens}
         renderItem={drawMyAuthTokensItems}
-        keyExtractor={(item) => item._id}
+        keyExtractor={(item) => item.id}
         style={styles.list}
         showsVerticalScrollIndicator={false}
         // eslint-disable-next-line react/no-unstable-nested-components
