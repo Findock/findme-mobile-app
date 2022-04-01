@@ -1,42 +1,42 @@
+import { useAppStateChange } from 'hooks/useAppStateChange';
 import { useEffect, useState } from 'react';
-import * as Location from 'expo-location';
-import * as Linking from 'expo-linking';
-import { FModal } from 'components/Composition/FModal';
+import { Camera } from 'expo-camera';
 import modalTypes from 'constants/modalTypes';
 import locales from 'constants/locales';
-import { useAppStateChange } from './useAppStateChange';
+import { FModal } from 'components/Composition/FModal';
+import * as Linking from 'expo-linking';
 
-export const useLocationPermission = () => {
+export const useCameraPermission = () => {
   const { currentAppState } = useAppStateChange();
   const [
     permissionsStatus,
     setPermissionsStatus,
   ] = useState(null);
   const [
-    deniedLocationPermissionModalVisible,
-    setDeniedLocationPermissionModalVisible,
+    deniedCameraPermissionModalVisible,
+    setDeniedCameraPermissionModalVisible,
   ] = useState(false);
 
   useEffect(() => {
     const readPermissions = async () => {
-      const permission = await Location.getForegroundPermissionsAsync();
+      const permission = await Camera.getCameraPermissionsAsync();
       setPermissionsStatus(permission);
     };
     readPermissions();
   }, [currentAppState]);
 
-  const handleChangeLocationPermission = () => {
+  const handleChangeCameraPermission = () => {
     if (permissionsStatus?.canAskAgain && !permissionsStatus?.granted) {
-      Location.requestForegroundPermissionsAsync();
+      Camera.requestCameraPermissionsAsync();
     } else {
       Linking.openSettings();
     }
   };
 
-  const tryToAskForLocationPermissionsIfIsNotGranted = () => {
+  const tryToAskForCameraPermissionsIfIsNotGranted = () => {
     if (!permissionsStatus?.granted) {
       if (permissionsStatus?.canAskAgain) {
-        Location.requestForegroundPermissionsAsync();
+        Camera.requestCameraPermissionsAsync();
       } else {
         setDeniedLocationPermissionModalVisible(true);
       }
@@ -53,11 +53,4 @@ export const useLocationPermission = () => {
       />
     )
   );
-
-  return {
-    handleChangeLocationPermission,
-    tryToAskForLocationPermissionsIfIsNotGranted,
-    drawNoPermissionsModal,
-    granted: permissionsStatus?.granted,
-  };
 };

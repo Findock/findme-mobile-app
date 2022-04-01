@@ -10,7 +10,7 @@ import inputTypes from 'constants/inputTypes';
 import { FInput } from 'components/Inputs/FInput';
 import buttonTypes from 'constants/buttonTypes';
 import { FButton } from 'components/Buttons/FButton';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
 import { FKeyboardWrapper } from '../components/Utils/FKeyboardWrapper';
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
-    marginVertical: Platform.OS === 'ios' ? sizes.MARGIN_30 : 0,
   },
   buttonContainer: {
     alignItems: placements.CENTER,

@@ -65,19 +65,29 @@ export const FLoginHistoryList = () => {
         onActionPress: () => deleteAuthTokenById(item.id),
       },
     ];
-
+    if (item.active) {
+      return (
+        <FSwipeButton
+          actions={actions}
+        >
+          <FLoginHistoryListItem
+            key={item.id}
+            date={item.lastUse}
+            deviceName={item.deviceName}
+            isActiveSession={item.active}
+            location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
+          />
+        </FSwipeButton>
+      );
+    }
     return (
-      <FSwipeButton
-        actions={actions}
-      >
-        <FLoginHistoryListItem
-          key={item.id}
-          date={item.lastUse}
-          deviceName={item.deviceName}
-          isActiveSession={item.active}
-          location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
-        />
-      </FSwipeButton>
+      <FLoginHistoryListItem
+        key={item.id}
+        date={item.lastUse}
+        deviceName={item.deviceName}
+        isActiveSession={item.active}
+        location={item.localizationDescription === 'unknown' ? locales.UNKNOWN_LOCALIZATION : item.localizationDescription}
+      />
     );
   };
 

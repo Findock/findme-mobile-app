@@ -1,5 +1,5 @@
 import {
-  StyleSheet, ActivityIndicator, Platform,
+  StyleSheet, ActivityIndicator, Platform, View,
 } from 'react-native';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
@@ -29,5 +29,10 @@ const styles = StyleSheet.create({
     justifyContent: placements.CENTER,
     zIndex: 3,
     backgroundColor: colors.OVERLAY,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });

@@ -1,8 +1,8 @@
-import appConfig from 'app.config';
 import { FButton } from 'components/Buttons/FButton';
 import { FImage } from 'components/Composition/FImage';
 import buttonTypes from 'constants/buttonTypes';
 import images from 'constants/images';
+import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import React from 'react';
 import {
   Platform, StyleSheet, TouchableWithoutFeedback, View,
@@ -21,8 +21,14 @@ export const FAvatar = ({
   size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
 }) => {
   const dispatch = useDispatch();
+  const {
+    tryToAskForCameraRollPermissionsIfIsNotGranted,
+    drawNoPermissionsModal,
+    granted: status,
+  } = useCameraRollPermission();
 
   const uploadImage = async () => {
+    if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
     try {
       await pickImageFromCameraRoll(async (result) => {
         // eslint-disable-next-line no-undef
@@ -50,6 +56,7 @@ export const FAvatar = ({
           onPress={uploadImage}
         >
           <View>
+            {drawNoPermissionsModal()}
             {imageUrl !== '' && (
               <FButton
                 type={buttonTypes.ICON_BUTTON}

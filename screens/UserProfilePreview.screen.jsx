@@ -1,11 +1,10 @@
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useEffect, useState } from 'react';
-import { View, Platform } from 'react-native';
+import { View } from 'react-native';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { getOtherUserService } from 'services/getOtherUser.service';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
-import sizes from 'themes/sizes';
 
 export const UserProfilePreviewScreen = () => {
   const [
@@ -34,22 +33,18 @@ export const UserProfilePreviewScreen = () => {
       hasFlatList={false}
       isAlwaysScrollable
     >
-      {!user ? <FSpinner /> : (
-        <>
-          <View style={{
-            flex: 1,
-            marginTop: Platform.OS === 'ios' ? sizes.MARGIN_10 : 0,
-          }}
-          >
-            <FUserProfileCard
-              user={user}
-              isMe={false}
-            />
-          </View>
-          {drawErrorModal(true)}
-        </>
-      ) }
-
+      <View style={{
+        flex: 1,
+      }}
+      >
+        {!user ? <FSpinner /> : (
+          <FUserProfileCard
+            user={user}
+            isMe={false}
+          />
+        )}
+      </View>
+      {drawErrorModal(true)}
     </FDefaultLayout>
   );
 };

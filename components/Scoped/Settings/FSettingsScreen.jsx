@@ -9,11 +9,14 @@ import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
-
-import { useLocationPermission } from 'hooks/useLocationPermission';
+import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
+import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
+import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
-  const { handleChangeLocationPermission, granted: status } = useLocationPermission();
+  const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
+  const { handleChangeCameraPermission, granted: cameraStatus } = useCameraPermission();
+  const { handleChangeCameraRollPermission, granted: cameraRollStatus } = useCameraRollPermission();
 
   return (
     <>
@@ -29,11 +32,28 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           isForm={false}
           withSwitch
           label={locales.LOCALIZATION_SERVICE}
-          value={status?.granted ? locales.TURN_ON : locales.TURN_OFF}
+          value={locationStatus ? locales.TURN_ON : locales.TURN_OFF}
           style={styles.headerSpace}
-          disabledColor={colors.SUCCESS}
           onSwitchValueChange={handleChangeLocationPermission}
-          switchValue={status}
+          switchValue={locationStatus}
+        />
+        <FSettingsRow
+          isForm={false}
+          withSwitch
+          label={locales.CAMERA_PERMISSION}
+          value={cameraStatus ? locales.TURN_ON : locales.TURN_OFF}
+          style={styles.headerSpace}
+          onSwitchValueChange={handleChangeCameraPermission}
+          switchValue={cameraStatus}
+        />
+        <FSettingsRow
+          isForm={false}
+          withSwitch
+          label={locales.CAMERA_ROLL_PERMISSION}
+          value={cameraRollStatus ? locales.TURN_ON : locales.TURN_OFF}
+          style={styles.headerSpace}
+          onSwitchValueChange={handleChangeCameraRollPermission}
+          switchValue={cameraRollStatus}
         />
       </View>
       <View style={{ marginTop: sizes.MARGIN_50 }}>

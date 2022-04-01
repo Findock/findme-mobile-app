@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import {
-  View, StyleSheet, Platform,
+  View, StyleSheet,
 } from 'react-native';
 import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
@@ -143,7 +143,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
           />
         )}
         {drawErrorModal()}
-        <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }} />
+        <View />
         <FHeading
           title={locales.ACCOUNT_SETTINGS}
           color={colors.PRIMARY}
