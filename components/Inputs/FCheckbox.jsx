@@ -6,11 +6,14 @@ import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import React from 'react';
+import checkboxTypes from 'constants/checkboxTypes';
+import { FHeading } from 'components/Composition/FHeading';
 
 export const FCheckbox = ({
-  checkboxColor, iconColor, value, setValue, style,
+  type, label, labelColor, labelSize, labelWeight,
+  checkboxBorderColor, checkboxBgColor, iconColor, value, setValue, style,
 }) => {
-  const getBackgroundColor = () => (value ? checkboxColor : 'transparent');
+  const getBackgroundColor = () => (value ? checkboxBgColor : 'transparent');
 
   return (
     <TouchableWithoutFeedback
@@ -24,26 +27,47 @@ export const FCheckbox = ({
     >
       <View style={{
         ...style,
-        ...styles.checkboxCointainer,
-        borderColor: checkboxColor,
-        backgroundColor: getBackgroundColor(),
+        ...styles.checkboxContainer,
       }}
       >
-        {value && (
-          <Ionicons
-            name={icons.CHECKMARK_OUTLINE}
-            size={sizes.ICON_22}
-            style={styles.icon}
-            color={iconColor}
-          />
-        )}
+        <View style={{
+          ...styles.checkbox,
+          borderColor: checkboxBorderColor,
+          backgroundColor: getBackgroundColor(),
+        }}
+        >
+          {type === checkboxTypes.CHECKBOX_WITH_ICON && value && (
+            <Ionicons
+              name={icons.CHECKMARK_OUTLINE}
+              size={sizes.ICON_22}
+              style={styles.icon}
+              color={iconColor}
+            />
+          )}
+
+        </View>
+        <View>
+          {label && (
+            <FHeading
+              color={labelColor}
+              title={label}
+              weight={labelWeight}
+              size={labelSize}
+              style={{ marginLeft: sizes.MARGIN_8 }}
+            />
+          )}
+        </View>
       </View>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  checkboxCointainer: {
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: placements.CENTER,
+  },
+  checkbox: {
     borderWidth: sizes.BORDER_1,
     borderRadius: sizes.RADIUS_5,
     width: sizes.WIDTH_22,

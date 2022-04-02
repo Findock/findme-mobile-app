@@ -11,20 +11,19 @@ export const SettingsScreen = () => {
     isForm,
     setIsForm,
   ] = useState(false);
-  const scrollViewRef = useRef();
+  const scrollRef = useRef();
 
   useEffect(() => {
-    scrollViewRef.current?.scrollTo({
-      y: 0,
+    scrollRef.current?.scrollToOffset({
+      offset: 0,
       animated: true,
     });
   }, [isForm]);
 
   return (
     <FDefaultLayout
-      hasFlatList={false}
       isAlwaysScrollable
-      scrollViewRef={scrollViewRef}
+      scrollRef={scrollRef}
     >
       {!me ? <FSpinner /> : (
         isForm ? (
@@ -36,7 +35,7 @@ export const SettingsScreen = () => {
           <FSettingsScreen
             me={me}
             setIsForm={setIsForm}
-            scrollViewRef={scrollViewRef}
+            scrollViewRef={scrollRef}
           />
         )
       )}
