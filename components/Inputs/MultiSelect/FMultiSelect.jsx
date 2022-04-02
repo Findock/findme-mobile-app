@@ -6,7 +6,7 @@ import inputTypes from 'constants/inputTypes';
 import locales from 'constants/locales';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-  View, FlatList, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Platform, Animated,
+  View, FlatList, StyleSheet, Dimensions, TouchableWithoutFeedback, Keyboard, Animated,
 } from 'react-native';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
@@ -121,7 +121,6 @@ export const FMultiSelect = ({ style }) => {
           width={sizes.WIDTH_FULL}
           placeholder={locales.SEARCH}
           marginBottom={0}
-          onChangeText={() => { }}
           showSoftInputOnFocus={false}
           caretHidden
           onPress={() => {
