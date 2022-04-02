@@ -4,7 +4,7 @@ import modalTypes from 'constants/modalTypes';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
-export const useErrorModal = (goBack = false) => {
+export const useErrorModal = (goBack = false, goBackTo = '') => {
   const navigation = useNavigation();
   const [
     showErrorModal,
@@ -13,6 +13,7 @@ export const useErrorModal = (goBack = false) => {
 
   const onContinue = () => {
     if (goBack) return navigation.goBack();
+    if (goBackTo) return navigation.navigate(goBackTo);
   };
 
   const drawErrorModal = () => (

@@ -19,9 +19,12 @@ import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { useErrorModal } from 'hooks/useErrorModal';
+import { FSpinner } from 'components/Composition/FSpinner';
+import { useNavigation } from '@react-navigation/native';
 import { updatePasswordService } from '../services/updatePassword.service';
 
 export const ChangePasswordScreen = () => {
+  const navigation = useNavigation();
   const [
     errors,
     setErrors,
@@ -37,6 +40,10 @@ export const ChangePasswordScreen = () => {
     confirmNewPassword,
     setConfirmNewPassword,
   ] = useState('');
+  const [
+    loading,
+    setLoading,
+  ] = useState(false);
   const [
     passwordChangeSuccessModalVisible,
     setPasswordChangeSuccessModalVisible,
@@ -83,12 +90,14 @@ export const ChangePasswordScreen = () => {
       setErrors([errorMessages.PASSWORDS_ARE_NOT_THE_SAME]);
     } else {
       try {
+        setLoading(true);
         await updatePasswordService(dataForm);
+        setLoading(false);
         setPasswordChangeSuccessModalVisible(true);
         setErrors([]);
       } catch (error) {
+        setLoading(false);
         if (error.response && error.response.data) {
-          console.log(error.response.data);
           checkPasswordValidation(error.response.data);
         }
       }
@@ -102,11 +111,13 @@ export const ChangePasswordScreen = () => {
           title={locales.PASSWORD_CHANGED_SUCCESSFULLY}
           visible={passwordChangeSuccessModalVisible}
           setVisible={setPasswordChangeSuccessModalVisible}
+          onContinue={() => navigation.goBack()}
         />
       )}
       {drawErrorModal()}
       <FKeyboardWrapper>
         <>
+          {loading && <FSpinner />}
           <View style={styles.imageContainer}>
             <FImage
               imagePath={images.CHANGE_PASSWORD()}
