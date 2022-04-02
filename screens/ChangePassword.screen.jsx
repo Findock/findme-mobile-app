@@ -66,7 +66,7 @@ export const ChangePasswordScreen = () => {
     const { message, statusCode } = response;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('Invalid')) {
+      if (message.join(' ').includes('old')) {
         errs.push(errorMessages.INVALID_OLD_PASSWORD);
       }
       if (message.join(' ').includes('newPassword')) {
@@ -88,6 +88,7 @@ export const ChangePasswordScreen = () => {
         setErrors([]);
       } catch (error) {
         if (error.response && error.response.data) {
+          console.log(error.response.data);
           checkPasswordValidation(error.response.data);
         }
       }
