@@ -27,8 +27,8 @@ export const FModal = ({
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
           onPress={() => {
-            setVisible(false);
             onContinue();
+            setVisible(false);
           }}
         />
       );
