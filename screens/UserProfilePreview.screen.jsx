@@ -30,21 +30,22 @@ export const UserProfilePreviewScreen = () => {
   };
   return (
     <FDefaultLayout
-      hasFlatList={false}
       isAlwaysScrollable
     >
-      <View style={{
-        flex: 1,
-      }}
-      >
-        {!user ? <FSpinner /> : (
-          <FUserProfileCard
-            user={user}
-            isMe={false}
-          />
-        )}
-      </View>
-      {drawErrorModal(true)}
+      <>
+        <View style={{
+          flex: 1,
+        }}
+        >
+          {!user ? <FSpinner /> : (
+            <FUserProfileCard
+              user={user}
+              isMe={false}
+            />
+          )}
+        </View>
+        {drawErrorModal(true)}
+      </>
     </FDefaultLayout>
   );
 };

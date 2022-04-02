@@ -16,7 +16,7 @@ import fonts from 'themes/fonts';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
-  marginBottom = sizes.MARGIN_25, width, outline = false,
+  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => {}, showSoftInputOnFocus = true, caretHidden = false,
 }) => {
   const [
     isPasswordVisible,
@@ -109,6 +109,7 @@ export const FInput = ({
         color={colors.DARK_GRAY}
       />
       <TextInput
+        showSoftInputOnFocus={showSoftInputOnFocus}
         placeholder={placeholder}
         value={getValue()}
         onChangeText={onChangeText}
@@ -118,6 +119,8 @@ export const FInput = ({
         secureTextEntry={!isPasswordVisible && type === inputTypes.PASSWORD}
         keyboardType={getKeyboardType()}
         multiline={type === inputTypes.TEXTAREA}
+        onFocus={onPress}
+        caretHidden={caretHidden}
         style={{
           ...styles.input,
           paddingLeft: calcPaddingLeft(),

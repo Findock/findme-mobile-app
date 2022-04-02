@@ -22,6 +22,7 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/modalTypes';
 import { useNavigation } from '@react-navigation/native';
+import checkboxTypes from 'constants/checkboxTypes';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -164,17 +165,16 @@ export const FRegistrationForm = () => {
       <View>
         <View style={styles.regulationsContainer}>
           <FCheckbox
-            style={styles.checkbox}
             iconColor={colors.WHITE}
-            checkboxColor={colors.PRIMARY}
+            checkboxBorderColor={colors.PRIMARY}
+            checkboxBgColor={colors.PRIMARY}
             setValue={termsAcceptedHandler}
             value={dataForm.termsAccepted}
-          />
-          <FHeading
-            title={locales.ACCEPT_REGULATIONS}
-            size={fonts.HEADING_EXTRA_SMALL}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
-            color={colors.DARK_GRAY}
+            label={locales.ACCEPT_REGULATIONS}
+            type={checkboxTypes.CHECKBOX_WITH_ICON}
+            labelSize={fonts.HEADING_EXTRA_SMALL}
+            labelWeight={fonts.HEADING_WEIGHT_MEDIUM}
+            labelColor={colors.DARK_GRAY}
           />
         </View>
         <View style={styles.regulationsErrorMessageContainer}>
@@ -229,8 +229,5 @@ const styles = StyleSheet.create({
   },
   regulationsErrorMessageContainer: {
     marginTop: sizes.MARGIN_5,
-  },
-  checkbox: {
-    marginRight: sizes.MARGIN_10,
   },
 });
