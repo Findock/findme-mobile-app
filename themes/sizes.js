@@ -78,6 +78,7 @@ export default {
   RADIUS_15: 15,
   RADIUS_20: 20,
   RADIUS_40: 40,
+  RADIUS_50: 50,
 
   // ELEVATION
   ELEVATION_1: 1,
