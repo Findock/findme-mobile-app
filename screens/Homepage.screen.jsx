@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import { FTileImageInput } from 'components/Inputs/FTileImageInput';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
