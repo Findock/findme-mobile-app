@@ -75,6 +75,7 @@ export default {
 
   // BORDER RADIUS
   RADIUS_5: 5,
+  RADIUS_10: 10,
   RADIUS_15: 15,
   RADIUS_20: 20,
   RADIUS_40: 40,

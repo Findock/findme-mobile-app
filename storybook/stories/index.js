@@ -11,5 +11,6 @@ import './Compositional/FAvatar.stories';
 import './Buttons/FWideButton.stories';
 import './Inputs/FSwitch.stories';
 import './Inputs/BigSwitch.stories';
+import './Inputs/TileSelectInput.stories';
 import './Compositional/FCard.stories';
 import './Compositional/FBadge.stories';
