@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import { FMultiSelect } from 'components/Inputs/MultiSelect/FMultiSelect';
 import buttonTypes from 'constants/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
@@ -30,7 +29,6 @@ export const HomepageScreen = () => {
 
   return (
     <FDefaultLayout hasFlatList>
-      <FMultiSelect />
       <View>
         <View style={styles.buttonContainer}>
           <FButton
