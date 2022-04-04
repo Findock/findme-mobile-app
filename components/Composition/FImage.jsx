@@ -6,6 +6,7 @@ import sizes from 'themes/sizes';
 
 export const FImage = ({
   width, height, imagePath, children, containerStyle, resizeMode, networkImageUrl, imageStyle,
+  imageWidth = sizes.WIDTH_FULL, imageHeight = sizes.HEIGHT_FULL,
 }) => {
   const getUri = () => {
     if (networkImageUrl) return networkImageUrl;
@@ -25,12 +26,13 @@ export const FImage = ({
         }}
         resizeMode={resizeMode}
         style={{
-          width: sizes.WIDTH_FULL,
-          height: sizes.WIDTH_FULL,
+          width: imageWidth,
+          height: imageHeight,
           ...imageStyle,
         }}
-      />
-      {children}
+      >
+        {children}
+      </ImageBackground>
     </View>
   );
 };

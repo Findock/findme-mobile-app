@@ -1,6 +1,6 @@
 import { useAppStateChange } from 'hooks/useAppStateChange';
 import { useEffect, useState } from 'react';
-import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import modalTypes from 'constants/modalTypes';
 import locales from 'constants/locales';
 import { FModal } from 'components/Composition/FModal';
@@ -19,7 +19,7 @@ export const useCameraPermission = () => {
 
   useEffect(() => {
     const readPermissions = async () => {
-      const permission = await Camera.getCameraPermissionsAsync();
+      const permission = await ImagePicker.getCameraPermissionsAsync();
       setPermissionsStatus(permission);
     };
     readPermissions();
@@ -27,7 +27,7 @@ export const useCameraPermission = () => {
 
   const handleChangeCameraPermission = () => {
     if (permissionsStatus?.canAskAgain && !permissionsStatus?.granted) {
-      Camera.requestCameraPermissionsAsync();
+      ImagePicker.requestCameraPermissionsAsync();
     } else {
       Linking.openSettings();
     }
@@ -36,22 +36,20 @@ export const useCameraPermission = () => {
   const tryToAskForCameraPermissionsIfIsNotGranted = () => {
     if (!permissionsStatus?.granted) {
       if (permissionsStatus?.canAskAgain) {
-        Camera.requestCameraPermissionsAsync();
+        ImagePicker.requestCameraPermissionsAsync();
       } else {
         setDeniedCameraPermissionModalVisible(true);
       }
     }
   };
 
-  const drawNoPermissionsModal = () => (
-    deniedCameraPermissionModalVisible && (
-      <FModal
-        type={modalTypes.INFO_MODAL}
-        title={locales.CAMERA_DENIED}
-        visible={deniedCameraPermissionModalVisible}
-        setVisible={setDeniedCameraPermissionModalVisible}
-      />
-    )
+  const drawNoPermissionsModal = () => deniedCameraPermissionModalVisible && (
+    <FModal
+      type={modalTypes.INFO_MODAL}
+      title={locales.CAMERA_DENIED}
+      visible={deniedCameraPermissionModalVisible}
+      setVisible={setDeniedCameraPermissionModalVisible}
+    />
   );
 
   return {

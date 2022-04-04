@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   TouchableOpacity, Text, View, StyleSheet,
 } from 'react-native';
@@ -8,14 +8,13 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 
 export const BigSwitch = ({
-  value, setValue, labels,
+  values, value, setValue, labels,
 }) => {
-  const [
-    isSelected,
-    setIsSelected,
-  ] = useState(true);
-  useEffect(() => (isSelected ? setValue(labels[0]) : setValue(labels[1])));
-  useEffect(() => console.log(value), [value]);
+  const onToggleHandler = () => {
+    if (values[0] === value) setValue(values[1]);
+    else setValue(values[0]);
+  };
+
   return (
     <View style={{
       flexDirection: 'row',
@@ -25,21 +24,17 @@ export const BigSwitch = ({
     }}
     >
       <TouchableOpacity
-        style={[styles.container, isSelected ? styles.backgroundChecked : '']}
-        onPress={() => {
-          setIsSelected(!isSelected);
-        }}
+        style={[styles.container, value === values[0] ? styles.backgroundChecked : '']}
+        onPress={onToggleHandler}
       >
-        <Text style={[styles.text, isSelected ? styles.textChecked : '']}>{labels[0]}</Text>
+        <Text style={[styles.text, value === values[0] ? styles.textChecked : '']}>{labels[0]}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[styles.container, !isSelected ? styles.backgroundChecked : '']}
-        onPress={() => {
-          setIsSelected(!isSelected);
-        }}
+        style={[styles.container, value === values[1] ? styles.backgroundChecked : '']}
+        onPress={onToggleHandler}
       >
-        <Text style={[styles.text, !isSelected ? styles.textChecked : '']}>{labels[1]}</Text>
+        <Text style={[styles.text, value === values[1] ? styles.textChecked : '']}>{labels[1]}</Text>
       </TouchableOpacity>
     </View>
   );
