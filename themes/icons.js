@@ -29,4 +29,6 @@ export default {
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
   TRASH: 'trash',
+  CLOSE_OUTLINE: 'close-outline',
+  ADD_OUTLINE: 'add-outline',
 };

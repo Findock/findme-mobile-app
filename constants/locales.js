@@ -16,7 +16,7 @@ export default {
   ANNOUNCEMENTS_NEXT_TO_YOU: 'Ogłoszenia obok Ciebie',
   LOCATION: 'Lokalizacja',
   CATEGORY: 'Kategoria',
-  SEARCH: 'Szukaj',
+  SEARCH: 'Wyszukaj...',
   ACCOUNT_SETTINGS: 'Ustawienia konta',
   LOG_OUT: 'Wyloguj się',
   WRITE_MESSAGE: 'Napisz wiadomość',
@@ -72,6 +72,4 @@ export default {
   ONLINE: 'online',
   MESSAGE_SEND_SUCCESS: 'Wiadomość wysłana pomyślnie!',
   PASSWORD_CHANGED_SUCCESSFULLY: 'Hasło zostało zmienione pomyślnie!',
-  LOST: 'Zagubione',
-  FOUND: 'Znalezione',
 };
