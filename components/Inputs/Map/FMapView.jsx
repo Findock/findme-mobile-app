@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps';
 import {
   View, StyleSheet, Dimensions,
 } from 'react-native';
-import { mapStyle } from 'components/Inputs/Map/styles/styles';
+import mapStyle from 'components/Inputs/Map/styles/styles.json';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import * as Location from 'expo-location';
 import { FInput } from 'components/Inputs/FInput';
