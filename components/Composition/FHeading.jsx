@@ -4,11 +4,12 @@ import React from 'react';
 import sizes from 'themes/sizes';
 
 export const FHeading = ({
-  title, size, color, weight, align = placements.LEFT, style, marginBottom = 0, isUnderline = false,
+  title, size, color, weight, align = placements.LEFT, style, marginBottom = 0, paddingVertical = 0, isUnderline = false,
 }) => (
   <View style={{
     width: sizes.WIDTH_FULL,
     marginBottom,
+    paddingVertical,
     ...style,
   }}
   >

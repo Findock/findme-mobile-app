@@ -19,8 +19,8 @@ export const FBigSwitch = ({
   return (
     <View style={{
       flexDirection: 'row',
-      borderWidth: 2,
-      borderRadius: 50,
+      borderWidth: sizes.BORDER_2,
+      borderRadius: sizes.RADIUS_50,
       borderColor: colors.PRIMARY,
     }}
     >
@@ -28,14 +28,28 @@ export const FBigSwitch = ({
         style={[styles.container, value === values[0] ? styles.backgroundChecked : '']}
         onPress={onToggleHandler}
       >
-        <FHeading style={[styles.text, value === values[0] ? styles.textChecked : '']}>{labels[0]}</FHeading>
+        <FHeading
+          align={placements.CENTER}
+          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+          size={fonts.HEADING_MEDIUM}
+          title={labels[0]}
+          color={value === values[0] ? colors.WHITE : colors.BLACK}
+          paddingVertical={sizes.PADDING_10}
+        />
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.container, value === values[1] ? styles.backgroundChecked : '']}
         onPress={onToggleHandler}
       >
-        <FHeading style={[styles.text, value === values[1] ? styles.textChecked : '']}>{labels[1]}</FHeading>
+        <FHeading
+          align={placements.CENTER}
+          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+          size={fonts.HEADING_MEDIUM}
+          title={labels[0]}
+          color={value === values[1] ? colors.WHITE : colors.BLACK}
+          paddingVertical={sizes.PADDING_10}
+        />
       </TouchableOpacity>
     </View>
   );
@@ -44,21 +58,12 @@ export const FBigSwitch = ({
 const styles = StyleSheet.create(
   {
     container: {
+      backgroundColor: colors.WHITE,
       borderRadius: sizes.RADIUS_50,
       width: sizes.WIDTH_HALF,
     },
-    text: {
-      fontWeight: fonts.HEADING_WEIGHT_SEMIBOLD,
-      fontSize: fonts.HEADING_NORMAL,
-      textAlign: placements.CENTER,
-      paddingVertical: sizes.PADDING_10,
-      color: colors.BLACK,
-    },
     backgroundChecked: {
       backgroundColor: colors.PRIMARY,
-    },
-    textChecked: {
-      color: colors.WHITE,
     },
   },
 );
