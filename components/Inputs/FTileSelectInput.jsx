@@ -17,7 +17,7 @@ export const FTileSelectInput = ({
       {
         backgroundColor: value ? colors.PRIMARY : colors.LIGHT_GRAY,
         shadowOpacity: value ? 0 : opacities.SHADOW_OPACITY_1,
-        elevation: value ? 0 : sizes.ELEVATION_5,
+        elevation: value ? 0 : sizes.ELEVATION_1,
         width,
         height,
         ...style,
