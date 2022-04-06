@@ -13,5 +13,5 @@ export default {
   OVERLAY_DARK: 'rgba(0, 0, 0, 0.5)',
   TRANSPARENT: 'transparent',
   PRIMARY: '#45A4A8',
-  SECONDARY: '#F3AC8E',
+  SECONDARY: '#FE6A56',
 };

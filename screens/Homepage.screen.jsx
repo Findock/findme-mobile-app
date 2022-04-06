@@ -62,7 +62,6 @@ export const HomepageScreen = () => {
           />
         </View>
       </View>
-
     </FDefaultLayout>
   );
 };
