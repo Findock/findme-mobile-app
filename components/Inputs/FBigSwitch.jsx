@@ -1,13 +1,14 @@
 import React from 'react';
 import {
-  TouchableOpacity, Text, View, StyleSheet,
+  TouchableOpacity, View, StyleSheet,
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import { FHeading } from 'components/Composition/FHeading';
 
-export const BigSwitch = ({
+export const FBigSwitch = ({
   values, value, setValue, labels,
 }) => {
   const onToggleHandler = () => {
@@ -27,14 +28,14 @@ export const BigSwitch = ({
         style={[styles.container, value === values[0] ? styles.backgroundChecked : '']}
         onPress={onToggleHandler}
       >
-        <Text style={[styles.text, value === values[0] ? styles.textChecked : '']}>{labels[0]}</Text>
+        <FHeading style={[styles.text, value === values[0] ? styles.textChecked : '']}>{labels[0]}</FHeading>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={[styles.container, value === values[1] ? styles.backgroundChecked : '']}
         onPress={onToggleHandler}
       >
-        <Text style={[styles.text, value === values[1] ? styles.textChecked : '']}>{labels[1]}</Text>
+        <FHeading style={[styles.text, value === values[1] ? styles.textChecked : '']}>{labels[1]}</FHeading>
       </TouchableOpacity>
     </View>
   );
@@ -48,6 +49,7 @@ const styles = StyleSheet.create(
     },
     text: {
       fontWeight: fonts.HEADING_WEIGHT_SEMIBOLD,
+      fontSize: fonts.HEADING_NORMAL,
       textAlign: placements.CENTER,
       paddingVertical: sizes.PADDING_10,
       color: colors.BLACK,
