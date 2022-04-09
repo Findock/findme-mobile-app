@@ -8,6 +8,7 @@ import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FMultiSelectOptions = ({
   options,
@@ -73,4 +74,11 @@ export const FMultiSelectOptions = ({
       )}
     />
   );
+};
+
+FMultiSelectOptions.propTypes = {
+  options: PropTypes.shape({
+    key: PropTypes.number.isRequired,
+    namePl: PropTypes.string.isRequired,
+  }).isRequired,
 };

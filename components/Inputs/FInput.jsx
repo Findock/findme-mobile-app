@@ -13,6 +13,7 @@ import inputTypes from 'constants/components/inputs/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
+import PropTypes from 'prop-types';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
@@ -157,3 +158,21 @@ const styles = StyleSheet.create({
     marginTop: sizes.MARGIN_3,
   },
 });
+
+FInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChangeText: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(['phone', 'email', 'password', 'text', 'textarea']).isRequired,
+  icon: PropTypes.string,
+  iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number,
+  errorMessage: PropTypes.string,
+  rounded: PropTypes.bool,
+  marginBottom: PropTypes.number,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  outline: PropTypes.bool,
+  onPress: PropTypes.func.isRequired,
+  showSoftInputOnFocus: PropTypes.bool,
+  caretHidden: PropTypes.bool,
+};

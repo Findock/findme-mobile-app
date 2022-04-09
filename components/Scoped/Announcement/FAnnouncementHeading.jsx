@@ -4,6 +4,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FAnnouncementHeading = ({ title }) => (
   <FHeading
@@ -15,3 +16,7 @@ export const FAnnouncementHeading = ({ title }) => (
     style={{ marginBottom: sizes.MARGIN_8 }}
   />
 );
+
+FAnnouncementHeading.propTypes = {
+  title: PropTypes.string.isRequired,
+};

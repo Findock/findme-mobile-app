@@ -61,5 +61,6 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'react/no-unstable-nested-components': 'off',
     'no-plusplus': 'off',
+    'react/require-default-props': 'off',
   },
 };

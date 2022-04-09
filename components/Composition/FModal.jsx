@@ -12,6 +12,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FModal = ({
   title, type, visible, setVisible, onCancel = () => { }, onConfirm = () => { }, onContinue = () => { }, onFirstChoice = () => { },
@@ -177,3 +178,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+FModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['info', 'confirm', 'make-choice']).isRequired,
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func,
+  onContinue: PropTypes.func,
+  onFirstChoice: PropTypes.func,
+  onSecondChoice: PropTypes.func,
+  onClose: PropTypes.func,
+  firstChoice: PropTypes.string,
+  secondChoice: PropTypes.string,
+};

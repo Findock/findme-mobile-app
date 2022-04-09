@@ -9,6 +9,7 @@ import placements from 'themes/placements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActionTypes';
 import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
+import PropTypes from 'prop-types';
 
 export const FSwipeButtonCell = ({
   cellType, cellAction, onActionPress,
@@ -106,3 +107,9 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 });
+
+FSwipeButtonCell.propTypes = {
+  cellType: PropTypes.string.isRequired,
+  cellAction: PropTypes.string.isRequired,
+  onActionPress: PropTypes.func.isRequired,
+};

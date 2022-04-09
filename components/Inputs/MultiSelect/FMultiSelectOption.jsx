@@ -5,6 +5,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FMultiSelectOption = ({ label, setValue, value }) => (
   <View style={styles.option}>
@@ -33,3 +34,9 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FMultiSelectOption.propTypes = {
+  label: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+};

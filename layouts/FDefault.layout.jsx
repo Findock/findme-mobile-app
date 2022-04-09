@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FDefaultLayout = ({
   children, noPaddingVertical = false, noPaddingHorizontal = false, scrollRef,
@@ -34,3 +35,9 @@ export const FDefaultLayout = ({
     )}
   />
 );
+
+FDefaultLayout.propTypes = {
+  noPaddingVertical: PropTypes.bool,
+  noPaddingHorizontal: PropTypes.bool,
+  scrollRef: PropTypes.objectOf(PropTypes.any),
+};

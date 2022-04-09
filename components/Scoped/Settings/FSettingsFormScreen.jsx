@@ -25,6 +25,7 @@ import errorMessages from 'constants/components/inputs/errorMessages';
 import { updateUserService } from 'services/user/updateUser.service';
 import { deleteAccountService } from 'services/user/deleteAccount.service';
 import { getMeService } from 'services/user/getMe.service';
+import PropTypes from 'prop-types';
 
 export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();
@@ -246,3 +247,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+FSettingsFormScreen.propTypes = {
+  me: PropTypes.objectOf(PropTypes.any),
+  setIsForm: PropTypes.func.isRequired,
+};

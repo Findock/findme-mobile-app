@@ -9,6 +9,7 @@ import placements from 'themes/placements';
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import colors from 'themes/colors';
+import PropTypes from 'prop-types';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
@@ -170,3 +171,18 @@ const styles = StyleSheet.create({
     justifyContent: placements.CENTER,
   },
 });
+
+FButton.propTypes = {
+  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text']).isRequired,
+  icon: PropTypes.string,
+  title: PropTypes.string,
+  to: PropTypes.string,
+  color: PropTypes.string,
+  titleSize: PropTypes.number,
+  titleWeight: PropTypes.string,
+  iconSize: PropTypes.number,
+  onPress: PropTypes.func.isRequired,
+  backgroundColor: PropTypes.string,
+  iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
+  isUnderline: PropTypes.bool,
+};

@@ -11,6 +11,7 @@ import inputTypes from 'constants/components/inputs/inputTypes';
 import sizes from 'themes/sizes';
 import { FSpinner } from 'components/Composition/FSpinner';
 import placeholders from 'constants/components/inputs/placeholders';
+import PropTypes from 'prop-types';
 
 export const FMapView = ({ height, isInteractive }) => {
   const { granted: status } = useLocationPermission();
@@ -138,3 +139,8 @@ const styles = StyleSheet.create({
     height: sizes.HEIGHT_90_PERCENTAGES,
   },
 });
+
+FMapView.propTypes = {
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  isInteractive: PropTypes.bool.isRequired,
+};

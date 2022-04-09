@@ -10,6 +10,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FSettingsRow = ({
   label, value, isForm, withSwitch, style, onChangeText = () => { }, isPhoneInput, errorMessage, maxLength, isTextarea = false,
@@ -126,3 +127,19 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FSettingsRow.propTypes = {
+  label: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  isForm: PropTypes.bool.isRequired,
+  withSwitch: PropTypes.bool.isRequired,
+  onChangeText: PropTypes.func,
+  isPhoneInput: PropTypes.bool,
+  errorMessage: PropTypes.string,
+  maxLength: PropTypes.number,
+  isTextarea: PropTypes.bool,
+  onSwitchValueChange: PropTypes.func,
+  switchValue: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  disabledColor: PropTypes.string,
+};

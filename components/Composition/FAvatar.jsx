@@ -16,6 +16,7 @@ import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
 import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
+import PropTypes from 'prop-types';
 
 export const FAvatar = ({
   size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -131,3 +132,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
+FAvatar.propTypes = {
+  size: PropTypes.number.isRequired,
+  isEditable: PropTypes.bool.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  setShowConfirmDeleteUserProfileImageModal: PropTypes.func.isRequired,
+  setShowErrorModal: PropTypes.func,
+};

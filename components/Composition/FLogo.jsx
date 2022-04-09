@@ -7,6 +7,7 @@ import icons from 'themes/icons';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const FLogo = ({ color, fill }) => {
   const getIconName = () => (fill ? icons.PAW : icons.PAW_OUTLINE);
@@ -39,3 +40,8 @@ const styles = StyleSheet.create({
     marginRight: sizes.MARGIN_5,
   },
 });
+
+FLogo.propTypes = {
+  color: PropTypes.string.isRequired,
+  fill: PropTypes.bool.isRequired,
+};

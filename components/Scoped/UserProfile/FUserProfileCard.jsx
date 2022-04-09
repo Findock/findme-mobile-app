@@ -15,6 +15,7 @@ import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import { FBadge } from 'components/Composition/FBadge';
+import PropTypes from 'prop-types';
 
 export const FUserProfileCard = ({
   user, isMe, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -171,3 +172,10 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FUserProfileCard.propTypes = {
+  user: PropTypes.objectOf(PropTypes.any).isRequired,
+  isMe: PropTypes.bool.isRequired,
+  setShowConfirmDeleteUserProfileImageModal: PropTypes.func,
+  setShowErrorModal: PropTypes.func,
+};

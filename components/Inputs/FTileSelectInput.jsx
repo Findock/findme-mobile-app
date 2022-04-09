@@ -7,6 +7,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import opacities from 'themes/opacities';
 import { FHeading } from 'components/Composition/FHeading';
+import PropTypes from 'prop-types';
 
 export const FTileSelectInput = ({
   width, height, iconSize, iconDefault, iconPressed, label, setValue, value, style,
@@ -61,3 +62,14 @@ const styles = StyleSheet.create({
     elevation: sizes.ELEVATION_1,
   },
 });
+
+FTileSelectInput.propTypes = {
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  iconSize: PropTypes.number.isRequired,
+  iconDefault: PropTypes.string.isRequired,
+  iconPressed: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+};

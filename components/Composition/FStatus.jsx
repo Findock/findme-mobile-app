@@ -3,6 +3,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FStatus = ({ status, style }) => {
   const getStatusBgColorByStatus = () => {
@@ -32,3 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: Math.ceil(sizes.RADIUS_15 / 2),
   },
 });
+
+FStatus.propTypes = {
+  status: PropTypes.oneOf(['new-message', 'active']).isRequired,
+};

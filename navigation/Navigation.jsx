@@ -139,7 +139,12 @@ export const Navigation = () => {
               component={UserProfileScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => (
+                  <FLogo
+                    color={colors.PRIMARY}
+                    fill={false}
+                  />
+                ),
               }}
             />
             <Stack.Screen
@@ -167,7 +172,12 @@ export const Navigation = () => {
               component={UserProfilePreviewScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => (
+                  <FLogo
+                    color={colors.PRIMARY}
+                    fill={false}
+                  />
+                ),
               }}
             />
             <Stack.Screen
@@ -175,7 +185,12 @@ export const Navigation = () => {
               component={AddAnnouncementScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => (
+                  <FLogo
+                    color={colors.PRIMARY}
+                    fill={false}
+                  />
+                ),
               }}
             />
             <Stack.Screen
@@ -183,7 +198,12 @@ export const Navigation = () => {
               component={MultiSelectScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => (
+                  <FLogo
+                    color={colors.PRIMARY}
+                    fill={false}
+                  />
+                ),
               }}
             />
           </>

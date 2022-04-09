@@ -9,6 +9,7 @@ import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import { useNavigation } from '@react-navigation/native';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import PropTypes from 'prop-types';
 
 export const FMultiSelectInputWithSelectedOptions = ({ options, style }) => {
   const selectedOptions = useSelector((state) => state.selectedOptions.selectedOptions);
@@ -57,3 +58,10 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 });
+
+FMultiSelectInputWithSelectedOptions.propTypes = {
+  options: PropTypes.shape({
+    key: PropTypes.number.isRequired,
+    namePl: PropTypes.string.isRequired,
+  }).isRequired,
+};

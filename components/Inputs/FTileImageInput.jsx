@@ -16,6 +16,7 @@ import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
+import PropTypes from 'prop-types';
 
 export const FTileImageInput = ({ width, height }) => {
   const [
@@ -169,3 +170,8 @@ const styles = StyleSheet.create({
     zIndex: 3,
   },
 });
+
+FTileImageInput.propTypes = {
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};

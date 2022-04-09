@@ -13,6 +13,7 @@ import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import PropTypes from 'prop-types';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
   const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
@@ -138,3 +139,8 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FSettingsScreen.propTypes = {
+  me: PropTypes.objectOf(PropTypes.any),
+  setIsForm: PropTypes.func.isRequired,
+};
