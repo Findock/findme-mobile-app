@@ -6,6 +6,10 @@ export default {
   ICON_30: 30,
   ICON_100: 100,
 
+  // FLEX BASIS
+  BASIS_47_PERCENTAGES: '47%',
+  BASIS_53_PERCENTAGES: '53%',
+
   // WIDTHS
   WIDTH_0: 0,
   WIDTH_15: 15,
