@@ -25,7 +25,6 @@ export default {
   // HEIGHTS
   HEIGHT_N1: -1,
   HEIGHT_1: 1,
-  HEIGHT_2: 2,
   HEIGHT_4: 4,
   HEIGHT_15: 15,
   HEIGHT_22: 22,
@@ -109,5 +108,4 @@ export default {
   // RESIZE MODE
   CONTAIN: 'contain',
   COVER: 'cover',
-
 };
