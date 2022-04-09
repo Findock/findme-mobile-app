@@ -4,6 +4,6 @@ export default {
   USER_AVATAR: () => require('assets/user-avatar.png'),
   CHANGE_PASSWORD: () => require('assets/change_password.png'),
   DOG: () => require('assets/dog.png'),
-  CAT_BLACK: () => require('assets/cat-b.png'),
-  CAT_WHITE: () => require('assets/cat-w.png'),
+  CAT_BLACK: () => require('assets/animalCategory/cat-b.png'),
+  CAT_WHITE: () => require('assets/animalCategory/cat-w.png'),
 };

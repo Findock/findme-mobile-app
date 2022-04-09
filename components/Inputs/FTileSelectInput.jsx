@@ -11,31 +11,36 @@ import { FHeading } from 'components/Composition/FHeading';
 export const FTileSelectInput = ({
   width, height, iconSize, iconDefault, iconPressed, label, setValue, value, style,
 }) => (
-  <TouchableOpacity onPress={() => setValue(!value)}>
-    <View style={[
-      styles.backgroundContainer,
-      {
+  <TouchableOpacity
+    onPress={setValue}
+    style={{ padding: sizes.PADDING_10 }}
+  >
+    <FImage
+      imagePath={value ? iconPressed : iconDefault}
+      width={width}
+      height={height}
+      resizeMode={sizes.CONTAIN}
+      imageWidth={iconSize}
+      imageHeight={iconSize}
+      containerStyle={{
+        ...styles.backgroundContainer,
         backgroundColor: value ? colors.PRIMARY : colors.LIGHT_GRAY,
-        shadowOpacity: value ? 0 : opacities.SHADOW_OPACITY_1,
-        elevation: value ? 0 : sizes.ELEVATION_1,
         width,
         height,
         ...style,
-      },
-    ]}
+      }}
+    />
+    <View style={{
+      marginTop: 10,
+      width,
+    }}
     >
-      <FImage
-        imagePath={value ? iconPressed : iconDefault}
-        width={iconSize}
-        height={iconSize}
-      />
-    </View>
-    <View>
       <FHeading
         align={placements.CENTER}
         title={label}
         weight={fonts.HEADING_WEIGHT_SEMIBOLD}
         color={colors.DARK_GRAY}
+        size={fonts.HEADING_SMALL}
       />
     </View>
   </TouchableOpacity>
@@ -44,14 +49,15 @@ export const FTileSelectInput = ({
 const styles = StyleSheet.create({
   backgroundContainer: {
     justifyContent: placements.CENTER,
-    margin: sizes.MARGIN_10,
     alignItems: placements.CENTER,
     borderRadius: sizes.RADIUS_10,
     shadowColor: colors.BLACK,
+    shadowOpacity: opacities.SHADOW_OPACITY_018,
     shadowOffset: {
       width: 0,
-      height: sizes.HEIGHT_2,
+      height: sizes.HEIGHT_1,
     },
-    shadowRadius: sizes.RADIUS_5,
+    shadowRadius: sizes.SHADOW_RADIUS_1,
+    elevation: sizes.ELEVATION_1,
   },
 });
