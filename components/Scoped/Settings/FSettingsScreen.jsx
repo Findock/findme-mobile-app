@@ -1,5 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import React from 'react';
 import colors from 'themes/colors';

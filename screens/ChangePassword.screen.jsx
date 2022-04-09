@@ -6,22 +6,23 @@ import colors from 'themes/colors';
 import locales from 'constants/locales';
 import placements from 'themes/placements';
 import fonts from 'themes/fonts';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import { FInput } from 'components/Inputs/FInput';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import { FButton } from 'components/Buttons/FButton';
 import { View, StyleSheet } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
-import errorMessages from 'constants/errorMessages';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useNavigation } from '@react-navigation/native';
-import { updatePasswordService } from '../services/updatePassword.service';
+import placeholders from 'constants/components/inputs/placeholders';
+import errorMessages from 'constants/components/inputs/errorMessages';
+import { updatePasswordService } from 'services/user/updatePassword.service';
 
 export const ChangePasswordScreen = () => {
   const navigation = useNavigation();
@@ -129,7 +130,7 @@ export const ChangePasswordScreen = () => {
             iconPlacement={placements.LEFT}
             type={inputTypes.PASSWORD}
             icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={locales.PASS_OLD_PASSWORD}
+            placeholder={placeholders.PASS_OLD_PASSWORD}
             marginBottom={sizes.MARGIN_30}
             onChangeText={oldPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.INVALID_OLD_PASSWORD)}
@@ -138,7 +139,7 @@ export const ChangePasswordScreen = () => {
             iconPlacement={placements.LEFT}
             type={inputTypes.PASSWORD}
             icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={locales.PASS_NEW_PASSWORD}
+            placeholder={placeholders.PASS_NEW_PASSWORD}
             onChangeText={newPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
               || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
@@ -147,7 +148,7 @@ export const ChangePasswordScreen = () => {
             iconPlacement={placements.LEFT}
             type={inputTypes.PASSWORD}
             icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={locales.REPEAT_NEW_PASSWORD}
+            placeholder={placeholders.REPEAT_NEW_PASSWORD}
             onChangeText={confirmNewPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
               || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}

@@ -22,7 +22,6 @@ export const SettingsScreen = () => {
 
   return (
     <FDefaultLayout
-      isAlwaysScrollable
       scrollRef={scrollRef}
     >
       {!me ? <FSpinner /> : (
@@ -35,7 +34,6 @@ export const SettingsScreen = () => {
           <FSettingsScreen
             me={me}
             setIsForm={setIsForm}
-            scrollViewRef={scrollRef}
           />
         )
       )}

@@ -7,10 +7,10 @@ import mapStyle from 'components/Inputs/Map/styles/styles.json';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import * as Location from 'expo-location';
 import { FInput } from 'components/Inputs/FInput';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import sizes from 'themes/sizes';
 import { FSpinner } from 'components/Composition/FSpinner';
-import locales from 'constants/locales';
+import placeholders from 'constants/components/inputs/placeholders';
 
 export const FMapView = ({ height, isInteractive }) => {
   const { granted: status } = useLocationPermission();
@@ -83,14 +83,14 @@ export const FMapView = ({ height, isInteractive }) => {
           <FInput
             type={inputTypes.TEXT}
             width={sizes.WIDTH_FULL}
-            placeholder={locales.SEARCH_OR_MARK_ON_THE_MAP}
+            placeholder={placeholders.SEARCH_OR_MARK_ON_THE_MAP}
             value={location.location}
             onChangeText={locationDescriptionInputHandler}
           />
           <FInput
             type={inputTypes.TEXT}
             width={sizes.WIDTH_FULL}
-            placeholder={locales.ADD_LOCATION_DESCRIPTION}
+            placeholder={placeholders.ADD_LOCATION_DESCRIPTION}
             value={location.description}
             onChangeText={locationInputHandler}
           />

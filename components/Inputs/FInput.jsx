@@ -9,7 +9,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';

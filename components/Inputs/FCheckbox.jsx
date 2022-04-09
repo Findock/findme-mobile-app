@@ -6,8 +6,8 @@ import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import React from 'react';
-import checkboxTypes from 'constants/checkboxTypes';
 import { FHeading } from 'components/Composition/FHeading';
+import checkboxTypes from 'constants/components/checkboxTypes';
 
 export const FCheckbox = ({
   type, label, labelColor, labelSize, labelWeight,

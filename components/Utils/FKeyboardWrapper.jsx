@@ -5,8 +5,8 @@ import React from 'react';
 
 export const FKeyboardWrapper = ({ children }) => (
   <KeyboardAvoidingView
-    behavior="position"
-    keyboardVerticalOffset={Platform.OS === 'ios' ? -50 : -500}
+    behavior={Platform.OS === 'ios' ? 'position' : null}
+    keyboardVerticalOffset={-50}
     contentContainerStyle={{
       flex: 1,
     }}

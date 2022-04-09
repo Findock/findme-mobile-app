@@ -12,7 +12,7 @@ import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FAvatar } from 'components/Composition/FAvatar';
 import { FCard } from 'components/Composition/FCard';
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import { FBadge } from 'components/Composition/FBadge';
 

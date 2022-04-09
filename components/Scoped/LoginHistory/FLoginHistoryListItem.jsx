@@ -1,8 +1,8 @@
 import { FHeading } from 'components/Composition/FHeading';
 import { FStatus } from 'components/Composition/FStatus';
+import statusTypes from 'constants/components/statusTypes';
 import dateFormatTypes from 'constants/dateFormatTypes';
 import locales from 'constants/locales';
-import statusTypes from 'constants/statusTypes';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';

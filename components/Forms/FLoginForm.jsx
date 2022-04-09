@@ -1,12 +1,11 @@
 import { FButton } from 'components/Buttons/FButton';
 import { FInput } from 'components/Inputs/FInput';
-import buttonTypes from 'constants/buttonTypes';
-import inputTypes from 'constants/inputTypes';
+import buttonTypes from 'constants/components/buttonTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { authUserService } from 'services/authUser.service';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import icons from 'themes/icons';
@@ -15,14 +14,17 @@ import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
-import errorMessages from 'constants/errorMessages';
+
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
 import { FSpinner } from 'components/Composition/FSpinner';
+import placeholders from 'constants/components/inputs/placeholders';
+import errorMessages from 'constants/components/inputs/errorMessages';
+import { authUserService } from 'services/auth/authUser.service';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
@@ -207,7 +209,7 @@ export const FLoginForm = () => {
           type={inputTypes.EMAIL}
           icon={icons.MAIL_OUTLINE}
           iconPlacement={placements.LEFT}
-          placeholder={locales.EMAIL}
+          placeholder={placeholders.EMAIL}
           width={sizes.WIDTH_FULL}
           onChangeText={emailInputHandler}
           value={dataForm.email}
@@ -215,7 +217,7 @@ export const FLoginForm = () => {
             || filterErrorMessages(errors, errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST)}
         />
         <FInput
-          placeholder={locales.PASSWORD}
+          placeholder={placeholders.PASSWORD}
           icon={icons.LOCK_CLOSED_OUTLINE}
           iconPlacement={placements.LEFT}
           type={inputTypes.PASSWORD}

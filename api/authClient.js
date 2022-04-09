@@ -1,9 +1,9 @@
-import appConfig from 'app.config';
 import axios from 'axios';
+import config from 'config';
 import * as SecureStore from 'expo-secure-store';
 
 const authClient = axios.create({
-  baseURL: appConfig.extra.apiUrl,
+  baseURL: config.backendUrl,
   timeout: 20000,
 });
 

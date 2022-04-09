@@ -3,7 +3,7 @@ import {
   View, StyleSheet, TouchableOpacity,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import React from 'react';

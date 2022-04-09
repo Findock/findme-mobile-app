@@ -1,5 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import React, { useState } from 'react';
 import colors from 'themes/colors';
@@ -12,19 +12,19 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
-import { updateUserService } from 'services/updateUser.service';
-import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
-import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
-import { deleteAccountService } from 'services/deleteAccount.service';
+import modalTypes from 'constants/components/modalTypes';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useErrorModal } from 'hooks/useErrorModal';
+import errorMessages from 'constants/components/inputs/errorMessages';
+import { updateUserService } from 'services/user/updateUser.service';
+import { deleteAccountService } from 'services/user/deleteAccount.service';
+import { getMeService } from 'services/user/getMe.service';
 
 export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();

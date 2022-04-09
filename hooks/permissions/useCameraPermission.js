@@ -1,7 +1,7 @@
 import { useAppStateChange } from 'hooks/useAppStateChange';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import locales from 'constants/locales';
 import { FModal } from 'components/Composition/FModal';
 import * as Linking from 'expo-linking';

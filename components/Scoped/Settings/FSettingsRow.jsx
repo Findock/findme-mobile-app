@@ -1,7 +1,7 @@
 import { FHeading } from 'components/Composition/FHeading';
 import { FInput } from 'components/Inputs/FInput';
 import { FSwitch } from 'components/Inputs/FSwitch';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import React from 'react';
 import {
   View, StyleSheet,

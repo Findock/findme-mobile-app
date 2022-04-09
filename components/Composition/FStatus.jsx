@@ -1,4 +1,4 @@
-import statusTypes from 'constants/statusTypes';
+import statusTypes from 'constants/components/statusTypes';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import colors from 'themes/colors';

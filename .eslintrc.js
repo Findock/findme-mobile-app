@@ -60,5 +60,6 @@ module.exports = {
     'no-underscore-dangle': 'off',
     'react/no-array-index-key': 'off',
     'react/no-unstable-nested-components': 'off',
+    'no-plusplus': 'off',
   },
 };

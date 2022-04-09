@@ -1,6 +1,6 @@
 import { FButton } from 'components/Buttons/FButton';
 import { FImage } from 'components/Composition/FImage';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import images from 'constants/images';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import React from 'react';
@@ -8,7 +8,7 @@ import {
   Platform, StyleSheet, TouchableWithoutFeedback, View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { uploadUserProfileImageService } from 'services/uploadUserProfileImage.service';
+import { uploadUserProfileImageService } from 'services/user/uploadUserProfileImage.service';
 import { setMe } from 'store/me/meSlice';
 import colors from 'themes/colors';
 import icons from 'themes/icons';

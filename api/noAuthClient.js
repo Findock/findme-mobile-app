@@ -1,8 +1,8 @@
-import appConfig from 'app.config';
 import axios from 'axios';
+import config from 'config';
 
 const noAuthClient = axios.create({
-  baseURL: appConfig.extra.apiUrl,
+  baseURL: config.backendUrl,
   timeout: 20000,
 });
 

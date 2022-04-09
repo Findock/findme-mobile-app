@@ -1,9 +1,9 @@
 import { FButton } from 'components/Buttons/FButton';
 import { FCard } from 'components/Composition/FCard';
 import { FHeading } from 'components/Composition/FHeading';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import React, { useRef } from 'react';
 import {
   Modal, StyleSheet, View, Pressable,

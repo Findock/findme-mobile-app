@@ -6,19 +6,20 @@ import fonts from 'themes/fonts';
 import { FHeading } from 'components/Composition/FHeading';
 import { Ionicons } from '@expo/vector-icons';
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import { FInput } from 'components/Inputs/FInput';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import { StyleSheet, View } from 'react-native';
-import errorMessages from 'constants/errorMessages';
-import { resetPasswordEmailService } from 'services/resetPasswordEmail.service';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
+import placeholders from 'constants/components/inputs/placeholders';
+import errorMessages from 'constants/components/inputs/errorMessages';
+import { resetPasswordEmailService } from 'services/user/resetPasswordEmail.service';
 
 export const ForgotPasswordScreen = () => {
   const [
@@ -109,7 +110,7 @@ export const ForgotPasswordScreen = () => {
             iconPlacement={placements.LEFT}
             type={inputTypes.EMAIL}
             icon={icons.MAIL_OUTLINE}
-            placeholder={locales.EMAIL}
+            placeholder={placeholders.EMAIL}
             errorMessage={errors}
             onChangeText={emailInputHandler}
             value={email}

@@ -5,14 +5,12 @@ import {
 } from 'react-native';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import { FButton } from 'components/Buttons/FButton';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
-import buttonTypes from 'constants/buttonTypes';
-import errorMessages from 'constants/errorMessages';
-import { createUserService } from 'services/createUser.service';
+import buttonTypes from 'constants/components/buttonTypes';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
@@ -20,9 +18,13 @@ import { FCheckbox } from 'components/Inputs/FCheckbox';
 import { FHeading } from 'components/Composition/FHeading';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useNavigation } from '@react-navigation/native';
-import checkboxTypes from 'constants/checkboxTypes';
+
+import placeholders from 'constants/components/inputs/placeholders';
+import errorMessages from 'constants/components/inputs/errorMessages';
+import checkboxTypes from 'constants/components/checkboxTypes';
+import { createUserService } from 'services/user/createUser.service';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -130,7 +132,7 @@ export const FRegistrationForm = () => {
       )}
       <View>
         <FInput
-          placeholder={locales.EMAIL}
+          placeholder={placeholders.EMAIL}
           value={dataForm.email}
           icon={icons.MAIL_OUTLINE}
           iconPlacement={placements.LEFT}
@@ -141,7 +143,7 @@ export const FRegistrationForm = () => {
               || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
         />
         <FInput
-          placeholder={locales.NAME}
+          placeholder={placeholders.NAME}
           value={dataForm.name}
           icon={icons.PERSON_OUTLINE}
           iconPlacement={placements.LEFT}
@@ -151,7 +153,7 @@ export const FRegistrationForm = () => {
           errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
         />
         <FInput
-          placeholder={locales.PASSWORD}
+          placeholder={placeholders.PASSWORD}
           value={dataForm.password}
           icon={icons.LOCK_CLOSED_OUTLINE}
           iconPlacement={placements.LEFT}
