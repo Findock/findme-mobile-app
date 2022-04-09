@@ -72,4 +72,9 @@ export default {
   ONLINE: 'online',
   MESSAGE_SEND_SUCCESS: 'Wiadomość wysłana pomyślnie!',
   PASSWORD_CHANGED_SUCCESSFULLY: 'Hasło zostało zmienione pomyślnie!',
+  WHAT_DO_YOU_WANT_TO_USE: 'Czego chcesz użyć, aby dodać zdjęcie?',
+  CAMERA: 'Aparat',
+  CAMERA_ROLL: 'Galeria zdjęć',
+  SEARCH_OR_MARK_ON_THE_MAP: 'Wyszukaj lub zaznacz na mapie...',
+  ADD_LOCATION_DESCRIPTION: 'Dodatkowy opis miejsca',
 };
