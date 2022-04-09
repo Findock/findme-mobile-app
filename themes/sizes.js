@@ -6,6 +6,10 @@ export default {
   ICON_30: 30,
   ICON_100: 100,
 
+  // FLEX BASIS
+  BASIS_47_PERCENTAGES: '47%',
+  BASIS_53_PERCENTAGES: '53%',
+
   // WIDTHS
   WIDTH_0: 0,
   WIDTH_15: 15,
@@ -21,7 +25,6 @@ export default {
   // HEIGHTS
   HEIGHT_N1: -1,
   HEIGHT_1: 1,
-  HEIGHT_2: 2,
   HEIGHT_4: 4,
   HEIGHT_15: 15,
   HEIGHT_22: 22,
@@ -86,6 +89,7 @@ export default {
   RADIUS_15: 15,
   RADIUS_20: 20,
   RADIUS_40: 40,
+  RADIUS_50: 50,
 
   // ELEVATION
   ELEVATION_1: 1,
@@ -104,5 +108,4 @@ export default {
   // RESIZE MODE
   CONTAIN: 'contain',
   COVER: 'cover',
-
 };
