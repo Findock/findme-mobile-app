@@ -69,6 +69,7 @@ storiesOf('FColorSelect', module)
         <ScrollView horizontal>
           {COLORS.map((color) => (
             <Circle
+              size={50}
               color={color.hex}
               key={color.id}
               setValue={() => selectedColorsHandler(color)}

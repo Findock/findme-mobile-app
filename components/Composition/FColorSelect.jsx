@@ -5,27 +5,24 @@ import colors from 'themes/colors';
 import opacities from 'themes/opacities';
 
 export const Circle = ({
-  color, value, setValue, key,
+  color, value, setValue, size,
 }) => (
   <TouchableOpacity
     onPress={setValue}
   >
     <View
-      key={key}
       backgroundColor={color}
-      style={[value ? styles.pressed : styles.default, styles.circle]}
+      width={size}
+      height={size}
+      style={[styles.circle, value ? styles.pressed : styles.default]}
     />
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   circle: {
-    width: sizes.WIDTH_50,
-    height: sizes.HEIGHT_50,
     borderRadius: sizes.RADIUS_50,
     margin: sizes.MARGIN_12,
-  },
-  default: {
     shadowColor: colors.BLACK,
     shadowOpacity: opacities.SHADOW_OPACITY_018,
     shadowOffset: {
@@ -36,13 +33,10 @@ const styles = StyleSheet.create({
     elevation: sizes.ELEVATION_1,
   },
   pressed: {
-    shadowColor: colors.PRIMARY,
-    shadowOpacity: opacities.SHADOW_OPACITY_1,
-    shadowOffset: {
-      width: 0,
-      height: sizes.HEIGHT_1,
-    },
-    shadowRadius: sizes.SHADOW_RADIUS_10,
-    elevation: sizes.ELEVATION_5,
+    borderWidth: 3,
+    borderColor: colors.PRIMARY,
+  },
+  default: {
+    borderWidth: 0,
   },
 });
