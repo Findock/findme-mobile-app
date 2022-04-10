@@ -1,5 +1,5 @@
 import { storiesOf } from '@storybook/react-native';
-import { Circle } from 'components/Composition/FColorSelect';
+import { FColorSelect } from 'components/Inputs/FColorSelect';
 import { CenterView } from 'storybook/utils/CenterView';
 import { useState } from 'react';
 import { ScrollView, View } from 'react-native';
@@ -68,7 +68,7 @@ storiesOf('FColorSelect', module)
       <View>
         <ScrollView horizontal>
           {COLORS.map((color) => (
-            <Circle
+            <FColorSelect
               size={50}
               color={color.hex}
               key={color.id}

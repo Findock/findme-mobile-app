@@ -81,6 +81,7 @@ export default {
   // BORDER
   BORDER_1: 1,
   BORDER_2: 2,
+  BORDER_3: 3,
   BORDER_4: 4,
 
   // BORDER RADIUS
