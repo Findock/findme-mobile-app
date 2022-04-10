@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
 });
 
 FMultiSelectInputWithSelectedOptions.propTypes = {
-  options: PropTypes.shape({
+  options: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.number.isRequired,
     namePl: PropTypes.string.isRequired,
-  }).isRequired,
+  })).isRequired,
 };

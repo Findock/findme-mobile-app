@@ -137,6 +137,6 @@ FAvatar.propTypes = {
   size: PropTypes.number.isRequired,
   isEditable: PropTypes.bool.isRequired,
   imageUrl: PropTypes.string.isRequired,
-  setShowConfirmDeleteUserProfileImageModal: PropTypes.func.isRequired,
+  setShowConfirmDeleteUserProfileImageModal: PropTypes.func,
   setShowErrorModal: PropTypes.func,
 };

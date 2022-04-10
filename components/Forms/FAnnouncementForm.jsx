@@ -14,7 +14,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 
-export const FAnnouncementForm = () => {
+export const FAnnouncementForm = ({ scrollRef }) => {
   const [
     loading,
     setLoading,
@@ -60,7 +60,7 @@ export const FAnnouncementForm = () => {
     return imageInputs;
   };
   return (
-    <FKeyboardWrapper>
+    <FKeyboardWrapper scrollRef={scrollRef}>
       <View>
         <ScrollView
           style={styles.imageInputsContainer}

@@ -26,8 +26,8 @@ export const FSwitch = ({
 };
 
 FSwitch.propTypes = {
-  isDisabled: PropTypes.bool.isRequired,
-  value: PropTypes.bool.isRequired,
-  onValueChange: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool,
+  value: PropTypes.bool,
+  onValueChange: PropTypes.func,
   disabledColor: PropTypes.string,
 };

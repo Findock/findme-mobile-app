@@ -196,7 +196,6 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
           maxLength={100}
           isTextarea
           numberOfLines={3}
-
         />
         <View style={{ marginTop: sizes.MARGIN_30 }}>
           <FButton

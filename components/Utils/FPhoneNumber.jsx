@@ -27,6 +27,6 @@ FPhoneNumber.propTypes = {
   weight: PropTypes.string.isRequired,
   size: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
-  align: PropTypes.oneOf(['CENTER', 'RIGHT', 'LEFT']),
+  align: PropTypes.oneOf(['center', 'right', 'left']),
   isUnderline: PropTypes.bool.isRequired,
 };

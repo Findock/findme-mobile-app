@@ -38,6 +38,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeLocationPermission}
           switchValue={locationStatus}
+          isDisabled={false}
         />
         <FSettingsRow
           isForm={false}
@@ -47,6 +48,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeCameraPermission}
           switchValue={cameraStatus}
+          isDisabled={false}
         />
         <FSettingsRow
           isForm={false}
@@ -56,6 +58,8 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeCameraRollPermission}
           switchValue={cameraRollStatus}
+          isDisabled={false}
+
         />
         <View style={styles.buttonContainer}>
           <FButton

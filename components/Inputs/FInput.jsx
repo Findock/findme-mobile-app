@@ -172,7 +172,7 @@ FInput.propTypes = {
   marginBottom: PropTypes.number,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   outline: PropTypes.bool,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   showSoftInputOnFocus: PropTypes.bool,
   caretHidden: PropTypes.bool,
 };

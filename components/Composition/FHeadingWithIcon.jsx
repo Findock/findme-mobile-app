@@ -78,5 +78,5 @@ FHeadingWithIcon.propTypes = {
   titleWeight: PropTypes.string.isRequired,
   titleSize: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
-  titleAlign: PropTypes.oneOf(['center', 'left', 'right']).isRequired,
+  titleAlign: PropTypes.oneOf(['center', 'left', 'right']),
 };

@@ -145,6 +145,7 @@ export const FUserProfileCard = ({
           <View style={{ marginTop: !user.phoneNumber ? 0 : sizes.MARGIN_20 }}>
             <FButton
               type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
               backgroundColor={colors.PRIMARY}
               title={locales.WRITE_MESSAGE}
               iconPlacement={placements.RIGHT}
@@ -152,6 +153,7 @@ export const FUserProfileCard = ({
               titleSize={fonts.HEADING_NORMAL}
               icon={icons.PAW}
               iconSize={sizes.ICON_20}
+              onPress={() => {}}
             />
           </View>
         )}

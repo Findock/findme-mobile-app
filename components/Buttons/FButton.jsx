@@ -181,7 +181,7 @@ FButton.propTypes = {
   titleSize: PropTypes.number,
   titleWeight: PropTypes.string,
   iconSize: PropTypes.number,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
   backgroundColor: PropTypes.string,
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
   isUnderline: PropTypes.bool,
