@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react-native';
-import { FColorSelect } from 'components/Composition/FColorSelect';
+import { Circle } from 'components/Composition/FColorSelect';
 import { CenterView } from 'storybook/utils/CenterView';
 import { useState } from 'react';
+import { ScrollView, View } from 'react-native';
 
 const COLORS = [
   {
@@ -50,14 +51,31 @@ storiesOf('FColorSelect', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('FColorSelect', () => {
     const [
-      value,
-      setValue,
-    ] = useState(false);
+      selectedColors,
+      setSelectedColors,
+    ] = useState([]);
+    const selectedColorsHandler = (color) => {
+      const existingColor = selectedColors.find((c) => c.id === color.id);
+      if (existingColor) {
+        const newColors = [...selectedColors];
+        newColors.splice(selectedColors.indexOf(existingColor), 1);
+        setSelectedColors([...newColors]);
+      } else {
+        setSelectedColors([...selectedColors, color]);
+      }
+    };
     return (
-      <FColorSelect
-        data={COLORS}
-        setValue={setValue}
-        value={value}
-      />
+      <View>
+        <ScrollView horizontal>
+          {COLORS.map((color) => (
+            <Circle
+              color={color.hex}
+              key={color.id}
+              setValue={() => selectedColorsHandler(color)}
+              value={selectedColors.find((selectedColor) => selectedColor.id === color.id)}
+            />
+          ))}
+        </ScrollView>
+      </View>
     );
   });
