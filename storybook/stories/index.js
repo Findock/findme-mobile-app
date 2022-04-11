@@ -14,3 +14,4 @@ import './Inputs/FBigSwitch.stories';
 import './Inputs/FTileSelectInput.stories';
 import './Compositional/FCard.stories';
 import './Compositional/FBadge.stories';
+import './Inputs/FColorSelect.stories';
