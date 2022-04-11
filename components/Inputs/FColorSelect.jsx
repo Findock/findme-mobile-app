@@ -6,7 +6,7 @@ import opacities from 'themes/opacities';
 import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
 
 export const FColorSelect = ({
-  color, value, setValue, size,
+  color, value, setValue, size, style,
 }) => {
   const getBorderStyle = (hex, isSelected) => {
     if (hex === '#FFFFFF' && isSelected) {
@@ -29,7 +29,7 @@ export const FColorSelect = ({
         backgroundColor={color}
         width={size}
         height={size}
-        style={[styles.circle, getBorderStyle(color, value)]}
+        style={[styles.circle, getBorderStyle(color, value), style]}
       />
     </TouchableOpacity>
   );
