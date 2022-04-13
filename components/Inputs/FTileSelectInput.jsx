@@ -14,7 +14,10 @@ export const FTileSelectInput = ({
 }) => (
   <TouchableOpacity
     onPress={setValue}
-    style={{ padding: sizes.PADDING_10 }}
+    style={{
+      padding: sizes.PADDING_10,
+      ...style,
+    }}
   >
     <FImage
       imagePath={value ? iconPressed : iconDefault}
@@ -28,7 +31,6 @@ export const FTileSelectInput = ({
         backgroundColor: value ? colors.PRIMARY : colors.LIGHT_GRAY,
         width,
         height,
-        ...style,
       }}
     />
     <View style={{
@@ -67,8 +69,8 @@ FTileSelectInput.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   iconSize: PropTypes.number.isRequired,
-  iconDefault: PropTypes.string.isRequired,
-  iconPressed: PropTypes.string.isRequired,
+  iconDefault: PropTypes.number.isRequired,
+  iconPressed: PropTypes.number.isRequired,
   label: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
   value: PropTypes.bool.isRequired,
