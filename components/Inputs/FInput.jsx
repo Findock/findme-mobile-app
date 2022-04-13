@@ -17,7 +17,8 @@ import PropTypes from 'prop-types';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
-  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => {}, showSoftInputOnFocus = true, caretHidden = false,
+  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
+  textAreaHeight = sizes.HEIGHT_80,
 }) => {
   const [
     isPasswordVisible,
@@ -96,7 +97,7 @@ export const FInput = ({
       ...styles.inputContainer,
       marginBottom,
       width,
-      height: type === inputTypes.TEXTAREA ? sizes.HEIGHT_80 : sizes.HEIGHT_54,
+      height: type === inputTypes.TEXTAREA ? textAreaHeight : sizes.HEIGHT_54,
     }}
     >
       <Ionicons
@@ -129,6 +130,9 @@ export const FInput = ({
           backgroundColor: getBackgroundColors(),
           borderWidth: getBorderWidth(),
           borderRadius: getBorderRadius(),
+          paddingTop: type === inputTypes.TEXTAREA ? 10 : 0,
+          paddingBottom: type === inputTypes.TEXTAREA ? 10 : 0,
+          textAlignVertical: type === inputTypes.TEXTAREA ? 'top' : 'auto',
         }}
       />
       {drawPasswordVisibilityIcon()}
@@ -175,4 +179,5 @@ FInput.propTypes = {
   onPress: PropTypes.func,
   showSoftInputOnFocus: PropTypes.bool,
   caretHidden: PropTypes.bool,
+  textAreaHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

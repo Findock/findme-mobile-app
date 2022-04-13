@@ -134,6 +134,7 @@ export const ChangePasswordScreen = () => {
             marginBottom={sizes.MARGIN_30}
             onChangeText={oldPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.INVALID_OLD_PASSWORD)}
+            width={sizes.WIDTH_FULL}
           />
           <FInput
             iconPlacement={placements.LEFT}
@@ -143,6 +144,7 @@ export const ChangePasswordScreen = () => {
             onChangeText={newPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
               || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            width={sizes.WIDTH_FULL}
           />
           <FInput
             iconPlacement={placements.LEFT}
@@ -152,6 +154,7 @@ export const ChangePasswordScreen = () => {
             onChangeText={confirmNewPasswordInputHandler}
             errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
               || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            width={sizes.WIDTH_FULL}
           />
           <View style={styles.buttonContainer}>
             <FButton

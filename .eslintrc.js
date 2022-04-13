@@ -62,5 +62,6 @@ module.exports = {
     'react/no-unstable-nested-components': 'off',
     'no-plusplus': 'off',
     'react/require-default-props': 'off',
+    'react/forbid-prop-types': 'off',
   },
 };

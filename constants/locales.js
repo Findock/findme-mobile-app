@@ -68,4 +68,12 @@ export default {
   CAMERA: 'Aparat',
   CAMERA_ROLL: 'Galeria zdjęć',
   DISTINCTIVE_FEATURES: 'Cechy charakterystyczne',
+  UNKNOW: 'Nieznana',
+  MALE: 'Samiec',
+  FEMALE: 'Samica',
+  GENDER: 'Płeć',
+  FOUND: 'Znalezione',
+  LOST: 'Zagubione',
+  DESCRIPTION: 'Opis',
+  ADD: 'Dodaj',
 };

@@ -4,6 +4,8 @@ export default {
   ICON_22: 22,
   ICON_25: 25,
   ICON_30: 30,
+  ICON_40: 40,
+  ICON_50: 50,
   ICON_100: 100,
 
   // FLEX BASIS
@@ -16,10 +18,12 @@ export default {
   WIDTH_22: 22,
   WIDTH_45: 45,
   WIDTH_50: 50,
+  WIDTH_80: 80,
   WIDTH_120: 120,
   WIDTH_140: 140,
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
+  WIDTH_98_PERCENTAGES: '98%',
   WIDTH_FULL: '100%',
 
   // HEIGHTS
@@ -36,6 +40,7 @@ export default {
   HEIGHT_140: 140,
   HEIGHT_210: 210,
   HEIGHT_325: 325,
+  HEIGHT_400: 400,
   HEIGHT_90_PERCENTAGES: '90%',
   HEIGHT_FULL: '100%',
 
@@ -73,10 +78,12 @@ export default {
   POSITION_N28: -28,
   POSITION_N1: -1,
   POSITION_6: 6,
+  POSITION_1_PERCENTAGES: '1%',
   POSITION_14: 14,
   POSITION_20: 20,
   POSITION_30: 30,
   POSITION_50: 50,
+  POSITION_54: 54,
 
   // BORDER
   BORDER_1: 1,

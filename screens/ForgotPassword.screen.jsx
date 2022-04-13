@@ -114,6 +114,7 @@ export const ForgotPasswordScreen = () => {
             errorMessage={errors}
             onChangeText={emailInputHandler}
             value={email}
+            width={sizes.WIDTH_FULL}
           />
 
           <View style={styles.buttonContainer}>
