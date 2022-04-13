@@ -76,4 +76,5 @@ export default {
   LOST: 'Zagubione',
   DESCRIPTION: 'Opis',
   ADD: 'Dodaj',
+  COAT_COLORS: 'Umaszczenie',
 };

@@ -65,5 +65,5 @@ FColorSelect.propTypes = {
   color: PropTypes.string.isRequired,
   value: PropTypes.bool.isRequired,
   setValue: PropTypes.func.isRequired,
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]).isRequired,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
