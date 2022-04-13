@@ -1,9 +1,14 @@
 import { FButton } from 'components/Buttons/FButton';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
-import React, { useState } from 'react';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
 import sizes from 'themes/sizes';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import {
+  StyleSheet, TouchableWithoutFeedback, View,
+} from 'react-native';
 import placements from 'themes/placements';
 import colors from 'themes/colors';
 import opacities from 'themes/opacities';
@@ -18,7 +23,9 @@ import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
 import PropTypes from 'prop-types';
 
-export const FTileImageInput = ({ width, height }) => {
+export const FTileImageInput = ({
+  width, height, uploadImage, uploadedImage, index, onRemoveImage,
+}) => {
   const [
     image,
     setImage,
@@ -28,9 +35,18 @@ export const FTileImageInput = ({ width, height }) => {
     setShowMakeChoiceModal,
   ] = useState(false);
 
+  useEffect(() => {
+    if (image) {
+      uploadImage(image, index);
+    }
+  }, [image]);
+
   const onIconButtonPressHandler = () => {
     if (!image) setShowMakeChoiceModal(true);
-    else setImage(null);
+    else {
+      setImage(null);
+      if (onRemoveImage)onRemoveImage();
+    }
   };
 
   const onPressHandler = () => {
@@ -88,7 +104,7 @@ export const FTileImageInput = ({ width, height }) => {
       width={width}
       height={height}
       imagePath={images.DOG()}
-      networkImageUrl={image?.uri || null}
+      networkImageUrl={uploadedImage || (image?.uri || null)}
       resizeMode={sizes.COVER}
       imageHeight={image ? sizes.HEIGHT_FULL : sizes.HEIGHT_45}
       imageWidth={image ? sizes.WIDTH_FULL : sizes.WIDTH_45}
@@ -174,4 +190,8 @@ const styles = StyleSheet.create({
 FTileImageInput.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  uploadImage: PropTypes.func.isRequired,
+  uploadedImage: PropTypes.string.isRequired,
+  onRemoveImage: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
 };
