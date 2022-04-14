@@ -197,6 +197,7 @@ export const Navigation = () => {
               name={stackNavigatorNames.MULTI_SELECT}
               component={MultiSelectScreen}
               options={{
+                animation: 'slide_from_bottom',
                 ...headerWithoutShadowOptions,
                 headerRight: () => (
                   <FLogo
@@ -208,7 +209,6 @@ export const Navigation = () => {
             />
           </>
         ))}
-
       </Stack.Navigator>
     </NavigationContainer>
   );

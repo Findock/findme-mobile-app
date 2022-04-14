@@ -3,22 +3,20 @@ import { FInput } from 'components/Inputs/FInput';
 import { FMultiSelectOption } from 'components/Inputs/MultiSelect/FMultiSelectOption';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import locales from 'constants/locales';
-import React, { useState } from 'react';
-import { FlatList, View } from 'react-native';
+import React from 'react';
+import {
+  FlatList, View,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FMultiSelectOptions = ({
-  options,
+  options, search, setSearch,
 }) => {
   const dispatch = useDispatch();
-  const selectedOptions = useSelector((state) => state.selectedOptions.selectedOptions);
-  const [
-    search,
-    setSearch,
-  ] = useState('');
+  const selectedOptions = useSelector((state) => state.multiSelect.selectedOptions);
 
   const searchInputHandler = (newSerach) => {
     setSearch(newSerach);
@@ -42,43 +40,42 @@ export const FMultiSelectOptions = ({
 
   if (!options) return <FSpinner />;
   return (
-    <FlatList
-      scrollEnabled
-      data={options}
-      keyExtractor={(item) => item.id}
-      showsVerticalScrollIndicator={false}
-      renderItem={drawMultiSelectOptions}
-      stickyHeaderIndices={[1]}
-      StickyHeaderComponent={(
-        <View style={{
-          // marginTop: sizes.MARGIN_10,
-          marginTop: 50,
-
+    <View>
+      <FInput
+        placeholder={locales.SEARCH}
+        type={inputTypes.TEXT}
+        value={search}
+        onChangeText={searchInputHandler}
+        width={sizes.WIDTH_FULL}
+      />
+      <FlatList
+        scrollEnabled
+        data={options}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+        scrollEventThrottle={1}
+        renderItem={drawMultiSelectOptions}
+        contentContainerStyle={{
+          paddingBottom: sizes.PADDING_200,
         }}
-        >
-          <FInput
-            placeholder={locales.SEARCH}
-            type={inputTypes.TEXT}
-            value={search}
-            onChangeText={searchInputHandler}
-            width={sizes.WIDTH_FULL}
+        ItemSeparatorComponent={() => (
+          <View style={{
+            width: sizes.WIDTH_FULL,
+            paddingTop: sizes.PADDING_14,
+          }}
           />
-        </View>
-      )}
-      ItemSeparatorComponent={() => (
-        <View style={{
-          width: sizes.WIDTH_FULL,
-          paddingTop: sizes.PADDING_14,
-        }}
-        />
-      )}
-    />
+        )}
+      />
+    </View>
+
   );
 };
 
 FMultiSelectOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     namePl: PropTypes.string.isRequired,
   })).isRequired,
+  search: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
 };

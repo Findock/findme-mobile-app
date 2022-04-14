@@ -9,6 +9,6 @@ export default configureStore({
     auth: authSlice,
     globalLoader: globalLoaderSlice,
     me: meSlice,
-    selectedOptions: multiSelectSlice,
+    multiSelect: multiSelectSlice,
   },
 });

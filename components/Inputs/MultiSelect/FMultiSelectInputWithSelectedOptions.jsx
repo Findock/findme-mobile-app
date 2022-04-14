@@ -9,10 +9,11 @@ import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import { useNavigation } from '@react-navigation/native';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import PropTypes from 'prop-types';
 
-export const FMultiSelectInputWithSelectedOptions = ({ options, style }) => {
-  const selectedOptions = useSelector((state) => state.selectedOptions.selectedOptions);
+export const FMultiSelectInputWithSelectedOptions = ({
+  style,
+}) => {
+  const selectedOptions = useSelector((state) => state.multiSelect.selectedOptions);
   const navigation = useNavigation();
 
   const drawSelectedOptions = () => selectedOptions && selectedOptions.map((selectedOption) => (
@@ -40,12 +41,12 @@ export const FMultiSelectInputWithSelectedOptions = ({ options, style }) => {
         placeholder={placeholders.SEARCH}
         marginBottom={0}
         showSoftInputOnFocus={false}
+        onChangeText={() => { }}
+        value=""
         caretHidden
         onPress={() => {
           Keyboard.dismiss();
-          navigation.push(stackNavigatorNames.MULTI_SELECT, {
-            options,
-          });
+          navigation.push(stackNavigatorNames.MULTI_SELECT);
         }}
       />
     </View>
@@ -58,10 +59,3 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
 });
-
-FMultiSelectInputWithSelectedOptions.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.number.isRequired,
-    namePl: PropTypes.string.isRequired,
-  })).isRequired,
-};
