@@ -18,8 +18,8 @@ import modalTypes from 'constants/components/modalTypes';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 import placeholders from 'constants/components/inputs/placeholders';
-import errorMessages from 'constants/components/inputs/errorMessages';
 import { resetPasswordEmailService } from 'services/user/resetPasswordEmail.service';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const ForgotPasswordScreen = () => {
   const [
@@ -47,9 +47,9 @@ export const ForgotPasswordScreen = () => {
     const { statusCode } = response;
     const errs = [];
     if (statusCode === 400) {
-      errs.push(errorMessages.INVALID_EMAIL);
+      errs.push(userMessages.INVALID_EMAIL);
     } else if (statusCode === 404) {
-      errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+      errs.push(userMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
     } else {
       setShowErrorModal(true);
     }

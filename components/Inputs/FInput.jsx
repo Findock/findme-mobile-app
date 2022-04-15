@@ -14,6 +14,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
 import PropTypes from 'prop-types';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
@@ -71,7 +72,12 @@ export const FInput = ({
 
   const drawErrorMessage = () => {
     if (!errorMessage) return;
-    return <Text style={styles.errorMessage}>{errorMessage}</Text>;
+    return (
+      <FErrorMessage
+        error={errorMessage}
+        style={{ marginTop: sizes.MARGIN_3 }}
+      />
+    );
   };
 
   const drawPasswordVisibilityIcon = () => type === inputTypes.PASSWORD && (
@@ -155,11 +161,6 @@ const styles = StyleSheet.create({
     borderColor: colors.GRAY,
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_FULL,
-  },
-  errorMessage: {
-    color: colors.DANGER,
-    fontSize: fonts.HEADING_EXTRA_SMALL,
-    marginTop: sizes.MARGIN_3,
   },
 });
 

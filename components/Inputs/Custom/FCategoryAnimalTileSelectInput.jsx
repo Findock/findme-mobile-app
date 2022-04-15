@@ -1,12 +1,16 @@
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FTileSelectInput } from 'components/Inputs/FTileSelectInput';
 import images from 'constants/images';
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { getCategoriesService } from 'services/announcement/getCategories.service';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
-export const FCategoryAnimalTileSelectInput = ({ setDataForm, dataForm, style }) => {
+export const FCategoryAnimalTileSelectInput = ({
+  setDataForm, dataForm, style, errorMessage,
+}) => {
   const [
     loadingCategories,
     setLoadingCategories,
@@ -69,9 +73,9 @@ export const FCategoryAnimalTileSelectInput = ({ setDataForm, dataForm, style })
         }}
         setValue={() => setDataForm({
           ...dataForm,
-          category: category.id,
+          categoryId: category.id,
         })}
-        value={dataForm.category === category.id}
+        value={dataForm.categoryId === category.id}
       />
     ));
   };
@@ -79,11 +83,28 @@ export const FCategoryAnimalTileSelectInput = ({ setDataForm, dataForm, style })
   if (loadingCategories) return <FSpinner />;
 
   return (
-    <ScrollView
-      style={style}
-      horizontal
-    >
-      {drawCategoryAnimalTileInputs()}
-    </ScrollView>
+    <View>
+      <ScrollView
+        style={{
+          ...style,
+          marginBottom: !errorMessage ? sizes.MARGIN_20 : 0,
+        }}
+        horizontal
+      >
+        {drawCategoryAnimalTileInputs()}
+      </ScrollView>
+      {errorMessage && (
+        <FErrorMessage
+          error={errorMessage}
+          style={{ marginBottom: sizes.MARGIN_20 }}
+        />
+      )}
+    </View>
   );
+};
+
+FCategoryAnimalTileSelectInput.propTypes = {
+  dataForm: PropTypes.object.isRequired,
+  setDataForm: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
 };

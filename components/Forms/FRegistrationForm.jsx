@@ -20,11 +20,10 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modalTypes';
 import { useNavigation } from '@react-navigation/native';
-
 import placeholders from 'constants/components/inputs/placeholders';
-import errorMessages from 'constants/components/inputs/errorMessages';
 import checkboxTypes from 'constants/components/checkboxTypes';
 import { createUserService } from 'services/user/createUser.service';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -81,21 +80,21 @@ export const FRegistrationForm = () => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.INVALID_EMAIL);
+        errs.push(userMessages.INVALID_EMAIL);
       }
       if (message.join(' ').includes('password')) {
-        errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+        errs.push(userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       }
       if (message.join(' ').includes('name')) {
-        errs.push(errorMessages.NAME_CANNOT_BE_EMPTY);
+        errs.push(userMessages.NAME_CANNOT_BE_EMPTY);
       }
       if (message.join(' ').includes('Terms') || message.join(' ').includes('terms')) {
-        errs.push(errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
+        errs.push(userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
       }
     }
     if (statusCode === 409) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.USER_ALREADY_EXISTS);
+        errs.push(userMessages.USER_ALREADY_EXISTS);
       }
     }
     setErrors([...errs]);
@@ -139,8 +138,8 @@ export const FRegistrationForm = () => {
           onChangeText={emailInputHandler}
           type={inputTypes.EMAIL}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
-              || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_EMAIL)
+              || filterErrorMessages(errors, userMessages.USER_ALREADY_EXISTS)}
         />
         <FInput
           placeholder={placeholders.NAME}
@@ -150,7 +149,7 @@ export const FRegistrationForm = () => {
           onChangeText={nameInputHandler}
           type={inputTypes.TEXT}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
+          errorMessage={filterErrorMessages(errors, userMessages.NAME_CANNOT_BE_EMPTY)}
         />
         <FInput
           placeholder={placeholders.PASSWORD}
@@ -161,7 +160,7 @@ export const FRegistrationForm = () => {
           type={inputTypes.PASSWORD}
           maxLength={64}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
+          errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
         />
       </View>
       <View>
@@ -181,7 +180,7 @@ export const FRegistrationForm = () => {
         </View>
         <View style={styles.regulationsErrorMessageContainer}>
           <FHeading
-            title={filterErrorMessages(errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
+            title={filterErrorMessages(errors, userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
             color={colors.DANGER}
             size={fonts.HEADING_EXTRA_SMALL}
           />

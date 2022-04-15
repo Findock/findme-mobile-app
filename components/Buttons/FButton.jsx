@@ -1,6 +1,7 @@
 import { FHeading } from 'components/Composition/FHeading';
 import {
   View, StyleSheet, TouchableOpacity,
+  ActivityIndicator, Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/components/buttonTypes';
@@ -13,7 +14,7 @@ import PropTypes from 'prop-types';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
-  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline,
+  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
@@ -142,6 +143,35 @@ export const FButton = ({
     </TouchableOpacity>
   );
 
+  const drawLoadingButton = () => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={{
+        ...styles.buttonContainer,
+        ...buttonViewStyles,
+        backgroundColor,
+      }}
+      >
+        <View>
+          <FHeading
+            title={title}
+            color={color}
+            size={titleSize}
+            weight={titleWeight}
+          />
+        </View>
+        {loading && (
+          <ActivityIndicator
+            animating
+            size={Platform.OS === 'ios' ? 'small' : sizes.ICON_20}
+            color={color}
+            style={{ marginLeft: sizes.MARGIN_5 }}
+          />
+        )}
+
+      </View>
+    </TouchableOpacity>
+  );
+
   const drawButtonByType = () => {
     switch (type) {
     case buttonTypes.BUTTON_WITH_ICON_AND_TEXT:
@@ -152,6 +182,8 @@ export const FButton = ({
       return drawLinkButton();
     case buttonTypes.OUTLINE_TEXT_BUTTON:
       return drawOutlineTextButton();
+    case buttonTypes.LOADING_BUTTON:
+      return drawLoadingButton();
     case buttonTypes.TEXT_BUTTON:
     default:
       return drawTextButton();
@@ -173,7 +205,7 @@ const styles = StyleSheet.create({
 });
 
 FButton.propTypes = {
-  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text']).isRequired,
+  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading']).isRequired,
   icon: PropTypes.string,
   title: PropTypes.string,
   to: PropTypes.string,
@@ -185,4 +217,5 @@ FButton.propTypes = {
   backgroundColor: PropTypes.string,
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
   isUnderline: PropTypes.bool,
+  loading: PropTypes.bool,
 };

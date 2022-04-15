@@ -21,8 +21,8 @@ import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useNavigation } from '@react-navigation/native';
 import placeholders from 'constants/components/inputs/placeholders';
-import errorMessages from 'constants/components/inputs/errorMessages';
 import { updatePasswordService } from 'services/user/updatePassword.service';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const ChangePasswordScreen = () => {
   const navigation = useNavigation();
@@ -75,10 +75,10 @@ export const ChangePasswordScreen = () => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('old')) {
-        errs.push(errorMessages.INVALID_OLD_PASSWORD);
+        errs.push(userMessages.INVALID_OLD_PASSWORD);
       }
       if (message.join(' ').includes('newPassword')) {
-        errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+        errs.push(userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       }
       setErrors([...errs]);
     } else {
@@ -88,7 +88,7 @@ export const ChangePasswordScreen = () => {
 
   const onSubmit = async () => {
     if (dataForm.newPassword !== confirmNewPassword) {
-      setErrors([errorMessages.PASSWORDS_ARE_NOT_THE_SAME]);
+      setErrors([userMessages.PASSWORDS_ARE_NOT_THE_SAME]);
     } else {
       try {
         setLoading(true);
@@ -133,7 +133,7 @@ export const ChangePasswordScreen = () => {
             placeholder={placeholders.PASS_OLD_PASSWORD}
             marginBottom={sizes.MARGIN_30}
             onChangeText={oldPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.INVALID_OLD_PASSWORD)}
+            errorMessage={filterErrorMessages(errors, userMessages.INVALID_OLD_PASSWORD)}
             width={sizes.WIDTH_FULL}
           />
           <FInput
@@ -142,8 +142,8 @@ export const ChangePasswordScreen = () => {
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={placeholders.PASS_NEW_PASSWORD}
             onChangeText={newPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
-              || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+              || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
             width={sizes.WIDTH_FULL}
           />
           <FInput
@@ -152,8 +152,8 @@ export const ChangePasswordScreen = () => {
             icon={icons.LOCK_CLOSED_OUTLINE}
             placeholder={placeholders.REPEAT_NEW_PASSWORD}
             onChangeText={confirmNewPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
-              || filterErrorMessages(errors, errorMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+              || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
             width={sizes.WIDTH_FULL}
           />
           <View style={styles.buttonContainer}>

@@ -23,8 +23,8 @@ import * as Device from 'expo-device';
 import * as Location from 'expo-location';
 import { FSpinner } from 'components/Composition/FSpinner';
 import placeholders from 'constants/components/inputs/placeholders';
-import errorMessages from 'constants/components/inputs/errorMessages';
 import { authUserService } from 'services/auth/authUser.service';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,6 @@ export const FLoginForm = () => {
     logoutModalVisible,
     setLogoutModalVisible,
   ] = useState(false);
-
   const [
     noInternetConnectionModalVisible,
     setNoInternetConnectionModalVisible,
@@ -121,18 +120,18 @@ export const FLoginForm = () => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.INVALID_EMAIL);
+        errs.push(userMessages.INVALID_EMAIL);
       }
       if (message.join(' ').includes('password')) {
-        errs.push(errorMessages.INVALID_PASSWORD);
+        errs.push(userMessages.INVALID_PASSWORD);
       }
     }
     if (statusCode === 401) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
+        errs.push(userMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
       }
       if (message.join(' ').includes('password')) {
-        errs.push(errorMessages.INVALID_PASSWORD);
+        errs.push(userMessages.INVALID_PASSWORD);
       }
     }
     if (statusCode === 500) {
@@ -213,8 +212,8 @@ export const FLoginForm = () => {
           width={sizes.WIDTH_FULL}
           onChangeText={emailInputHandler}
           value={dataForm.email}
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
-            || filterErrorMessages(errors, errorMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_EMAIL)
+            || filterErrorMessages(errors, userMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST)}
         />
         <FInput
           placeholder={placeholders.PASSWORD}
@@ -225,7 +224,7 @@ export const FLoginForm = () => {
           width={sizes.WIDTH_FULL}
           onChangeText={passwordInputHandler}
           value={dataForm.password}
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PASSWORD)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_PASSWORD)}
         />
       </View>
       <View>

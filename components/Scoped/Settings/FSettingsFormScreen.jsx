@@ -21,11 +21,11 @@ import modalTypes from 'constants/components/modalTypes';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useErrorModal } from 'hooks/useErrorModal';
-import errorMessages from 'constants/components/inputs/errorMessages';
 import { updateUserService } from 'services/user/updateUser.service';
 import { deleteAccountService } from 'services/user/deleteAccount.service';
 import { getMeService } from 'services/user/getMe.service';
 import PropTypes from 'prop-types';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();
@@ -93,7 +93,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('phone')) {
-        errs.push(errorMessages.INVALID_PHONE_NUMBER);
+        errs.push(userMessages.INVALID_PHONE_NUMBER);
       }
     }
     setErrors([...errs]);
@@ -168,7 +168,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
           style={styles.settingRowSpace}
           onChangeText={phoneInputhandler}
           isPhoneInput
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PHONE_NUMBER)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
         />
         <FSettingsRow
           isForm

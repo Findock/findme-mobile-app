@@ -1,11 +1,15 @@
 import { FSpinner } from 'components/Composition/FSpinner';
 import React, { useEffect, useState } from 'react';
 import { getCoatColorsService } from 'services/announcement/getCoatColors.service';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { FColorSelect } from 'components/Inputs/FColorSelect';
 import sizes from 'themes/sizes';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
+import PropTypes from 'prop-types';
 
-export const FAnimalCoatColorSelectInput = ({ style, dataForm, setDataForm }) => {
+export const FAnimalCoatColorSelectInput = ({
+  style, dataForm, setDataForm, errorMessage,
+}) => {
   const [
     loadingCoatColors,
     setLoadingCoatColors,
@@ -31,18 +35,18 @@ export const FAnimalCoatColorSelectInput = ({ style, dataForm, setDataForm }) =>
   };
 
   const coatColorsHandler = (coatColorId) => {
-    const existingCoatColorsId = dataForm.coatColors.find((coatColor) => coatColor === coatColorId);
-    if (existingCoatColorsId) {
-      const newCoatColors = [...dataForm.coatColors];
-      newCoatColors.splice(newCoatColors.indexOf(existingCoatColorsId), 1);
+    const existingCoatColorId = dataForm.coatColorsIds.find((coatColor) => coatColor === coatColorId);
+    if (existingCoatColorId) {
+      const newCoatColors = [...dataForm.coatColorsIds];
+      newCoatColors.splice(newCoatColors.indexOf(existingCoatColorId), 1);
       setDataForm({
         ...dataForm,
-        coatColors: [...newCoatColors],
+        coatColorsIds: [...newCoatColors],
       });
     } else {
       setDataForm({
         ...dataForm,
-        coatColors: [...dataForm.coatColors, coatColorId],
+        coatColorsIds: [...dataForm.coatColorsIds, coatColorId],
       });
     }
   };
@@ -53,17 +57,34 @@ export const FAnimalCoatColorSelectInput = ({ style, dataForm, setDataForm }) =>
       size={sizes.WIDTH_50}
       color={coatColor.hex}
       setValue={() => coatColorsHandler(coatColor.id)}
-      value={dataForm.coatColors.includes(coatColor.id)}
+      value={dataForm.coatColorsIds.includes(coatColor.id)}
     />
   ));
 
   if (loadingCoatColors) return <FSpinner />;
   return (
-    <ScrollView
-      style={style}
-      horizontal
-    >
-      {drawCoatColorsInputs()}
-    </ScrollView>
+    <View>
+      <ScrollView
+        style={{
+          ...style,
+          marginBottom: !errorMessage ? sizes.MARGIN_20 : 0,
+        }}
+        horizontal
+      >
+        {drawCoatColorsInputs()}
+      </ScrollView>
+      {errorMessage && (
+        <FErrorMessage
+          error={errorMessage}
+          style={{ marginBottom: sizes.MARGIN_20 }}
+        />
+      )}
+    </View>
   );
+};
+
+FAnimalCoatColorSelectInput.propTypes = {
+  dataForm: PropTypes.object.isRequired,
+  setDataForm: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
 };

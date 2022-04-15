@@ -4,9 +4,13 @@ import locales from 'constants/locales';
 import GenderEnum from 'enums/GenderEnum';
 import React from 'react';
 import sizes from 'themes/sizes';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
+import PropTypes from 'prop-types';
 
-export const FAnimalGenderTileSelectInput = ({ dataForm, setDataForm, style }) => {
+export const FAnimalGenderTileSelectInput = ({
+  dataForm, setDataForm, style, errorMessage,
+}) => {
   const drawGenderAnimalTileInputs = () => {
     const animalGenders = [
       {
@@ -50,11 +54,28 @@ export const FAnimalGenderTileSelectInput = ({ dataForm, setDataForm, style }) =
     ));
   };
   return (
-    <ScrollView
-      style={style}
-      horizontal
-    >
-      {drawGenderAnimalTileInputs()}
-    </ScrollView>
+    <View>
+      <ScrollView
+        style={{
+          ...style,
+          marginBottom: !errorMessage ? sizes.MARGIN_20 : 0,
+        }}
+        horizontal
+      >
+        {drawGenderAnimalTileInputs()}
+      </ScrollView>
+      {errorMessage && (
+        <FErrorMessage
+          error={errorMessage}
+          style={{ marginBottom: sizes.MARGIN_20 }}
+        />
+      )}
+    </View>
   );
+};
+
+FAnimalGenderTileSelectInput.propTypes = {
+  dataForm: PropTypes.object.isRequired,
+  setDataForm: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
 };

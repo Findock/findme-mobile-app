@@ -4,9 +4,11 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { uploadAnnouncementPhotoService } from 'services/announcement/uploadAnnouncementPhoto.service';
 import sizes from 'themes/sizes';
 import { appendFileToFormData } from 'utils/appendFileToFormData';
+import PropTypes from 'prop-types';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FImageSelectInput = ({
-  setFormData, dataForm, setShowErrorModal, style,
+  setDataForm, dataForm, setShowErrorModal, style, errorMessage,
 }) => {
   const [
     photoUrls,
@@ -35,9 +37,9 @@ export const FImageSelectInput = ({
     try {
       const formData = appendFileToFormData(photo, 'announcement-image.jpg');
       const res = await uploadAnnouncementPhotoService(formData);
-      setFormData({
+      setDataForm({
         ...dataForm,
-        photos: [...dataForm.photos, res.id],
+        photosIds: [...dataForm.photosIds, res.id],
       });
       const newPhotoUrls = [...photoUrls];
       newPhotoUrls[index] = res.url;
@@ -68,12 +70,23 @@ export const FImageSelectInput = ({
   ));
 
   return (
-    <ScrollView
-      style={style}
-      horizontal
-    >
-      {drawImageInputs()}
-    </ScrollView>
+    <View>
+      <ScrollView
+        style={{
+          ...style,
+          marginBottom: !errorMessage ? sizes.MARGIN_20 : 0,
+        }}
+        horizontal
+      >
+        {drawImageInputs()}
+      </ScrollView>
+      {errorMessage && (
+        <FErrorMessage
+          error={errorMessage}
+          style={{ marginBottom: sizes.MARGIN_20 }}
+        />
+      )}
+    </View>
   );
 };
 
@@ -82,3 +95,10 @@ const styles = StyleSheet.create({
     padding: sizes.PADDING_5,
   },
 });
+
+FImageSelectInput.propTypes = {
+  dataForm: PropTypes.object.isRequired,
+  setDataForm: PropTypes.func.isRequired,
+  setShowErrorModal: PropTypes.func.isRequired,
+  errorMessage: PropTypes.string,
+};
