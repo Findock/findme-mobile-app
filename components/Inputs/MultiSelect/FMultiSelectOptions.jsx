@@ -2,7 +2,6 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { FMultiSelectOption } from 'components/Inputs/MultiSelect/FMultiSelectOption';
 import inputTypes from 'constants/components/inputs/inputTypes';
-import locales from 'constants/locales';
 import React from 'react';
 import {
   FlatList, View,
@@ -11,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
+import placeholders from 'constants/components/inputs/placeholders';
 
 export const FMultiSelectOptions = ({
   options, search, setSearch,
@@ -42,7 +42,7 @@ export const FMultiSelectOptions = ({
   return (
     <View>
       <FInput
-        placeholder={locales.SEARCH}
+        placeholder={placeholders.SEARCH}
         type={inputTypes.TEXT}
         value={search}
         onChangeText={searchInputHandler}

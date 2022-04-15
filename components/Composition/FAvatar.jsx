@@ -5,7 +5,7 @@ import images from 'constants/images';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import React from 'react';
 import {
-  Platform, StyleSheet, TouchableWithoutFeedback, View,
+  StyleSheet, TouchableWithoutFeedback, View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { uploadUserProfileImageService } from 'services/user/uploadUserProfileImage.service';

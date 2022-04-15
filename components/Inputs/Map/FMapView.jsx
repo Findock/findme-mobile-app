@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import {
   View, StyleSheet, Dimensions, Keyboard,
@@ -26,7 +26,7 @@ export const FMapView = ({
   const [
     coordinates,
     setCoordinates,
-  ] = useState();
+  ] = useState(null);
   const [
     locationByCoords,
     setLocationByCoords,
@@ -37,11 +37,7 @@ export const FMapView = ({
   }, [status]);
 
   useEffect(() => {
-    getCoorindates();
-  }, []);
-
-  useEffect(() => {
-    if (coordinates && Object.keys(coordinates).length > 0) { searchLocationByCoords(); }
+    if (coordinates && Object.keys(coordinates).length > 0) searchLocationByCoords();
   }, [coordinates]);
 
   useEffect(() => {

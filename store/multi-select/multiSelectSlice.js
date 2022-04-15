@@ -7,7 +7,7 @@ const initialState = () => ({
 });
 
 export const multiSelectSlice = createSlice({
-  name: 'selectedOptions',
+  name: 'multiSelect',
   initialState: initialState(),
   reducers: {
     setSelectedOptions: (state, action) => {
