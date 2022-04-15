@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import sizes from 'themes/sizes';
 
 export const FHeadingWithIcon = ({
-  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle,
+  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle, alignSelf,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -53,7 +53,11 @@ export const FHeadingWithIcon = ({
     );
   };
   return (
-    <View style={styles.centerView}>
+    <View style={{
+      ...styles.centerView,
+      justifyContent: alignSelf,
+    }}
+    >
       {drawDependingOnIconPlacement()}
     </View>
   );
@@ -63,7 +67,6 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: 'row',
     alignItems: placements.CENTER,
-    justifyContent: placements.CENTER,
     width: sizes.WIDTH_FULL,
   },
 });

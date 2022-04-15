@@ -6,63 +6,65 @@ import sizes from 'themes/sizes';
 import opacities from 'themes/opacities';
 import fonts from 'themes/fonts';
 import { FHeading } from 'components/Composition/FHeading';
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import icons from 'themes/icons';
 import { TouchableWithoutFeedback } from 'react-native-web';
+import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
+import placements from 'themes/placements';
 
-export const FAnnouncementCard = ({ height, width, data }) => (
-  <TouchableWithoutFeedback>
-    <View style={{
-      height,
-      width,
-      ...styles.container,
-    }}
-    >
-      <FImage
-        networkImageUrl={data.photoURL}
-        imageStyle={styles.image}
-        containerStyle={styles.imageContainer}
-      />
-      <FHeading
-        title={data.title}
-        size={fonts.HEADING_MEDIUM}
-        weight={fonts.HEADING_WEIGHT_BOLD}
-        style={styles.text}
-        marginBottom={sizes.MARGIN_5}
-      />
-      <View style={styles.infoContainer}>
-        <Ionicons
-          size={sizes.ICON_20}
-          name={icons.LOCATION_OUTLINE}
-          color={colors.PRIMARY}
+export const FAnnouncementCard = ({ width, data }) => {
+  const cropText = (text, number) => `${text.slice(0, number)}...`;
+  return (
+    <TouchableWithoutFeedback>
+      <View style={{
+        width,
+        ...styles.container,
+      }}
+      >
+        <FImage
+          networkImageUrl={data.photoURL}
+          imageStyle={styles.image}
+          containerStyle={styles.imageContainer}
         />
-        <FHeading
-          color={colors.DARK_GRAY}
-          title={data.locationName}
-          size={fonts.HEADING_NORMAL}
-          style={styles.text}
-        />
+        <View style={styles.content}>
+          <FHeading
+            title={cropText(data.title, 15)}
+            size={fonts.HEADING_MEDIUM}
+            weight={fonts.HEADING_WEIGHT_BOLD}
+            marginBottom={sizes.MARGIN_5}
+          />
+          <FHeading
+            title={cropText(data.description, 35)}
+            size={fonts.HEADING_NORMAL}
+            color={colors.DARK_GRAY}
+            marginBottom={sizes.MARGIN_5}
+          />
+          <FHeadingWithIcon
+            titleStyle={{ marginLeft: sizes.MARGIN_5 }}
+            icon="location-outline"
+            iconColor={colors.PRIMARY}
+            title={data.locationName}
+            iconPlacement={placements.LEFT}
+            alignSelf="flex-start"
+            titleColor={colors.DARK_GRAY}
+          />
+          <FHeadingWithIcon
+            titleStyle={{ marginLeft: sizes.MARGIN_5 }}
+            icon="calendar-outline"
+            iconColor={colors.PRIMARY}
+            title={data.date}
+            iconPlacement={placements.LEFT}
+            alignSelf="flex-start"
+            titleColor={colors.DARK_GRAY}
+          />
+        </View>
       </View>
-      <View style={styles.infoContainer}>
-        <Ionicons
-          size={sizes.ICON_20}
-          name={icons.CALENDAR}
-          color={colors.PRIMARY}
-        />
-        <FHeading
-          color={colors.DARK_GRAY}
-          title={data.date}
-          size={fonts.HEADING_NORMAL}
-          style={styles.text}
-        />
-      </View>
-    </View>
-  </TouchableWithoutFeedback>
-);
+    </TouchableWithoutFeedback>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
+    height: 'auto',
     margin: sizes.MARGIN_5,
     padding: sizes.PADDING_10,
     borderRadius: getHalfBorderRadius(50),
@@ -77,21 +79,12 @@ const styles = StyleSheet.create({
     shadowColor: colors.BLACK,
   },
   imageContainer: {
-    height: '60%',
+    height: 150,
     marginBottom: sizes.MARGIN_10,
   },
   image: {
-    resizeMode: 'contain',
+    resizeMode: sizes.CONTAIN,
     borderRadius: getHalfBorderRadius(50),
     overflow: 'hidden',
-  },
-  text: {
-    marginLeft: sizes.MARGIN_5,
-  },
-  infoContainer: {
-    marginLeft: sizes.MARGIN_5,
-    marginVertical: 2,
-    flexDirection: 'row',
-    alignItems: 'center',
   },
 });

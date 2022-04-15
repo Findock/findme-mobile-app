@@ -4,8 +4,9 @@ import { FAnnouncementCard } from 'components/Composition/FAnnouncementCard';
 import { View } from 'react-native';
 
 const data = {
-  title: 'Zaginął puszek',
+  title: 'Zaginął puszek! Kraków',
   locationName: 'Kraków, Polska',
+  description: 'Lorem ipsum psi psi piesek zaginął dolor sit ame',
   date: '12.12.2021',
   photoURL: 'https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg',
 };
@@ -19,12 +20,12 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={180}
-        height={250}
+        height={300}
         data={data}
       />
       <FAnnouncementCard
         width={180}
-        height={250}
+        height={300}
         data={data}
       />
     </View>
@@ -35,12 +36,10 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={160}
-        height={250}
         data={data}
       />
       <FAnnouncementCard
         width={160}
-        height={250}
         data={data}
       />
     </View>
