@@ -24,6 +24,7 @@ import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
 import { FLogo } from 'components/Composition/FLogo';
+import { FAnnouncementCardPreview } from 'screens/FAnnouncementCardPreview';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -163,6 +164,14 @@ export const Navigation = () => {
             <Stack.Screen
               name={stackNavigatorNames.USER_PROFILE_PREVIEW}
               component={UserProfilePreviewScreen}
+              options={{
+                ...headerWithoutShadowOptions,
+                headerRight: () => <FLogo color={colors.PRIMARY} />,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.ANNOUNCEMENT_CARD_PREVIEW}
+              component={FAnnouncementCardPreview}
               options={{
                 ...headerWithoutShadowOptions,
                 headerRight: () => <FLogo color={colors.PRIMARY} />,
