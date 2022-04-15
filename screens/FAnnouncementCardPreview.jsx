@@ -3,6 +3,7 @@ import React from 'react';
 import { FAnnouncementCard } from 'components/Composition/FAnnouncementCard';
 import { View } from 'react-native';
 
+// TESTS ONLY
 const data = {
   title: 'Zaginął puszek! Kraków',
   locationName: 'Kraków, Polska',
@@ -20,12 +21,10 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={180}
-        height={300}
         data={data}
       />
       <FAnnouncementCard
         width={180}
-        height={300}
         data={data}
       />
     </View>
@@ -40,6 +39,20 @@ export const FAnnouncementCardPreview = () => (
       />
       <FAnnouncementCard
         width={160}
+        data={data}
+      />
+    </View>
+    <View style={{
+      flexDirection: 'row',
+      alignSelf: 'center',
+    }}
+    >
+      <FAnnouncementCard
+        width={140}
+        data={data}
+      />
+      <FAnnouncementCard
+        width={140}
         data={data}
       />
     </View>

@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import sizes from 'themes/sizes';
 
 export const FHeadingWithIcon = ({
-  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle, alignSelf,
+  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle, containerStyle,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -55,7 +55,7 @@ export const FHeadingWithIcon = ({
   return (
     <View style={{
       ...styles.centerView,
-      justifyContent: alignSelf,
+      justifyContent: containerStyle,
     }}
     >
       {drawDependingOnIconPlacement()}
