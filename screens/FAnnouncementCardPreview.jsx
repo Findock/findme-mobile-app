@@ -13,46 +13,40 @@ const data = {
 };
 
 export const FAnnouncementCardPreview = () => (
-  <FDefaultLayout isAlwaysScrollable>
+  <FDefaultLayout
+    isAlwaysScrollable
+  >
     <View style={{
       flexDirection: 'row',
       alignSelf: 'center',
+      flex: 1,
     }}
     >
       <FAnnouncementCard
         width={180}
+        height={300}
         data={data}
       />
       <FAnnouncementCard
-        width={180}
+        width={160}
+        height={260}
         data={data}
       />
     </View>
     <View style={{
       flexDirection: 'row',
       alignSelf: 'center',
+      flex: 1,
     }}
     >
       <FAnnouncementCard
-        width={160}
-        data={data}
-      />
-      <FAnnouncementCard
-        width={160}
-        data={data}
-      />
-    </View>
-    <View style={{
-      flexDirection: 'row',
-      alignSelf: 'center',
-    }}
-    >
-      <FAnnouncementCard
-        width={140}
+        width={150}
+        height={400}
         data={data}
       />
       <FAnnouncementCard
         width={140}
+        height={260}
         data={data}
       />
     </View>
