@@ -30,12 +30,14 @@ export const FAnnouncementCard = ({ width, data, height }) => (
           <FImage
             networkImageUrl={data.photoURL}
             imageStyle={styles.image}
+            height={sizes.HEIGHT_150}
           />
           <FHeading
             title={data.title}
             weight={fonts.HEADING_WEIGHT_BOLD}
             size={fonts.HEADING_NORMAL}
             marginBottom={sizes.MARGIN_5}
+            style={{ marginTop: sizes.MARGIN_8 }}
             ellipsizeMode="tail"
             numberOfLines={1}
           />
@@ -71,8 +73,6 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: getHalfBorderRadius(sizes.RADIUS_20),
     overflow: 'hidden',
-    height: sizes.HEIGHT_150,
-    marginBottom: sizes.MARGIN_5,
   },
   text: {
     marginLeft: sizes.MARGIN_5,
