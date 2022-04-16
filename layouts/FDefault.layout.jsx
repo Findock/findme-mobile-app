@@ -13,6 +13,7 @@ export const FDefaultLayout = ({
     ref={scrollRef}
     nestedScrollEnabled
     scrollEnabled
+    showsVerticalScrollIndicator={false}
     data={[]}
     renderItem={null}
     bounces={false}

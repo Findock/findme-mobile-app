@@ -23,11 +23,31 @@ import { FCategoryAnimalTileSelectInput } from 'components/Inputs/Custom/FCatego
 import { FImageSelectInput } from 'components/Inputs/Custom/FImageSelectInput';
 import { FAnimalGenderTileSelectInput } from 'components/Inputs/Custom/FAnimalGenderTileSelectInput';
 import { FAnimalCoatColorSelectInput } from 'components/Inputs/Custom/FAnimalCoatColorSelectInput';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
+import { useNavigation } from '@react-navigation/native';
+import { createAnnouncementService } from 'services/announcement/createAnnouncement.service';
+import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
+import { filterErrorMessages } from 'utils/filterErrorMessages';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/components/modalTypes';
 
 export const FAnnouncementForm = () => {
   const dispatch = useDispatch();
+  const selectedOptions = useSelector((state) => state.multiSelect.selectedOptions);
+  const navigation = useNavigation();
+  const [
+    finishCreateAnnouncementModalVisible,
+    setFinishCreateAnnouncementModalVisible,
+  ] = useState(false);
+  const [
+    loading,
+    setLoading,
+  ] = useState(false);
+  const [
+    errors,
+    setErrors,
+  ] = useState([]);
   const [
     dataForm,
     setDataForm,
@@ -35,13 +55,15 @@ export const FAnnouncementForm = () => {
     title: '',
     description: '',
     gender: '',
-    category: '',
-    type: announcementType,
-    distinctiveFeatures: [],
-    coatColors: [],
+    categoryId: '',
+    type: AnnouncementEnum.FOUND,
+    distinctiveFeaturesIds: [],
+    coatColorsIds: [],
     locationName: '',
     locationDescription: '',
-    photos: [],
+    photosIds: [],
+    locationLat: 0,
+    locationLon: 0,
   });
   const {
     setShowErrorModal,
@@ -56,21 +78,127 @@ export const FAnnouncementForm = () => {
     dispatch(setSelectedOptions([]));
   }, []);
 
+  useEffect(() => {
+    clearDataFormErrors();
+  }, [dataForm]);
+
+  useEffect(() => {
+    setDataForm({
+      ...dataForm,
+      type: announcementType,
+    });
+  }, [announcementType]);
+
+  useEffect(() => {
+    setDataForm({
+      ...dataForm,
+      distinctiveFeaturesIds: [...selectedOptions.map((option) => option.id)],
+    });
+  }, [selectedOptions]);
+
   const inputHandler = (name, value) => {
     setDataForm({
       ...dataForm,
       [name]: value,
     });
   };
+  const clearDataForm = () => {
+    setDataForm({
+      title: '',
+      description: '',
+      gender: '',
+      categoryId: '',
+      type: announcementType,
+      distinctiveFeaturesIds: [],
+      coatColorsIds: [],
+      locationName: '',
+      locationDescription: '',
+      photosIds: [],
+      locationLat: 0,
+      locationLon: 0,
+    });
+  };
 
+  const clearDataFormErrors = () => {
+    const newErrors = [...errors];
+    if (dataForm.title && errors.indexOf(announcementMessages.TITLE_CANNOT_BE_EMPTY) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.TITLE_CANNOT_BE_EMPTY), 1);
+    }
+    if (dataForm.description && errors.indexOf(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY), 1);
+    }
+    if (dataForm.gender && errors.indexOf(announcementMessages.CHOOSE_GENDER) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_GENDER), 1);
+    }
+    if (dataForm.categoryId && errors.indexOf(announcementMessages.CHOOSE_CATEGORY) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_CATEGORY), 1);
+    }
+    if (dataForm.photosIds.length > 0 && errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO), 1);
+    }
+    if (dataForm.coatColorsIds.length > 0 && errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR) !== -1) {
+      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR), 1);
+    }
+    setErrors([...newErrors]);
+  };
+
+  const checkFormValidation = (error) => {
+    const { message, statusCode } = error;
+    const errs = [];
+    if (statusCode === 400) {
+      if (message.join(' ').includes('title')) {
+        errs.push(announcementMessages.TITLE_CANNOT_BE_EMPTY);
+      }
+      if (message.join(' ').includes('description')) {
+        errs.push(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY);
+      }
+      if (message.join(' ').includes('gender')) {
+        errs.push(announcementMessages.CHOOSE_GENDER);
+      }
+      if (message.join(' ').includes('categoryId')) {
+        errs.push(announcementMessages.CHOOSE_CATEGORY);
+      }
+      if (message.join(' ').includes('photosIds')) {
+        errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO);
+      }
+      if (message.join(' ').includes('coatColorsIds')) {
+        errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR);
+      }
+    }
+    if (statusCode === 500) {
+      setShowErrorModal(true);
+    }
+    setErrors([...errs]);
+  };
+
+  const onSubmit = async () => {
+    try {
+      await createAnnouncementService({ ...dataForm });
+      setLoading(false);
+      setFinishCreateAnnouncementModalVisible(true);
+      clearDataForm();
+    } catch (error) {
+      if (error.response && error.response.data) checkFormValidation(error.response.data);
+      setLoading(false);
+    }
+  };
   return (
     <View>
       {drawErrorModal()}
+      {finishCreateAnnouncementModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          title={locales.ANNOUNCEMEN_ADDED_SUCCESSFULLY}
+          visible={finishCreateAnnouncementModalVisible}
+          setVisible={setFinishCreateAnnouncementModalVisible}
+        />
+      )}
       <FImageSelectInput
         style={styles.horizontalScrollViewContainer}
         dataForm={dataForm}
         setShowErrorModal={setShowErrorModal}
-        setFormData={setDataForm}
+        setDataForm={setDataForm}
+        errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO)}
       />
       <FInput
         iconPlacement={placements.LEFT}
@@ -80,6 +208,7 @@ export const FAnnouncementForm = () => {
         value={dataForm.title}
         width={sizes.WIDTH_FULL}
         type={inputTypes.TEXT}
+        errorMessage={filterErrorMessages(errors, announcementMessages.TITLE_CANNOT_BE_EMPTY)}
       />
       <View>
         <FAnnouncementHeading title={locales.CATEGORY} />
@@ -87,6 +216,7 @@ export const FAnnouncementForm = () => {
           style={styles.horizontalScrollViewContainer}
           dataForm={dataForm}
           setDataForm={setDataForm}
+          errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_CATEGORY)}
         />
       </View>
       <View>
@@ -95,6 +225,7 @@ export const FAnnouncementForm = () => {
           style={styles.horizontalScrollViewContainer}
           dataForm={dataForm}
           setDataForm={setDataForm}
+          errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_GENDER)}
         />
       </View>
       <View>
@@ -119,6 +250,7 @@ export const FAnnouncementForm = () => {
           value={dataForm.description}
           type={inputTypes.TEXTAREA}
           textAreaHeight={sizes.HEIGHT_140}
+          errorMessage={filterErrorMessages(errors, announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY)}
         />
       </View>
       <View style={{ marginTop: sizes.MARGIN_20 }}>
@@ -127,6 +259,7 @@ export const FAnnouncementForm = () => {
           style={styles.horizontalScrollViewContainer}
           dataForm={dataForm}
           setDataForm={setDataForm}
+          errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR)}
         />
       </View>
       <View>
@@ -138,6 +271,13 @@ export const FAnnouncementForm = () => {
             setDataForm({
               ...dataForm,
               locationName,
+            });
+          }}
+          onChangeCoordinates={(coordinates) => {
+            setDataForm({
+              ...dataForm,
+              locationLat: coordinates.latitude,
+              locationLon: coordinates.longitude,
             });
           }}
           location={{
@@ -160,15 +300,18 @@ export const FAnnouncementForm = () => {
           titleSize={fonts.HEADING_MEDIUM}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           buttonViewStyles={{ paddingHorizontal: sizes.PADDING_35 }}
+          onPress={() => navigation.goBack()}
         />
         <FButton
-          type={buttonTypes.TEXT_BUTTON}
+          type={buttonTypes.LOADING_BUTTON}
           title={locales.ADD}
           color={colors.WHITE}
           backgroundColor={colors.PRIMARY}
           titleSize={fonts.HEADING_MEDIUM}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           buttonViewStyles={{ paddingHorizontal: sizes.PADDING_35 }}
+          onPress={onSubmit}
+          loading={loading}
         />
       </View>
     </View>
@@ -178,7 +321,6 @@ export const FAnnouncementForm = () => {
 const styles = StyleSheet.create({
   horizontalScrollViewContainer: {
     flexDirection: 'row',
-    marginBottom: sizes.MARGIN_20,
   },
   buttonsContainer: {
     flexDirection: 'row',

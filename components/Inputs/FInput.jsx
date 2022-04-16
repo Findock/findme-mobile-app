@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -12,12 +11,11 @@ import icons from 'themes/icons';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import fonts from 'themes/fonts';
 import PropTypes from 'prop-types';
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FInput = ({
-  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
+  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage, rounded = false,
   marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
   textAreaHeight = sizes.HEIGHT_80,
 }) => {
@@ -70,15 +68,12 @@ export const FInput = ({
     return icons.EYE_OFF_OUTLINE;
   };
 
-  const drawErrorMessage = () => {
-    if (!errorMessage) return;
-    return (
-      <FErrorMessage
-        error={errorMessage}
-        style={{ marginTop: sizes.MARGIN_3 }}
-      />
-    );
-  };
+  const drawErrorMessage = () => errorMessage && (
+    <FErrorMessage
+      error={errorMessage}
+      style={{ marginTop: sizes.MARGIN_3 }}
+    />
+  );
 
   const drawPasswordVisibilityIcon = () => type === inputTypes.PASSWORD && (
     <TouchableWithoutFeedback
@@ -100,7 +95,6 @@ export const FInput = ({
 
   return (
     <View style={{
-      ...styles.inputContainer,
       marginBottom,
       width,
       height: type === inputTypes.TEXTAREA ? textAreaHeight : sizes.HEIGHT_54,
@@ -148,9 +142,6 @@ export const FInput = ({
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    position: 'relative',
-  },
   icon: {
     position: 'absolute',
     zIndex: 1,

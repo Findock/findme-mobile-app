@@ -29,7 +29,7 @@ export const FAnimalGenderTileSelectInput = ({
         iconDefault: images.UNKNOWN_BLACK(),
         iconPressed: images.UNKNOWN_WHITE(),
         label: locales.UNKNOW,
-        value: GenderEnum.UNKNOW,
+        value: GenderEnum.UNKNOWN,
       },
     ];
     return animalGenders.map((animalGender, index) => (

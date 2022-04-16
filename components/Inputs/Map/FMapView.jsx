@@ -19,7 +19,7 @@ export const FMapView = ({
   height, isInteractive, location = {
     locationName: '',
     locationDescription: '',
-  }, onChangeLocation, onChangeLocationDescription,
+  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates,
 }) => {
   const { granted: status } = useLocationPermission();
 
@@ -33,11 +33,16 @@ export const FMapView = ({
   ] = useState('');
 
   useEffect(() => {
-    getCoorindates();
+    setTimeout(() => {
+      getCoorindates();
+    }, 300);
   }, [status]);
 
   useEffect(() => {
-    if (coordinates && Object.keys(coordinates).length > 0) searchLocationByCoords();
+    if (coordinates && Object.keys(coordinates).length > 0) {
+      searchLocationByCoords();
+      onChangeCoordinates(coordinates);
+    }
   }, [coordinates]);
 
   useEffect(() => {
@@ -157,4 +162,5 @@ FMapView.propTypes = {
   }).isRequired,
   onChangeLocation: PropTypes.func.isRequired,
   onChangeLocationDescription: PropTypes.func.isRequired,
+  onChangeCoordinates: PropTypes.func,
 };
