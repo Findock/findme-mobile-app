@@ -146,7 +146,7 @@ export const Navigation = () => {
               component={UserProfileScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: renderLogo(),
+                headerRight: () => renderLogo(),
               }}
             />
             <Stack.Screen
@@ -174,7 +174,7 @@ export const Navigation = () => {
               component={UserProfilePreviewScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: renderLogo(),
+                headerRight: () => renderLogo(),
               }}
             />
             <Stack.Screen
@@ -182,7 +182,7 @@ export const Navigation = () => {
               component={AddAnnouncementScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: renderLogo(),
+                headerRight: () => renderLogo(),
               }}
             />
             <Stack.Screen
@@ -191,7 +191,7 @@ export const Navigation = () => {
               options={{
                 animation: 'slide_from_bottom',
                 ...headerWithoutShadowOptions,
-                headerRight: renderLogo(),
+                headerRight: () => renderLogo(),
               }}
             />
           </>
