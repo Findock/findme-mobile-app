@@ -57,6 +57,13 @@ export const Navigation = () => {
     dispatch(setMe(res.data));
   };
 
+  const renderLogo = () => (
+    <FLogo
+      color={colors.PRIMARY}
+      fill={false}
+    />
+  );
+
   const checkIfAuthTokenIsValid = async () => {
     try {
       await authValidateTokenService();
@@ -139,12 +146,7 @@ export const Navigation = () => {
               component={UserProfileScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => (
-                  <FLogo
-                    color={colors.PRIMARY}
-                    fill={false}
-                  />
-                ),
+                headerRight: renderLogo(),
               }}
             />
             <Stack.Screen
@@ -172,12 +174,7 @@ export const Navigation = () => {
               component={UserProfilePreviewScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => (
-                  <FLogo
-                    color={colors.PRIMARY}
-                    fill={false}
-                  />
-                ),
+                headerRight: renderLogo(),
               }}
             />
             <Stack.Screen
@@ -185,12 +182,7 @@ export const Navigation = () => {
               component={AddAnnouncementScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => (
-                  <FLogo
-                    color={colors.PRIMARY}
-                    fill={false}
-                  />
-                ),
+                headerRight: renderLogo(),
               }}
             />
             <Stack.Screen
@@ -199,12 +191,7 @@ export const Navigation = () => {
               options={{
                 animation: 'slide_from_bottom',
                 ...headerWithoutShadowOptions,
-                headerRight: () => (
-                  <FLogo
-                    color={colors.PRIMARY}
-                    fill={false}
-                  />
-                ),
+                headerRight: renderLogo(),
               }}
             />
           </>
