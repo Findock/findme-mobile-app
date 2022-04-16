@@ -14,7 +14,6 @@ import { FCard } from 'components/Composition/FCard';
 export const FAnnouncementCard = ({ width, data, height }) => (
   <TouchableWithoutFeedback>
     <View style={{
-      height,
       padding: sizes.PADDING_5,
     }}
     >
@@ -23,18 +22,14 @@ export const FAnnouncementCard = ({ width, data, height }) => (
         paddingHorizontal={sizes.PADDING_10}
         paddingVertical={sizes.PADDING_10}
       >
-        <View styles={{
+        <View style={{
           minHeight: height,
+          maxHeight: height,
         }}
         >
           <FImage
             networkImageUrl={data.photoURL}
-            imageStyle={{
-              borderRadius: getHalfBorderRadius(sizes.RADIUS_20),
-              overflow: 'hidden',
-              height: sizes.HEIGHT_150,
-              marginBottom: sizes.MARGIN_5,
-            }}
+            imageStyle={styles.image}
           />
           <FHeading
             title={data.title}
@@ -73,6 +68,12 @@ export const FAnnouncementCard = ({ width, data, height }) => (
 );
 
 const styles = StyleSheet.create({
+  image: {
+    borderRadius: getHalfBorderRadius(sizes.RADIUS_20),
+    overflow: 'hidden',
+    height: sizes.HEIGHT_150,
+    marginBottom: sizes.MARGIN_5,
+  },
   text: {
     marginLeft: sizes.MARGIN_5,
   },
