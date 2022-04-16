@@ -2,6 +2,7 @@ import { FHeading } from 'components/Composition/FHeading';
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import * as Linking from 'expo-linking';
+import PropTypes from 'prop-types';
 import { parsePhoneNumber } from '../../utils/parsePhoneNumber';
 
 export const FPhoneNumber = ({
@@ -20,3 +21,12 @@ export const FPhoneNumber = ({
     </View>
   </TouchableOpacity>
 );
+
+FPhoneNumber.propTypes = {
+  phoneNumber: PropTypes.string.isRequired,
+  weight: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+  align: PropTypes.oneOf(['center', 'right', 'left']),
+  isUnderline: PropTypes.bool.isRequired,
+};

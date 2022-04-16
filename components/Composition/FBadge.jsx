@@ -5,6 +5,7 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FBadge = ({
   title, color, isFill, style,
@@ -42,3 +43,9 @@ const styles = StyleSheet.create({
   },
 
 });
+
+FBadge.propTypes = {
+  title: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+  isFill: PropTypes.bool.isRequired,
+};

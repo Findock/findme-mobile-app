@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import placements from 'themes/placements';
 import { Ionicons } from '@expo/vector-icons';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FHeadingWithIcon = ({
   icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle,
@@ -67,3 +68,15 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FHeadingWithIcon.propTypes = {
+  icon: PropTypes.string.isRequired,
+  iconPlacement: PropTypes.oneOf(['center', 'left', 'right']).isRequired,
+  iconSize: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  titleColor: PropTypes.string.isRequired,
+  titleWeight: PropTypes.string.isRequired,
+  titleSize: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  titleAlign: PropTypes.oneOf(['center', 'left', 'right']),
+};

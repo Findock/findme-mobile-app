@@ -1,6 +1,7 @@
 import { FSwipeButtonCell } from 'components/Buttons/FSwipeButton/FSwipeButtonCell';
 import React, { useRef } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import PropTypes from 'prop-types';
 
 export const FSwipeButton = ({ children, actions = [] }) => {
   const swipeRef = useRef();
@@ -25,4 +26,12 @@ export const FSwipeButton = ({ children, actions = [] }) => {
       {children}
     </Swipeable>
   );
+};
+
+FSwipeButton.propTypes = {
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    cellType: PropTypes.string.isRequired,
+    cellAction: PropTypes.string.isRequired,
+    onActionPress: PropTypes.func.isRequired,
+  })).isRequired,
 };

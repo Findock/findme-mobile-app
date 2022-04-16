@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import * as Linking from 'expo-linking';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import locales from 'constants/locales';
 import { useAppStateChange } from 'hooks/useAppStateChange';
 

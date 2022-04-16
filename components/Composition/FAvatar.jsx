@@ -1,14 +1,14 @@
 import { FButton } from 'components/Buttons/FButton';
 import { FImage } from 'components/Composition/FImage';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import images from 'constants/images';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import React from 'react';
 import {
-  Platform, StyleSheet, TouchableWithoutFeedback, View,
+  StyleSheet, TouchableWithoutFeedback, View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { uploadUserProfileImageService } from 'services/uploadUserProfileImage.service';
+import { uploadUserProfileImageService } from 'services/user/uploadUserProfileImage.service';
 import { setMe } from 'store/me/meSlice';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
@@ -16,6 +16,8 @@ import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
 import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
+import PropTypes from 'prop-types';
+import { appendFileToFormData } from 'utils/appendFileToFormData';
 
 export const FAvatar = ({
   size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -31,14 +33,7 @@ export const FAvatar = ({
     if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
     try {
       await pickImageFromCameraRoll(async (result) => {
-        // eslint-disable-next-line no-undef
-        const formData = new FormData();
-        // eslint-disable-next-line no-undef
-        formData.append('file', {
-          uri: Platform.OS === 'android' ? result.uri : result.uri.replace('file://', ''),
-          name: 'profile-image.jpg',
-          type: 'image/jpeg',
-        });
+        const formData = appendFileToFormData(result, 'profile-image.jpg');
         const res = await uploadUserProfileImageService(formData);
         dispatch(setMe(res));
       }, {
@@ -131,3 +126,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
 });
+
+FAvatar.propTypes = {
+  size: PropTypes.number.isRequired,
+  isEditable: PropTypes.bool.isRequired,
+  imageUrl: PropTypes.string.isRequired,
+  setShowConfirmDeleteUserProfileImageModal: PropTypes.func,
+  setShowErrorModal: PropTypes.func,
+};

@@ -4,14 +4,14 @@ import { FModal } from 'components/Composition/FModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FLoginHistoryListItem } from 'components/Scoped/LoginHistory/FLoginHistoryListItem';
 import locales from 'constants/locales';
-import modalTypes from 'constants/modalTypes';
-import swipeButtonCellActionTypes from 'constants/swipeButtonCellActionTypes';
-import swipeButtonCellTypes from 'constants/swipeButtonCellTypes';
+import modalTypes from 'constants/components/modalTypes';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { deleteAuthTokenService } from 'services/deleteAuthToken.service';
-import { getMyAuthTokensService } from 'services/getMyAuthTokens.service';
 import sizes from 'themes/sizes';
+import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActionTypes';
+import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
+import { getMyAuthTokensService } from 'services/auth/getMyAuthTokens.service';
+import { deleteAuthTokenService } from 'services/auth/deleteAuthToken.service';
 
 export const FLoginHistoryList = () => {
   const navigation = useNavigation();
@@ -90,7 +90,6 @@ export const FLoginHistoryList = () => {
       />
     );
   };
-
   return (
     <>
       {isLoading && <FSpinner style={{ paddingTop: sizes.PADDING_30 }} />}
@@ -134,5 +133,6 @@ const styles = StyleSheet.create({
   list: {
     width: sizes.WIDTH_FULL,
     paddingTop: sizes.PADDING_10,
+    paddingBottom: sizes.PADDING_14,
   },
 });

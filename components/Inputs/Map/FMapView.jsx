@@ -1,39 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import {
-  View, StyleSheet, Dimensions,
+  View, StyleSheet, Dimensions, Keyboard,
 } from 'react-native';
 import mapStyle from 'components/Inputs/Map/styles/styles.json';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import * as Location from 'expo-location';
 import { FInput } from 'components/Inputs/FInput';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import sizes from 'themes/sizes';
 import { FSpinner } from 'components/Composition/FSpinner';
-import locales from 'constants/locales';
+import placeholders from 'constants/components/inputs/placeholders';
+import PropTypes from 'prop-types';
+import { searchLocationByCoordinatesService } from 'services/location/searchLocationByCoordinates.service';
+import { coordsDelta, initialCoordinates } from 'components/Inputs/Map/helper/mapHelper';
 
-export const FMapView = ({ height, isInteractive }) => {
+export const FMapView = ({
+  height, isInteractive, location = {
+    locationName: '',
+    locationDescription: '',
+  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates,
+}) => {
   const { granted: status } = useLocationPermission();
-  const coordsDelta = {
-    latitudeDelta: 0.00022,
-    longitudeDelta: (Dimensions.get('window').width / Dimensions.get('window').height) * 0.00250,
-  };
+
   const [
     coordinates,
     setCoordinates,
   ] = useState(null);
-
   const [
-    location,
-    setLocation,
-  ] = useState({
-    location: '',
-    description: '',
-  });
+    locationByCoords,
+    setLocationByCoords,
+  ] = useState('');
 
   useEffect(() => {
-    getCoorindates();
+    setTimeout(() => {
+      getCoorindates();
+    }, 300);
   }, [status]);
+
+  useEffect(() => {
+    if (coordinates && Object.keys(coordinates).length > 0) {
+      searchLocationByCoords();
+      onChangeCoordinates(coordinates);
+    }
+  }, [coordinates]);
+
+  useEffect(() => {
+    onChangeLocation(locationByCoords);
+  }, [locationByCoords]);
+
+  const searchLocationByCoords = async () => {
+    const res = await searchLocationByCoordinatesService({
+      lat: coordinates.latitude,
+      lon: coordinates.longitude,
+    });
+    setLocationByCoords(res.data.name);
+  };
+
   const getCoorindates = async () => {
     if (status) {
       const position = await Location.getCurrentPositionAsync();
@@ -42,30 +65,14 @@ export const FMapView = ({ height, isInteractive }) => {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-    } else {
-      setCoordinates({
-        ...coordsDelta,
-        latitude: 52.224665768,
-        longitude: 21.006499974,
-      });
-    }
+    } else setCoordinates({ ...initialCoordinates });
   };
 
   const locationDescriptionInputHandler = (newDescription) => {
-    setLocation({
-      ...setLocation,
-      description: newDescription,
-    });
+    onChangeLocationDescription(newDescription);
   };
 
-  const locationInputHandler = (newLocation) => {
-    setLocation({
-      ...setLocation,
-      location: newLocation,
-    });
-  };
-
-  const onChangeCoordinatesHandler = (e) => {
+  const onChangeCoordinatesHandler = async (e) => {
     const { coordinate } = e.nativeEvent;
     if (coordinate) {
       setCoordinates({
@@ -81,22 +88,28 @@ export const FMapView = ({ height, isInteractive }) => {
       {isInteractive && (
         <View>
           <FInput
+            caretHidden
+            placeholder={placeholders.MARK_ON_THE_MAP}
             type={inputTypes.TEXT}
             width={sizes.WIDTH_FULL}
-            placeholder={locales.SEARCH_OR_MARK_ON_THE_MAP}
-            value={location.location}
-            onChangeText={locationDescriptionInputHandler}
+            showSoftInputOnFocus={false}
+            onChangeText={() => {}}
+            onPress={() => {
+              Keyboard.dismiss();
+            }}
+            value={locationByCoords}
           />
-          <FInput
-            type={inputTypes.TEXT}
-            width={sizes.WIDTH_FULL}
-            placeholder={locales.ADD_LOCATION_DESCRIPTION}
-            value={location.description}
-            onChangeText={locationInputHandler}
-          />
+          <View>
+            <FInput
+              type={inputTypes.TEXT}
+              width={sizes.WIDTH_FULL}
+              placeholder={placeholders.ADD_LOCATION_DESCRIPTION}
+              value={location.locationDescription}
+              onChangeText={locationDescriptionInputHandler}
+            />
+          </View>
         </View>
       ) }
-
       <View style={{
         ...styles.mapContainer,
         height,
@@ -136,5 +149,18 @@ const styles = StyleSheet.create({
   map: {
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_90_PERCENTAGES,
+    left: sizes.POSITION_30,
   },
 });
+
+FMapView.propTypes = {
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  isInteractive: PropTypes.bool.isRequired,
+  location: PropTypes.shape({
+    locationName: PropTypes.string.isRequired,
+    locationDescription: PropTypes.string.isRequired,
+  }).isRequired,
+  onChangeLocation: PropTypes.func.isRequired,
+  onChangeLocationDescription: PropTypes.func.isRequired,
+  onChangeCoordinates: PropTypes.func,
+};

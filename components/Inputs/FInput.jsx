@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   StyleSheet,
-  Text,
   TextInput,
   TouchableWithoutFeedback,
   View,
@@ -9,14 +8,16 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import fonts from 'themes/fonts';
+import PropTypes from 'prop-types';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FInput = ({
-  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage = '', rounded = false,
-  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => {}, showSoftInputOnFocus = true, caretHidden = false,
+  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage, rounded = false,
+  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
+  textAreaHeight = sizes.HEIGHT_80,
 }) => {
   const [
     isPasswordVisible,
@@ -67,10 +68,12 @@ export const FInput = ({
     return icons.EYE_OFF_OUTLINE;
   };
 
-  const drawErrorMessage = () => {
-    if (!errorMessage) return;
-    return <Text style={styles.errorMessage}>{errorMessage}</Text>;
-  };
+  const drawErrorMessage = () => errorMessage && (
+    <FErrorMessage
+      error={errorMessage}
+      style={{ marginTop: sizes.MARGIN_3 }}
+    />
+  );
 
   const drawPasswordVisibilityIcon = () => type === inputTypes.PASSWORD && (
     <TouchableWithoutFeedback
@@ -92,10 +95,9 @@ export const FInput = ({
 
   return (
     <View style={{
-      ...styles.inputContainer,
       marginBottom,
       width,
-      height: type === inputTypes.TEXTAREA ? sizes.HEIGHT_80 : sizes.HEIGHT_54,
+      height: type === inputTypes.TEXTAREA ? textAreaHeight : sizes.HEIGHT_54,
     }}
     >
       <Ionicons
@@ -128,6 +130,9 @@ export const FInput = ({
           backgroundColor: getBackgroundColors(),
           borderWidth: getBorderWidth(),
           borderRadius: getBorderRadius(),
+          paddingTop: type === inputTypes.TEXTAREA ? 10 : 0,
+          paddingBottom: type === inputTypes.TEXTAREA ? 10 : 0,
+          textAlignVertical: type === inputTypes.TEXTAREA ? 'top' : 'auto',
         }}
       />
       {drawPasswordVisibilityIcon()}
@@ -137,9 +142,6 @@ export const FInput = ({
 };
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    position: 'relative',
-  },
   icon: {
     position: 'absolute',
     zIndex: 1,
@@ -151,9 +153,23 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_FULL,
   },
-  errorMessage: {
-    color: colors.DANGER,
-    fontSize: fonts.HEADING_EXTRA_SMALL,
-    marginTop: sizes.MARGIN_3,
-  },
 });
+
+FInput.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChangeText: PropTypes.func.isRequired,
+  type: PropTypes.oneOf(['phone', 'email', 'password', 'text', 'textarea']).isRequired,
+  icon: PropTypes.string,
+  iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
+  placeholder: PropTypes.string,
+  maxLength: PropTypes.number,
+  errorMessage: PropTypes.string,
+  rounded: PropTypes.bool,
+  marginBottom: PropTypes.number,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  outline: PropTypes.bool,
+  onPress: PropTypes.func,
+  showSoftInputOnFocus: PropTypes.bool,
+  caretHidden: PropTypes.bool,
+  textAreaHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};

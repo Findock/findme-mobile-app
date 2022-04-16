@@ -1,6 +1,6 @@
 import { FModal } from 'components/Composition/FModal';
 import locales from 'constants/locales';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 

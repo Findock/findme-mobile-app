@@ -4,6 +4,7 @@ import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import opacities from 'themes/opacities';
 import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
+import PropTypes from 'prop-types';
 
 export const FColorSelect = ({
   color, value, setValue, size, style,
@@ -59,3 +60,10 @@ const styles = StyleSheet.create({
     borderColor: colors.LIGHT_GRAY,
   },
 });
+
+FColorSelect.propTypes = {
+  color: PropTypes.string.isRequired,
+  value: PropTypes.bool.isRequired,
+  setValue: PropTypes.func.isRequired,
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};

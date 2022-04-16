@@ -1,10 +1,10 @@
-import appConfig from 'app.config';
+import config from 'config';
 import * as SecureStore from 'expo-secure-store';
 
-export const uploadUserProfileImageService = async (formData) => {
+export const uploadAnnouncementPhotoService = async (formData) => {
   const accessToken = await SecureStore.getItemAsync('Authorization');
   // eslint-disable-next-line no-undef
-  const res = await fetch(`${appConfig.extra.apiUrl}users/me/profile-image`, {
+  const res = await fetch(`${config.backendUrl}announcement-photos/upload`, {
     method: 'POST',
     body: formData,
     headers: {

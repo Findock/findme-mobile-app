@@ -1,5 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import React from 'react';
 import colors from 'themes/colors';
@@ -13,6 +13,7 @@ import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import PropTypes from 'prop-types';
 
 export const FSettingsScreen = ({ me, setIsForm }) => {
   const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
@@ -37,6 +38,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeLocationPermission}
           switchValue={locationStatus}
+          isDisabled={false}
         />
         <FSettingsRow
           isForm={false}
@@ -46,6 +48,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeCameraPermission}
           switchValue={cameraStatus}
+          isDisabled={false}
         />
         <FSettingsRow
           isForm={false}
@@ -55,6 +58,8 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           style={styles.headerSpace}
           onSwitchValueChange={handleChangeCameraRollPermission}
           switchValue={cameraRollStatus}
+          isDisabled={false}
+
         />
         <View style={styles.buttonContainer}>
           <FButton
@@ -138,3 +143,8 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FSettingsScreen.propTypes = {
+  me: PropTypes.objectOf(PropTypes.any),
+  setIsForm: PropTypes.func.isRequired,
+};

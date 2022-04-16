@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import swipeButtonCellTypes from 'constants/swipeButtonCellTypes';
 import colors from 'themes/colors';
-import swipeButtonCellActionTypes from 'constants/swipeButtonCellActionTypes';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import locales from 'constants/locales';
 import placements from 'themes/placements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActionTypes';
+import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
+import PropTypes from 'prop-types';
 
 export const FSwipeButtonCell = ({
   cellType, cellAction, onActionPress,
@@ -106,3 +107,9 @@ const styles = StyleSheet.create({
     color: colors.WHITE,
   },
 });
+
+FSwipeButtonCell.propTypes = {
+  cellType: PropTypes.string.isRequired,
+  cellAction: PropTypes.string.isRequired,
+  onActionPress: PropTypes.func.isRequired,
+};

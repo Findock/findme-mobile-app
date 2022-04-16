@@ -1,7 +1,7 @@
 import { select } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react-native';
 import { FStatus } from 'components/Composition/FStatus';
-import statusTypes from 'constants/statusTypes';
+import statusTypes from 'constants/components/statusTypes';
 import { CenterView } from 'storybook/utils/CenterView';
 
 const statusTypesOptions = [

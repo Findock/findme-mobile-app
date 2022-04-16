@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import * as SecureStore from 'expo-secure-store';
@@ -9,7 +9,7 @@ import {
   StyleSheet, View,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { logoutUserService } from 'services/logoutUser.service';
+import { logoutUserService } from 'services/user/logoutUser.service';
 import { removeToken } from 'store/auth/authSlice';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -28,7 +28,7 @@ export const HomepageScreen = () => {
   };
 
   return (
-    <FDefaultLayout hasFlatList>
+    <FDefaultLayout>
       <View>
         <View style={styles.buttonContainer}>
           <FButton
@@ -53,11 +53,21 @@ export const HomepageScreen = () => {
           <FButton
             title="Inny użytkownik"
             color={colors.WHITE}
-            backgroundColor={colors.DARK_GRAY}
+            backgroundColor={colors.PRIMARY}
             type={buttonTypes.TEXT_BUTTON}
             titleSize={fonts.HEADING_NORMAL}
             titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
             onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW)}
+            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+          />
+          <FButton
+            title="Dodaj ogłoszenie"
+            color={colors.WHITE}
+            backgroundColor={colors.DARK_GRAY}
+            type={buttonTypes.TEXT_BUTTON}
+            titleSize={fonts.HEADING_NORMAL}
+            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+            onPress={() => navigation.navigate(stackNavigatorNames.ADD_ANNOUNCEMENT)}
             buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
           />
         </View>
