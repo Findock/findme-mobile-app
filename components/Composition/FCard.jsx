@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import colors from 'themes/colors';
 import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FCard = ({
   children, width, paddingVertical, paddingHorizontal, style, backgroundColor = colors.WHITE,
@@ -33,3 +34,13 @@ const styles = StyleSheet.create({
     shadowColor: colors.BLACK,
   },
 });
+
+FCard.propTypes = {
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  backgroundColor: PropTypes.string,
+  paddingVertical: PropTypes.number,
+  paddingHorizontal: PropTypes.number,
+};

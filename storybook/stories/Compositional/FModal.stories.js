@@ -2,7 +2,7 @@ import { CenterView } from 'storybook/utils/CenterView';
 import { storiesOf } from '@storybook/react-native';
 import { select, text } from '@storybook/addon-knobs';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useState } from 'react';
 
 const modalTypesOptions = [

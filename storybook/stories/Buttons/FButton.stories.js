@@ -6,7 +6,7 @@ import icons from 'themes/icons';
 import { text, select, number } from '@storybook/addon-knobs';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 
 const iconOptions = [
   icons.PAW,

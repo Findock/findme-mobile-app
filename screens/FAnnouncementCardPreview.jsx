@@ -24,12 +24,12 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={180}
-        height={300}
+        height={280}
         data={data}
       />
       <FAnnouncementCard
         width={160}
-        height={260}
+        height={280}
         data={data}
       />
     </View>
@@ -41,12 +41,12 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={150}
-        height={400}
+        height={340}
         data={data}
       />
       <FAnnouncementCard
         width={140}
-        height={260}
+        height={280}
         data={data}
       />
     </View>

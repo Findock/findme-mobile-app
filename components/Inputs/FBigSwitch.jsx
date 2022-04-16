@@ -7,6 +7,7 @@ import fonts from 'themes/fonts';
 import sizes from 'themes/sizes';
 import { FHeading } from 'components/Composition/FHeading';
 import placements from 'themes/placements';
+import PropTypes from 'prop-types';
 
 export const FBigSwitch = ({
   values, value, setValue, labels, style,
@@ -69,3 +70,10 @@ const styles = StyleSheet.create({
     flexBasis: sizes.BASIS_53_PERCENTAGES,
   },
 });
+
+FBigSwitch.propTypes = {
+  values: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  value: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  labels: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+};

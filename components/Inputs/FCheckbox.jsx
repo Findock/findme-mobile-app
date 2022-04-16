@@ -6,8 +6,9 @@ import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import React from 'react';
-import checkboxTypes from 'constants/checkboxTypes';
 import { FHeading } from 'components/Composition/FHeading';
+import checkboxTypes from 'constants/components/checkboxTypes';
+import PropTypes from 'prop-types';
 
 export const FCheckbox = ({
   type, label, labelColor, labelSize, labelWeight,
@@ -79,3 +80,16 @@ const styles = StyleSheet.create({
     top: sizes.POSITION_N1,
   },
 });
+
+FCheckbox.propTypes = {
+  type: PropTypes.oneOf(['icon', 'color']).isRequired,
+  label: PropTypes.string,
+  labelColor: PropTypes.string,
+  labelSize: PropTypes.number,
+  labelWeight: PropTypes.string,
+  checkboxBorderColor: PropTypes.string.isRequired,
+  checkboxBgColor: PropTypes.string.isRequired,
+  iconColor: PropTypes.string,
+  value: PropTypes.bool.isRequired,
+  setValue: PropTypes.func.isRequired,
+};

@@ -10,6 +10,8 @@ import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import icons from 'themes/icons';
 import colors from 'themes/colors';
 import { FCard } from 'components/Composition/FCard';
+import placements from 'themes/placements';
+import images from 'constants/images';
 
 export const FAnnouncementCard = ({ width, data, height }) => (
   <TouchableWithoutFeedback>
@@ -28,14 +30,16 @@ export const FAnnouncementCard = ({ width, data, height }) => (
         }}
         >
           <FImage
-            networkImageUrl={data.photoURL}
+            imagePath={images.RABBIT_BLACK()}
             imageStyle={styles.image}
             height={sizes.HEIGHT_150}
+            resizeMode="cover"
+            width="100%"
           />
           <FHeading
             title={data.title}
             weight={fonts.HEADING_WEIGHT_BOLD}
-            size={fonts.HEADING_NORMAL}
+            size={fonts.HEADING_MEDIUM}
             marginBottom={sizes.MARGIN_5}
             style={{ marginTop: sizes.MARGIN_8 }}
             ellipsizeMode="tail"
@@ -47,6 +51,8 @@ export const FAnnouncementCard = ({ width, data, height }) => (
             color={colors.DARK_GRAY}
             ellipsizeMode="tail"
             numberOfLines={2}
+            size={fonts.HEADING_NORMAL}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
           />
           <FHeadingWithIcon
             icon={icons.LOCATION_OUTLINE}
@@ -55,6 +61,10 @@ export const FAnnouncementCard = ({ width, data, height }) => (
             titleStyle={styles.text}
             titleColor={colors.DARK_GRAY}
             numberOfLines={2}
+            iconPlacement={placements.LEFT}
+            iconSize={sizes.ICON_20}
+            titleSize={fonts.HEADING_SMALL}
+            titleWeight={fonts.HEADING_WEIGHT_REGULAR}
           />
           <FHeadingWithIcon
             icon={icons.CALENDAR}
@@ -62,6 +72,12 @@ export const FAnnouncementCard = ({ width, data, height }) => (
             title={data.date}
             titleStyle={styles.text}
             titleColor={colors.DARK_GRAY}
+            size={fonts.HEADING_MEDIUM}
+            weight={fonts.HEADING_NORMAL}
+            iconPlacement={placements.LEFT}
+            iconSize={sizes.ICON_20}
+            titleSize={fonts.HEADING_SMALL}
+            titleWeight={fonts.HEADING_WEIGHT_REGULAR}
           />
         </View>
       </FCard>

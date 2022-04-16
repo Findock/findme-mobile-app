@@ -3,6 +3,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import sizes from 'themes/sizes';
+import PropTypes from 'prop-types';
 
 export const FImage = ({
   width, height, imagePath, children, containerStyle, resizeMode, networkImageUrl, imageStyle,
@@ -35,4 +36,29 @@ export const FImage = ({
       </ImageBackground>
     </View>
   );
+};
+
+FImage.propTypes = {
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  imagePath: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  resizeMode: PropTypes.oneOf(['cover', 'contain']).isRequired,
+  networkImageUrl: PropTypes.string,
+  imageWidth: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  imageHeight: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };

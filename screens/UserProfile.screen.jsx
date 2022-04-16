@@ -14,11 +14,11 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
-import { deleteUserProfileImageService } from 'services/deleteUserProfileImage.service';
+import modalTypes from 'constants/components/modalTypes';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
+import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -45,9 +45,7 @@ export const UserProfileScreen = () => {
   };
 
   return (
-    <FDefaultLayout
-      isAlwaysScrollable
-    >
+    <FDefaultLayout>
       {showConfirmDeleteUserProfileImageModal && (
         <FModal
           type={modalTypes.CONFIRM_MODAL}

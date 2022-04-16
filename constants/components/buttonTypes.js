@@ -4,4 +4,5 @@ export default {
   ICON_BUTTON: 'icon',
   TEXT_BUTTON: 'text',
   OUTLINE_TEXT_BUTTON: 'outline-text',
+  LOADING_BUTTON: 'loading',
 };

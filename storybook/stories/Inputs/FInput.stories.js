@@ -5,7 +5,7 @@ import {
 import { storiesOf } from '@storybook/react-native';
 import { CenterView } from 'storybook/utils/CenterView';
 import icons from 'themes/icons';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import { FInput } from 'components/Inputs/FInput';
 import sizes from 'themes/sizes';
 

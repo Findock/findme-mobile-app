@@ -9,6 +9,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import opacities from 'themes/opacities';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 
 export const FWideButton = ({
   icon, title, titleWeight, titleSize, titleColor, iconSize, iconColor, buttonBgColor, iconBgColor,
@@ -81,3 +82,17 @@ const styles = StyleSheet.create({
     height: sizes.HEIGHT_50,
   },
 });
+FWideButton.propTypes = {
+  icon: PropTypes.string,
+  title: PropTypes.string,
+  titleWeight: PropTypes.string,
+  titleSize: PropTypes.number,
+  titleColor: PropTypes.string,
+  iconSize: PropTypes.number,
+  iconColor: PropTypes.string,
+  iconBgColor: PropTypes.string,
+  arrowColor: PropTypes.string,
+  onPress: PropTypes.func,
+  isLink: PropTypes.bool.isRequired,
+  navigateTo: PropTypes.string,
+};

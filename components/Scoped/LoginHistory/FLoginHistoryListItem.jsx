@@ -1,8 +1,8 @@
 import { FHeading } from 'components/Composition/FHeading';
 import { FStatus } from 'components/Composition/FStatus';
+import statusTypes from 'constants/components/statusTypes';
 import dateFormatTypes from 'constants/dateFormatTypes';
 import locales from 'constants/locales';
-import statusTypes from 'constants/statusTypes';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
@@ -11,6 +11,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import { calcPassedTime } from 'utils/calcPassedTime';
 import { parseDate } from 'utils/parseDate';
+import PropTypes from 'prop-types';
 
 export const FLoginHistoryListItem = ({
   deviceName, location, isActiveSession, date,
@@ -92,3 +93,10 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_HALF,
   },
 });
+
+FLoginHistoryListItem.propTypes = {
+  deviceName: PropTypes.string.isRequired,
+  location: PropTypes.string.isRequired,
+  isActiveSession: PropTypes.bool.isRequired,
+  date: PropTypes.string.isRequired,
+};

@@ -5,14 +5,12 @@ import {
 } from 'react-native';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
-import inputTypes from 'constants/inputTypes';
+import inputTypes from 'constants/components/inputs/inputTypes';
 import { FButton } from 'components/Buttons/FButton';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
-import buttonTypes from 'constants/buttonTypes';
-import errorMessages from 'constants/errorMessages';
-import { createUserService } from 'services/createUser.service';
+import buttonTypes from 'constants/components/buttonTypes';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
@@ -20,9 +18,12 @@ import { FCheckbox } from 'components/Inputs/FCheckbox';
 import { FHeading } from 'components/Composition/FHeading';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
+import modalTypes from 'constants/components/modalTypes';
 import { useNavigation } from '@react-navigation/native';
-import checkboxTypes from 'constants/checkboxTypes';
+import placeholders from 'constants/components/inputs/placeholders';
+import checkboxTypes from 'constants/components/checkboxTypes';
+import { createUserService } from 'services/user/createUser.service';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -79,21 +80,21 @@ export const FRegistrationForm = () => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.INVALID_EMAIL);
+        errs.push(userMessages.INVALID_EMAIL);
       }
       if (message.join(' ').includes('password')) {
-        errs.push(errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
+        errs.push(userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       }
       if (message.join(' ').includes('name')) {
-        errs.push(errorMessages.NAME_CANNOT_BE_EMPTY);
+        errs.push(userMessages.NAME_CANNOT_BE_EMPTY);
       }
       if (message.join(' ').includes('Terms') || message.join(' ').includes('terms')) {
-        errs.push(errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
+        errs.push(userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
       }
     }
     if (statusCode === 409) {
       if (message.join(' ').includes('email')) {
-        errs.push(errorMessages.USER_ALREADY_EXISTS);
+        errs.push(userMessages.USER_ALREADY_EXISTS);
       }
     }
     setErrors([...errs]);
@@ -130,28 +131,28 @@ export const FRegistrationForm = () => {
       )}
       <View>
         <FInput
-          placeholder={locales.EMAIL}
+          placeholder={placeholders.EMAIL}
           value={dataForm.email}
           icon={icons.MAIL_OUTLINE}
           iconPlacement={placements.LEFT}
           onChangeText={emailInputHandler}
           type={inputTypes.EMAIL}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_EMAIL)
-              || filterErrorMessages(errors, errorMessages.USER_ALREADY_EXISTS)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_EMAIL)
+              || filterErrorMessages(errors, userMessages.USER_ALREADY_EXISTS)}
         />
         <FInput
-          placeholder={locales.NAME}
+          placeholder={placeholders.NAME}
           value={dataForm.name}
           icon={icons.PERSON_OUTLINE}
           iconPlacement={placements.LEFT}
           onChangeText={nameInputHandler}
           type={inputTypes.TEXT}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.NAME_CANNOT_BE_EMPTY)}
+          errorMessage={filterErrorMessages(errors, userMessages.NAME_CANNOT_BE_EMPTY)}
         />
         <FInput
-          placeholder={locales.PASSWORD}
+          placeholder={placeholders.PASSWORD}
           value={dataForm.password}
           icon={icons.LOCK_CLOSED_OUTLINE}
           iconPlacement={placements.LEFT}
@@ -159,7 +160,7 @@ export const FRegistrationForm = () => {
           type={inputTypes.PASSWORD}
           maxLength={64}
           width={sizes.WIDTH_FULL}
-          errorMessage={filterErrorMessages(errors, errorMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
+          errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)}
         />
       </View>
       <View>
@@ -179,7 +180,7 @@ export const FRegistrationForm = () => {
         </View>
         <View style={styles.regulationsErrorMessageContainer}>
           <FHeading
-            title={filterErrorMessages(errors, errorMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
+            title={filterErrorMessages(errors, userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
             color={colors.DANGER}
             size={fonts.HEADING_EXTRA_SMALL}
           />

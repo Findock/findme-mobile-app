@@ -11,6 +11,7 @@ import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export const FWelcomeLayout = ({
   imagePath, headingTitle, imageHeight, imageWidth, children,
@@ -73,3 +74,10 @@ const styles = StyleSheet.create({
     width: sizes.WIDTH_FULL,
   },
 });
+
+FWelcomeLayout.propTypes = {
+  imagePath: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  headingTitle: PropTypes.string.isRequired,
+  imageHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  imageWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+};

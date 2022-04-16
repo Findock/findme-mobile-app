@@ -1,5 +1,5 @@
 import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/buttonTypes';
+import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import React, { useState } from 'react';
 import colors from 'themes/colors';
@@ -12,19 +12,20 @@ import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
 import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
-import { updateUserService } from 'services/updateUser.service';
-import errorMessages from 'constants/errorMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
-import { getMeService } from 'services/getMe.service';
 import { setMe } from 'store/me/meSlice';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/modalTypes';
-import { deleteAccountService } from 'services/deleteAccount.service';
+import modalTypes from 'constants/components/modalTypes';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useErrorModal } from 'hooks/useErrorModal';
+import { updateUserService } from 'services/user/updateUser.service';
+import { deleteAccountService } from 'services/user/deleteAccount.service';
+import { getMeService } from 'services/user/getMe.service';
+import PropTypes from 'prop-types';
+import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 
 export const FSettingsFormScreen = ({ me, setIsForm }) => {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ').includes('phone')) {
-        errs.push(errorMessages.INVALID_PHONE_NUMBER);
+        errs.push(userMessages.INVALID_PHONE_NUMBER);
       }
     }
     setErrors([...errs]);
@@ -167,7 +168,7 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
           style={styles.settingRowSpace}
           onChangeText={phoneInputhandler}
           isPhoneInput
-          errorMessage={filterErrorMessages(errors, errorMessages.INVALID_PHONE_NUMBER)}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
         />
         <FSettingsRow
           isForm
@@ -195,7 +196,6 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
           maxLength={100}
           isTextarea
           numberOfLines={3}
-
         />
         <View style={{ marginTop: sizes.MARGIN_30 }}>
           <FButton
@@ -246,3 +246,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+FSettingsFormScreen.propTypes = {
+  me: PropTypes.objectOf(PropTypes.any),
+  setIsForm: PropTypes.func.isRequired,
+};

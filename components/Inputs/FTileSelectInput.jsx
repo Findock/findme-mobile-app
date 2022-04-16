@@ -7,13 +7,17 @@ import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import opacities from 'themes/opacities';
 import { FHeading } from 'components/Composition/FHeading';
+import PropTypes from 'prop-types';
 
 export const FTileSelectInput = ({
   width, height, iconSize, iconDefault, iconPressed, label, setValue, value, style,
 }) => (
   <TouchableOpacity
     onPress={setValue}
-    style={{ padding: sizes.PADDING_10 }}
+    style={{
+      padding: sizes.PADDING_10,
+      ...style,
+    }}
   >
     <FImage
       imagePath={value ? iconPressed : iconDefault}
@@ -27,7 +31,6 @@ export const FTileSelectInput = ({
         backgroundColor: value ? colors.PRIMARY : colors.LIGHT_GRAY,
         width,
         height,
-        ...style,
       }}
     />
     <View style={{
@@ -61,3 +64,14 @@ const styles = StyleSheet.create({
     elevation: sizes.ELEVATION_1,
   },
 });
+
+FTileSelectInput.propTypes = {
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  iconSize: PropTypes.number.isRequired,
+  iconDefault: PropTypes.number.isRequired,
+  iconPressed: PropTypes.number.isRequired,
+  label: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+  value: PropTypes.bool.isRequired,
+};

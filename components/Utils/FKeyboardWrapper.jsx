@@ -1,21 +1,21 @@
 import {
-  Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, Platform,
+  Keyboard, TouchableWithoutFeedback,
 } from 'react-native';
 import React from 'react';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import PropTypes from 'prop-types';
 
-export const FKeyboardWrapper = ({ children }) => (
-  <KeyboardAvoidingView
-    behavior="position"
-    keyboardVerticalOffset={Platform.OS === 'ios' ? -50 : -500}
-    contentContainerStyle={{
-      flex: 1,
-    }}
-    style={{
-      flex: 1,
-    }}
+export const FKeyboardWrapper = ({ children, scrollRef }) => (
+  <KeyboardAwareScrollView
+    ref={scrollRef}
+    enableOnAndroid={false}
   >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       {children}
     </TouchableWithoutFeedback>
-  </KeyboardAvoidingView>
+  </KeyboardAwareScrollView>
 );
+
+FKeyboardWrapper.propTypes = {
+  scrollRef: PropTypes.objectOf(PropTypes.any),
+};

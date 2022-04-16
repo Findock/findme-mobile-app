@@ -11,7 +11,7 @@ const defaultColor = colors.SUCCESS;
 const colorsOptions = [
   colors.DANGER,
   colors.SUCCESS,
-  colors.WARNINGS,
+  colors.WARNING,
 ];
 
 storiesOf('FBadge', module)
