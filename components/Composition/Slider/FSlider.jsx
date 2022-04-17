@@ -17,7 +17,7 @@ export const FSlider = ({ photos }) => {
     setCurrentIndex,
   ] = useState(0);
 
-  const drawDots = () => photos && photos.map((photo, index) => (
+  const drawDots = () => photos && photos.map((_, index) => (
     <FSliderDot
       key={index}
       isActive={currentIndex === index}
