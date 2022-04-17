@@ -14,6 +14,7 @@ export default {
 
   // WIDTHS
   WIDTH_0: 0,
+  WIDTH_12: 12,
   WIDTH_15: 15,
   WIDTH_22: 22,
   WIDTH_45: 45,
@@ -30,6 +31,7 @@ export default {
   HEIGHT_N1: -1,
   HEIGHT_1: 1,
   HEIGHT_4: 4,
+  HEIGHT_12: 12,
   HEIGHT_15: 15,
   HEIGHT_22: 22,
   HEIGHT_45: 45,
@@ -78,8 +80,9 @@ export default {
   POSITION_N30: -30,
   POSITION_N28: -28,
   POSITION_N1: -1,
-  POSITION_6: 6,
   POSITION_1_PERCENTAGES: '1%',
+  POSITION_6: 6,
+  POSITION_8: 8,
   POSITION_14: 14,
   POSITION_20: 20,
   POSITION_30: 30,
