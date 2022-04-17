@@ -1,4 +1,3 @@
-import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FSpinner } from 'components/Composition/FSpinner';
@@ -14,29 +13,25 @@ export const SettingsScreen = () => {
   const scrollRef = useRef();
 
   useEffect(() => {
-    scrollRef.current?.scrollToOffset({
-      offset: 0,
-      animated: true,
-    });
+    if (scrollRef.current) {
+      scrollRef.current?.scrollToOffset({
+        offset: 0,
+        animated: true,
+      });
+    }
   }, [isForm]);
 
+  if (!me) return <FSpinner />;
   return (
-    <FDefaultLayout
-      scrollRef={scrollRef}
-    >
-      {!me ? <FSpinner /> : (
-        isForm ? (
-          <FSettingsFormScreen
-            me={me}
-            setIsForm={setIsForm}
-          />
-        ) : (
-          <FSettingsScreen
-            me={me}
-            setIsForm={setIsForm}
-          />
-        )
-      )}
-    </FDefaultLayout>
-  );
+    isForm ? (
+      <FSettingsFormScreen
+        me={me}
+        setIsForm={setIsForm}
+      />
+    ) : (
+      <FSettingsScreen
+        me={me}
+        setIsForm={setIsForm}
+      />
+    ));
 };

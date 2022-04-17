@@ -1,10 +1,11 @@
-import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { getOtherUserService } from 'services/user/getOtherUser.service';
+import { FKeyboardWrapper } from 'layouts/components/FKeyboardWrapper';
+import { FContainer } from 'layouts/components/FContainer';
+import { FDefaultLayout } from 'layouts/FDefault.layout';
 
 export const UserProfilePreviewScreen = () => {
   const [
@@ -31,17 +32,12 @@ export const UserProfilePreviewScreen = () => {
   return (
     <FDefaultLayout>
       <>
-        <View style={{
-          flex: 1,
-        }}
-        >
-          {!user ? <FSpinner /> : (
-            <FUserProfileCard
-              user={user}
-              isMe={false}
-            />
-          )}
-        </View>
+        {!user ? <FSpinner /> : (
+          <FUserProfileCard
+            user={user}
+            isMe={false}
+          />
+        )}
         {drawErrorModal(true)}
       </>
     </FDefaultLayout>

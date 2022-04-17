@@ -59,6 +59,7 @@ export default {
   PADDING_30: 30,
   PADDING_35: 35,
   PADDING_50: 50,
+  PADDING_130: 130,
   PADDING_200: 200,
 
   // MARGINS

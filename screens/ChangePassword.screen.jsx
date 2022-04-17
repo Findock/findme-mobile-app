@@ -13,7 +13,7 @@ import { FButton } from 'components/Buttons/FButton';
 import { View, StyleSheet } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
-import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
+import { FKeyboardWrapper } from 'layouts/components/FKeyboardWrapper';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
@@ -23,6 +23,7 @@ import { useNavigation } from '@react-navigation/native';
 import placeholders from 'constants/components/inputs/placeholders';
 import { updatePasswordService } from 'services/user/updatePassword.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
+import { FFormLayout } from 'layouts/FFormLayout';
 
 export const ChangePasswordScreen = () => {
   const navigation = useNavigation();
@@ -105,7 +106,7 @@ export const ChangePasswordScreen = () => {
     }
   };
   return (
-    <FDefaultLayout>
+    <FFormLayout>
       {passwordChangeSuccessModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
@@ -116,60 +117,63 @@ export const ChangePasswordScreen = () => {
         />
       )}
       {drawErrorModal()}
-      <FKeyboardWrapper>
-        <>
-          {loading && <FSpinner />}
-          <View style={styles.imageContainer}>
-            <FImage
-              imagePath={images.CHANGE_PASSWORD()}
-              width={sizes.WIDTH_120}
-              height={sizes.HEIGHT_120}
-            />
-          </View>
-          <FInput
-            iconPlacement={placements.LEFT}
-            type={inputTypes.PASSWORD}
-            icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={placeholders.PASS_OLD_PASSWORD}
-            marginBottom={sizes.MARGIN_30}
-            onChangeText={oldPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, userMessages.INVALID_OLD_PASSWORD)}
-            width={sizes.WIDTH_FULL}
+      <>
+        {loading && <FSpinner />}
+        <View style={styles.imageContainer}>
+          <FImage
+            imagePath={images.CHANGE_PASSWORD()}
+            width={sizes.WIDTH_120}
+            height={sizes.HEIGHT_120}
+            networkImageUrl=""
+            resizeMode={sizes.CONTAIN}
           />
-          <FInput
-            iconPlacement={placements.LEFT}
-            type={inputTypes.PASSWORD}
-            icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={placeholders.PASS_NEW_PASSWORD}
-            onChangeText={newPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+        </View>
+        <FInput
+          iconPlacement={placements.LEFT}
+          type={inputTypes.PASSWORD}
+          icon={icons.LOCK_CLOSED_OUTLINE}
+          placeholder={placeholders.PASS_OLD_PASSWORD}
+          marginBottom={sizes.MARGIN_30}
+          onChangeText={oldPasswordInputHandler}
+          errorMessage={filterErrorMessages(errors, userMessages.INVALID_OLD_PASSWORD)}
+          width={sizes.WIDTH_FULL}
+          value={dataForm.oldPassword}
+        />
+        <FInput
+          iconPlacement={placements.LEFT}
+          type={inputTypes.PASSWORD}
+          icon={icons.LOCK_CLOSED_OUTLINE}
+          placeholder={placeholders.PASS_NEW_PASSWORD}
+          onChangeText={newPasswordInputHandler}
+          errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
+            || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+          width={sizes.WIDTH_FULL}
+          value={dataForm.newPassword}
+        />
+        <FInput
+          iconPlacement={placements.LEFT}
+          type={inputTypes.PASSWORD}
+          icon={icons.LOCK_CLOSED_OUTLINE}
+          placeholder={placeholders.REPEAT_NEW_PASSWORD}
+          onChangeText={confirmNewPasswordInputHandler}
+          errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
               || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
-            width={sizes.WIDTH_FULL}
+          width={sizes.WIDTH_FULL}
+          value={confirmNewPassword}
+        />
+        <View style={styles.buttonContainer}>
+          <FButton
+            title={locales.CHANGE_PASSWORD}
+            type={buttonTypes.TEXT_BUTTON}
+            backgroundColor={colors.PRIMARY}
+            color={colors.WHITE}
+            titleWeight={fonts.HEADING_WEIGHT_BOLD}
+            titleSize={fonts.HEADING_MEDIUM}
+            onPress={onSubmit}
           />
-          <FInput
-            iconPlacement={placements.LEFT}
-            type={inputTypes.PASSWORD}
-            icon={icons.LOCK_CLOSED_OUTLINE}
-            placeholder={placeholders.REPEAT_NEW_PASSWORD}
-            onChangeText={confirmNewPasswordInputHandler}
-            errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
-              || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
-            width={sizes.WIDTH_FULL}
-          />
-          <View style={styles.buttonContainer}>
-            <FButton
-              title={locales.CHANGE_PASSWORD}
-              type={buttonTypes.TEXT_BUTTON}
-              backgroundColor={colors.PRIMARY}
-              color={colors.WHITE}
-              titleWeight={fonts.HEADING_WEIGHT_BOLD}
-              titleSize={fonts.HEADING_MEDIUM}
-              onPress={onSubmit}
-            />
-          </View>
-        </>
-      </FKeyboardWrapper>
-    </FDefaultLayout>
+        </View>
+      </>
+    </FFormLayout>
   );
 };
 
