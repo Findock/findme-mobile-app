@@ -22,9 +22,12 @@ import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
 import { FLogo } from 'components/Composition/FLogo';
+import { AddAnnouncementScreen } from 'screens/AddAnnouncement.screen';
 import { authValidateTokenService } from 'services/auth/authValidateToken.service';
 import { getMeService } from 'services/user/getMe.service';
-import { FAnnouncementCardPreview } from '../screens/FAnnouncementCardPreview';
+import { MultiSelectScreen } from 'screens/MultiSelect.screen';
+import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
+import { FAnnouncementCard } from 'components/Composition/FAnnouncementCard';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -55,6 +58,13 @@ export const Navigation = () => {
     const res = await getMeService();
     dispatch(setMe(res.data));
   };
+
+  const renderLogo = () => (
+    <FLogo
+      color={colors.PRIMARY}
+      fill={false}
+    />
+  );
 
   const checkIfAuthTokenIsValid = async () => {
     try {
@@ -138,7 +148,7 @@ export const Navigation = () => {
               component={UserProfileScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => renderLogo(),
               }}
             />
             <Stack.Screen
@@ -166,16 +176,44 @@ export const Navigation = () => {
               component={UserProfilePreviewScreen}
               options={{
                 ...headerWithoutShadowOptions,
-                headerRight: () => <FLogo color={colors.PRIMARY} />,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.ADD_ANNOUNCEMENT}
+              component={AddAnnouncementScreen}
+              options={{
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.MULTI_SELECT}
+              component={MultiSelectScreen}
+              options={{
+                animation: 'slide_from_bottom',
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.ANNOUNCEMENT_PREVIEW}
+              component={AnnouncementPreviewScreen}
+              options={{
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
               }}
             />
             <Stack.Screen
               name={stackNavigatorNames.ANNOUNCEMENT_CARD_PREVIEW}
-              component={FAnnouncementCardPreview}
+              component={FAnnouncementCard}
+              options={{
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
             />
           </>
         ))}
-
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -14,10 +14,10 @@ import colors from 'themes/colors';
 import icons from 'themes/icons';
 import opacities from 'themes/opacities';
 import sizes from 'themes/sizes';
-import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import PropTypes from 'prop-types';
 import { appendFileToFormData } from 'utils/appendFileToFormData';
+import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FAvatar = ({
   size, isEditable, imageUrl, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
@@ -82,14 +82,17 @@ export const FAvatar = ({
       containerStyle={{
         borderRadius: getHalfBorderRadius(size),
         ...styles.avatar,
+        borderWidth: isEditable ? sizes.BORDER_4 : 0,
       }}
       imageStyle={{
         ...styles.image,
         borderRadius: getHalfBorderRadius(size + sizes.BORDER_4),
       }}
-      networkImageUrl={imageUrl || null}
-      imagePath={images.USER_AVATAR()}
+      networkImageUrl={imageUrl || ''}
+      imagePath={images.USER_AVATAR() || ''}
       resizeMode={sizes.COVER}
+      imageWidth={sizes.WIDTH_FULL}
+      imageHeight={sizes.HEIGHT_FULL}
     />,
   );
 };
@@ -108,7 +111,6 @@ const styles = StyleSheet.create({
     shadowOpacity: opacities.SHADOW_OPACITY_022,
     shadowRadius: sizes.SHADOW_RADIUS_2_22,
     backgroundColor: colors.WHITE,
-    borderWidth: sizes.BORDER_4,
     borderColor: colors.WHITE,
   },
   deleteButton: {

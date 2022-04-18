@@ -15,7 +15,6 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FCheckbox } from 'components/Inputs/FCheckbox';
-import { FHeading } from 'components/Composition/FHeading';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modalTypes';
@@ -24,6 +23,7 @@ import placeholders from 'constants/components/inputs/placeholders';
 import checkboxTypes from 'constants/components/checkboxTypes';
 import { createUserService } from 'services/user/createUser.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
+import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -179,11 +179,7 @@ export const FRegistrationForm = () => {
           />
         </View>
         <View style={styles.regulationsErrorMessageContainer}>
-          <FHeading
-            title={filterErrorMessages(errors, userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS)}
-            color={colors.DANGER}
-            size={fonts.HEADING_EXTRA_SMALL}
-          />
+          <FErrorMessage error={filterErrorMessages(errors, userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS) || ''} />
         </View>
       </View>
       <View style={styles.buttonsContainer}>

@@ -5,9 +5,9 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import opacities from 'themes/opacities';
 import { FHeading } from 'components/Composition/FHeading';
 import PropTypes from 'prop-types';
+import defaultBoxShadow from 'styles/defaultBoxShadow';
 
 export const FTileSelectInput = ({
   width, height, iconSize, iconDefault, iconPressed, label, setValue, value, style,
@@ -20,6 +20,7 @@ export const FTileSelectInput = ({
     }}
   >
     <FImage
+      networkImageUrl=""
       imagePath={value ? iconPressed : iconDefault}
       width={width}
       height={height}
@@ -54,14 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: placements.CENTER,
     alignItems: placements.CENTER,
     borderRadius: sizes.RADIUS_10,
-    shadowColor: colors.BLACK,
-    shadowOpacity: opacities.SHADOW_OPACITY_018,
-    shadowOffset: {
-      width: 0,
-      height: sizes.HEIGHT_1,
-    },
-    shadowRadius: sizes.SHADOW_RADIUS_1,
-    elevation: sizes.ELEVATION_1,
+    ...defaultBoxShadow,
   },
 });
 

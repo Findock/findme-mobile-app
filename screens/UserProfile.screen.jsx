@@ -1,4 +1,3 @@
-import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React, { useState } from 'react';
 import {
   View, StyleSheet, Dimensions, Platform,
@@ -19,6 +18,7 @@ import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
+import { FDefaultLayout } from 'layouts/FDefault.layout';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -56,10 +56,7 @@ export const UserProfileScreen = () => {
         />
       )}
       {drawErrorModal()}
-      <View style={{
-        flex: 1,
-      }}
-      >
+      <View>
         <FUserProfileCard
           user={me}
           isMe

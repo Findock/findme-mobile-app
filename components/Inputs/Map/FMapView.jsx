@@ -14,12 +14,17 @@ import placeholders from 'constants/components/inputs/placeholders';
 import PropTypes from 'prop-types';
 import { searchLocationByCoordinatesService } from 'services/location/searchLocationByCoordinates.service';
 import { coordsDelta, initialCoordinates } from 'components/Inputs/Map/helper/mapHelper';
+import { FButton } from 'components/Buttons/FButton';
+import buttonTypes from 'constants/components/buttonTypes';
+import icons from 'themes/icons';
+import colors from 'themes/colors';
+import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FMapView = ({
   height, isInteractive, location = {
     locationName: '',
     locationDescription: '',
-  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates,
+  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates, lat, lon,
 }) => {
   const { granted: status } = useLocationPermission();
 
@@ -65,7 +70,9 @@ export const FMapView = ({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
-    } else setCoordinates({ ...initialCoordinates });
+    } else {
+      setCoordinates({ ...initialCoordinates });
+    }
   };
 
   const locationDescriptionInputHandler = (newDescription) => {
@@ -117,25 +124,51 @@ export const FMapView = ({
       >
         {!coordinates ? <FSpinner /> : (
           <MapView
-            scrollEnabled={isInteractive}
             style={styles.map}
             provider="google"
-            region={coordinates}
+            region={isInteractive ? coordinates : {
+              ...coordsDelta,
+              latitude: lat,
+              longitude: lon,
+            }}
             customMapStyle={mapStyle}
             onPress={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {}}
             onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => { }}
-            zoomEnabled={isInteractive}
-            rotateEnabled={isInteractive}
           >
             <Marker
               coordinate={{
-                latitude: coordinates.latitude,
-                longitude: coordinates.longitude,
+                latitude: isInteractive ? coordinates.latitude : lat,
+                longitude: isInteractive ? coordinates.longitude : lon,
               }}
               pinColor="orange"
             />
+
           </MapView>
         )}
+        <View style={{
+          elevation: 1,
+          position: 'absolute',
+          bottom: sizes.POSITION_50,
+          right: sizes.POSITION_14,
+
+        }}
+        >
+          <FButton
+            type={buttonTypes.ICON_BUTTON}
+            icon={icons.LOCATE_OUTLINE}
+            iconSize={sizes.ICON_30}
+            style={{
+              padding: sizes.PADDING_14,
+              borderRadius: getHalfBorderRadius(sizes.ICON_30 + sizes.PADDING_25),
+            }}
+            backgroundColor={colors.WHITE}
+            onPress={() => setCoordinates({
+              ...coordsDelta,
+              latitude: coordinates.latitude,
+              longitude: coordinates.longitude,
+            })}
+          />
+        </View>
       </View>
     </View>
   );
@@ -145,11 +178,12 @@ const styles = StyleSheet.create({
   mapContainer: {
     width: Dimensions.get('window').width,
     left: sizes.POSITION_N30,
+    zIndex: -1,
   },
   map: {
     width: sizes.WIDTH_FULL,
     height: sizes.HEIGHT_90_PERCENTAGES,
-    left: sizes.POSITION_30,
+    zIndex: -1,
   },
 });
 
@@ -157,10 +191,12 @@ FMapView.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   isInteractive: PropTypes.bool.isRequired,
   location: PropTypes.shape({
-    locationName: PropTypes.string.isRequired,
-    locationDescription: PropTypes.string.isRequired,
-  }).isRequired,
-  onChangeLocation: PropTypes.func.isRequired,
-  onChangeLocationDescription: PropTypes.func.isRequired,
+    locationName: PropTypes.string,
+    locationDescription: PropTypes.string,
+  }),
+  onChangeLocation: PropTypes.func,
+  onChangeLocationDescription: PropTypes.func,
   onChangeCoordinates: PropTypes.func,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
 };

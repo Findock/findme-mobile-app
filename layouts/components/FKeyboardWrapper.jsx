@@ -1,18 +1,14 @@
-import {
-  Keyboard, TouchableWithoutFeedback,
-} from 'react-native';
 import React from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import PropTypes from 'prop-types';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import colors from 'themes/colors';
 
 export const FKeyboardWrapper = ({ children, scrollRef }) => (
   <KeyboardAwareScrollView
+    style={{ backgroundColor: colors.WHITE }}
     ref={scrollRef}
-    enableOnAndroid={false}
   >
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      {children}
-    </TouchableWithoutFeedback>
+    {children}
   </KeyboardAwareScrollView>
 );
 

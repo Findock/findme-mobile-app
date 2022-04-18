@@ -7,8 +7,8 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FHeadingWithIcon = ({
-  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle,
-  containerStyle, numberOfLines,
+  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign,
+  titleStyle, iconStyle, containerStyle, numberOfLines,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -84,4 +84,5 @@ FHeadingWithIcon.propTypes = {
   titleSize: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   titleAlign: PropTypes.oneOf(['center', 'left', 'right']),
+  numberOfLines: PropTypes.number,
 };

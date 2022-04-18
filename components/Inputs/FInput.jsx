@@ -94,12 +94,14 @@ export const FInput = ({
   );
 
   return (
+
     <View style={{
       marginBottom,
       width,
       height: type === inputTypes.TEXTAREA ? textAreaHeight : sizes.HEIGHT_54,
     }}
     >
+
       <Ionicons
         style={{
           ...styles.icon,

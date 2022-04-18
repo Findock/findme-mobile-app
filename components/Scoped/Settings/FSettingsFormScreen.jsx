@@ -11,7 +11,6 @@ import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
 import placements from 'themes/placements';
-import { FKeyboardWrapper } from 'components/Utils/FKeyboardWrapper';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
@@ -26,8 +25,9 @@ import { deleteAccountService } from 'services/user/deleteAccount.service';
 import { getMeService } from 'services/user/getMe.service';
 import PropTypes from 'prop-types';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
+import { FFormLayout } from 'layouts/FFormLayout';
 
-export const FSettingsFormScreen = ({ me, setIsForm }) => {
+export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [
@@ -131,103 +131,101 @@ export const FSettingsFormScreen = ({ me, setIsForm }) => {
   };
 
   return (
-    <FKeyboardWrapper>
-      <>
-        {loading && <FSpinner />}
-        {showDeleteAccountConfirmationModal && (
-          <FModal
-            type={modalTypes.CONFIRM_MODAL}
-            setVisible={setShowDeleteAccountConfirmationModal}
-            visible={showDeleteAccountConfirmationModal}
-            title={locales.DELETE_USER_ACCOUNT_CONFIRMATION}
-            onConfirm={onDeleteAccount}
-          />
-        )}
-        {drawErrorModal()}
-        <View />
-        <FHeading
-          title={locales.ACCOUNT_SETTINGS}
+    <FFormLayout scrollRef={scrollRef}>
+      {loading && <FSpinner />}
+      {showDeleteAccountConfirmationModal && (
+        <FModal
+          type={modalTypes.CONFIRM_MODAL}
+          setVisible={setShowDeleteAccountConfirmationModal}
+          visible={showDeleteAccountConfirmationModal}
+          title={locales.DELETE_USER_ACCOUNT_CONFIRMATION}
+          onConfirm={onDeleteAccount}
+        />
+      )}
+      {drawErrorModal()}
+      <View />
+      <FHeading
+        title={locales.ACCOUNT_SETTINGS}
+        color={colors.PRIMARY}
+        size={fonts.HEADING_LARGE}
+        weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+        align={placements.LEFT}
+      />
+      <FSettingsRow
+        isForm
+        withSwitch={false}
+        label={locales.NAME}
+        value={dataForm.name}
+        style={styles.headerSpace}
+        onChangeText={nameInputhandler}
+      />
+      <FSettingsRow
+        isForm
+        withSwitch={false}
+        label={locales.PHONE}
+        value={dataForm.phoneNumber}
+        style={styles.settingRowSpace}
+        onChangeText={phoneInputhandler}
+        isPhoneInput
+        errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
+      />
+      <FSettingsRow
+        isForm
+        withSwitch={false}
+        label={locales.STREET}
+        value={dataForm.street}
+        style={styles.settingRowSpace}
+        onChangeText={streetInputhandler}
+      />
+      <FSettingsRow
+        isForm
+        withSwitch={false}
+        label={locales.CITY}
+        value={dataForm.city}
+        style={styles.settingRowSpace}
+        onChangeText={cityInputhandler}
+      />
+      <FSettingsRow
+        isForm
+        withSwitch={false}
+        label={locales.BIO}
+        value={dataForm.bio}
+        style={styles.settingRowSpace}
+        onChangeText={bioInputhandler}
+        maxLength={100}
+        isTextarea
+        numberOfLines={3}
+      />
+      <View style={{ marginTop: sizes.MARGIN_30 }}>
+        <FButton
+          title={locales.DELETE_ACCOUNT}
+          type={buttonTypes.OUTLINE_TEXT_BUTTON}
+          color={colors.DANGER}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
+          titleSize={fonts.HEADING_MEDIUM}
+          onPress={() => setShowDeleteAccountConfirmationModal(true)}
+        />
+      </View>
+      <View style={styles.buttonsContainer}>
+        <FButton
+          title={locales.CANCEL}
+          type={buttonTypes.OUTLINE_TEXT_BUTTON}
           color={colors.PRIMARY}
-          size={fonts.HEADING_LARGE}
-          weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-          align={placements.LEFT}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
+          titleSize={fonts.HEADING_MEDIUM}
+          onPress={() => setIsForm(false)}
         />
-        <FSettingsRow
-          isForm
-          withSwitch={false}
-          label={locales.NAME}
-          value={dataForm.name}
-          style={styles.headerSpace}
-          onChangeText={nameInputhandler}
+        <FButton
+          title={locales.SAVE}
+          type={buttonTypes.TEXT_BUTTON}
+          color={colors.WHITE}
+          backgroundColor={colors.PRIMARY}
+          titleWeight={fonts.HEADING_WEIGHT_BOLD}
+          titleSize={fonts.HEADING_MEDIUM}
+          onPress={() => onUpdateUserProfile()}
         />
-        <FSettingsRow
-          isForm
-          withSwitch={false}
-          label={locales.PHONE}
-          value={dataForm.phoneNumber}
-          style={styles.settingRowSpace}
-          onChangeText={phoneInputhandler}
-          isPhoneInput
-          errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
-        />
-        <FSettingsRow
-          isForm
-          withSwitch={false}
-          label={locales.STREET}
-          value={dataForm.street}
-          style={styles.settingRowSpace}
-          onChangeText={streetInputhandler}
-        />
-        <FSettingsRow
-          isForm
-          withSwitch={false}
-          label={locales.CITY}
-          value={dataForm.city}
-          style={styles.settingRowSpace}
-          onChangeText={cityInputhandler}
-        />
-        <FSettingsRow
-          isForm
-          withSwitch={false}
-          label={locales.BIO}
-          value={dataForm.bio}
-          style={styles.settingRowSpace}
-          onChangeText={bioInputhandler}
-          maxLength={100}
-          isTextarea
-          numberOfLines={3}
-        />
-        <View style={{ marginTop: sizes.MARGIN_30 }}>
-          <FButton
-            title={locales.DELETE_ACCOUNT}
-            type={buttonTypes.OUTLINE_TEXT_BUTTON}
-            color={colors.DANGER}
-            titleWeight={fonts.HEADING_WEIGHT_BOLD}
-            titleSize={fonts.HEADING_MEDIUM}
-            onPress={() => setShowDeleteAccountConfirmationModal(true)}
-          />
-        </View>
-        <View style={styles.buttonsContainer}>
-          <FButton
-            title={locales.CANCEL}
-            type={buttonTypes.OUTLINE_TEXT_BUTTON}
-            color={colors.PRIMARY}
-            titleWeight={fonts.HEADING_WEIGHT_BOLD}
-            titleSize={fonts.HEADING_MEDIUM}
-            onPress={() => setIsForm(false)}
-          />
-          <FButton
-            title={locales.SAVE}
-            type={buttonTypes.TEXT_BUTTON}
-            color={colors.WHITE}
-            backgroundColor={colors.PRIMARY}
-            titleWeight={fonts.HEADING_WEIGHT_BOLD}
-            titleSize={fonts.HEADING_MEDIUM}
-            onPress={() => onUpdateUserProfile()}
-          />
-        </View>
-      </>
-    </FKeyboardWrapper>
+      </View>
+    </FFormLayout>
   );
 };
 
@@ -250,4 +248,5 @@ const styles = StyleSheet.create({
 FSettingsFormScreen.propTypes = {
   me: PropTypes.objectOf(PropTypes.any),
   setIsForm: PropTypes.func.isRequired,
+  scrollRef: PropTypes.objectOf(PropTypes.any),
 };

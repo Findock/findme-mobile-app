@@ -1,44 +1,25 @@
 import React from 'react';
 import {
-  View, FlatList, Dimensions,
+  ScrollView,
 } from 'react-native';
 import colors from 'themes/colors';
-import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
+import { FContainer } from 'layouts/components/FContainer';
 
 export const FDefaultLayout = ({
-  children, noPaddingVertical = false, noPaddingHorizontal = false, scrollRef,
+  children, scrollRef,
 }) => (
-  <FlatList
+  <ScrollView
+    style={{ backgroundColor: colors.WHITE }}
     ref={scrollRef}
-    nestedScrollEnabled
-    scrollEnabled
-    showsVerticalScrollIndicator={false}
-    data={[]}
-    renderItem={null}
-    bounces={false}
-    style={{
-      maxHeight: Dimensions.get('screen').height,
-      backgroundColor: colors.WHITE,
-    }}
-    contentContainerStyle={{
-      zIndex: 0,
-    }}
-    ListHeaderComponent={(
-      <View style={{
-        paddingHorizontal: noPaddingHorizontal ? 0 : sizes.PADDING_30,
-        paddingVertical: !noPaddingVertical ? sizes.PADDING_30 : 0,
-        flexGrow: 0,
-      }}
-      >
-        {children}
-      </View>
-    )}
-  />
+  >
+    <FContainer>
+      {children}
+    </FContainer>
+  </ScrollView>
+
 );
 
 FDefaultLayout.propTypes = {
-  noPaddingVertical: PropTypes.bool,
-  noPaddingHorizontal: PropTypes.bool,
   scrollRef: PropTypes.objectOf(PropTypes.any),
 };
