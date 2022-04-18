@@ -67,7 +67,10 @@ export const FAnnouncementCard = ({
               icon={icons.LOCATION_OUTLINE}
               iconColor={colors.PRIMARY}
               title={data.locationName}
-              titleStyle={[styles.text, ...titleStyle]}
+              titleStyle={{
+                ...titleStyle,
+                ...styles.text,
+              }}
               titleColor={colors.DARK_GRAY}
               numberOfLines={2}
               iconPlacement={placements.LEFT}
@@ -79,7 +82,10 @@ export const FAnnouncementCard = ({
               icon={icons.CALENDAR}
               iconColor={colors.PRIMARY}
               title={data.date}
-              titleStyle={[styles.text, ...titleStyle]}
+              titleStyle={{
+                ...titleStyle,
+                ...styles.text,
+              }}
               titleColor={colors.DARK_GRAY}
               size={fonts.HEADING_MEDIUM}
               weight={fonts.HEADING_NORMAL}
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
 });
 
 FAnnouncementCard.propTypes = {
-  width: PropTypes.number,
+  width: PropTypes.number.isRequired,
   height: PropTypes.number,
   link: PropTypes.string.isRequired,
   data: PropTypes.shape({

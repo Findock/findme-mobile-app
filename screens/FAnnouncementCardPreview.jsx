@@ -9,7 +9,7 @@ const data = {
   locationName: 'Kraków, Polska',
   description: 'Lorem ipsum psi psi piesek zaginął dolor sit ame',
   date: '12.12.2021',
-  photoURL: 'https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg',
+  photos: ['https://ggsc.s3.amazonaws.com/images/uploads/The_Science-Backed_Benefits_of_Being_a_Dog_Owner.jpg'],
 };
 
 export const FAnnouncementCardPreview = () => (
@@ -24,13 +24,14 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={180}
-        height={280}
         data={data}
+        link=""
       />
       <FAnnouncementCard
         width={160}
-        height={280}
+        height={260}
         data={data}
+        link=""
       />
     </View>
     <View style={{
@@ -41,13 +42,13 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={150}
-        height={340}
         data={data}
+        link=""
       />
       <FAnnouncementCard
         width={140}
-        height={280}
         data={data}
+        link=""
       />
     </View>
   </FDefaultLayout>

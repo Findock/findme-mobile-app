@@ -27,7 +27,7 @@ import { authValidateTokenService } from 'services/auth/authValidateToken.servic
 import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
-import { FAnnouncementCard } from 'components/Composition/FAnnouncementCard';
+import { FAnnouncementCardPreview } from '../screens/FAnnouncementCardPreview';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -206,7 +206,7 @@ export const Navigation = () => {
             />
             <Stack.Screen
               name={stackNavigatorNames.ANNOUNCEMENT_CARD_PREVIEW}
-              component={FAnnouncementCard}
+              component={FAnnouncementCardPreview}
               options={{
                 ...headerWithoutShadowOptions,
                 headerRight: () => renderLogo(),
