@@ -74,6 +74,7 @@ storiesOf('FColorSelect', module)
               key={color.id}
               setValue={() => selectedColorsHandler(color)}
               value={selectedColors.find((selectedColor) => selectedColor.id === color.id)}
+              readOnly={false}
             />
           ))}
         </ScrollView>

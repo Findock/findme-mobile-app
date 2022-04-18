@@ -113,6 +113,7 @@ export const FUserProfileCard = ({
               titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
               titleSize={fonts.HEADING_MEDIUM}
               titleStyle={{ marginLeft: sizes.MARGIN_3 }}
+              containerStyle={{ justifyContent: placements.CENTER }}
             />
           )}
 

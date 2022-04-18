@@ -52,11 +52,11 @@ FImage.propTypes = {
     PropTypes.number,
   ]).isRequired,
   resizeMode: PropTypes.oneOf(['cover', 'contain']).isRequired,
-  networkImageUrl: PropTypes.string,
+  networkImageUrl: PropTypes.string.isRequired,
   imageWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]),
+  ]).isRequired,
   imageHeight: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,

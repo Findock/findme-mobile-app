@@ -102,8 +102,10 @@ export const ForgotPasswordScreen = () => {
           align={placements.CENTER}
           size={fonts.HEADING_SMALL}
           weight={fonts.HEADING_WEIGHT_REGULAR}
-          marginBottom={sizes.MARGIN_20}
-          style={styles.marginTop}
+          style={{
+            ...styles.marginTop,
+            marginBottom: sizes.MARGIN_20,
+          }}
         />
         <FInput
           iconPlacement={placements.LEFT}
