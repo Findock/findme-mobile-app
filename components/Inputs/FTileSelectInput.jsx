@@ -21,6 +21,7 @@ export const FTileSelectInput = ({
   >
     <FImage
       imagePath={value ? iconPressed : iconDefault}
+      networkImageUrl=""
       width={width}
       height={height}
       resizeMode={sizes.CONTAIN}

@@ -2,7 +2,6 @@ import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FSlider } from 'components/Composition/Slider/FSlider';
 import React, { useEffect, useState } from 'react';
-import { getOtherAnnouncementService } from 'services/announcement/getOtherAnnouncement.service';
 import {
   View, StyleSheet, ScrollView, Dimensions,
 } from 'react-native';
@@ -30,8 +29,11 @@ import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/useErrorModal';
+import { useRoute } from '@react-navigation/native';
+import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
 
 export const AnnouncementPreviewScreen = () => {
+  const route = useRoute();
   const [
     announcement,
     setAnnouncement,
@@ -49,7 +51,7 @@ export const AnnouncementPreviewScreen = () => {
   const fetchAnnouncement = async () => {
     try {
       // to do: endpoints depeneding on isMine prop
-      const res = await getOtherAnnouncementService(2);
+      const res = await getAnnouncementService(route.params?.id);
       setAnnouncement(res.data);
     } catch (error) {
       setShowErrorModal(true);

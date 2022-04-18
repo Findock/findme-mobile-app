@@ -19,6 +19,13 @@ export const FImageSelectInput = ({
     initPhotoUrls();
   }, []);
 
+  useEffect(() => {
+    if (dataForm.photosIds.length === 0 && JSON.stringify(dataForm.photosIds) !== JSON.stringify(photoUrls)) {
+      setPhotoUrls([]);
+      initPhotoUrls();
+    }
+  }, [dataForm.photosIds]);
+
   const initPhotoUrls = () => {
     const photoStrings = [];
     for (let i = 0; i < 6; i++) {
