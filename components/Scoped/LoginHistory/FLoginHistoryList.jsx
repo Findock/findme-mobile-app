@@ -116,7 +116,9 @@ export const FLoginHistoryList = () => {
         keyExtractor={(item) => item.id}
         style={styles.list}
         showsVerticalScrollIndicator={false}
-        // eslint-disable-next-line react/no-unstable-nested-components
+        contentContainerStyle={{
+          paddingBottom: sizes.PADDING_130,
+        }}
         ItemSeparatorComponent={() => (
           <View style={{
             width: sizes.WIDTH_FULL,

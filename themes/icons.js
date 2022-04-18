@@ -31,4 +31,5 @@ export default {
   TRASH: 'trash',
   CLOSE_OUTLINE: 'close-outline',
   ADD_OUTLINE: 'add-outline',
+  LOCATE_OUTLINE: 'locate-outline',
 };

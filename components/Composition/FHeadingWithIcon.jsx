@@ -7,7 +7,7 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FHeadingWithIcon = ({
-  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle,
+  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign, titleStyle, iconStyle, containerStyle,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -54,7 +54,11 @@ export const FHeadingWithIcon = ({
     );
   };
   return (
-    <View style={styles.centerView}>
+    <View style={{
+      ...styles.centerView,
+      ...containerStyle,
+    }}
+    >
       {drawDependingOnIconPlacement()}
     </View>
   );
@@ -64,7 +68,6 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: 'row',
     alignItems: placements.CENTER,
-    justifyContent: placements.CENTER,
     width: sizes.WIDTH_FULL,
   },
 });

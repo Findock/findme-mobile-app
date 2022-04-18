@@ -4,7 +4,7 @@ import locales from 'constants/locales';
 import React from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
@@ -14,15 +14,16 @@ import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import PropTypes from 'prop-types';
+import { FDefaultLayout } from 'layouts/FDefault.layout';
 
-export const FSettingsScreen = ({ me, setIsForm }) => {
+export const FSettingsScreen = ({ me, setIsForm, scrollRef }) => {
   const { handleChangeLocationPermission, granted: locationStatus } = useLocationPermission();
   const { handleChangeCameraPermission, granted: cameraStatus } = useCameraPermission();
   const { handleChangeCameraRollPermission, granted: cameraRollStatus } = useCameraRollPermission();
 
   return (
-    <>
-      <View style={{ marginTop: Platform.OS === 'android' ? 0 : sizes.MARGIN_30 }}>
+    <FDefaultLayout scrollRef={scrollRef}>
+      <View>
         <FHeading
           title={locales.GENERAL_SETTINGS}
           color={colors.PRIMARY}
@@ -126,7 +127,7 @@ export const FSettingsScreen = ({ me, setIsForm }) => {
           onPress={() => setIsForm(true)}
         />
       </View>
-    </>
+    </FDefaultLayout>
   );
 };
 
@@ -147,4 +148,5 @@ const styles = StyleSheet.create({
 FSettingsScreen.propTypes = {
   me: PropTypes.objectOf(PropTypes.any),
   setIsForm: PropTypes.func.isRequired,
+  scrollRef: PropTypes.objectOf(PropTypes.any),
 };

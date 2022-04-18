@@ -2,12 +2,12 @@ import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
-import opacities from 'themes/opacities';
-import { getHalfBorderRadius } from 'utils/getHalfBorderRadius';
 import PropTypes from 'prop-types';
+import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
+import defaultBoxShadow from 'styles/defaultBoxShadow';
 
 export const FColorSelect = ({
-  color, value, setValue, size, style,
+  color, value, setValue, size, style, readOnly,
 }) => {
   const getBorderStyle = (hex, isSelected) => {
     if (hex === '#FFFFFF' && isSelected) {
@@ -21,32 +21,40 @@ export const FColorSelect = ({
     }
     return styles.default;
   };
-  return (
-    <TouchableOpacity
-      onPress={setValue}
+
+  const drawColorSelect = () => (
+    <View style={{
+      padding: sizes.PADDING_12,
+      ...style,
+    }}
     >
       <View
         borderRadius={getHalfBorderRadius(size)}
         backgroundColor={color}
         width={size}
         height={size}
-        style={[styles.circle, getBorderStyle(color, value), style]}
+        style={[styles.circle, getBorderStyle(color, value)]}
       />
-    </TouchableOpacity>
+    </View>
+  );
+
+  return (
+    readOnly ? (
+      drawColorSelect()
+    )
+      : (
+        <TouchableOpacity
+          onPress={setValue}
+        >
+          {drawColorSelect()}
+        </TouchableOpacity>
+      )
   );
 };
 
 const styles = StyleSheet.create({
   circle: {
-    margin: sizes.MARGIN_12,
-    shadowColor: colors.BLACK,
-    shadowOpacity: opacities.SHADOW_OPACITY_018,
-    shadowOffset: {
-      width: 0,
-      height: sizes.HEIGHT_1,
-    },
-    shadowRadius: sizes.SHADOW_RADIUS_1,
-    elevation: sizes.ELEVATION_1,
+    ...defaultBoxShadow,
   },
   pressed: {
     borderWidth: sizes.BORDER_3,
@@ -63,7 +71,8 @@ const styles = StyleSheet.create({
 
 FColorSelect.propTypes = {
   color: PropTypes.string.isRequired,
-  value: PropTypes.bool.isRequired,
-  setValue: PropTypes.func.isRequired,
+  value: PropTypes.bool,
+  setValue: PropTypes.func,
   size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  readOnly: PropTypes.bool.isRequired,
 };

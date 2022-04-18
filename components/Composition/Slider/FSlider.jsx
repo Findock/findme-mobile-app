@@ -29,7 +29,7 @@ export const FSlider = ({ photos }) => {
       height={sizes.HEIGHT_FULL}
       width={fullWidth}
       resizeMode={sizes.COVER}
-      imagePath={null}
+      imagePath=""
       networkImageUrl={item}
       imageWidth={sizes.WIDTH_FULL}
     />
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
   sliderContainer: {
     height: 350,
     width: Dimensions.get('window').width,
-    left: sizes.POSITION_N30,
   },
   dotsContainer: {
     flexDirection: 'row',

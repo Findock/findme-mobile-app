@@ -58,6 +58,7 @@ export const FAnimalCoatColorSelectInput = ({
       color={coatColor.hex}
       setValue={() => coatColorsHandler(coatColor.id)}
       value={dataForm.coatColorsIds.includes(coatColor.id)}
+      readOnly={false}
     />
   ));
 

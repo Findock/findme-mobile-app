@@ -26,6 +26,7 @@ import { AddAnnouncementScreen } from 'screens/AddAnnouncement.screen';
 import { authValidateTokenService } from 'services/auth/authValidateToken.service';
 import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
+import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -190,6 +191,14 @@ export const Navigation = () => {
               component={MultiSelectScreen}
               options={{
                 animation: 'slide_from_bottom',
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.ANNOUNCEMENT_PREVIEW}
+              component={AnnouncementPreviewScreen}
+              options={{
                 ...headerWithoutShadowOptions,
                 headerRight: () => renderLogo(),
               }}
