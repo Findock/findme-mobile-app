@@ -4,7 +4,7 @@ import locales from 'constants/locales';
 import React from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import { View, StyleSheet, Platform } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';

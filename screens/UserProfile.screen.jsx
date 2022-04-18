@@ -18,7 +18,6 @@ import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
-import { FContainer } from 'layouts/components/FContainer';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 
 export const UserProfileScreen = () => {

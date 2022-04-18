@@ -3,8 +3,6 @@ import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { getOtherUserService } from 'services/user/getOtherUser.service';
-import { FKeyboardWrapper } from 'layouts/components/FKeyboardWrapper';
-import { FContainer } from 'layouts/components/FContainer';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 
 export const UserProfilePreviewScreen = () => {

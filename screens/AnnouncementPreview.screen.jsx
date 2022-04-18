@@ -29,12 +29,18 @@ import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
+import { useErrorModal } from 'hooks/useErrorModal';
 
 export const AnnouncementPreviewScreen = () => {
   const [
     announcement,
     setAnnouncement,
   ] = useState(null);
+
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal(true);
 
   useEffect(() => {
     fetchAnnouncement();
@@ -46,7 +52,7 @@ export const AnnouncementPreviewScreen = () => {
       const res = await getOtherAnnouncementService(2);
       setAnnouncement(res.data);
     } catch (error) {
-      console.log(error.response.data);
+      setShowErrorModal(true);
     }
   };
 
@@ -64,7 +70,7 @@ export const AnnouncementPreviewScreen = () => {
 
   const drawDistinctiveFeatures = () => {
     if (announcement.distinctiveFeatures) {
-      return announcement.distinctiveFeatures.map((distinctiveFeature, index) => (
+      return announcement.distinctiveFeatures.map((distinctiveFeature) => (
         <FBadge
           key={distinctiveFeature.id}
           isFill={false}
@@ -102,6 +108,7 @@ export const AnnouncementPreviewScreen = () => {
   if (!announcement) return <FSpinner />;
   return (
     <View style={{ flex: 1 }}>
+      {drawErrorModal()}
       <ScrollView
         style={{
           backgroundColor: colors.WHITE,

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FDefaultLayout } from 'layouts/FDefault.layout';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
@@ -13,7 +12,6 @@ import { FButton } from 'components/Buttons/FButton';
 import { View, StyleSheet } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
-import { FKeyboardWrapper } from 'layouts/components/FKeyboardWrapper';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
