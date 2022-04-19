@@ -1,6 +1,6 @@
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React from 'react';
-import { FAnnouncementCard } from 'components/Announcement/FAnnouncementCard';
+import { FAnnouncementCard } from 'components/Scoped/Announcement/FAnnouncementCard';
 import { View } from 'react-native';
 
 // TESTS ONLY

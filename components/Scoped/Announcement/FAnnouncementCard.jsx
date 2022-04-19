@@ -18,7 +18,7 @@ export const FAnnouncementCard = ({
 }) => {
   const navigation = useNavigation();
   return (
-    <TouchableWithoutFeedback onPress={navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}>
+    <TouchableWithoutFeedback onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}>
       <View style={{ padding: sizes.PADDING_5 }}>
         <FCard
           width={width}
