@@ -77,5 +77,5 @@ export default {
   DESCRIPTION: 'Opis',
   ADD: 'Dodaj',
   COAT_COLORS: 'Umaszczenie',
-  ANNOUNCEMEN_ADDED_SUCCESSFULLY: 'Ogłoszenie zostało pomyślnie utworzone',
+  ANNOUNCEMENT_ADDED_SUCCESSFULLY: 'Ogłoszenie zostało pomyślnie utworzone',
 };

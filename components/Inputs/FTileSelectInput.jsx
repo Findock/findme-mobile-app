@@ -20,6 +20,7 @@ export const FTileSelectInput = ({
     }}
   >
     <FImage
+      networkImageUrl=""
       imagePath={value ? iconPressed : iconDefault}
       width={width}
       height={height}

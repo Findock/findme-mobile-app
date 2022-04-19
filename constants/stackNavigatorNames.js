@@ -9,6 +9,7 @@ export default {
   PASSWORD_CHANGE: 'Password Change',
   FORGOT_PASSWORD: 'Forgot Password',
   USER_PROFILE_PREVIEW: 'User Profile Preview',
+  ANNOUNCEMENT_CARD_PREVIEW: 'Announcement Card Preview',
   ADD_ANNOUNCEMENT: 'Add Announcement',
   MULTI_SELECT: 'Multi Select',
   ANNOUNCEMENT_PREVIEW: 'Announcement Preview',

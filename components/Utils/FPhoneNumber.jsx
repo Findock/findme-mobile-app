@@ -3,7 +3,7 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import * as Linking from 'expo-linking';
 import PropTypes from 'prop-types';
-import { parsePhoneNumber } from '../../utils/parsePhoneNumber';
+import { parsePhoneNumber } from 'utils/parsePhoneNumber';
 
 export const FPhoneNumber = ({
   phoneNumber, weight, size, color, align, style, isUnderline,
