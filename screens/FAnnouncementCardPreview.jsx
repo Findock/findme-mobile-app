@@ -1,10 +1,11 @@
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import React from 'react';
-import { FAnnouncementCard } from 'components/Composition/FAnnouncementCard';
+import { FAnnouncementCard } from 'components/Announcement/FAnnouncementCard';
 import { View } from 'react-native';
 
 // TESTS ONLY
 const data = {
+  id: 1,
   title: 'Zaginął puszek! Kraków',
   locationName: 'Kraków, Polska',
   description: 'Lorem ipsum psi psi piesek zaginął dolor sit ame',
@@ -23,15 +24,14 @@ export const FAnnouncementCardPreview = () => (
     }}
     >
       <FAnnouncementCard
-        width={180}
+        width={170}
+        height={275}
         data={data}
-        link=""
       />
       <FAnnouncementCard
-        width={160}
-        height={260}
+        width={170}
+        height={275}
         data={data}
-        link=""
       />
     </View>
     <View style={{
@@ -42,13 +42,13 @@ export const FAnnouncementCardPreview = () => (
     >
       <FAnnouncementCard
         width={150}
+        height={275}
         data={data}
-        link=""
       />
       <FAnnouncementCard
-        width={140}
+        width={150}
+        height={275}
         data={data}
-        link=""
       />
     </View>
   </FDefaultLayout>

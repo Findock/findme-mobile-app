@@ -1,10 +1,9 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
 import { FHeading } from 'components/Composition/FHeading';
 import React from 'react';
-import { TouchableWithoutFeedback } from 'react-native-web';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import icons from 'themes/icons';
 import colors from 'themes/colors';
@@ -12,17 +11,15 @@ import { FCard } from 'components/Composition/FCard';
 import placements from 'themes/placements';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FAnnouncementCard = ({
-  width, data, height, link, titleStyle,
+  width, data, height,
 }) => {
   const navigation = useNavigation();
   return (
-    <TouchableWithoutFeedback onPress={() => navigation.push(link)}>
-      <View style={{
-        padding: sizes.PADDING_5,
-      }}
-      >
+    <TouchableWithoutFeedback onPress={navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}>
+      <View style={{ padding: sizes.PADDING_5 }}>
         <FCard
           width={width}
           paddingHorizontal={sizes.PADDING_10}
@@ -35,6 +32,8 @@ export const FAnnouncementCard = ({
           >
             <FImage
               imagePath=""
+              imageWidth={sizes.WIDTH_FULL}
+              imageHeight={sizes.HEIGHT_FULL}
               networkImageUrl={data.photos[0]}
               imageStyle={styles.image}
               height={sizes.HEIGHT_150}
@@ -45,32 +44,24 @@ export const FAnnouncementCard = ({
               title={data.title}
               weight={fonts.HEADING_WEIGHT_BOLD}
               size={fonts.HEADING_MEDIUM}
-              marginBottom={sizes.MARGIN_5}
-              style={{
-                marginTop: sizes.MARGIN_8,
-                ...titleStyle,
-              }}
+              style={{ marginTop: sizes.MARGIN_8 }}
               ellipsizeMode="tail"
               numberOfLines={1}
             />
             <FHeading
               title={data.description}
-              marginBottom={sizes.MARGIN_10}
+              style={{ marginVertical: sizes.MARGIN_5 }}
               color={colors.DARK_GRAY}
               ellipsizeMode="tail"
               numberOfLines={2}
               size={fonts.HEADING_NORMAL}
               weight={fonts.HEADING_WEIGHT_REGULAR}
-              style={{ ...titleStyle }}
             />
             <FHeadingWithIcon
               icon={icons.LOCATION_OUTLINE}
               iconColor={colors.PRIMARY}
               title={data.locationName}
-              titleStyle={{
-                ...titleStyle,
-                ...styles.text,
-              }}
+              titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
               numberOfLines={2}
               iconPlacement={placements.LEFT}
@@ -82,10 +73,7 @@ export const FAnnouncementCard = ({
               icon={icons.CALENDAR}
               iconColor={colors.PRIMARY}
               title={data.date}
-              titleStyle={{
-                ...titleStyle,
-                ...styles.text,
-              }}
+              titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
               size={fonts.HEADING_MEDIUM}
               weight={fonts.HEADING_NORMAL}
@@ -112,12 +100,17 @@ const styles = StyleSheet.create({
 });
 
 FAnnouncementCard.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number,
-  link: PropTypes.string.isRequired,
+  width: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
+  height: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    photos: PropTypes.array.isRequired,
+    photos: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
