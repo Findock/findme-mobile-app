@@ -31,6 +31,7 @@ export const FWelcomeLayout = ({
         </View>
         <View>
           <FImage
+            networkImageUrl=""
             imagePath={imagePath}
             height={imageHeight}
             width={imageWidth}

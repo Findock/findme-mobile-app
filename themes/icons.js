@@ -31,5 +31,6 @@ export default {
   TRASH: 'trash',
   CLOSE_OUTLINE: 'close-outline',
   ADD_OUTLINE: 'add-outline',
+  CALENDAR: 'calendar-outline',
   LOCATE_OUTLINE: 'locate-outline',
 };

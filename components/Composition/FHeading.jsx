@@ -6,21 +6,24 @@ import PropTypes from 'prop-types';
 import colors from 'themes/colors';
 
 export const FHeading = ({
-  title, size, color = colors.BLACK, weight, align = placements.LEFT, style, isUnderline = false,
+  title, size, color = colors.BLACK, weight, align = placements.LEFT, style, isUnderline = false, numberOfLines, ellipsizeMode,
 }) => (
   <View style={{
     width: sizes.WIDTH_FULL,
     ...style,
   }}
   >
-    <Text style={{
-      fontSize: size,
-      color,
-      fontWeight: weight,
-      textAlign: align,
-      textDecorationLine: isUnderline ? 'underline' : 'none',
-      includeFontPadding: false,
-    }}
+    <Text
+      numberOfLines={numberOfLines}
+      ellipsizeMode={ellipsizeMode}
+      style={{
+        fontSize: size,
+        color,
+        fontWeight: weight,
+        textAlign: align,
+        textDecorationLine: isUnderline ? 'underline' : 'none',
+        includeFontPadding: false,
+      }}
     >
       {title}
     </Text>
@@ -34,4 +37,6 @@ FHeading.propTypes = {
   weight: PropTypes.string.isRequired,
   align: PropTypes.oneOf(['center', 'left', 'right']),
   isUnderline: PropTypes.bool,
+  numberOfLines: PropTypes.number,
+  ellipsizeMode: PropTypes.oneOf(['head', 'middle', 'tail', 'clip']),
 };
