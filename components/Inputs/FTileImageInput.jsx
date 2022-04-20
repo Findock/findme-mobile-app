@@ -42,7 +42,10 @@ export const FTileImageInput = ({
   }, [image]);
 
   const onIconButtonPressHandler = () => {
-    if (!image) setShowMakeChoiceModal(true);
+    if (uploadedImage) {
+      setImage(null);
+      if (onRemoveImage)onRemoveImage();
+    } else if (!image) setShowMakeChoiceModal(true);
     else {
       setImage(null);
       if (onRemoveImage)onRemoveImage();
@@ -106,10 +109,10 @@ export const FTileImageInput = ({
       imagePath={images.DOG()}
       networkImageUrl={uploadedImage || (image?.uri || '')}
       resizeMode={sizes.COVER}
-      imageHeight={image ? sizes.HEIGHT_FULL : sizes.HEIGHT_45}
-      imageWidth={image ? sizes.WIDTH_FULL : sizes.WIDTH_45}
+      imageHeight={(image || uploadedImage) ? sizes.HEIGHT_FULL : sizes.HEIGHT_45}
+      imageWidth={(image || uploadedImage) ? sizes.WIDTH_FULL : sizes.WIDTH_45}
       containerStyle={{
-        backgroundColor: !image ? colors.LIGHT_GRAY : colors.TRANSPARENT,
+        backgroundColor: !(image || uploadedImage) ? colors.LIGHT_GRAY : colors.TRANSPARENT,
         ...styles.tileImageInputContainer,
         ...styles.centerView,
       }}
@@ -117,13 +120,13 @@ export const FTileImageInput = ({
     >
       <View style={{
         ...styles.buttonContainer,
-        top: image ? sizes.POSITION_6 : sizes.POSITION_N28,
-        right: image ? sizes.POSITION_6 : sizes.POSITION_N28,
+        top: (image || uploadedImage) ? sizes.POSITION_6 : sizes.POSITION_N28,
+        right: (image || uploadedImage) ? sizes.POSITION_6 : sizes.POSITION_N28,
       }}
       >
         <FButton
           type={buttonTypes.ICON_BUTTON}
-          icon={!image ? icons.ADD_OUTLINE : icons.TRASH}
+          icon={!(image || uploadedImage) ? icons.ADD_OUTLINE : icons.TRASH}
           iconSize={sizes.ICON_30}
           color={colors.WHITE}
           backgroundColor={colors.DARK_GRAY}

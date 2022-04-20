@@ -31,7 +31,10 @@ export const FCreateAnnouncementForm = () => {
         index: 0,
         routes: [{ name: stackNavigatorNames.HOMEPAGE }],
       });
-      navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: res.data.id });
+      navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, {
+        id: res.data.id,
+        announcementAddedSuccessfullyModalVisible: true,
+      });
     } catch (error) {
       if (error.response && error.response.data) checkFormValidation(error.response.data);
       setLoading(false);
@@ -50,6 +53,7 @@ export const FCreateAnnouncementForm = () => {
       setDataForm={setDataForm}
       setShowErrorModal={setShowErrorModal}
       onSubmit={onSubmit}
+      isEdit={false}
     />
   );
 };

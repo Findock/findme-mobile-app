@@ -1,12 +1,9 @@
 import { FCreateAnnouncementForm } from 'components/Forms/Annoucement/FCreateAnnouncementForm';
 import { FFormLayout } from 'layouts/FFormLayout';
-import React, { useRef } from 'react';
+import React from 'react';
 
-export const AddAnnouncementScreen = () => {
-  const scrollRef = useRef();
-  return (
-    <FFormLayout scrollRef={scrollRef}>
-      <FCreateAnnouncementForm />
-    </FFormLayout>
-  );
-};
+export const AddAnnouncementScreen = () => (
+  <FFormLayout>
+    <FCreateAnnouncementForm />
+  </FFormLayout>
+);

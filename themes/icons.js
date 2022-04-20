@@ -33,4 +33,6 @@ export default {
   ADD_OUTLINE: 'add-outline',
   CALENDAR: 'calendar-outline',
   LOCATE_OUTLINE: 'locate-outline',
+  PENCIL: 'pencil',
+  FILE_TRAY_FULL: 'file-tray-full',
 };

@@ -11,6 +11,7 @@ export default {
   USER_PROFILE_PREVIEW: 'User Profile Preview',
   ANNOUNCEMENT_CARD_PREVIEW: 'Announcement Card Preview',
   ADD_ANNOUNCEMENT: 'Add Announcement',
+  EDIT_ANNOUNCEMENT: 'Edit Announcement',
   MULTI_SELECT: 'Multi Select',
   ANNOUNCEMENT_PREVIEW: 'Announcement Preview',
 };

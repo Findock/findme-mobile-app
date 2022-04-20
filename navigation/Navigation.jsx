@@ -27,6 +27,7 @@ import { authValidateTokenService } from 'services/auth/authValidateToken.servic
 import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
+import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -181,6 +182,14 @@ export const Navigation = () => {
             <Stack.Screen
               name={stackNavigatorNames.ADD_ANNOUNCEMENT}
               component={AddAnnouncementScreen}
+              options={{
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.EDIT_ANNOUNCEMENT}
+              component={EditAnnouncementScreen}
               options={{
                 ...headerWithoutShadowOptions,
                 headerRight: () => renderLogo(),

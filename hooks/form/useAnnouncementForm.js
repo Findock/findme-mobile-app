@@ -16,6 +16,7 @@ export const useAnnouncementForm = (form = {
   locationName: '',
   locationDescription: '',
   photosIds: [],
+  photosUrls: [],
   locationLat: 0,
   locationLon: 0,
 }) => {
@@ -100,6 +101,7 @@ export const useAnnouncementForm = (form = {
       locationName: '',
       locationDescription: '',
       photosIds: [],
+      photosUrls: [],
       locationLat: 0,
       locationLon: 0,
     });

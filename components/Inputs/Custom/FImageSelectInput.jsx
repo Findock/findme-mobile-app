@@ -8,55 +8,50 @@ import PropTypes from 'prop-types';
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FImageSelectInput = ({
-  setDataForm, dataForm, setShowErrorModal, style, errorMessage,
+  setDataForm, dataForm, setShowErrorModal, style, errorMessage, defaultPhotos = new Array(6).fill({
+    id: null,
+    url: '',
+  }),
 }) => {
   const [
-    photoUrls,
-    setPhotoUrls,
-  ] = useState([]);
+    photos,
+    setPhotos,
+  ] = useState(defaultPhotos);
 
   useEffect(() => {
-    initPhotoUrls();
-  }, []);
+    setPhotos([...defaultPhotos]);
+  }, [defaultPhotos]);
 
   useEffect(() => {
-    if (dataForm.photosIds.length === 0 && JSON.stringify(dataForm.photosIds) !== JSON.stringify(photoUrls)) {
-      setPhotoUrls([]);
-      initPhotoUrls();
-    }
-  }, [dataForm.photosIds]);
-
-  const initPhotoUrls = () => {
-    const photoStrings = [];
-    for (let i = 0; i < 6; i++) {
-      photoStrings.push('');
-    }
-    setPhotoUrls([...photoStrings]);
-  };
+    setDataForm({
+      ...dataForm,
+      photosIds: [...photos.map((photo) => photo.id).filter((value) => !!value)],
+    });
+  }, [photos]);
 
   const removePhotoHandler = (index) => {
-    const newPhotoUrls = [...photoUrls];
-    newPhotoUrls[index] = '';
-    setPhotoUrls([...newPhotoUrls]);
+    photos[index] = {
+      id: null,
+      url: '',
+    };
+    setPhotos([...photos]);
   };
 
   const uploadPhoto = async (photo, index) => {
     try {
       const formData = appendFileToFormData(photo, 'announcement-image.jpg');
       const res = await uploadAnnouncementPhotoService(formData);
-      setDataForm({
-        ...dataForm,
-        photosIds: [...dataForm.photosIds, res.id],
-      });
-      const newPhotoUrls = [...photoUrls];
-      newPhotoUrls[index] = res.url;
-      setPhotoUrls([...newPhotoUrls]);
+      photos[index] = {
+        id: res.id,
+        url: res.url,
+      };
+      setPhotos([...photos]);
     } catch (error) {
       setShowErrorModal(true);
     }
   };
 
-  const drawImageInputs = () => photoUrls && photoUrls.map((photo, index) => (
+  const drawImageInputs = () => photos && photos.map((photo, index) => (
     <View
       key={index}
       style={{
@@ -70,7 +65,7 @@ export const FImageSelectInput = ({
         height={sizes.HEIGHT_140}
         uploadImage={uploadPhoto}
         index={index}
-        uploadedImage={photo}
+        uploadedImage={photo.url}
         onRemoveImage={() => removePhotoHandler(index)}
       />
     </View>
@@ -108,4 +103,8 @@ FImageSelectInput.propTypes = {
   setDataForm: PropTypes.func.isRequired,
   setShowErrorModal: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
+  defaultPhotos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+  })),
 };

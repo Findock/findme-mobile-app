@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
 });
 
 FButton.propTypes = {
-  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading']).isRequired,
+  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading', 'icon-with-label']).isRequired,
   iconViewSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   icon: PropTypes.string,
   title: PropTypes.string,

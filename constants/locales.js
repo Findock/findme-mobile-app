@@ -78,4 +78,7 @@ export default {
   ADD: 'Dodaj',
   COAT_COLORS: 'Umaszczenie',
   ANNOUNCEMENT_ADDED_SUCCESSFULLY: 'Ogłoszenie zostało pomyślnie utworzone',
+  CHANGES_SAVED: 'Zmiany zostały zapisane',
+  FINISH: 'Zakończ',
+  ARCHIVE: 'Archiwizuj',
 };

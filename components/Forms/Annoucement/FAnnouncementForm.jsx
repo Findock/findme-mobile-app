@@ -25,10 +25,13 @@ import { FAnimalCoatColorSelectInput } from 'components/Inputs/Custom/FAnimalCoa
 import { useNavigation } from '@react-navigation/native';
 import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
+import PropTypes from 'prop-types';
 
 export const FAnnouncementForm = ({
   dataForm,
   setDataForm,
+  defaultPhotos,
+  isEdit = false,
   errors,
   inputHandler,
   setShowErrorModal,
@@ -42,13 +45,16 @@ export const FAnnouncementForm = ({
   return (
     <View>
       {drawErrorModal()}
-      <FImageSelectInput
-        style={styles.horizontalScrollViewContainer}
-        dataForm={dataForm}
-        setShowErrorModal={setShowErrorModal}
-        setDataForm={setDataForm}
-        errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO)}
-      />
+      {defaultPhotos && (
+        <FImageSelectInput
+          style={styles.horizontalScrollViewContainer}
+          dataForm={dataForm}
+          setShowErrorModal={setShowErrorModal}
+          setDataForm={setDataForm}
+          errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO)}
+          defaultPhotos={defaultPhotos}
+        />
+      )}
       <FInput
         iconPlacement={placements.LEFT}
         icon={icons.PAW}
@@ -139,6 +145,9 @@ export const FAnnouncementForm = ({
               locationDescription,
             });
           }}
+          lat={dataForm.locationLat}
+          lon={dataForm.locationLon}
+          doNotLoadCoordinatesFromLocation={isEdit}
         />
       </View>
       <View style={styles.buttonsContainer}>
@@ -153,7 +162,7 @@ export const FAnnouncementForm = ({
         />
         <FButton
           type={buttonTypes.LOADING_BUTTON}
-          title={locales.ADD}
+          title={locales.SAVE}
           color={colors.WHITE}
           backgroundColor={colors.PRIMARY}
           titleSize={fonts.HEADING_MEDIUM}
@@ -178,3 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: sizes.MARGIN_20,
   },
 });
+
+FAnnouncementForm.propTypes = {
+  isEdit: PropTypes.bool.isRequired,
+};
