@@ -5,4 +5,5 @@ export default {
   TEXT_BUTTON: 'text',
   OUTLINE_TEXT_BUTTON: 'outline-text',
   LOADING_BUTTON: 'loading',
+  ICON_BUTTON_WITH_LABEL: 'icon-with-label',
 };

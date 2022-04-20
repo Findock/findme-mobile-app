@@ -67,20 +67,22 @@ export const FSlider = ({ photos }) => {
           ...styles.sliderContainer,
         }}
       />
-      <View style={{
-        width: sizes.WIDTH_FULL,
-        ...styles.dotsContainer,
-      }}
-      >
-        {drawDots()}
-      </View>
+      {photos.length > 1 && (
+        <View style={{
+          width: sizes.WIDTH_FULL,
+          ...styles.dotsContainer,
+        }}
+        >
+          {drawDots()}
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   sliderContainer: {
-    height: 350,
+    height: sizes.HEIGHT_350,
     width: Dimensions.get('window').width,
   },
   dotsContainer: {
