@@ -23,7 +23,6 @@ import { FDefaultLayout } from 'layouts/FDefault.layout';
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const dispatch = useDispatch();
-
   const [
     showConfirmDeleteUserProfileImageModal,
     setShowConfirmDeleteUserProfileImageModal,
@@ -83,6 +82,7 @@ export const UserProfileScreen = () => {
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
+            navigateTo={stackNavigatorNames.YOUR_ANNOUNCEMENT}
           />
           <FWideButton
             icon={icons.SETTINGS}
@@ -136,7 +136,6 @@ export const UserProfileScreen = () => {
             title={locales.ADD_ANNOUNCEMENT}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
-            onPress={() => { }}
             style={styles.lastWideButton}
             isLink
           />
