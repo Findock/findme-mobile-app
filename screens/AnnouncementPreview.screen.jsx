@@ -29,7 +29,9 @@ import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/useErrorModal';
-import { useRoute, useNavigation } from '@react-navigation/native';
+import {
+  useRoute, useNavigation, useIsFocused,
+} from '@react-navigation/native';
 import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
@@ -56,15 +58,13 @@ export const AnnouncementPreviewScreen = () => {
     drawErrorModal,
   } = useErrorModal(true);
 
-  useEffect(() => {
-    fetchAnnouncement();
-  }, []);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    if (!announcement) {
+    if (isFocused) {
       fetchAnnouncement();
     }
-  }, [announcement]);
+  }, [isFocused]);
 
   useEffect(() => {
     if (route.params?.announcementEditedSuccessfullyModalVisible) {
@@ -311,7 +311,10 @@ export const AnnouncementPreviewScreen = () => {
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
               title={locales.EDIT}
-              onPress={() => navigation.navigate(stackNavigatorNames.EDIT_ANNOUNCEMENT, { id: announcement.id })}
+              onPress={() => {
+                navigation.navigate(stackNavigatorNames.EDIT_ANNOUNCEMENT, { id: announcement.id });
+                setAnnouncement(null);
+              }}
             />
             <FButton
               type={buttonTypes.ICON_BUTTON_WITH_LABEL}
