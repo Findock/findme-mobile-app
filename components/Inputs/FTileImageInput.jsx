@@ -42,14 +42,10 @@ export const FTileImageInput = ({
   }, [image]);
 
   const onIconButtonPressHandler = () => {
-    if (uploadedImage) {
+    if (uploadedImage || image) {
       setImage(null);
       if (onRemoveImage)onRemoveImage();
-    } else if (!image) setShowMakeChoiceModal(true);
-    else {
-      setImage(null);
-      if (onRemoveImage)onRemoveImage();
-    }
+    } else setShowMakeChoiceModal(true);
   };
 
   const onPressHandler = () => {
