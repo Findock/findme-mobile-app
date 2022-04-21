@@ -8,8 +8,7 @@ import inputTypes from 'constants/components/inputs/inputTypes';
 import placeholders from 'constants/components/inputs/placeholders';
 import locales from 'constants/locales';
 import AnnouncementEnum from 'enums/AnnouncementEnum';
-import { useErrorModal } from 'hooks/useErrorModal';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   View, StyleSheet,
 } from 'react-native';
@@ -23,183 +22,39 @@ import { FCategoryAnimalTileSelectInput } from 'components/Inputs/Custom/FCatego
 import { FImageSelectInput } from 'components/Inputs/Custom/FImageSelectInput';
 import { FAnimalGenderTileSelectInput } from 'components/Inputs/Custom/FAnimalGenderTileSelectInput';
 import { FAnimalCoatColorSelectInput } from 'components/Inputs/Custom/FAnimalCoatColorSelectInput';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { useNavigation } from '@react-navigation/native';
-import { createAnnouncementService } from 'services/announcement/createAnnouncement.service';
 import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import PropTypes from 'prop-types';
 
-export const FAnnouncementForm = () => {
-  const dispatch = useDispatch();
-  const selectedOptions = useSelector((state) => state.multiSelect.selectedOptions);
+export const FAnnouncementForm = ({
+  dataForm,
+  setDataForm,
+  defaultPhotos,
+  isEdit = false,
+  errors,
+  inputHandler,
+  setShowErrorModal,
+  drawErrorModal,
+  setAnnouncementType,
+  announcementType,
+  loading,
+  onSubmit,
+}) => {
   const navigation = useNavigation();
-  const [
-    finishCreateAnnouncementModalVisible,
-    setFinishCreateAnnouncementModalVisible,
-  ] = useState(false);
-  const [
-    loading,
-    setLoading,
-  ] = useState(false);
-  const [
-    errors,
-    setErrors,
-  ] = useState([]);
-  const [
-    dataForm,
-    setDataForm,
-  ] = useState({
-    title: '',
-    description: '',
-    gender: '',
-    categoryId: '',
-    type: AnnouncementEnum.FOUND,
-    distinctiveFeaturesIds: [],
-    coatColorsIds: [],
-    locationName: '',
-    locationDescription: '',
-    photosIds: [],
-    locationLat: 0,
-    locationLon: 0,
-  });
-  const {
-    setShowErrorModal,
-    drawErrorModal,
-  } = useErrorModal();
-  const [
-    announcementType,
-    setAnnouncementType,
-  ] = useState(AnnouncementEnum.FOUND);
-
-  useEffect(() => {
-    dispatch(setSelectedOptions([]));
-  }, []);
-
-  useEffect(() => {
-    clearDataFormErrors();
-  }, [dataForm]);
-
-  useEffect(() => {
-    setDataForm({
-      ...dataForm,
-      type: announcementType,
-    });
-  }, [announcementType]);
-
-  useEffect(() => {
-    setDataForm({
-      ...dataForm,
-      distinctiveFeaturesIds: [...selectedOptions.map((option) => option.id)],
-    });
-  }, [selectedOptions]);
-
-  const inputHandler = (name, value) => {
-    setDataForm({
-      ...dataForm,
-      [name]: value,
-    });
-  };
-  const clearDataForm = () => {
-    setDataForm({
-      title: '',
-      description: '',
-      gender: '',
-      categoryId: '',
-      type: announcementType,
-      distinctiveFeaturesIds: [],
-      coatColorsIds: [],
-      locationName: '',
-      locationDescription: '',
-      photosIds: [],
-      locationLat: 0,
-      locationLon: 0,
-    });
-  };
-
-  const clearDataFormErrors = () => {
-    const newErrors = [...errors];
-    if (dataForm.title && errors.indexOf(announcementMessages.TITLE_CANNOT_BE_EMPTY) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.TITLE_CANNOT_BE_EMPTY), 1);
-    }
-    if (dataForm.description && errors.indexOf(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY), 1);
-    }
-    if (dataForm.gender && errors.indexOf(announcementMessages.CHOOSE_GENDER) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_GENDER), 1);
-    }
-    if (dataForm.categoryId && errors.indexOf(announcementMessages.CHOOSE_CATEGORY) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_CATEGORY), 1);
-    }
-    if (dataForm.photosIds.length > 0 && errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO), 1);
-    }
-    if (dataForm.coatColorsIds.length > 0 && errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR) !== -1) {
-      newErrors.splice(errors.indexOf(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR), 1);
-    }
-    setErrors([...newErrors]);
-  };
-
-  const checkFormValidation = (error) => {
-    const { message, statusCode } = error;
-    const errs = [];
-    if (statusCode === 400) {
-      if (message.join(' ').includes('title')) {
-        errs.push(announcementMessages.TITLE_CANNOT_BE_EMPTY);
-      }
-      if (message.join(' ').includes('description')) {
-        errs.push(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY);
-      }
-      if (message.join(' ').includes('gender')) {
-        errs.push(announcementMessages.CHOOSE_GENDER);
-      }
-      if (message.join(' ').includes('categoryId')) {
-        errs.push(announcementMessages.CHOOSE_CATEGORY);
-      }
-      if (message.join(' ').includes('photosIds')) {
-        errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO);
-      }
-      if (message.join(' ').includes('coatColorsIds')) {
-        errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR);
-      }
-    }
-    if (statusCode === 500) {
-      setShowErrorModal(true);
-    }
-    setErrors([...errs]);
-  };
-
-  const onSubmit = async () => {
-    try {
-      await createAnnouncementService({ ...dataForm });
-      setLoading(false);
-      setFinishCreateAnnouncementModalVisible(true);
-      clearDataForm();
-    } catch (error) {
-      if (error.response && error.response.data) checkFormValidation(error.response.data);
-      setLoading(false);
-    }
-  };
   return (
     <View>
       {drawErrorModal()}
-      {finishCreateAnnouncementModalVisible && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.ANNOUNCEMEN_ADDED_SUCCESSFULLY}
-          visible={finishCreateAnnouncementModalVisible}
-          setVisible={setFinishCreateAnnouncementModalVisible}
+      {defaultPhotos && (
+        <FImageSelectInput
+          style={styles.horizontalScrollViewContainer}
+          dataForm={dataForm}
+          setShowErrorModal={setShowErrorModal}
+          setDataForm={setDataForm}
+          errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO)}
+          defaultPhotos={defaultPhotos}
         />
       )}
-      <FImageSelectInput
-        style={styles.horizontalScrollViewContainer}
-        dataForm={dataForm}
-        setShowErrorModal={setShowErrorModal}
-        setDataForm={setDataForm}
-        errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO)}
-      />
       <FInput
         iconPlacement={placements.LEFT}
         icon={icons.PAW}
@@ -290,6 +145,9 @@ export const FAnnouncementForm = () => {
               locationDescription,
             });
           }}
+          lat={dataForm.locationLat}
+          lon={dataForm.locationLon}
+          doNotLoadCoordinatesFromLocation={isEdit}
         />
       </View>
       <View style={styles.buttonsContainer}>
@@ -304,7 +162,7 @@ export const FAnnouncementForm = () => {
         />
         <FButton
           type={buttonTypes.LOADING_BUTTON}
-          title={locales.ADD}
+          title={locales.SAVE}
           color={colors.WHITE}
           backgroundColor={colors.PRIMARY}
           titleSize={fonts.HEADING_MEDIUM}
@@ -329,3 +187,7 @@ const styles = StyleSheet.create({
     marginBottom: sizes.MARGIN_20,
   },
 });
+
+FAnnouncementForm.propTypes = {
+  isEdit: PropTypes.bool.isRequired,
+};

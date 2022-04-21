@@ -2,7 +2,6 @@ import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FSlider } from 'components/Composition/Slider/FSlider';
 import React, { useEffect, useState } from 'react';
-import { getOtherAnnouncementService } from 'services/announcement/getOtherAnnouncement.service';
 import {
   View, StyleSheet, ScrollView, Dimensions,
 } from 'react-native';
@@ -30,12 +29,27 @@ import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/useErrorModal';
+import { useRoute, useNavigation } from '@react-navigation/native';
+import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/components/modalTypes';
 
 export const AnnouncementPreviewScreen = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
   const [
     announcement,
     setAnnouncement,
   ] = useState(null);
+  const [
+    announcementAddedSuccessfullyModalVisible,
+    setAnnouncementAddedSuccessfullyModalVisible,
+  ] = useState(false);
+  const [
+    announcementEditedSuccessfullyModalVisible,
+    setAnnouncementEditedSuccessfullyModalVisible,
+  ] = useState(false);
 
   const {
     setShowErrorModal,
@@ -46,10 +60,29 @@ export const AnnouncementPreviewScreen = () => {
     fetchAnnouncement();
   }, []);
 
+  useEffect(() => {
+    if (!announcement) {
+      fetchAnnouncement();
+    }
+  }, [announcement]);
+
+  useEffect(() => {
+    if (route.params?.announcementEditedSuccessfullyModalVisible) {
+      setAnnouncementEditedSuccessfullyModalVisible(true);
+      navigation.setParams({ announcementEditedSuccessfullyModalVisible: false });
+    }
+  }, [route.params?.announcementEditedSuccessfullyModalVisible]);
+
+  useEffect(() => {
+    if (route.params?.announcementAddedSuccessfullyModalVisible) {
+      setAnnouncementAddedSuccessfullyModalVisible(true);
+      navigation.setParams({ announcementAddedSuccessfullyModalVisible: false });
+    }
+  }, [route.params?.announcementAddedSuccessfullyModalVisible]);
+
   const fetchAnnouncement = async () => {
     try {
-      // to do: endpoints depeneding on isMine prop
-      const res = await getOtherAnnouncementService(2);
+      const res = await getAnnouncementService(route.params?.id);
       setAnnouncement(res.data);
     } catch (error) {
       setShowErrorModal(true);
@@ -109,6 +142,22 @@ export const AnnouncementPreviewScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       {drawErrorModal()}
+      {announcementAddedSuccessfullyModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          setVisible={setAnnouncementAddedSuccessfullyModalVisible}
+          visible={announcementAddedSuccessfullyModalVisible}
+          title={locales.ANNOUNCEMENT_ADDED_SUCCESSFULLY}
+        />
+      )}
+      {announcementEditedSuccessfullyModalVisible && (
+        <FModal
+          type={modalTypes.INFO_MODAL}
+          setVisible={setAnnouncementEditedSuccessfullyModalVisible}
+          visible={announcementEditedSuccessfullyModalVisible}
+          title={locales.CHANGES_SAVED}
+        />
+      )}
       <ScrollView
         style={{
           backgroundColor: colors.WHITE,
@@ -201,7 +250,7 @@ export const AnnouncementPreviewScreen = () => {
           </View>
           <View style={{
             marginTop: sizes.MARGIN_25,
-            marginBottom: sizes.MARGIN_100,
+            marginBottom: announcement.isUserCreator ? sizes.MARGIN_50 : sizes.MARGIN_100,
           }}
           >
             <FAnnouncementHeading title={locales.LOCATION} />
@@ -228,51 +277,92 @@ export const AnnouncementPreviewScreen = () => {
               height={sizes.HEIGHT_400}
               onChangeLocation={() => {}}
               onChangeCoordinates={() => {}}
-              onChangeLocationDescription={() => { }}
+              onChangeLocationDescription={() => {}}
               isInteractive={false}
               lat={+announcement.locationLat}
               lon={+announcement.locationLon}
+              doNotLoadCoordinatesFromLocation
             />
           </View>
         </FCard>
       </ScrollView>
-      <View style={styles.stickyContainer}>
-        <View style={styles.userContaier}>
-          <FAvatar
-            imageUrl={announcement.creator.profileImageUrl}
-            size={sizes.WIDTH_45}
-            isEditable={false}
-          />
-          <View style={{ marginLeft: sizes.MARGIN_5 }}>
-            <FHeading
-              title={announcement.creator.name}
-              size={fonts.HEADING_NORMAL}
-              weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            />
-            <FPhoneNumber
-              phoneNumber={announcement.creator.phoneNumber}
-              size={fonts.HEADING_MEDIUM}
-              weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-              color={colors.DARK_GRAY}
-              isUnderline
-            />
-          </View>
-        </View>
-        <View style={styles.buttonContaier}>
-          <View>
+      <View style={{
+        ...styles.stickyContainer,
+        height: announcement.isUserCreator ? sizes.HEIGHT_120 : sizes.HEIGHT_170,
+        paddingVertical: announcement.isUserCreator ? sizes.PADDING_15 : sizes.PADDING_30,
+      }}
+      >
+        {announcement.isUserCreator ? (
+          <View style={styles.buttonsContainer}>
             <FButton
-              type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.CHECKMARK_OUTLINE}
               backgroundColor={colors.PRIMARY}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={locales.WRITE_MESSAGE}
-              icon={icons.PAW}
-              iconSize={sizes.ICON_20}
-              iconPlacement={placements.RIGHT}
-              titleSize={fonts.HEADING_MEDIUM}
-              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              title={locales.FINISH}
+            />
+            <FButton
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.PENCIL}
+              backgroundColor={colors.WARNING}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
+              color={colors.WHITE}
+              title={locales.EDIT}
+              onPress={() => navigation.navigate(stackNavigatorNames.EDIT_ANNOUNCEMENT, { id: announcement.id })}
+            />
+            <FButton
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.FILE_TRAY_FULL}
+              backgroundColor={colors.SECONDARY}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
+              color={colors.WHITE}
+              title={locales.ARCHIVE}
             />
           </View>
-        </View>
+        ) : (
+          <>
+            <View style={styles.userContaier}>
+              <FAvatar
+                imageUrl={announcement.creator.profileImageUrl}
+                size={sizes.WIDTH_45}
+                isEditable={false}
+              />
+              <View style={{ marginLeft: sizes.MARGIN_5 }}>
+                <FHeading
+                  title={announcement.creator.name}
+                  size={fonts.HEADING_NORMAL}
+                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                />
+                <FPhoneNumber
+                  phoneNumber={announcement.creator.phoneNumber}
+                  size={fonts.HEADING_MEDIUM}
+                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                  color={colors.DARK_GRAY}
+                  isUnderline
+                />
+              </View>
+            </View>
+            <View style={styles.buttonContaier}>
+              <View>
+                <FButton
+                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+                  backgroundColor={colors.PRIMARY}
+                  color={colors.WHITE}
+                  title={locales.WRITE_MESSAGE}
+                  icon={icons.PAW}
+                  iconSize={sizes.ICON_20}
+                  iconPlacement={placements.RIGHT}
+                  titleSize={fonts.HEADING_MEDIUM}
+                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                />
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );
@@ -295,9 +385,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     position: 'absolute',
     bottom: 0,
-    height: sizes.HEIGHT_170,
     backgroundColor: colors.WHITE,
-    padding: sizes.PADDING_30,
+    paddingHorizontal: 30,
     shadowColor: colors.BLACK,
     shadowOffset: {
       width: 0,
@@ -315,5 +404,10 @@ const styles = StyleSheet.create({
   buttonContaier: {
     width: sizes.WIDTH_FULL,
     marginTop: sizes.MARGIN_12,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    width: sizes.WIDTH_FULL,
+    justifyContent: 'space-between',
   },
 });
