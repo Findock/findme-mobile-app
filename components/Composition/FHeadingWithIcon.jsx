@@ -7,8 +7,20 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FHeadingWithIcon = ({
-  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize, title, titleAlign,
-  titleStyle, iconStyle, containerStyle, numberOfLines,
+  icon,
+  iconPlacement,
+  iconSize,
+  iconColor,
+  titleColor,
+  titleWeight,
+  titleSize,
+  title,
+  titleAlign,
+  titleStyle,
+  iconStyle,
+  containerStyle,
+  numberOfLines,
+  ellipsizeMode,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -23,6 +35,7 @@ export const FHeadingWithIcon = ({
               align={titleAlign}
               style={titleStyle}
               numberOfLines={numberOfLines}
+              ellipsizeMode={ellipsizeMode}
             />
           </View>
           <Ionicons
@@ -50,6 +63,7 @@ export const FHeadingWithIcon = ({
             weight={titleWeight}
             align={titleAlign}
             style={titleStyle}
+            ellipsizeMode={ellipsizeMode}
           />
         </View>
       </>
@@ -85,4 +99,5 @@ FHeadingWithIcon.propTypes = {
   title: PropTypes.string.isRequired,
   titleAlign: PropTypes.oneOf(['center', 'left', 'right']),
   numberOfLines: PropTypes.number,
+  ellipsizeMode: PropTypes.oneOf(['head', 'middle', 'tail', 'clip']),
 };

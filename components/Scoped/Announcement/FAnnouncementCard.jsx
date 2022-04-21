@@ -12,6 +12,8 @@ import placements from 'themes/placements';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { parseDate } from 'utils/parseDate';
+import dateFormatTypes from 'constants/dateFormatTypes';
 
 export const FAnnouncementCard = ({
   width, data, height,
@@ -34,7 +36,7 @@ export const FAnnouncementCard = ({
               imagePath=""
               imageWidth={sizes.WIDTH_FULL}
               imageHeight={sizes.HEIGHT_FULL}
-              networkImageUrl={data.photos[0]}
+              networkImageUrl={data.photos[0].url}
               imageStyle={styles.image}
               height={sizes.HEIGHT_150}
               resizeMode={sizes.COVER}
@@ -52,10 +54,10 @@ export const FAnnouncementCard = ({
               title={data.description}
               style={{ marginVertical: sizes.MARGIN_5 }}
               color={colors.DARK_GRAY}
-              ellipsizeMode="tail"
-              numberOfLines={2}
               size={fonts.HEADING_NORMAL}
               weight={fonts.HEADING_WEIGHT_REGULAR}
+              ellipsizeMode="tail"
+              numberOfLines={2}
             />
             <FHeadingWithIcon
               icon={icons.LOCATION_OUTLINE}
@@ -63,16 +65,16 @@ export const FAnnouncementCard = ({
               title={data.locationName}
               titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
-              numberOfLines={2}
               iconPlacement={placements.LEFT}
               iconSize={sizes.ICON_20}
               titleSize={fonts.HEADING_SMALL}
               titleWeight={fonts.HEADING_WEIGHT_REGULAR}
+              numberOfLines={1}
             />
             <FHeadingWithIcon
               icon={icons.CALENDAR}
               iconColor={colors.PRIMARY}
-              title={data.date}
+              title={parseDate(dateFormatTypes.DATE, data.createDate)}
               titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
               size={fonts.HEADING_MEDIUM}
@@ -81,6 +83,8 @@ export const FAnnouncementCard = ({
               iconSize={sizes.ICON_20}
               titleSize={fonts.HEADING_SMALL}
               titleWeight={fonts.HEADING_WEIGHT_REGULAR}
+              ellipsizeMode="tail"
+              numberOfLines={1}
             />
           </View>
         </FCard>
@@ -110,7 +114,11 @@ FAnnouncementCard.propTypes = {
   ]).isRequired,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    photos: PropTypes.arrayOf(PropTypes.string).isRequired,
+    photos: PropTypes.shape({
+      id: PropTypes.number,
+      url: PropTypes.string,
+      created: PropTypes.string,
+    }).isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
