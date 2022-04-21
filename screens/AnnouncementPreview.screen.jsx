@@ -61,7 +61,9 @@ export const AnnouncementPreviewScreen = () => {
   }, []);
 
   useEffect(() => {
-    fetchAnnouncement();
+    if (!announcement) {
+      fetchAnnouncement();
+    }
   }, [announcement]);
 
   useEffect(() => {
@@ -275,7 +277,7 @@ export const AnnouncementPreviewScreen = () => {
               height={sizes.HEIGHT_400}
               onChangeLocation={() => {}}
               onChangeCoordinates={() => {}}
-              onChangeLocationDescription={() => { }}
+              onChangeLocationDescription={() => {}}
               isInteractive={false}
               lat={+announcement.locationLat}
               lon={+announcement.locationLon}
