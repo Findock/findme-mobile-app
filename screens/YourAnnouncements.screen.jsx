@@ -1,4 +1,6 @@
-import { Dimensions, FlatList, View } from 'react-native';
+import {
+  Dimensions, FlatList, Platform, View, StyleSheet,
+} from 'react-native';
 import { FAnnouncementCard } from 'components/Scoped/Announcement/FAnnouncementCard';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/useErrorModal';
@@ -55,7 +57,7 @@ export const YourAnnouncementsScreen = () => {
         height: Dimensions.get('screen').height,
         backgroundColor: colors.WHITE,
         paddingVertical: sizes.PADDING_30,
-        paddingHorizontal: sizes.PADDING_3,
+        paddingHorizontal: sizes.PADDING_5,
       }}
       >
         {drawErrorModal()}
@@ -65,10 +67,15 @@ export const YourAnnouncementsScreen = () => {
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
           numColumns={2}
-          contentContainerStyle={{ paddingBottom: 50 }}
-          // it depends on device //
+          contentContainerStyle={styles.container}
         />
       </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingBottom: Platform.OS === 'android' ? sizes.PADDING_130 : sizes.PADDING_50,
+  },
+});
