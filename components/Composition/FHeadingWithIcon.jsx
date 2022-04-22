@@ -63,6 +63,7 @@ export const FHeadingWithIcon = ({
             weight={titleWeight}
             align={titleAlign}
             style={titleStyle}
+            numberOfLines={numberOfLines}
             ellipsizeMode={ellipsizeMode}
           />
         </View>

@@ -59,17 +59,15 @@ export const YourAnnouncementsScreen = () => {
       }}
       >
         {drawErrorModal()}
-        <View>
-          <FlatList
-            data={announcements}
-            renderItem={drawAnnouncementCard}
-            keyExtractor={(item) => item.id}
-            showsVerticalScrollIndicator={false}
-            numColumns={2}
-            contentContainerStyle={{ paddingBottom: 50 }}
-            // it depends on device //
-          />
-        </View>
+        <FlatList
+          data={announcements}
+          renderItem={drawAnnouncementCard}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          numColumns={2}
+          contentContainerStyle={{ paddingBottom: 50 }}
+          // it depends on device //
+        />
       </View>
     </>
   );

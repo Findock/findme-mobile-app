@@ -69,6 +69,7 @@ export const FAnnouncementCard = ({
               iconSize={sizes.ICON_20}
               titleSize={fonts.HEADING_SMALL}
               titleWeight={fonts.HEADING_WEIGHT_REGULAR}
+              ellipsizeMode="tail"
               numberOfLines={1}
             />
             <FHeadingWithIcon
