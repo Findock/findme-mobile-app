@@ -114,11 +114,11 @@ FAnnouncementCard.propTypes = {
   ]).isRequired,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    photos: PropTypes.shape({
+    photos: PropTypes.arrayOf(PropTypes.shape({
+      created: PropTypes.string,
       id: PropTypes.number,
       url: PropTypes.string,
-      created: PropTypes.string,
-    }).isRequired,
+    })).isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,

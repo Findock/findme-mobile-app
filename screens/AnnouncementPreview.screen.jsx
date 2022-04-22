@@ -237,7 +237,7 @@ export const AnnouncementPreviewScreen = () => {
         </FCard>
       </ScrollView>
       <View style={styles.stickyContainer}>
-        <View style={styles.userContaier}>
+        <View style={styles.userContainer}>
           <FAvatar
             imageUrl={announcement.creator.profileImageUrl}
             size={sizes.WIDTH_45}
@@ -258,7 +258,7 @@ export const AnnouncementPreviewScreen = () => {
             />
           </View>
         </View>
-        <View style={styles.buttonContaier}>
+        <View style={styles.buttonContainer}>
           <View>
             <FButton
               type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
@@ -307,12 +307,12 @@ const styles = StyleSheet.create({
     shadowRadius: sizes.SHADOW_RADIUS_13_16,
     elevation: sizes.ELEVATION_20,
   },
-  userContaier: {
+  userContainer: {
     flexDirection: 'row',
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
   },
-  buttonContaier: {
+  buttonContainer: {
     width: sizes.WIDTH_FULL,
     marginTop: sizes.MARGIN_12,
   },
