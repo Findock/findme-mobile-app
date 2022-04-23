@@ -1,9 +1,11 @@
-import { StyleSheet, View, TouchableWithoutFeedback } from 'react-native';
+import {
+  StyleSheet, View, TouchableWithoutFeedback, Animated,
+} from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import sizes from 'themes/sizes';
 import fonts from 'themes/fonts';
 import { FHeading } from 'components/Composition/FHeading';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import icons from 'themes/icons';
 import colors from 'themes/colors';
@@ -12,19 +14,56 @@ import placements from 'themes/placements';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { FAnnouncementCardActionsModal } from 'components/Scoped/Announcement/Card/FAnnouncementCardActionsModal';
 
 export const FAnnouncementCard = ({
   width, data, height,
 }) => {
   const navigation = useNavigation();
+  const animatedScale = useRef(new Animated.Value(1)).current;
+  const [
+    showOptionsModal,
+    setShowOptionsModal,
+  ] = useState(false);
+
+  const animate = () => {
+    animatedScale.setValue(0.8);
+    Animated.spring(animatedScale, {
+      toValue: 1,
+      bounciness: 1,
+      useNativeDriver: true,
+      speed: 1,
+      delay: 50,
+    }).start();
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}>
-      <View style={{ padding: sizes.PADDING_5 }}>
+    <TouchableWithoutFeedback
+      onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}
+      onLongPress={() => {
+        animate();
+        setTimeout(() => {
+          setShowOptionsModal(true);
+        }, 250);
+      }}
+    >
+      <Animated.View style={{
+        padding: sizes.PADDING_5,
+        transform: [{ scale: animatedScale }],
+      }}
+      >
         <FCard
           width={width}
           paddingHorizontal={sizes.PADDING_10}
           paddingVertical={sizes.PADDING_10}
         >
+          {showOptionsModal && (
+            <FAnnouncementCardActionsModal
+              visible={showOptionsModal}
+              setVisible={setShowOptionsModal}
+              announcementId={data.id}
+            />
+          )}
           <View style={{
             minHeight: height,
             maxHeight: height,
@@ -84,7 +123,7 @@ export const FAnnouncementCard = ({
             />
           </View>
         </FCard>
-      </View>
+      </Animated.View>
     </TouchableWithoutFeedback>
   );
 };

@@ -79,7 +79,6 @@ export const AnnouncementPreviewScreen = () => {
       fetchAnnouncement();
     }
   }, [isFocused]);
-  console.log(announcement);
 
   useEffect(() => {
     if (route.params?.announcementEditedSuccessfullyModalVisible) {

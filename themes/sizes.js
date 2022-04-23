@@ -27,6 +27,7 @@ export default {
   WIDTH_140: 140,
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
+  WIDTH_70_PERCENTAGES: '70%',
   WIDTH_98_PERCENTAGES: '98%',
   WIDTH_FULL: '100%',
 
