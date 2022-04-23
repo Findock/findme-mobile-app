@@ -77,7 +77,7 @@ export const HomepageScreen = () => {
             type={buttonTypes.TEXT_BUTTON}
             titleSize={fonts.HEADING_NORMAL}
             titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: 3 })}
+            onPress={() => navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: 12 })}
             buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
           />
         </View>

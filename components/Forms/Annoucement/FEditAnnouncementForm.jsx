@@ -38,7 +38,7 @@ export const FEditAnnouncementForm = () => {
   useEffect(() => {
     fetchAnnouncement();
   }, []);
-
+  console.log(defaultPhotos);
   useEffect(() => {
     if (announcement) {
       dispatch(setSelectedOptions(announcement.distinctiveFeatures));

@@ -13,7 +13,7 @@ import { View, StyleSheet } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
@@ -22,6 +22,7 @@ import placeholders from 'constants/components/inputs/placeholders';
 import { updatePasswordService } from 'services/user/updatePassword.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const ChangePasswordScreen = () => {
   const navigation = useNavigation();
@@ -107,8 +108,8 @@ export const ChangePasswordScreen = () => {
     <FFormLayout>
       {passwordChangeSuccessModalVisible && (
         <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.PASSWORD_CHANGED_SUCCESSFULLY}
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          title={modalsMessages.PASSWORD_CHANGED_SUCCESSFULLY}
           visible={passwordChangeSuccessModalVisible}
           setVisible={setPasswordChangeSuccessModalVisible}
           onContinue={() => navigation.goBack()}

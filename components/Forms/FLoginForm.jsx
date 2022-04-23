@@ -14,10 +14,8 @@ import sizes from 'themes/sizes';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch } from 'react-redux';
 import { setToken } from 'store/auth/authSlice';
-
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Device from 'expo-device';
 import * as Location from 'expo-location';
@@ -25,6 +23,8 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import placeholders from 'constants/components/inputs/placeholders';
 import { authUserService } from 'services/auth/authUser.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
+import modalsMessages from 'constants/components/modals/modalsMessages';
+import modalTypes from 'constants/components/modals/modalTypes';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
@@ -173,8 +173,8 @@ export const FLoginForm = () => {
       {loading && <FSpinner />}
       {noInternetConnectionModalVisible && (
         <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
+          type={modalTypes.INFO_ERROR_MODAL}
+          title={modalsMessages.SOMETHING_WENT_WRONG}
           visible={noInternetConnectionModalVisible}
           setVisible={setNoInternetConnectionModalVisible}
         />
@@ -182,7 +182,7 @@ export const FLoginForm = () => {
       {registrationModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
-          title={locales.SUCCESSFUL_REGISTRATION}
+          title={modalsMessages.SUCCESSFUL_REGISTRATION}
           visible={registrationModalVisible}
           setVisible={setRegistrationModalVisible}
         />
@@ -190,7 +190,7 @@ export const FLoginForm = () => {
       {logoutModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
-          title={locales.SUCCESSFUL_LOGOUT}
+          title={modalsMessages.SUCCESSFUL_LOGOUT}
           visible={logoutModalVisible}
           setVisible={setLogoutModalVisible}
         />
@@ -198,7 +198,7 @@ export const FLoginForm = () => {
       {deleteAccountModalVisible && (
         <FModal
           type={modalTypes.INFO_MODAL}
-          title={locales.SUCCESSFUL_ACCOUNT_DELETING}
+          title={modalsMessages.SUCCESSFUL_ACCOUNT_DELETING}
           visible={deleteAccountModalVisible}
           setVisible={setDeleteAccountModalVisible}
         />

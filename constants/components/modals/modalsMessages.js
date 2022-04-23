@@ -1,0 +1,20 @@
+export default {
+  ANNOUNCEMENT_ADD_TO_FAVOURITES: 'Ogłoszenie zostało dodane do obserwowanych',
+  ANNOUNCEMENT_REMOVED_FROM_FAVOURITES: 'Ogłoszenie zostało usunięte z obserwowanych',
+  SAVED_SUCCESSFULLY: 'Zapisano pomyślnie!',
+  DELETE_USER_PROFILE_IMAGE_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje zdjęcie profilowe? Tej akcji nie będzie można cofnąć.',
+  DELETE_USER_ACCOUNT_CONFIRMATION: 'Jesteś pewien, że chcesz usunąć swoje konto? Tej akcji nie będzie można cofnąć.',
+  DELETE_USER_ACCOUNT_SECOND_CONFIRMATION: 'Potwierdzasz usunięcie swojego konta?',
+  SUCCESSFUL_ACCOUNT_DELETING: 'Twoje konto zostało pomyślnie usunięte!',
+  MESSAGE_SEND_SUCCESS: 'Wiadomość wysłana pomyślnie!',
+  PASSWORD_CHANGED_SUCCESSFULLY: 'Hasło zostało zmienione pomyślnie!',
+  WHAT_DO_YOU_WANT_TO_USE: 'Czego chcesz użyć, aby dodać zdjęcie?',
+  ANNOUNCEMENT_ADDED_SUCCESSFULLY: 'Ogłoszenie zostało pomyślnie utworzone!',
+  SOMETHING_WENT_WRONG: 'Coś poszło nie tak. Spróbuj ponownie.',
+  CAMERA_ROLL_DENIED: 'Nie zezwoliłeś na dostęp do galerii zdjęć. Przejdź do ustawień, aby móc korzystać z galerii zdjęć w aplikacji.',
+  CAMERA_DENIED: 'Nie zezwoliłeś na dostęp do aparatu. Przejdź do ustawień, aby umożliwić korzystanie z aparatu w aplikacji.',
+  LOCATION_DENIED: 'Twoja lokalizacja nie będzie udostępniana. Przejdź do ustawień, aby zezwolić na dostęp do Twojej lokalizacji.',
+  SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
+  SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
+
+};

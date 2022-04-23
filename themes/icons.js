@@ -26,6 +26,7 @@ export default {
   CHECKMARK_OUTLINE: 'checkmark-outline',
   MEGAPHONE: 'megaphone',
   STAR: 'star',
+  STAR_OUTLINE: 'star-outline',
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
   TRASH: 'trash',

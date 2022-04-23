@@ -1,10 +1,9 @@
-import { useNavigation } from '@react-navigation/native';
 import { FSwipeButton } from 'components/Buttons/FSwipeButton/FSwipeButton';
 import { FModal } from 'components/Composition/FModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FLoginHistoryListItem } from 'components/Scoped/LoginHistory/FLoginHistoryListItem';
 import locales from 'constants/locales';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import sizes from 'themes/sizes';
@@ -12,16 +11,12 @@ import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActi
 import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
 import { getMyAuthTokensService } from 'services/auth/getMyAuthTokens.service';
 import { deleteAuthTokenService } from 'services/auth/deleteAuthToken.service';
+import { useErrorModal } from 'hooks/useErrorModal';
 
 export const FLoginHistoryList = () => {
-  const navigation = useNavigation();
   const [
     isLoading,
     setIsLoading,
-  ] = useState(false);
-  const [
-    isErrorModalShown,
-    setIsErrorModalShown,
   ] = useState(false);
   const [
     isDeleteAuthTokenErrorModalShown,
@@ -31,6 +26,10 @@ export const FLoginHistoryList = () => {
     myAuthTokens,
     setMyAuthTokens,
   ] = useState([]);
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal(true);
 
   useEffect(() => {
     fetchMyAuthTokens();
@@ -42,7 +41,7 @@ export const FLoginHistoryList = () => {
       const res = await getMyAuthTokensService();
       setMyAuthTokens([...res.data.authTokens]);
     } catch {
-      setIsErrorModalShown(true);
+      setShowErrorModal(true);
     } finally {
       setIsLoading(false);
     }
@@ -93,15 +92,7 @@ export const FLoginHistoryList = () => {
   return (
     <>
       {isLoading && <FSpinner style={{ paddingTop: sizes.PADDING_30 }} />}
-      {isErrorModalShown && (
-        <FModal
-          setVisible={setIsErrorModalShown}
-          visible={isErrorModalShown}
-          type={modalTypes.INFO_MODAL}
-          title={locales.SOMETHING_WENT_WRONG}
-          onContinue={() => navigation.goBack()}
-        />
-      )}
+      {drawErrorModal()}
       {isDeleteAuthTokenErrorModalShown && (
         <FModal
           setVisible={setIsDeleteAuthTokenErrorModalShown}
