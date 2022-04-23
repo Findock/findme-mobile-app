@@ -1,10 +1,10 @@
 import { useAppStateChange } from 'hooks/useAppStateChange';
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
-import modalTypes from 'constants/components/modalTypes';
-import locales from 'constants/locales';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { FModal } from 'components/Composition/FModal';
 import * as Linking from 'expo-linking';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const useCameraRollPermission = () => {
   const { currentAppState } = useAppStateChange();
@@ -47,7 +47,7 @@ export const useCameraRollPermission = () => {
     deniedCameraRollPermissionModalVisible && (
       <FModal
         type={modalTypes.INFO_MODAL}
-        title={locales.CAMERA_ROLL_DENIED}
+        title={modalsMessages.CAMERA_ROLL_DENIED}
         visible={deniedCameraRollPermissionModalVisible}
         setVisible={setDeniedCameraRollPermissionModalVisible}
       />

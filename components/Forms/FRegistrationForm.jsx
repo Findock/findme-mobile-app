@@ -17,13 +17,14 @@ import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FCheckbox } from 'components/Inputs/FCheckbox';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { useNavigation } from '@react-navigation/native';
 import placeholders from 'constants/components/inputs/placeholders';
 import checkboxTypes from 'constants/components/checkboxTypes';
 import { createUserService } from 'services/user/createUser.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const FRegistrationForm = () => {
   const navigation = useNavigation();
@@ -123,8 +124,8 @@ export const FRegistrationForm = () => {
       {loading && <FSpinner />}
       {modalVisible && (
         <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.IT_SEEMS_TO_BE_NO_INTERNET_CONNECTION}
+          type={modalTypes.INFO_ERROR_MODAL}
+          title={modalsMessages.SOMETHING_WENT_WRONG}
           visible={modalVisible}
           setVisible={setModalVisible}
         />

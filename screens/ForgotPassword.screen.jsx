@@ -13,13 +13,14 @@ import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import { StyleSheet, View } from 'react-native';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { useErrorModal } from 'hooks/useErrorModal';
 import placeholders from 'constants/components/inputs/placeholders';
 import { resetPasswordEmailService } from 'services/user/resetPasswordEmail.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const ForgotPasswordScreen = () => {
   const [
@@ -72,8 +73,8 @@ export const ForgotPasswordScreen = () => {
     <FFormLayout>
       {mailSentSuccessModalVisible && (
         <FModal
-          type={modalTypes.INFO_MODAL}
-          title={locales.MESSAGE_SEND_SUCCESS}
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          title={modalsMessages.MESSAGE_SEND_SUCCESS}
           visible={mailSentSuccessModalVisible}
           setVisible={setMailSentSuccessModalVisible}
         />

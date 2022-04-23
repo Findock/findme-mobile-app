@@ -16,7 +16,7 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
 import { setMe } from 'store/me/meSlice';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useErrorModal } from 'hooks/useErrorModal';
@@ -26,6 +26,7 @@ import { getMeService } from 'services/user/getMe.service';
 import PropTypes from 'prop-types';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
   const dispatch = useDispatch();
@@ -138,7 +139,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
           type={modalTypes.CONFIRM_MODAL}
           setVisible={setShowDeleteAccountConfirmationModal}
           visible={showDeleteAccountConfirmationModal}
-          title={locales.DELETE_USER_ACCOUNT_CONFIRMATION}
+          title={modalsMessages.DELETE_USER_ACCOUNT_CONFIRMATION}
           onConfirm={onDeleteAccount}
         />
       )}

@@ -15,13 +15,14 @@ import opacities from 'themes/opacities';
 import buttonTypes from 'constants/components/buttonTypes';
 import icons from 'themes/icons';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import locales from 'constants/locales';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
 import PropTypes from 'prop-types';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const FTileImageInput = ({
   width, height, uploadImage, uploadedImage, index, onRemoveImage,
@@ -151,7 +152,7 @@ export const FTileImageInput = ({
           type={modalTypes.MAKE_CHOICE_MODAL}
           setVisible={() => {}}
           visible={showMakeChoiceModal}
-          title={locales.WHAT_DO_YOU_WANT_TO_USE}
+          title={modalsMessages.WHAT_DO_YOU_WANT_TO_USE}
           firstChoice={locales.CAMERA}
           secondChoice={locales.CAMERA_ROLL}
           onFirstChoice={onMakeFirstChoiceHandler}

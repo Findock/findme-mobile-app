@@ -3,7 +3,6 @@ import { FCard } from 'components/Composition/FCard';
 import { FHeading } from 'components/Composition/FHeading';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
-import modalTypes from 'constants/components/modalTypes';
 import React, { useRef } from 'react';
 import {
   Modal, StyleSheet, View, Pressable,
@@ -13,6 +12,7 @@ import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
+import modalTypes from 'constants/components/modals/modalTypes';
 
 export const FModal = ({
   title, type, visible, setVisible, onCancel = () => { }, onConfirm = () => { }, onContinue = () => { }, onFirstChoice = () => { },
@@ -21,12 +21,23 @@ export const FModal = ({
   const ref = useRef(null);
 
   const renderButtonsByModalType = () => {
-    if (type === modalTypes.INFO_MODAL) {
+    if (type === modalTypes.INFO_MODAL || type === modalTypes.INFO_SUCCESS_MODAL || type === modalTypes.INFO_ERROR_MODAL) {
+      const getButtonBgColor = () => {
+        switch (type) {
+        case modalTypes.INFO_SUCCESS_MODAL:
+          return colors.SUCCESS;
+        case modalTypes.INFO_ERROR_MODAL:
+          return colors.DANGER;
+        case modalTypes.INFO_MODAL:
+        default:
+          return colors.PRIMARY;
+        }
+      };
       return (
         <FButton
           title={locales.CONTINUE}
           type={buttonTypes.TEXT_BUTTON}
-          backgroundColor={colors.PRIMARY}
+          backgroundColor={getButtonBgColor()}
           color={colors.WHITE}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           titleSize={fonts.HEADING_SMALL}
@@ -181,7 +192,7 @@ const styles = StyleSheet.create({
 
 FModal.propTypes = {
   title: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['info', 'confirm', 'make-choice']).isRequired,
+  type: PropTypes.oneOf(['info', 'confirm', 'make-choice', 'success-info', 'error-info']).isRequired,
   visible: PropTypes.bool.isRequired,
   setVisible: PropTypes.func.isRequired,
   onCancel: PropTypes.func,
