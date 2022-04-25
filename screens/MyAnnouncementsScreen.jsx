@@ -7,9 +7,9 @@ import { useErrorModal } from 'hooks/useErrorModal';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { FSpinner } from 'components/Composition/FSpinner';
-import { getMyAnnouncementsService } from '../services/announcement/getMyAnnouncements.service';
+import { getMyAnnouncementsService } from 'services/announcement/getMyAnnouncements.service';
 
-export const YourAnnouncementsScreen = () => {
+export const MyAnnouncementsScreen = () => {
   const [
     isLoading,
     setIsLoading,
@@ -52,7 +52,8 @@ export const YourAnnouncementsScreen = () => {
 
   return (
     <>
-      {isLoading && <FSpinner style={{ paddingTop: sizes.PADDING_30 }} />}
+      {isLoading && <FSpinner />}
+      {drawErrorModal()}
       <View style={{
         height: Dimensions.get('screen').height,
         backgroundColor: colors.WHITE,
@@ -60,7 +61,6 @@ export const YourAnnouncementsScreen = () => {
         paddingHorizontal: sizes.PADDING_5,
       }}
       >
-        {drawErrorModal()}
         <FlatList
           data={announcements}
           renderItem={drawAnnouncementCard}
@@ -68,6 +68,7 @@ export const YourAnnouncementsScreen = () => {
           showsVerticalScrollIndicator={false}
           numColumns={2}
           contentContainerStyle={styles.container}
+          scrollEnabled
         />
       </View>
     </>
