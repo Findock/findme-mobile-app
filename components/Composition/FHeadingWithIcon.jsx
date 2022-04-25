@@ -7,20 +7,8 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FHeadingWithIcon = ({
-  icon,
-  iconPlacement,
-  iconSize,
-  iconColor,
-  titleColor,
-  titleWeight,
-  titleSize,
-  title,
-  titleAlign,
-  titleStyle,
-  iconStyle,
-  containerStyle,
-  numberOfLines,
-  ellipsizeMode,
+  icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize,
+  title, titleAlign, titleStyle, iconStyle, containerStyle, numberOfLines, ellipsizeMode,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
