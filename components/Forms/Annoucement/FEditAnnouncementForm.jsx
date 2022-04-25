@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
 import { updateAnnouncementService } from 'services/announcement/updateAnnouncement.service';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
+import { View } from 'react-native';
 
 export const FEditAnnouncementForm = () => {
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ export const FEditAnnouncementForm = () => {
   useEffect(() => {
     fetchAnnouncement();
   }, []);
-  console.log(defaultPhotos);
+
   useEffect(() => {
     if (announcement) {
       dispatch(setSelectedOptions(announcement.distinctiveFeatures));
@@ -93,7 +94,13 @@ export const FEditAnnouncementForm = () => {
     }
   };
 
-  if (!announcement) return <FSpinner />;
+  if (!announcement) {
+    return (
+      <View>
+        <FSpinner />
+      </View>
+    );
+  }
   return (
     <FAnnouncementForm
       announcementType={announcementType}

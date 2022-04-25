@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
+import { FAnnouncementCard } from 'components/Scoped/Announcement/FAnnouncementCard';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
@@ -79,6 +80,17 @@ export const HomepageScreen = () => {
             titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
             onPress={() => navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: 12 })}
             buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+          />
+          <FAnnouncementCard
+            width={169}
+            height={260}
+            data={{
+              id: 12,
+              photos: ['https://zooart.com.pl/blog/wp-content/uploads/2020/11/krolik-kicha-2.jpg'],
+              title: 'Królik',
+              description: 'To jest króliczek',
+              locationName: 'Kraków',
+            }}
           />
         </View>
       </View>
