@@ -13,12 +13,13 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -50,7 +51,7 @@ export const UserProfileScreen = () => {
           type={modalTypes.CONFIRM_MODAL}
           setVisible={setShowConfirmDeleteUserProfileImageModal}
           visible={showConfirmDeleteUserProfileImageModal}
-          title={locales.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
+          title={modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
           onConfirm={deleteImage}
         />
       )}

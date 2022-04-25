@@ -11,10 +11,13 @@ import React from 'react';
 import { useNavigation } from '@react-navigation/native';
 import colors from 'themes/colors';
 import PropTypes from 'prop-types';
+import fonts from 'themes/fonts';
+import defaultBoxShadow from 'styles/defaultBoxShadow';
+import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FButton = ({
-  type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles,
-  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading,
+  type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, iconViewStyles,
+  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading, iconViewSize,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
@@ -40,7 +43,7 @@ export const FButton = ({
   );
   const drawIconButton = () => (
     <TouchableOpacity
-      onPressIn={onPress}
+      onPress={onPress}
       style={{
         padding: sizes.PADDING_20,
         backgroundColor,
@@ -167,8 +170,45 @@ export const FButton = ({
             style={{ marginLeft: sizes.MARGIN_5 }}
           />
         )}
-
       </View>
+    </TouchableOpacity>
+  );
+
+  const drawIconButtonWithLabel = () => (
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        ...style,
+        ...styles.iconButtonWithLabel,
+        ...buttonViewStyles,
+      }}
+    >
+      <>
+        <View style={{
+          ...iconViewStyles,
+          backgroundColor,
+          ...defaultBoxShadow,
+          width: iconViewSize,
+          height: iconViewSize,
+          borderRadius: getHalfBorderRadius(iconViewSize),
+          ...styles.iconContainer,
+        }}
+        >
+          <Ionicons
+            name={icon}
+            color={color}
+            size={iconSize}
+          />
+        </View>
+        <View style={{ marginTop: sizes.MARGIN_5 }}>
+          <FHeading
+            title={title}
+            size={fonts.HEADING_NORMAL}
+            weight={fonts.HEADING_WEIGHT_MEDIUM}
+            color={colors.DARK_GRAY}
+          />
+        </View>
+      </>
     </TouchableOpacity>
   );
 
@@ -184,12 +224,13 @@ export const FButton = ({
       return drawOutlineTextButton();
     case buttonTypes.LOADING_BUTTON:
       return drawLoadingButton();
+    case buttonTypes.ICON_BUTTON_WITH_LABEL:
+      return drawIconButtonWithLabel();
     case buttonTypes.TEXT_BUTTON:
     default:
       return drawTextButton();
     }
   };
-
   return drawButtonByType();
 };
 
@@ -202,10 +243,19 @@ const styles = StyleSheet.create({
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
   },
+  iconButtonWithLabel: {
+    alignItems: placements.CENTER,
+    justifyContent: 'center',
+  },
+  iconContainer: {
+    alignItems: placements.CENTER,
+    justifyContent: placements.CENTER,
+  },
 });
 
 FButton.propTypes = {
-  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading']).isRequired,
+  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading', 'icon-with-label']).isRequired,
+  iconViewSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   icon: PropTypes.string,
   title: PropTypes.string,
   to: PropTypes.string,

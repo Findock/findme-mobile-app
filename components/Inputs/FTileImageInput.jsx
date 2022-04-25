@@ -15,13 +15,14 @@ import opacities from 'themes/opacities';
 import buttonTypes from 'constants/components/buttonTypes';
 import icons from 'themes/icons';
 import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modalTypes';
+import modalTypes from 'constants/components/modals/modalTypes';
 import locales from 'constants/locales';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
 import PropTypes from 'prop-types';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const FTileImageInput = ({
   width, height, uploadImage, uploadedImage, index, onRemoveImage,
@@ -42,11 +43,10 @@ export const FTileImageInput = ({
   }, [image]);
 
   const onIconButtonPressHandler = () => {
-    if (!image) setShowMakeChoiceModal(true);
-    else {
+    if (uploadedImage || image) {
       setImage(null);
       if (onRemoveImage)onRemoveImage();
-    }
+    } else setShowMakeChoiceModal(true);
   };
 
   const onPressHandler = () => {
@@ -104,12 +104,12 @@ export const FTileImageInput = ({
       width={width}
       height={height}
       imagePath={images.DOG()}
-      networkImageUrl={uploadedImage || (image?.uri || null)}
+      networkImageUrl={uploadedImage || (image?.uri || '')}
       resizeMode={sizes.COVER}
-      imageHeight={image ? sizes.HEIGHT_FULL : sizes.HEIGHT_45}
-      imageWidth={image ? sizes.WIDTH_FULL : sizes.WIDTH_45}
+      imageHeight={(image || uploadedImage) ? sizes.HEIGHT_FULL : sizes.HEIGHT_45}
+      imageWidth={(image || uploadedImage) ? sizes.WIDTH_FULL : sizes.WIDTH_45}
       containerStyle={{
-        backgroundColor: !image ? colors.LIGHT_GRAY : colors.TRANSPARENT,
+        backgroundColor: !(image || uploadedImage) ? colors.LIGHT_GRAY : colors.TRANSPARENT,
         ...styles.tileImageInputContainer,
         ...styles.centerView,
       }}
@@ -117,13 +117,13 @@ export const FTileImageInput = ({
     >
       <View style={{
         ...styles.buttonContainer,
-        top: image ? sizes.POSITION_6 : sizes.POSITION_N28,
-        right: image ? sizes.POSITION_6 : sizes.POSITION_N28,
+        top: (image || uploadedImage) ? sizes.POSITION_6 : sizes.POSITION_N28,
+        right: (image || uploadedImage) ? sizes.POSITION_6 : sizes.POSITION_N28,
       }}
       >
         <FButton
           type={buttonTypes.ICON_BUTTON}
-          icon={!image ? icons.ADD_OUTLINE : icons.TRASH}
+          icon={!(image || uploadedImage) ? icons.ADD_OUTLINE : icons.TRASH}
           iconSize={sizes.ICON_30}
           color={colors.WHITE}
           backgroundColor={colors.DARK_GRAY}
@@ -152,7 +152,7 @@ export const FTileImageInput = ({
           type={modalTypes.MAKE_CHOICE_MODAL}
           setVisible={() => {}}
           visible={showMakeChoiceModal}
-          title={locales.WHAT_DO_YOU_WANT_TO_USE}
+          title={modalsMessages.WHAT_DO_YOU_WANT_TO_USE}
           firstChoice={locales.CAMERA}
           secondChoice={locales.CAMERA_ROLL}
           onFirstChoice={onMakeFirstChoiceHandler}

@@ -24,7 +24,7 @@ export const FMapView = ({
   height, isInteractive, location = {
     locationName: '',
     locationDescription: '',
-  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates, lat, lon,
+  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates, lat, lon, doNotLoadCoordinatesFromLocation = false,
 }) => {
   const { granted: status } = useLocationPermission();
 
@@ -38,9 +38,21 @@ export const FMapView = ({
   ] = useState('');
 
   useEffect(() => {
-    setTimeout(() => {
-      getCoorindates();
-    }, 300);
+    if (lat && lon) {
+      setCoordinates({
+        ...coordsDelta,
+        latitude: lat,
+        longitude: lon,
+      });
+    }
+  }, [lat, lon]);
+
+  useEffect(() => {
+    if (!doNotLoadCoordinatesFromLocation) {
+      setTimeout(() => {
+        getCoorindates();
+      }, 300);
+    }
   }, [status]);
 
   useEffect(() => {
@@ -126,31 +138,28 @@ export const FMapView = ({
           <MapView
             style={styles.map}
             provider="google"
-            region={isInteractive ? coordinates : {
-              ...coordsDelta,
-              latitude: lat,
-              longitude: lon,
-            }}
+            region={coordinates}
             customMapStyle={mapStyle}
             onPress={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {}}
-            onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => { }}
+            onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {}}
+            zoomEnabled
+            scrollEnabled
+            rotateEnabled
           >
             <Marker
               coordinate={{
-                latitude: isInteractive ? coordinates.latitude : lat,
-                longitude: isInteractive ? coordinates.longitude : lon,
+                latitude: coordinates.latitude,
+                longitude: coordinates.longitude,
               }}
               pinColor="orange"
             />
-
           </MapView>
         )}
         <View style={{
-          elevation: 1,
+          elevation: sizes.ELEVATION_1,
           position: 'absolute',
           bottom: sizes.POSITION_50,
           right: sizes.POSITION_14,
-
         }}
         >
           <FButton
@@ -199,4 +208,5 @@ FMapView.propTypes = {
   onChangeCoordinates: PropTypes.func,
   lat: PropTypes.number,
   lon: PropTypes.number,
+  doNotLoadCoordinatesFromLocation: PropTypes.bool.isRequired,
 };

@@ -6,7 +6,7 @@ export default {
   LIGHTEST_GRAY: '#FBFAF7',
   GRAY: '#E6E6E6',
   DANGER: '#FF4C00',
-  WARNING: '#FF9600 ',
+  WARNING: '#FF9600',
   SUCCESS: '#00D222',
   WHITE: '#FFFFFF',
   OVERLAY: 'rgba(255, 255, 255, 0.5)',

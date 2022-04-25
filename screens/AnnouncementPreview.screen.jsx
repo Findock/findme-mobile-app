@@ -2,7 +2,6 @@ import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FSlider } from 'components/Composition/Slider/FSlider';
 import React, { useEffect, useState } from 'react';
-import { getOtherAnnouncementService } from 'services/announcement/getOtherAnnouncement.service';
 import {
   View, StyleSheet, ScrollView, Dimensions,
 } from 'react-native';
@@ -30,29 +29,97 @@ import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/useErrorModal';
+import {
+  useRoute, useNavigation, useIsFocused,
+} from '@react-navigation/native';
+import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/components/modals/modalTypes';
+import { addAnnouncementToFavouritesService } from 'services/announcement/addAnnouncementToFavourites.service';
+import { removeAnnouncementFromFavouritesService } from 'services/announcement/removeAnnouncementFromFavourites.service';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const AnnouncementPreviewScreen = () => {
+  const route = useRoute();
+  const navigation = useNavigation();
   const [
     announcement,
     setAnnouncement,
   ] = useState(null);
-
+  const [
+    announcementAddedSuccessfullyModalVisible,
+    setAnnouncementAddedSuccessfullyModalVisible,
+  ] = useState(false);
+  const [
+    announcementEditedSuccessfullyModalVisible,
+    setAnnouncementEditedSuccessfullyModalVisible,
+  ] = useState(false);
+  const [
+    announcementAddedToFavouritesModalVisible,
+    setAnnouncementAddedToFavouritesModalVisible,
+  ] = useState(false);
+  const [
+    announcementRemovedFromFavouritesModalVisible,
+    setAnnouncementRemovedFromFavouritesModalVisible,
+  ] = useState(false);
   const {
     setShowErrorModal,
     drawErrorModal,
   } = useErrorModal(true);
+  const {
+    setShowErrorModal: setShowFavouriteAnnouncementErrorModal,
+    drawErrorModal: drawFavouriteAnnouncementErrorModal,
+  } = useErrorModal();
+
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    fetchAnnouncement();
-  }, []);
+    if (isFocused) {
+      fetchAnnouncement();
+    }
+  }, [isFocused]);
+
+  useEffect(() => {
+    if (route.params?.announcementEditedSuccessfullyModalVisible) {
+      setAnnouncementEditedSuccessfullyModalVisible(true);
+      navigation.setParams({ announcementEditedSuccessfullyModalVisible: false });
+    }
+  }, [route.params?.announcementEditedSuccessfullyModalVisible]);
+
+  useEffect(() => {
+    if (route.params?.announcementAddedSuccessfullyModalVisible) {
+      setAnnouncementAddedSuccessfullyModalVisible(true);
+      navigation.setParams({ announcementAddedSuccessfullyModalVisible: false });
+    }
+  }, [route.params?.announcementAddedSuccessfullyModalVisible]);
 
   const fetchAnnouncement = async () => {
     try {
-      // to do: endpoints depeneding on isMine prop
-      const res = await getOtherAnnouncementService(2);
+      const res = await getAnnouncementService(route.params?.id);
       setAnnouncement(res.data);
     } catch (error) {
       setShowErrorModal(true);
+    }
+  };
+
+  const addAnnouncementToFavourites = async () => {
+    try {
+      await addAnnouncementToFavouritesService(announcement.id);
+      setAnnouncementAddedToFavouritesModalVisible(true);
+      fetchAnnouncement();
+    } catch (error) {
+      setShowFavouriteAnnouncementErrorModal(true);
+    }
+  };
+
+  const removeAnnouncementToFavourites = async () => {
+    try {
+      await removeAnnouncementFromFavouritesService(announcement.id);
+      setAnnouncementRemovedFromFavouritesModalVisible(true);
+      fetchAnnouncement();
+    } catch (error) {
+      setShowFavouriteAnnouncementErrorModal(true);
     }
   };
 
@@ -109,6 +176,39 @@ export const AnnouncementPreviewScreen = () => {
   return (
     <View style={{ flex: 1 }}>
       {drawErrorModal()}
+      {drawFavouriteAnnouncementErrorModal()}
+      {announcementAddedSuccessfullyModalVisible && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          setVisible={setAnnouncementAddedSuccessfullyModalVisible}
+          visible={announcementAddedSuccessfullyModalVisible}
+          title={modalsMessages.ANNOUNCEMENT_ADDED_SUCCESSFULLY}
+        />
+      )}
+      {announcementEditedSuccessfullyModalVisible && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          setVisible={setAnnouncementEditedSuccessfullyModalVisible}
+          visible={announcementEditedSuccessfullyModalVisible}
+          title={modalsMessages.SAVED_SUCCESSFULLY}
+        />
+      )}
+      {announcementAddedToFavouritesModalVisible && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          setVisible={setAnnouncementAddedToFavouritesModalVisible}
+          visible={announcementAddedToFavouritesModalVisible}
+          title={modalsMessages.ANNOUNCEMENT_ADD_TO_FAVOURITES}
+        />
+      )}
+      {announcementRemovedFromFavouritesModalVisible && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          setVisible={setAnnouncementRemovedFromFavouritesModalVisible}
+          visible={announcementRemovedFromFavouritesModalVisible}
+          title={modalsMessages.ANNOUNCEMENT_REMOVED_FROM_FAVOURITES}
+        />
+      )}
       <ScrollView
         style={{
           backgroundColor: colors.WHITE,
@@ -142,30 +242,36 @@ export const AnnouncementPreviewScreen = () => {
             />
           </View>
           <View style={styles.headerContainer}>
-            <View style={{ flexBasis: sizes.BASIS_70_PERCENTAGES }}>
+            <View style={{ flexBasis: !announcement.isUserCreator ? sizes.BASIS_70_PERCENTAGES : sizes.WIDTH_FULL }}>
               <FHeading
                 title={announcement.title}
                 size={fonts.HEADING_EXTRA_LARGE}
                 weight={fonts.HEADING_WEIGHT_MEDIUM}
               />
             </View>
-            <View style={{
-              flexBasis: sizes.BASIS_30_PERCENTAGES,
-              alignItems: 'flex-end',
-            }}
-            >
-              <FButton
-                type={buttonTypes.ICON_BUTTON}
-                icon={icons.STAR}
-                backgroundColor={colors.PRIMARY}
-                color={colors.WHITE}
-                iconSize={sizes.ICON_40}
-                style={{
-                  padding: sizes.PADDING_5,
-                  borderRadius: getHalfBorderRadius(sizes.ICON_40 + sizes.PADDING_10),
-                }}
-              />
-            </View>
+            {!announcement.isUserCreator && (
+              <View style={{
+                flexBasis: sizes.BASIS_30_PERCENTAGES,
+                alignItems: 'flex-end',
+              }}
+              >
+                <FButton
+                  type={buttonTypes.ICON_BUTTON}
+                  icon={announcement.isInFavorites ? icons.STAR : icons.STAR_OUTLINE}
+                  backgroundColor={colors.PRIMARY}
+                  color={colors.WHITE}
+                  iconSize={sizes.ICON_40}
+                  style={{
+                    padding: sizes.PADDING_5,
+                    borderRadius: getHalfBorderRadius(sizes.ICON_40 + sizes.PADDING_10),
+                  }}
+                  onPress={() => {
+                    if (announcement.isInFavorites) removeAnnouncementToFavourites();
+                    else addAnnouncementToFavourites();
+                  }}
+                />
+              </View>
+            )}
           </View>
           <View style={{ marginTop: sizes.MARGIN_25 }}>
             <FAnnouncementHeading title={locales.GENDER} />
@@ -201,7 +307,7 @@ export const AnnouncementPreviewScreen = () => {
           </View>
           <View style={{
             marginTop: sizes.MARGIN_25,
-            marginBottom: sizes.MARGIN_100,
+            marginBottom: announcement.isUserCreator ? sizes.MARGIN_50 : sizes.MARGIN_100,
           }}
           >
             <FAnnouncementHeading title={locales.LOCATION} />
@@ -228,51 +334,95 @@ export const AnnouncementPreviewScreen = () => {
               height={sizes.HEIGHT_400}
               onChangeLocation={() => {}}
               onChangeCoordinates={() => {}}
-              onChangeLocationDescription={() => { }}
+              onChangeLocationDescription={() => {}}
               isInteractive={false}
               lat={+announcement.locationLat}
               lon={+announcement.locationLon}
+              doNotLoadCoordinatesFromLocation
             />
           </View>
         </FCard>
       </ScrollView>
-      <View style={styles.stickyContainer}>
-        <View style={styles.userContainer}>
-          <FAvatar
-            imageUrl={announcement.creator.profileImageUrl}
-            size={sizes.WIDTH_45}
-            isEditable={false}
-          />
-          <View style={{ marginLeft: sizes.MARGIN_5 }}>
-            <FHeading
-              title={announcement.creator.name}
-              size={fonts.HEADING_NORMAL}
-              weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            />
-            <FPhoneNumber
-              phoneNumber={announcement.creator.phoneNumber}
-              size={fonts.HEADING_MEDIUM}
-              weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-              color={colors.DARK_GRAY}
-              isUnderline
-            />
-          </View>
-        </View>
-        <View style={styles.buttonContainer}>
-          <View>
+      <View style={{
+        ...styles.stickyContainer,
+        height: announcement.isUserCreator ? sizes.HEIGHT_120 : sizes.HEIGHT_170,
+        paddingVertical: announcement.isUserCreator ? sizes.PADDING_15 : sizes.PADDING_30,
+      }}
+      >
+        {announcement.isUserCreator ? (
+          <View style={styles.buttonsContainer}>
             <FButton
-              type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.CHECKMARK_OUTLINE}
               backgroundColor={colors.PRIMARY}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={locales.WRITE_MESSAGE}
-              icon={icons.PAW}
-              iconSize={sizes.ICON_20}
-              iconPlacement={placements.RIGHT}
-              titleSize={fonts.HEADING_MEDIUM}
-              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              title={locales.FINISH}
+            />
+            <FButton
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.PENCIL}
+              backgroundColor={colors.WARNING}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
+              color={colors.WHITE}
+              title={locales.EDIT}
+              onPress={() => {
+                navigation.navigate(stackNavigatorNames.EDIT_ANNOUNCEMENT, { id: announcement.id });
+                setAnnouncement(null);
+              }}
+            />
+            <FButton
+              type={buttonTypes.ICON_BUTTON_WITH_LABEL}
+              icon={icons.FILE_TRAY_FULL}
+              backgroundColor={colors.SECONDARY}
+              iconViewSize={60}
+              iconSize={sizes.ICON_30}
+              color={colors.WHITE}
+              title={locales.ARCHIVE}
             />
           </View>
-        </View>
+        ) : (
+          <>
+            <View style={styles.userContaier}>
+              <FAvatar
+                imageUrl={announcement.creator.profileImageUrl}
+                size={sizes.WIDTH_45}
+                isEditable={false}
+              />
+              <View style={{ marginLeft: sizes.MARGIN_5 }}>
+                <FHeading
+                  title={announcement.creator.name}
+                  size={fonts.HEADING_NORMAL}
+                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                />
+                <FPhoneNumber
+                  phoneNumber={announcement.creator.phoneNumber}
+                  size={fonts.HEADING_MEDIUM}
+                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                  color={colors.DARK_GRAY}
+                  isUnderline
+                />
+              </View>
+            </View>
+            <View style={styles.buttonContaier}>
+              <View>
+                <FButton
+                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+                  backgroundColor={colors.PRIMARY}
+                  color={colors.WHITE}
+                  title={locales.WRITE_MESSAGE}
+                  icon={icons.PAW}
+                  iconSize={sizes.ICON_20}
+                  iconPlacement={placements.RIGHT}
+                  titleSize={fonts.HEADING_MEDIUM}
+                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                />
+              </View>
+            </View>
+          </>
+        )}
       </View>
     </View>
   );
@@ -297,7 +447,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     height: sizes.HEIGHT_170,
     backgroundColor: colors.WHITE,
-    padding: sizes.PADDING_30,
+    paddingHorizontal: 30,
     shadowColor: colors.BLACK,
     shadowOffset: {
       width: 0,
@@ -315,5 +465,10 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: sizes.WIDTH_FULL,
     marginTop: sizes.MARGIN_12,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    width: sizes.WIDTH_FULL,
+    justifyContent: 'space-between',
   },
 });

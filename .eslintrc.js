@@ -63,5 +63,6 @@ module.exports = {
     'no-plusplus': 'off',
     'react/require-default-props': 'off',
     'react/forbid-prop-types': 'off',
+    'no-unsafe-optional-chaining': 'off',
   },
 };

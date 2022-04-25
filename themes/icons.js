@@ -26,6 +26,7 @@ export default {
   CHECKMARK_OUTLINE: 'checkmark-outline',
   MEGAPHONE: 'megaphone',
   STAR: 'star',
+  STAR_OUTLINE: 'star-outline',
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
   TRASH: 'trash',
@@ -33,4 +34,6 @@ export default {
   ADD_OUTLINE: 'add-outline',
   CALENDAR: 'calendar-outline',
   LOCATE_OUTLINE: 'locate-outline',
+  PENCIL: 'pencil',
+  FILE_TRAY_FULL: 'file-tray-full',
 };
