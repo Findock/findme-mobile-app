@@ -41,10 +41,12 @@ export const FAnnouncementCard = ({
     <TouchableWithoutFeedback
       onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}
       onLongPress={() => {
-        animate();
-        setTimeout(() => {
-          setShowOptionsModal(true);
-        }, 250);
+        if (data.isUserCreator) {
+          animate();
+          setTimeout(() => {
+            setShowOptionsModal(true);
+          }, 250);
+        }
       }}
     >
       <Animated.View style={{
@@ -153,5 +155,6 @@ FAnnouncementCard.propTypes = {
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
+    isUserCreator: PropTypes.bool.isRequired,
   }),
 };
