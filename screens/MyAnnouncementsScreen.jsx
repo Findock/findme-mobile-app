@@ -1,82 +1,21 @@
-import {
-  Dimensions, FlatList, Platform, View, StyleSheet,
-} from 'react-native';
-import { FAnnouncementCard } from 'components/Scoped/Announcement/FAnnouncementCard';
-import React, { useEffect, useState } from 'react';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { Dimensions, View } from 'react-native';
+import React from 'react';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
-import { FSpinner } from 'components/Composition/FSpinner';
-import { getMyAnnouncementsService } from 'services/announcement/getMyAnnouncements.service';
+import { useSelector } from 'react-redux';
+import { AnnouncementsList } from './AnnouncementsList';
 
 export const MyAnnouncementsScreen = () => {
-  const [
-    isLoading,
-    setIsLoading,
-  ] = useState(false);
-
-  const [
-    announcements,
-    setAnnouncements,
-  ] = useState([]);
-
-  const {
-    setShowErrorModal,
-    drawErrorModal,
-  } = useErrorModal();
-
-  useEffect(() => {
-    fetchAnnouncements();
-  }, []);
-
-  const fetchAnnouncements = async () => {
-    try {
-      setIsLoading(true);
-      const res = await getMyAnnouncementsService(true);
-      setAnnouncements(res.data);
-    } catch {
-      setShowErrorModal(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const drawAnnouncementCard = ({ item }) => (
-    <View style={{ flexBasis: '50%' }}>
-      <FAnnouncementCard
-        width={sizes.WIDTH_FULL}
-        height={280}
-        data={item}
-      />
+  const me = useSelector((state) => state.me.me);
+  return (
+    <View style={{
+      height: Dimensions.get('screen').height,
+      backgroundColor: colors.WHITE,
+      paddingVertical: sizes.PADDING_30,
+      paddingHorizontal: sizes.PADDING_5,
+    }}
+    >
+      <AnnouncementsList isMe={me} />
     </View>
   );
-
-  return (
-    <>
-      {isLoading && <FSpinner />}
-      {drawErrorModal()}
-      <View style={{
-        height: Dimensions.get('screen').height,
-        backgroundColor: colors.WHITE,
-        paddingVertical: sizes.PADDING_30,
-        paddingHorizontal: sizes.PADDING_5,
-      }}
-      >
-        <FlatList
-          data={announcements}
-          renderItem={drawAnnouncementCard}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          contentContainerStyle={styles.container}
-          scrollEnabled
-        />
-      </View>
-    </>
-  );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    paddingBottom: Platform.OS === 'android' ? sizes.PADDING_130 : sizes.PADDING_50,
-  },
-});
