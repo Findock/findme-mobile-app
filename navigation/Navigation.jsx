@@ -28,6 +28,7 @@ import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
 import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
+import { SelectScreen } from 'screens/Select.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -198,6 +199,15 @@ export const Navigation = () => {
             <Stack.Screen
               name={stackNavigatorNames.MULTI_SELECT}
               component={MultiSelectScreen}
+              options={{
+                animation: 'slide_from_bottom',
+                ...headerWithoutShadowOptions,
+                headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.SELECT}
+              component={SelectScreen}
               options={{
                 animation: 'slide_from_bottom',
                 ...headerWithoutShadowOptions,

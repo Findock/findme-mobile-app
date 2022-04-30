@@ -12,5 +12,6 @@ export default {
   ADD_ANNOUNCEMENT: 'Add Announcement',
   EDIT_ANNOUNCEMENT: 'Edit Announcement',
   MULTI_SELECT: 'Multi Select',
+  SELECT: 'Select',
   ANNOUNCEMENT_PREVIEW: 'Announcement Preview',
 };
