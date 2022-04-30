@@ -3,6 +3,7 @@ import authSlice from 'store/auth/authSlice';
 import globalLoaderSlice from 'store/global-loader/globalLoaderSlice';
 import meSlice from 'store/me/meSlice';
 import multiSelectSlice from 'store/multi-select/multiSelectSlice';
+import selectSlice from 'store/select/selectSlice';
 
 export default configureStore({
   reducer: {
@@ -10,5 +11,6 @@ export default configureStore({
     globalLoader: globalLoaderSlice,
     me: meSlice,
     multiSelect: multiSelectSlice,
+    select: selectSlice,
   },
 });
