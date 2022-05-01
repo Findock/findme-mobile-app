@@ -36,9 +36,10 @@ import { getAnnouncementService } from 'services/announcement/getAnnouncement.se
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modals/modalTypes';
-import { addAnnouncementToFavouritesService } from 'services/announcement/addAnnouncementToFavourites.service';
-import { removeAnnouncementFromFavouritesService } from 'services/announcement/removeAnnouncementFromFavourites.service';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
+import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
+import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavouriteAnnouncementManagement';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -48,6 +49,27 @@ export const AnnouncementPreviewScreen = () => {
     setAnnouncement,
   ] = useState(null);
   const [
+    confirmationModalVisible,
+    setConfirmationModalVisible,
+  ] = useState(false);
+  const [
+    confirmationModalTitle,
+    setConfirmationModalTitle,
+  ] = useState('');
+  const {
+    resolveAnnouncement,
+    makeAnnouncementActive,
+    archiveAnnouncement,
+    drawChangeStatusErrorModal,
+    drawSuccessfullyChangeAnnouncementStatusModal,
+  } = useChangeAnnouncementStatus(announcement);
+  const {
+    addAnnouncementToFavourites,
+    removeAnnouncementFromFavourites,
+    drawFavouriteAnnouncementErrorModal,
+    drawSuccessfulModal,
+  } = useFavouriteAnnouncementManagement(announcement);
+  const [
     announcementAddedSuccessfullyModalVisible,
     setAnnouncementAddedSuccessfullyModalVisible,
   ] = useState(false);
@@ -55,22 +77,11 @@ export const AnnouncementPreviewScreen = () => {
     announcementEditedSuccessfullyModalVisible,
     setAnnouncementEditedSuccessfullyModalVisible,
   ] = useState(false);
-  const [
-    announcementAddedToFavouritesModalVisible,
-    setAnnouncementAddedToFavouritesModalVisible,
-  ] = useState(false);
-  const [
-    announcementRemovedFromFavouritesModalVisible,
-    setAnnouncementRemovedFromFavouritesModalVisible,
-  ] = useState(false);
+
   const {
     setShowErrorModal,
     drawErrorModal,
   } = useErrorModal(true);
-  const {
-    setShowErrorModal: setShowFavouriteAnnouncementErrorModal,
-    drawErrorModal: drawFavouriteAnnouncementErrorModal,
-  } = useErrorModal();
 
   const isFocused = useIsFocused();
 
@@ -103,24 +114,45 @@ export const AnnouncementPreviewScreen = () => {
     }
   };
 
-  const addAnnouncementToFavourites = async () => {
-    try {
-      await addAnnouncementToFavouritesService(announcement.id);
-      setAnnouncementAddedToFavouritesModalVisible(true);
-      fetchAnnouncement();
-    } catch (error) {
-      setShowFavouriteAnnouncementErrorModal(true);
-    }
+  const confirmationHandler = () => {
+    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
+    else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
+    else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
   };
 
-  const removeAnnouncementToFavourites = async () => {
-    try {
-      await removeAnnouncementFromFavouritesService(announcement.id);
-      setAnnouncementRemovedFromFavouritesModalVisible(true);
-      fetchAnnouncement();
-    } catch (error) {
-      setShowFavouriteAnnouncementErrorModal(true);
-    }
+  const drawConfirmationModal = () => confirmationModalVisible && (
+    <FModal
+      type={modalTypes.CONFIRM_MODAL}
+      setVisible={setConfirmationModalVisible}
+      visible={confirmationModalVisible}
+      title={confirmationModalTitle}
+      onConfirm={confirmationHandler}
+    />
+  );
+
+  const addAnnouncementToFavouritesHandler = async () => {
+    await addAnnouncementToFavourites();
+    fetchAnnouncement();
+  };
+
+  const removeAnnouncementFromFavouritesHandler = async () => {
+    await removeAnnouncementFromFavourites();
+    fetchAnnouncement();
+  };
+
+  const archiveAnnouncementHandler = async () => {
+    await archiveAnnouncement();
+    fetchAnnouncement();
+  };
+
+  const makeAnnouncementActiveHandler = async () => {
+    await makeAnnouncementActive();
+    fetchAnnouncement();
+  };
+
+  const resolveAnnouncementHandler = async () => {
+    await resolveAnnouncement();
+    fetchAnnouncement();
   };
 
   const getGenderIcon = () => {
@@ -177,6 +209,11 @@ export const AnnouncementPreviewScreen = () => {
     <View style={{ flex: 1 }}>
       {drawErrorModal()}
       {drawFavouriteAnnouncementErrorModal()}
+      {drawChangeStatusErrorModal()}
+      {drawSuccessfullyChangeAnnouncementStatusModal()}
+      {drawFavouriteAnnouncementErrorModal()}
+      {drawSuccessfulModal()}
+      {drawConfirmationModal()}
       {announcementAddedSuccessfullyModalVisible && (
         <FModal
           type={modalTypes.INFO_SUCCESS_MODAL}
@@ -191,22 +228,6 @@ export const AnnouncementPreviewScreen = () => {
           setVisible={setAnnouncementEditedSuccessfullyModalVisible}
           visible={announcementEditedSuccessfullyModalVisible}
           title={modalsMessages.SAVED_SUCCESSFULLY}
-        />
-      )}
-      {announcementAddedToFavouritesModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          setVisible={setAnnouncementAddedToFavouritesModalVisible}
-          visible={announcementAddedToFavouritesModalVisible}
-          title={modalsMessages.ANNOUNCEMENT_ADD_TO_FAVOURITES}
-        />
-      )}
-      {announcementRemovedFromFavouritesModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          setVisible={setAnnouncementRemovedFromFavouritesModalVisible}
-          visible={announcementRemovedFromFavouritesModalVisible}
-          title={modalsMessages.ANNOUNCEMENT_REMOVED_FROM_FAVOURITES}
         />
       )}
       <ScrollView
@@ -266,8 +287,8 @@ export const AnnouncementPreviewScreen = () => {
                     borderRadius: getHalfBorderRadius(sizes.ICON_40 + sizes.PADDING_10),
                   }}
                   onPress={() => {
-                    if (announcement.isInFavorites) removeAnnouncementToFavourites();
-                    else addAnnouncementToFavourites();
+                    if (announcement.isInFavorites) removeAnnouncementFromFavouritesHandler();
+                    else addAnnouncementToFavouritesHandler();
                   }}
                 />
               </View>
@@ -353,12 +374,23 @@ export const AnnouncementPreviewScreen = () => {
           <View style={styles.buttonsContainer}>
             <FButton
               type={buttonTypes.ICON_BUTTON_WITH_LABEL}
-              icon={icons.CHECKMARK_OUTLINE}
+              icon={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE
+                ? icons.ARROW_UNDO : icons.CHECKMARK_OUTLINE}
               backgroundColor={colors.PRIMARY}
               iconViewSize={60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={locales.FINISH}
+              title={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE ? locales.ACTIVATE : locales.FINISH}
+              isDisabled={announcement.status === AnnouncementStatusEnum.ARCHIVED}
+              onPress={() => {
+                if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                } else if (announcement.status === AnnouncementStatusEnum.NOT_ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                }
+              }}
             />
             <FButton
               type={buttonTypes.ICON_BUTTON_WITH_LABEL}
@@ -368,6 +400,8 @@ export const AnnouncementPreviewScreen = () => {
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
               title={locales.EDIT}
+              isDisabled={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE
+                || announcement.status === AnnouncementStatusEnum.ARCHIVED}
               onPress={() => {
                 navigation.navigate(stackNavigatorNames.EDIT_ANNOUNCEMENT, { id: announcement.id });
                 setAnnouncement(null);
@@ -375,17 +409,28 @@ export const AnnouncementPreviewScreen = () => {
             />
             <FButton
               type={buttonTypes.ICON_BUTTON_WITH_LABEL}
-              icon={icons.FILE_TRAY_FULL}
+              icon={announcement.status === AnnouncementStatusEnum.ARCHIVED
+                ? icons.ARROW_UNDO : icons.FILE_TRAY_FULL}
               backgroundColor={colors.SECONDARY}
               iconViewSize={60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={locales.ARCHIVE}
+              title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.ACTIVATE : locales.ARCHIVE}
+              isDisabled={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE}
+              onPress={() => {
+                if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                } else if (announcement.status === AnnouncementStatusEnum.ARCHIVED) {
+                  setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                }
+              }}
             />
           </View>
         ) : (
           <>
-            <View style={styles.userContaier}>
+            <View style={styles.userContainer}>
               <FAvatar
                 imageUrl={announcement.creator.profileImageUrl}
                 size={sizes.WIDTH_45}
@@ -406,7 +451,7 @@ export const AnnouncementPreviewScreen = () => {
                 />
               </View>
             </View>
-            <View style={styles.buttonContaier}>
+            <View style={styles.buttonContainer}>
               <View>
                 <FButton
                   type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
@@ -456,12 +501,12 @@ const styles = StyleSheet.create({
     shadowRadius: sizes.SHADOW_RADIUS_13_16,
     elevation: sizes.ELEVATION_20,
   },
-  userContaier: {
+  userContainer: {
     flexDirection: 'row',
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
   },
-  buttonContaier: {
+  buttonContainer: {
     width: sizes.WIDTH_FULL,
     marginTop: sizes.MARGIN_12,
   },

@@ -21,6 +21,9 @@ export const FAnnouncementCard = ({
 }) => {
   const navigation = useNavigation();
   const animatedScale = useRef(new Animated.Value(1)).current;
+  const {
+    id, isUserCreator, photos, title, description, locationName, date,
+  } = data;
   const [
     showOptionsModal,
     setShowOptionsModal,
@@ -36,12 +39,11 @@ export const FAnnouncementCard = ({
       delay: 50,
     }).start();
   };
-
   return (
     <TouchableWithoutFeedback
-      onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: data.id })}
+      onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id })}
       onLongPress={() => {
-        if (data.isUserCreator) {
+        if (isUserCreator) {
           animate();
           setTimeout(() => {
             setShowOptionsModal(true);
@@ -63,7 +65,7 @@ export const FAnnouncementCard = ({
             <FAnnouncementCardActionsModal
               visible={showOptionsModal}
               setVisible={setShowOptionsModal}
-              announcementId={data.id}
+              announcement={data}
             />
           )}
           <View style={{
@@ -75,14 +77,14 @@ export const FAnnouncementCard = ({
               imagePath=""
               imageWidth={sizes.WIDTH_FULL}
               imageHeight={sizes.HEIGHT_FULL}
-              networkImageUrl={data.photos[0]}
+              networkImageUrl={photos[0]}
               imageStyle={styles.image}
               height={sizes.HEIGHT_150}
               resizeMode={sizes.COVER}
               width={sizes.WIDTH_FULL}
             />
             <FHeading
-              title={data.title}
+              title={title}
               weight={fonts.HEADING_WEIGHT_BOLD}
               size={fonts.HEADING_MEDIUM}
               style={{ marginTop: sizes.MARGIN_8 }}
@@ -90,7 +92,7 @@ export const FAnnouncementCard = ({
               numberOfLines={1}
             />
             <FHeading
-              title={data.description}
+              title={description}
               style={{ marginVertical: sizes.MARGIN_5 }}
               color={colors.DARK_GRAY}
               ellipsizeMode="tail"
@@ -101,7 +103,7 @@ export const FAnnouncementCard = ({
             <FHeadingWithIcon
               icon={icons.LOCATION_OUTLINE}
               iconColor={colors.PRIMARY}
-              title={data.locationName}
+              title={locationName}
               titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
               numberOfLines={2}
@@ -113,7 +115,7 @@ export const FAnnouncementCard = ({
             <FHeadingWithIcon
               icon={icons.CALENDAR}
               iconColor={colors.PRIMARY}
-              title={data.date}
+              title={date}
               titleStyle={styles.text}
               titleColor={colors.DARK_GRAY}
               size={fonts.HEADING_MEDIUM}
@@ -156,5 +158,6 @@ FAnnouncementCard.propTypes = {
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     isUserCreator: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   }),
 };
