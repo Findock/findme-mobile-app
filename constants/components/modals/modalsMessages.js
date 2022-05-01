@@ -19,5 +19,7 @@ export default {
   LOCATION_DENIED: 'Twoja lokalizacja nie będzie udostępniana. Przejdź do ustawień, aby zezwolić na dostęp do Twojej lokalizacji.',
   SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
   SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
-
+  ARCHIVE_ANNOUNCEMENT_CONFIRMATION: 'Jesteś pewien, że chcesz zarchiwizować to ogłoszenie?',
+  RESOLVE_ANNOUNCEMENT_CONFIRMATION: 'Jesteś pewien, że chcesz zakończyć to ogłoszenie?',
+  MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION: 'Jesteś pewien, że chcesz przywrócić to ogłoszenie?',
 };

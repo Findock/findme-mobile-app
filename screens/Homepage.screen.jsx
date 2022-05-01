@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import { FAnnouncementCard } from 'components/Scoped/Announcement/FAnnouncementCard';
+import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
@@ -85,11 +85,13 @@ export const HomepageScreen = () => {
             width={169}
             height={260}
             data={{
-              id: 12,
+              id: 2,
               photos: ['https://zooart.com.pl/blog/wp-content/uploads/2020/11/krolik-kicha-2.jpg'],
               title: 'Królik',
               description: 'To jest króliczek',
               locationName: 'Kraków',
+              isUserCreator: true,
+              status: 'active',
             }}
           />
         </View>

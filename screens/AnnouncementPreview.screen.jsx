@@ -48,6 +48,14 @@ export const AnnouncementPreviewScreen = () => {
     announcement,
     setAnnouncement,
   ] = useState(null);
+  const [
+    confirmationModalVisible,
+    setConfirmationModalVisible,
+  ] = useState(false);
+  const [
+    confirmationModalTitle,
+    setConfirmationModalTitle,
+  ] = useState('');
   const {
     resolveAnnouncement,
     makeAnnouncementActive,
@@ -105,6 +113,22 @@ export const AnnouncementPreviewScreen = () => {
       setShowErrorModal(true);
     }
   };
+
+  const confirmationHandler = () => {
+    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
+    else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
+    else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
+  };
+
+  const drawConfirmationModal = () => confirmationModalVisible && (
+    <FModal
+      type={modalTypes.CONFIRM_MODAL}
+      setVisible={setConfirmationModalVisible}
+      visible={confirmationModalVisible}
+      title={confirmationModalTitle}
+      onConfirm={confirmationHandler}
+    />
+  );
 
   const addAnnouncementToFavouritesHandler = async () => {
     await addAnnouncementToFavourites();
@@ -179,6 +203,7 @@ export const AnnouncementPreviewScreen = () => {
           style={{ paddingLeft: 0 }}
         />
       ));
+
   if (!announcement) return <FSpinner />;
   return (
     <View style={{ flex: 1 }}>
@@ -188,6 +213,7 @@ export const AnnouncementPreviewScreen = () => {
       {drawSuccessfullyChangeAnnouncementStatusModal()}
       {drawFavouriteAnnouncementErrorModal()}
       {drawSuccessfulModal()}
+      {drawConfirmationModal()}
       {announcementAddedSuccessfullyModalVisible && (
         <FModal
           type={modalTypes.INFO_SUCCESS_MODAL}
@@ -357,8 +383,13 @@ export const AnnouncementPreviewScreen = () => {
               title={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE ? locales.ACTIVATE : locales.FINISH}
               isDisabled={announcement.status === AnnouncementStatusEnum.ARCHIVED}
               onPress={() => {
-                if (announcement.status === AnnouncementStatusEnum.ACTIVE) resolveAnnouncementHandler();
-                else if (announcement.status === AnnouncementStatusEnum.NOT_ACTIVE) makeAnnouncementActiveHandler();
+                if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                } else if (announcement.status === AnnouncementStatusEnum.NOT_ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                }
               }}
             />
             <FButton
@@ -387,8 +418,13 @@ export const AnnouncementPreviewScreen = () => {
               title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.ACTIVATE : locales.ARCHIVE}
               isDisabled={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE}
               onPress={() => {
-                if (announcement.status === AnnouncementStatusEnum.ACTIVE) archiveAnnouncementHandler();
-                else if (announcement.status === AnnouncementStatusEnum.ARCHIVED) makeAnnouncementActiveHandler();
+                if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
+                  setConfirmationModalTitle(modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                } else if (announcement.status === AnnouncementStatusEnum.ARCHIVED) {
+                  setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
+                  setConfirmationModalVisible(true);
+                }
               }}
             />
           </View>

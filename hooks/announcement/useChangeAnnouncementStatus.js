@@ -17,6 +17,7 @@ export const useChangeAnnouncementStatus = (announcement) => {
     successfulModalVisible,
     setSuccessfulModalVisible,
   ] = useState(false);
+
   const [
     successfulModalTitle,
     setSuccessfulModalTitle,
