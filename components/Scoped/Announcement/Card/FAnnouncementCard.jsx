@@ -22,7 +22,7 @@ export const FAnnouncementCard = ({
   const navigation = useNavigation();
   const animatedScale = useRef(new Animated.Value(1)).current;
   const {
-    id, isUserCreator, photos, title, description, locationName, date, status,
+    id, isUserCreator, photos, title, description, locationName, date,
   } = data;
   const [
     showOptionsModal,
@@ -158,5 +158,6 @@ FAnnouncementCard.propTypes = {
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
     isUserCreator: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
   }),
 };
