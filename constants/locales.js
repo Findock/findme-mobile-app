@@ -64,4 +64,5 @@ export default {
   COAT_COLORS: 'Umaszczenie',
   FINISH: 'Zakończ',
   ARCHIVE: 'Archiwizuj',
+  ACTIVATE: 'Przywróć',
 };
