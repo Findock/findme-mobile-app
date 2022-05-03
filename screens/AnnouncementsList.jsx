@@ -42,16 +42,16 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
 
   useEffect(() => {
     fetchAnnouncements();
-  }, []);
+  }, [params]);
 
   const fetchAnnouncements = async () => {
     try {
       setIsLoading(true);
       if (isMe) {
         const res = await getMyAnnouncementsService(params);
-        setAnnouncements([...announcements, res.data]);
+        setAnnouncements([...announcements, ...res.data]);
       } else {
-        const res = await getUserAnnouncementsService(1, params);
+        const res = await getUserAnnouncementsService(1, params); // TO DO
         setAnnouncements(res.data);
       }
     } catch {
