@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 export const FHeadingWithIcon = ({
   icon, iconPlacement, iconSize, iconColor, titleColor, titleWeight, titleSize,
   title, titleAlign, titleStyle, iconStyle, containerStyle, numberOfLines, ellipsizeMode,
+  headingContainerStyle,
 }) => {
   const drawDependingOnIconPlacement = () => {
     if (iconPlacement === placements.RIGHT) {
@@ -43,7 +44,7 @@ export const FHeadingWithIcon = ({
           color={iconColor}
           style={iconStyle}
         />
-        <View>
+        <View style={headingContainerStyle}>
           <FHeading
             color={titleColor}
             size={titleSize}
