@@ -18,6 +18,7 @@ export default {
   LOG_OUT_OUTLINE: 'log-out-outline',
   CHEVRON_FORWARD_OUTLINE: 'chevron-forward-outline',
   CHEVRON_BACK_OUTLINE: 'chevron-back-outline',
+  CHEVRON_DOWN_OUTLINE: 'chevron-down-outline',
   FUNNEL_OUTLINE: 'funnel-outline',
   EYE_OUTLINE: 'eye-outline',
   EYE_OFF_OUTLINE: 'eye-off-outline',
@@ -36,4 +37,5 @@ export default {
   LOCATE_OUTLINE: 'locate-outline',
   PENCIL: 'pencil',
   FILE_TRAY_FULL: 'file-tray-full',
+  ARROW_UNDO: 'arrow-undo',
 };

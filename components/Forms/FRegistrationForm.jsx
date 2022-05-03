@@ -207,7 +207,6 @@ export const FRegistrationForm = () => {
             to={stackNavigatorNames.LOGIN}
           />
         </View>
-
       </View>
     </>
   );

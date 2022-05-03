@@ -17,13 +17,20 @@ import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, iconViewStyles,
-  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading, iconViewSize,
+  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading, iconViewSize, isDisabled = false,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
-    <TouchableOpacity onPress={() => navigation.navigate(to)}>
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      navigation.navigate(to);
+    }}
+    >
       <View
-        style={buttonViewStyles}
+        style={{
+          ...buttonViewStyles,
+          opacity: isDisabled ? 0.5 : 1,
+        }}
         hitSlop={{
           top: sizes.POSITION_20,
           left: sizes.POSITION_20,
@@ -37,32 +44,43 @@ export const FButton = ({
           size={titleSize}
           weight={titleWeight}
           isUnderline={isUnderline}
+          style={{ opacity: isDisabled ? 0.5 : 1 }}
         />
       </View>
     </TouchableOpacity>
   );
   const drawIconButton = () => (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
       style={{
         padding: sizes.PADDING_20,
         backgroundColor,
         ...style,
+        opacity: isDisabled ? 0.5 : 1,
       }}
     >
       <Ionicons
         name={icon}
         color={color}
         size={iconSize}
+        style={{ opacity: isDisabled ? 0.5 : 1 }}
       />
     </TouchableOpacity>
   );
   const drawTextButton = () => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      onPress();
+    }}
+    >
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
+        opacity: isDisabled ? 0.5 : 1,
       }}
       >
         <View>
@@ -71,19 +89,25 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
+            style={{ opacity: isDisabled ? 0.5 : 1 }}
           />
         </View>
       </View>
     </TouchableOpacity>
   );
   const drawOutlineTextButton = () => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      onPress();
+    }}
+    >
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor: colors.WHITE,
         borderWidth: sizes.BORDER_2,
         borderColor: color,
+        opacity: isDisabled ? 0.5 : 1,
       }}
       >
         <View>
@@ -92,17 +116,23 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
+            style={{ opacity: isDisabled ? 0.5 : 1 }}
           />
         </View>
       </View>
     </TouchableOpacity>
   );
   const drawIconAndTextButton = () => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      onPress();
+    }}
+    >
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
+        opacity: isDisabled ? 0.5 : 1,
       }}
       >
         {
@@ -112,7 +142,10 @@ export const FButton = ({
                 name={icon}
                 color={color}
                 size={iconSize}
-                style={{ marginRight: sizes.MARGIN_10 }}
+                style={{
+                  marginRight: sizes.MARGIN_10,
+                  opacity: isDisabled ? 0.5 : 1,
+                }}
               />
               <View>
                 <FHeading
@@ -120,6 +153,7 @@ export const FButton = ({
                   color={color}
                   size={titleSize}
                   weight={titleWeight}
+                  style={{ opacity: isDisabled ? 0.5 : 1 }}
                 />
               </View>
             </>
@@ -131,13 +165,17 @@ export const FButton = ({
                   color={color}
                   size={titleSize}
                   weight={titleWeight}
+                  style={{ opacity: isDisabled ? 0.5 : 1 }}
                 />
               </View>
               <Ionicons
                 name={icon}
                 color={color}
                 size={iconSize}
-                style={{ marginLeft: sizes.MARGIN_10 }}
+                style={{
+                  marginLeft: sizes.MARGIN_10,
+                  opacity: isDisabled ? 0.5 : 1,
+                }}
               />
             </>
           )
@@ -147,11 +185,16 @@ export const FButton = ({
   );
 
   const drawLoadingButton = () => (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      onPress();
+    }}
+    >
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
+        opacity: isDisabled ? 0.3 : 1,
       }}
       >
         <View>
@@ -160,6 +203,7 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
+            style={{ opacity: isDisabled ? 0.5 : 1 }}
           />
         </View>
         {loading && (
@@ -167,7 +211,10 @@ export const FButton = ({
             animating
             size={Platform.OS === 'ios' ? 'small' : sizes.ICON_20}
             color={color}
-            style={{ marginLeft: sizes.MARGIN_5 }}
+            style={{
+              marginLeft: sizes.MARGIN_5,
+              opacity: isDisabled ? 0.5 : 1,
+            }}
           />
         )}
       </View>
@@ -176,7 +223,10 @@ export const FButton = ({
 
   const drawIconButtonWithLabel = () => (
     <TouchableOpacity
-      onPress={onPress}
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
       style={{
         ...style,
         ...styles.iconButtonWithLabel,
@@ -192,12 +242,14 @@ export const FButton = ({
           height: iconViewSize,
           borderRadius: getHalfBorderRadius(iconViewSize),
           ...styles.iconContainer,
+          opacity: isDisabled ? 0.5 : 1,
         }}
         >
           <Ionicons
             name={icon}
             color={color}
             size={iconSize}
+            style={{ opacity: isDisabled ? 0.5 : 1 }}
           />
         </View>
         <View style={{ marginTop: sizes.MARGIN_5 }}>
@@ -206,6 +258,7 @@ export const FButton = ({
             size={fonts.HEADING_NORMAL}
             weight={fonts.HEADING_WEIGHT_MEDIUM}
             color={colors.DARK_GRAY}
+            style={{ opacity: isDisabled ? 0.5 : 1 }}
           />
         </View>
       </>
@@ -268,4 +321,5 @@ FButton.propTypes = {
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
   isUnderline: PropTypes.bool,
   loading: PropTypes.bool,
+  isDisabled: PropTypes.bool,
 };

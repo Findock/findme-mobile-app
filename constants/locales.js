@@ -66,4 +66,5 @@ export default {
   ARCHIVE: 'Archiwizuj',
   YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Nie masz jeszcze żadnych ogłoszeń',
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
+  ACTIVATE: 'Przywróć',
 };
