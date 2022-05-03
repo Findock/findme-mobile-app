@@ -1,3 +1,5 @@
 import authClient from 'api/authClient';
 
-export const getMyAnnouncementsService = (onlyActive) => authClient.get(`announcements/my?onlyActive=${onlyActive}`);
+export const getMyAnnouncementsService = (params) => authClient.post('announcements/my/search', {
+  ...params,
+});

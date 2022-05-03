@@ -227,8 +227,8 @@ export const Navigation = () => {
               name={stackNavigatorNames.MY_ANNOUNCEMENTS}
               component={MyAnnouncementsScreen}
               options={{
-                ...headerWithoutShadowOptions,
-                headerRight: () => renderLogo(),
+                ...defaultHeaderOptions,
+                title: locales.MY_ANNOUNCEMENTS,
               }}
             />
           </>
