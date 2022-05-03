@@ -124,6 +124,7 @@ export const UserProfileScreen = () => {
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
+            navigateTo={stackNavigatorNames.MY_FOLLOWED_ANNOUNCEMENTS}
             isLink
           />
           <FWideButton

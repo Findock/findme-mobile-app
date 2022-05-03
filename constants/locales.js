@@ -68,4 +68,5 @@ export default {
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
   ACTIVATE: 'Przywróć',
   MY_ANNOUNCEMENTS: 'Moje ogłoszenia',
+  FOLLOWED_ANNOUNCEMENTS: 'Obserwowane ogłoszenia',
 };
