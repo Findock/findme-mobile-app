@@ -12,6 +12,9 @@ export const MyAnnouncementsScreen = () => (
     paddingHorizontal: sizes.PADDING_5,
   }}
   >
-    <AnnouncementsList isMe="true" />
+    <AnnouncementsList
+      isMe
+      numColumns={2}
+    />
   </View>
 );

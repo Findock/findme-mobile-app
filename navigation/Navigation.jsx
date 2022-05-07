@@ -31,6 +31,7 @@ import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
 import { SelectScreen } from 'screens/Select.screen';
 import { MyAnnouncementsScreen } from '../screens/MyAnnouncementsScreen';
 import { MyFollowedAnnouncementsScreen } from '../screens/MyFollowedAnnouncements.screen';
+import { UserAnnouncementsScreen } from '../screens/UserAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -238,6 +239,14 @@ export const Navigation = () => {
               options={{
                 ...defaultHeaderOptions,
                 title: locales.FOLLOWED_ANNOUNCEMENTS,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.USER_ANNOUNCEMENTS}
+              component={UserAnnouncementsScreen}
+              options={{
+                ...defaultHeaderOptions,
+                title: locales.USER_ANNOUNCEMENTS,
               }}
             />
           </>

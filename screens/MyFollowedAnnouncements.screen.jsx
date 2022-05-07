@@ -12,7 +12,8 @@ export const MyFollowedAnnouncementsScreen = () => (
   }}
   >
     <AnnouncementsList
-      isMe="true"
+      isMe
+      numColumns={2}
       onlyFavorites
     />
   </View>

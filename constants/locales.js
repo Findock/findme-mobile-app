@@ -69,4 +69,6 @@ export default {
   ACTIVATE: 'Przywróć',
   MY_ANNOUNCEMENTS: 'Moje ogłoszenia',
   FOLLOWED_ANNOUNCEMENTS: 'Obserwowane ogłoszenia',
+  SHOW_ALL: 'Pokaż wszystkie',
+  USER_ANNOUNCEMENTS: 'Ogłoszenia użytkownika',
 };

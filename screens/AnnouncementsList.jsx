@@ -1,5 +1,5 @@
 import {
-  Dimensions, FlatList, Platform, View, StyleSheet, ActivityIndicator,
+  Dimensions, FlatList, View, StyleSheet, ActivityIndicator,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/useErrorModal';
@@ -13,10 +13,15 @@ import placements from 'themes/placements';
 import locales from 'constants/locales';
 import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
 import { getUserAnnouncementsService } from 'services/announcement/getUserAnnouncements.service';
-import { useRoute } from '@react-navigation/native';
 
-export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = false }) => {
-  const route = useRoute();
+export const AnnouncementsList = ({
+  isMe,
+  userId,
+  onlyActive = false,
+  onlyFavorites = false,
+  horizontal = false,
+  numColumns,
+}) => {
   const [
     params,
     setParams,
@@ -46,7 +51,7 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
 
   useEffect(() => {
     fetchAnnouncements();
-  }, [params, route.params?.userId]);
+  }, [params]);
 
   const fetchAnnouncements = async () => {
     try {
@@ -54,18 +59,11 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
         const res = await getMyAnnouncementsService(params);
         setAnnouncements([...announcements, ...res.data]);
         setIsFetching(true);
-        if (res.data.length === 0) {
-          setIsFetching(false);
-          return;
-        }
       }
-      if (route.params?.userId) {
-        setIsFetching(true);
-        const res = await getUserAnnouncementsService(route.params?.userId, params); // TO DO
+      if (userId) {
+        const res = await getUserAnnouncementsService(userId, params); // TO DO
         setAnnouncements([...announcements, ...res.data]);
-        if (res.data.length === 0) {
-          setIsFetching(false);
-        }
+        setIsFetching(true);
       }
     } catch {
       setShowErrorModal(true);
@@ -88,7 +86,7 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
   const drawAnnouncementCard = ({ item }) => (
     <View style={{ flexBasis: '50%' }}>
       <FAnnouncementCard
-        width={sizes.WIDTH_FULL}
+        width={horizontal ? sizes.WIDTH_180 : sizes.WIDTH_FULL}
         height={280}
         data={item}
       />
@@ -97,14 +95,10 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
   const drawNoAnnouncementInfo = () => {
     if (isLoading === false && announcements.length === 0) {
       return (
-        <View style={{
-          flex: 5,
-          justifyContent: placements.CENTER,
-        }}
-        >
+        <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
           <FHeading
             align={placements.CENTER}
-            size={fonts.HEADING_NORMAL}
+            size={fonts.HEADING_SMALL}
             color={colors.DARK_GRAY}
             weight={fonts.HEADING_WEIGHT_REGULAR}
             title={isMe ? locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET : locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET}
@@ -113,6 +107,18 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
       );
     }
   };
+  const renderActivityIndicator = () => (isFetching
+    ? (
+      <ActivityIndicator
+        animating
+        size="large"
+        color="#00ff00"
+        style={{
+          width: 100,
+          margin: 10,
+        }}
+      />
+    ) : null);
 
   return (
     <>
@@ -121,29 +127,15 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
       )}
       {drawNoAnnouncementInfo()}
       {drawErrorModal()}
-      <View style={{
-        height: Dimensions.get('screen').height,
-        backgroundColor: colors.WHITE,
-        paddingVertical: sizes.PADDING_30,
-        paddingHorizontal: sizes.PADDING_5,
-      }}
-      >
+      <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
         <FlatList
+          horizontal={horizontal}
           onEndReached={handleEnd}
-          ListFooterComponent={isFetching
-            ? (
-              <ActivityIndicator
-                animating
-                size="large"
-              />
-            ) : null}
-          onEndReachedThreshold={0}
+          ListFooterComponent={renderActivityIndicator}
           data={announcements}
           renderItem={drawAnnouncementCard}
           keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          numColumns={2}
-          contentContainerStyle={styles.container}
+          numColumns={numColumns}
           scrollEnabled
         />
       </View>
@@ -152,7 +144,13 @@ export const AnnouncementsList = ({ isMe, onlyActive = false, onlyFavorites = fa
 };
 
 const styles = StyleSheet.create({
-  container: {
-    paddingBottom: Platform.OS === 'android' ? sizes.PADDING_130 : sizes.PADDING_80,
+  containerHorizontal: {
+    paddingVertical: sizes.PADDING_20,
+  },
+  containerVertical: {
+    height: Dimensions.get('screen').height,
+    backgroundColor: colors.WHITE,
+    paddingVertical: sizes.PADDING_30,
+    justifyContent: placements.CENTER,
   },
 });
