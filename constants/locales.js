@@ -65,4 +65,7 @@ export default {
   FINISH: 'Zakończ',
   ARCHIVE: 'Archiwizuj',
   ACTIVATE: 'Przywróć',
+  SEARCH: 'Szukaj',
+  RESET: 'Wyczyść',
+  FILTERS: 'Filtry',
 };

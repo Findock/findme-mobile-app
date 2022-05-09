@@ -1,7 +1,9 @@
 export default {
 
   // OPACITY
+  OPACITY_05: 0.5,
   OPACITY_08: 0.8,
+  OPACITY_1: 1,
 
   // SHADOW OPACITY
   SHADOW_OPACITY_01: 0.1,

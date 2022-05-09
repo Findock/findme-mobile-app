@@ -38,4 +38,5 @@ export default {
   PENCIL: 'pencil',
   FILE_TRAY_FULL: 'file-tray-full',
   ARROW_UNDO: 'arrow-undo',
+  OPTIONS_OUTLINE: 'options-outline',
 };
