@@ -29,9 +29,9 @@ import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
 import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
 import { SelectScreen } from 'screens/Select.screen';
-import { MyAnnouncementsScreen } from '../screens/MyAnnouncementsScreen';
-import { MyFollowedAnnouncementsScreen } from '../screens/MyFollowedAnnouncements.screen';
-import { UserAnnouncementsScreen } from '../screens/UserAnnouncements.screen';
+import { MyAnnouncementsScreen } from 'screens/MyAnnouncementsScreen';
+import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
+import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();

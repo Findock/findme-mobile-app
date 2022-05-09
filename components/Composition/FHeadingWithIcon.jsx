@@ -15,7 +15,7 @@ export const FHeadingWithIcon = ({
     if (iconPlacement === placements.RIGHT) {
       return (
         <>
-          <View>
+          <View style={headingContainerStyle}>
             <FHeading
               color={titleColor}
               size={titleSize}

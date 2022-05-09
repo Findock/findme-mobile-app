@@ -2,7 +2,7 @@ import { Dimensions, View } from 'react-native';
 import React from 'react';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
-import { AnnouncementsList } from './AnnouncementsList';
+import { AnnouncementsList } from 'AnnouncementsList';
 
 export const MyAnnouncementsScreen = () => (
   <View style={{

@@ -71,4 +71,5 @@ export default {
   FOLLOWED_ANNOUNCEMENTS: 'Obserwowane ogłoszenia',
   SHOW_ALL: 'Pokaż wszystkie',
   USER_ANNOUNCEMENTS: 'Ogłoszenia użytkownika',
+  NO_FOLLOWED_ANNOUNCEMENTS: 'Brak obserwowanych ogłoszeń',
 };

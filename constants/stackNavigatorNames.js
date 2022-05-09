@@ -15,6 +15,6 @@ export default {
   SELECT: 'Select',
   ANNOUNCEMENT_PREVIEW: 'Announcement Preview',
   MY_ANNOUNCEMENTS: 'My Announcements',
-  MY_FOLLOWED_ANNOUNCEMENTS: 'My followed announcements',
+  MY_FOLLOWED_ANNOUNCEMENTS: 'My Followed Announcements',
   USER_ANNOUNCEMENTS: 'User Announcements',
 };

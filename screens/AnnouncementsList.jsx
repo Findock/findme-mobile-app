@@ -90,14 +90,25 @@ export const AnnouncementsList = ({
   };
 
   const drawAnnouncementCard = ({ item }) => (
-    <View style={{ flexBasis: '50%' }}>
+    <View style={{ flexBasis: sizes.WIDTH_50 }}>
       <FAnnouncementCard
         width={horizontal ? sizes.WIDTH_180 : sizes.WIDTH_FULL}
-        height={280}
+        height={sizes.HEIGHT_280}
         data={item}
       />
     </View>
   );
+
+  const getInfoTitle = () => {
+    if (onlyFavorites) {
+      return locales.NO_FOLLOWED_ANNOUNCEMENTS;
+    }
+    if (isMe) {
+      return locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
+    }
+    return locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
+  };
+
   const drawNoAnnouncementInfo = () => {
     if (isLoading === false && announcements.length === 0) {
       return (
@@ -107,7 +118,7 @@ export const AnnouncementsList = ({
             size={fonts.HEADING_SMALL}
             color={colors.DARK_GRAY}
             weight={fonts.HEADING_WEIGHT_REGULAR}
-            title={isMe ? locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET : locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET}
+            title={getInfoTitle()}
           />
         </View>
       );
@@ -124,34 +135,33 @@ export const AnnouncementsList = ({
     ) : null);
 
   return (
-    <>
-      {isLoading && (
-        <FSpinner />
-      )}
-      {drawNoAnnouncementInfo()}
-      {drawErrorModal()}
-      <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
-        <FlatList
-          horizontal={horizontal}
-          onEndReached={handleEnd}
-          onEndReachedThreshold={0}
-          ListFooterComponent={renderActivityIndicator}
-          data={announcements}
-          renderItem={drawAnnouncementCard}
-          contentContainerStyle={horizontal ? '' : styles.verticalSeparator}
-          keyExtractor={(item) => item.id}
-          numColumns={numColumns}
-          scrollEnabled
-        />
-      </View>
-    </>
-  );
+    (announcements.length === 0 && isLoading) ? <FSpinner />
+      : (
+        <>
+          {drawNoAnnouncementInfo()}
+          {drawErrorModal()}
+          <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
+            <FlatList
+              horizontal={horizontal}
+              onEndReached={handleEnd}
+              onEndReachedThreshold={0}
+              ListFooterComponent={renderActivityIndicator}
+              data={announcements}
+              renderItem={drawAnnouncementCard}
+              contentContainerStyle={horizontal ? '' : styles.verticalSeparator}
+              keyExtractor={(item) => item.id}
+              numColumns={numColumns}
+              scrollEnabled
+            />
+          </View>
+        </>
+      ));
 };
 
 const styles = StyleSheet.create({
   containerHorizontal: {
     paddingVertical: sizes.PADDING_20,
-    alignItems: 'center',
+    alignItems: placements.CENTER,
     flex: 1,
   },
   containerVertical: {
@@ -163,6 +173,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   verticalSeparator: {
-    paddingBottom: Platform.OS ? sizes.PADDING_80 : 50, // NIE WIEM CO TU MA BYC
+    paddingBottom: Platform.OS ? sizes.PADDING_80 : 50,
   },
 });

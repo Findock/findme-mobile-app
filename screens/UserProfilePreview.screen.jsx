@@ -4,7 +4,6 @@ import { useErrorModal } from 'hooks/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { getOtherUserService } from 'services/user/getOtherUser.service';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import { SafeAreaView } from 'react-native';
 import { FButton } from 'components/Buttons/FButton';
 import colors from 'themes/colors';
 import buttonTypes from 'constants/components/buttonTypes';
@@ -12,7 +11,8 @@ import fonts from 'themes/fonts';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useNavigation } from '@react-navigation/native';
 import locales from 'constants/locales';
-import { AnnouncementsList } from './AnnouncementsList';
+import { AnnouncementsList } from 'AnnouncementsList';
+import { View } from 'react-native';
 
 export const UserProfilePreviewScreen = () => {
   const navigation = useNavigation();
@@ -23,7 +23,7 @@ export const UserProfilePreviewScreen = () => {
   const [
     userAnnouncementsLength,
     setUserAnnouncementsLength,
-  ] = useState([]);
+  ] = useState(0);
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -54,28 +54,29 @@ export const UserProfilePreviewScreen = () => {
               user={user}
               isMe={false}
             />
-            <SafeAreaView>
+            <View>
               <AnnouncementsList
                 horizontal
                 isMe={false}
                 userId={user.id}
                 pullData={getUserAnnouncementsLength}
               />
-            </SafeAreaView>
-            {userAnnouncementsLength > 4 ? (
-              <FButton
-                title={locales.SHOW_ALL}
-                color={colors.PRIMARY}
-                backgroundColor={colors.LIGHT_GRAY}
-                type={buttonTypes.TEXT_BUTTON}
-                titleSize={fonts.HEADING_NORMAL}
-                titleWeight={fonts.HEADING_WEIGHT_BOLD}
-                onPress={() => navigation.navigate(stackNavigatorNames.USER_ANNOUNCEMENTS, {
-                  userId: user.id,
-                  userName: user.name,
-                })}
-              />
-            ) : null}
+            </View>
+            {userAnnouncementsLength > 4
+              && (
+                <FButton
+                  title={locales.SHOW_ALL}
+                  color={colors.PRIMARY}
+                  backgroundColor={colors.LIGHT_GRAY}
+                  type={buttonTypes.TEXT_BUTTON}
+                  titleSize={fonts.HEADING_NORMAL}
+                  titleWeight={fonts.HEADING_WEIGHT_BOLD}
+                  onPress={() => navigation.navigate(stackNavigatorNames.USER_ANNOUNCEMENTS, {
+                    userId: user.id,
+                    userName: user.name,
+                  })}
+                />
+              )}
           </>
         )}
         {drawErrorModal(true)}
