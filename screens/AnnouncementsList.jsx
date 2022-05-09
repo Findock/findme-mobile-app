@@ -1,5 +1,5 @@
 import {
-  Dimensions, FlatList, View, StyleSheet, ActivityIndicator,
+  Dimensions, FlatList, View, StyleSheet, ActivityIndicator, Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/useErrorModal';
@@ -21,6 +21,7 @@ export const AnnouncementsList = ({
   onlyFavorites = false,
   horizontal = false,
   numColumns,
+  pullData,
 }) => {
   const [
     params,
@@ -36,8 +37,8 @@ export const AnnouncementsList = ({
     setIsLoading,
   ] = useState(true);
   const [
-    isFetching,
-    setIsFetching,
+    endReached,
+    setEndReached,
   ] = useState(false);
   const [
     announcements,
@@ -58,12 +59,17 @@ export const AnnouncementsList = ({
       if (isMe) {
         const res = await getMyAnnouncementsService(params);
         setAnnouncements([...announcements, ...res.data]);
-        setIsFetching(true);
+        if (res.data.length < 8) {
+          setEndReached(true);
+        }
       }
       if (userId) {
-        const res = await getUserAnnouncementsService(userId, params); // TO DO
+        const res = await getUserAnnouncementsService(userId, params);
         setAnnouncements([...announcements, ...res.data]);
-        setIsFetching(true);
+        pullData(announcements);
+        if (res.data.length < 8) {
+          setEndReached(true);
+        }
       }
     } catch {
       setShowErrorModal(true);
@@ -107,16 +113,13 @@ export const AnnouncementsList = ({
       );
     }
   };
-  const renderActivityIndicator = () => (isFetching
+  const renderActivityIndicator = () => (!endReached
     ? (
       <ActivityIndicator
         animating
-        size="large"
-        color="#00ff00"
-        style={{
-          width: 100,
-          margin: 10,
-        }}
+        size={Platform.OS === 'ios' ? 'large' : sizes.ICON_30}
+        color={colors.GRAY}
+        style={horizontal ? styles.containerHorizontal : ''}
       />
     ) : null);
 
@@ -131,9 +134,11 @@ export const AnnouncementsList = ({
         <FlatList
           horizontal={horizontal}
           onEndReached={handleEnd}
+          onEndReachedThreshold={0}
           ListFooterComponent={renderActivityIndicator}
           data={announcements}
           renderItem={drawAnnouncementCard}
+          contentContainerStyle={horizontal ? '' : styles.verticalSeparator}
           keyExtractor={(item) => item.id}
           numColumns={numColumns}
           scrollEnabled
@@ -146,11 +151,18 @@ export const AnnouncementsList = ({
 const styles = StyleSheet.create({
   containerHorizontal: {
     paddingVertical: sizes.PADDING_20,
+    alignItems: 'center',
+    flex: 1,
   },
   containerVertical: {
     height: Dimensions.get('screen').height,
     backgroundColor: colors.WHITE,
     paddingVertical: sizes.PADDING_30,
     justifyContent: placements.CENTER,
+    alignItems: placements.CENTER,
+    flex: 1,
+  },
+  verticalSeparator: {
+    paddingBottom: Platform.OS ? sizes.PADDING_80 : 50, // NIE WIEM CO TU MA BYC
   },
 });

@@ -20,6 +20,10 @@ export const UserProfilePreviewScreen = () => {
     user,
     setUser,
   ] = useState(null);
+  const [
+    userAnnouncementsLength,
+    setUserAnnouncementsLength,
+  ] = useState([]);
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -28,6 +32,10 @@ export const UserProfilePreviewScreen = () => {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  const getUserAnnouncementsLength = (data) => {
+    setUserAnnouncementsLength(data.length);
+  };
 
   const fetchUser = async () => {
     try {
@@ -51,20 +59,23 @@ export const UserProfilePreviewScreen = () => {
                 horizontal
                 isMe={false}
                 userId={user.id}
+                pullData={getUserAnnouncementsLength}
               />
             </SafeAreaView>
-            <FButton
-              title={locales.SHOW_ALL}
-              color={colors.PRIMARY}
-              backgroundColor={colors.LIGHT_GRAY}
-              type={buttonTypes.TEXT_BUTTON}
-              titleSize={fonts.HEADING_NORMAL}
-              titleWeight={fonts.HEADING_WEIGHT_BOLD}
-              onPress={() => navigation.navigate(stackNavigatorNames.USER_ANNOUNCEMENTS, {
-                userId: user.id,
-                userName: user.name,
-              })}
-            />
+            {userAnnouncementsLength > 4 ? (
+              <FButton
+                title={locales.SHOW_ALL}
+                color={colors.PRIMARY}
+                backgroundColor={colors.LIGHT_GRAY}
+                type={buttonTypes.TEXT_BUTTON}
+                titleSize={fonts.HEADING_NORMAL}
+                titleWeight={fonts.HEADING_WEIGHT_BOLD}
+                onPress={() => navigation.navigate(stackNavigatorNames.USER_ANNOUNCEMENTS, {
+                  userId: user.id,
+                  userName: user.name,
+                })}
+              />
+            ) : null}
           </>
         )}
         {drawErrorModal(true)}

@@ -1,6 +1,7 @@
 import { Dimensions, View } from 'react-native';
 import colors from 'themes/colors';
 import { useRoute } from '@react-navigation/native';
+import sizes from 'themes/sizes';
 import { AnnouncementsList } from './AnnouncementsList';
 
 export const UserAnnouncementsScreen = () => {
@@ -10,11 +11,11 @@ export const UserAnnouncementsScreen = () => {
     <View style={{
       height: Dimensions.get('screen').height,
       backgroundColor: colors.WHITE,
-      alignItems: 'center',
+      paddingVertical: sizes.PADDING_30,
+      paddingHorizontal: sizes.PADDING_5,
     }}
     >
       <AnnouncementsList
-        isMe={false}
         userId={route.params?.userId}
         numColumns={2}
       />
