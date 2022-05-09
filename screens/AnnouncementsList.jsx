@@ -13,6 +13,7 @@ import placements from 'themes/placements';
 import locales from 'constants/locales';
 import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
 import { getUserAnnouncementsService } from 'services/announcement/getUserAnnouncements.service';
+import PropTypes from 'prop-types';
 
 export const AnnouncementsList = ({
   isMe,
@@ -176,3 +177,13 @@ const styles = StyleSheet.create({
     paddingBottom: Platform.OS ? sizes.PADDING_80 : 50,
   },
 });
+
+AnnouncementsList.propTypes = {
+  isMe: PropTypes.bool,
+  userId: PropTypes.number,
+  onlyActive: PropTypes.bool,
+  onlyFavorites: PropTypes.bool,
+  horizontal: PropTypes.bool,
+  numColumns: PropTypes.number,
+  pullData: PropTypes.func,
+};
