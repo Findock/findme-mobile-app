@@ -2,19 +2,19 @@ import { Dimensions, View } from 'react-native';
 import React from 'react';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
-import { AnnouncementsList } from 'AnnouncementsList';
+import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
 
 export const MyAnnouncementsScreen = () => (
   <View style={{
     height: Dimensions.get('screen').height,
     backgroundColor: colors.WHITE,
-    paddingVertical: sizes.PADDING_30,
-    paddingHorizontal: sizes.PADDING_5,
+    paddingTop: sizes.PADDING_10,
   }}
   >
-    <AnnouncementsList
+    <FAnnouncementsList
       isMe
       numColumns={2}
+      horizontal={false}
     />
   </View>
 );

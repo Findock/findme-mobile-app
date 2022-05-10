@@ -71,29 +71,6 @@ export const HomepageScreen = () => {
             onPress={() => navigation.navigate(stackNavigatorNames.ADD_ANNOUNCEMENT)}
             buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
           />
-          <FButton
-            title="Ogłoszenie"
-            color={colors.WHITE}
-            backgroundColor={colors.DARK_GRAY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id: 12 })}
-            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-          />
-          <FAnnouncementCard
-            width={169}
-            height={260}
-            data={{
-              id: 2,
-              photos: ['https://zooart.com.pl/blog/wp-content/uploads/2020/11/krolik-kicha-2.jpg'],
-              title: 'Królik',
-              description: 'To jest króliczek',
-              locationName: 'Kraków',
-              isUserCreator: true,
-              status: 'active',
-            }}
-          />
         </View>
       </View>
     </FDefaultLayout>

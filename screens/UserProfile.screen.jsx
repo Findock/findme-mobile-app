@@ -79,7 +79,7 @@ export const UserProfileScreen = () => {
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
             arrowColor={colors.PRIMARY}
-            title={locales.YOUR_ANNOUNCEMENTS}
+            title={locales.MY_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink

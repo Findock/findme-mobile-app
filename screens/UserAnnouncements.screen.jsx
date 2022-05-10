@@ -2,7 +2,7 @@ import { Dimensions, View } from 'react-native';
 import colors from 'themes/colors';
 import { useRoute } from '@react-navigation/native';
 import sizes from 'themes/sizes';
-import { AnnouncementsList } from './AnnouncementsList';
+import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
 
 export const UserAnnouncementsScreen = () => {
   const route = useRoute();
@@ -11,13 +11,14 @@ export const UserAnnouncementsScreen = () => {
     <View style={{
       height: Dimensions.get('screen').height,
       backgroundColor: colors.WHITE,
-      paddingVertical: sizes.PADDING_30,
-      paddingHorizontal: sizes.PADDING_5,
+      paddingTop: sizes.PADDING_10,
     }}
     >
-      <AnnouncementsList
+      <FAnnouncementsList
         userId={route.params?.userId}
         numColumns={2}
+        isMe={false}
+        horizontal={false}
       />
     </View>
   );

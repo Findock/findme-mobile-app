@@ -27,7 +27,6 @@ export default {
   UNKNOWN_LOCALIZATION: 'Nieznana lokalizacja',
   LOGIN_HISTORY: 'Historia logowania',
   GO_BACK: 'Powrót',
-  YOUR_ANNOUNCEMENTS: 'Twoje ogłoszenia',
   ADD_ANNOUNCEMENT: 'Dodaj ogłoszenie',
   DELETE: 'Usuń',
   GENERAL_SETTINGS: 'Ustawienia ogólne',

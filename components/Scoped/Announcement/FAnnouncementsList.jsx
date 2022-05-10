@@ -1,5 +1,5 @@
 import {
-  Dimensions, FlatList, View, StyleSheet, ActivityIndicator, Platform,
+  FlatList, View, StyleSheet, ActivityIndicator, Platform,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/useErrorModal';
@@ -14,15 +14,16 @@ import locales from 'constants/locales';
 import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
 import { getUserAnnouncementsService } from 'services/announcement/getUserAnnouncements.service';
 import PropTypes from 'prop-types';
+import { searchAnnouncementsService } from 'services/announcement/searchAnnouncements.service';
 
-export const AnnouncementsList = ({
+export const FAnnouncementsList = ({
   isMe,
   userId,
   onlyActive = false,
   onlyFavorites = false,
   horizontal = false,
   numColumns,
-  pullData,
+  setUserAnnouncementsLength,
 }) => {
   const [
     params,
@@ -49,7 +50,7 @@ export const AnnouncementsList = ({
   const {
     setShowErrorModal,
     drawErrorModal,
-  } = useErrorModal();
+  } = useErrorModal(true);
 
   useEffect(() => {
     fetchAnnouncements();
@@ -57,25 +58,24 @@ export const AnnouncementsList = ({
 
   const fetchAnnouncements = async () => {
     try {
-      if (isMe) {
-        const res = await getMyAnnouncementsService(params);
-        setAnnouncements([...announcements, ...res.data]);
-        if (res.data.length < 8) {
-          setEndReached(true);
-        }
-      }
+      let res;
+      if (onlyFavorites) res = await searchAnnouncementsService(params);
+
+      if (isMe) res = await getMyAnnouncementsService(params);
+
       if (userId) {
-        const res = await getUserAnnouncementsService(userId, params);
-        setAnnouncements([...announcements, ...res.data]);
-        pullData(announcements);
-        if (res.data.length < 8) {
-          setEndReached(true);
-        }
+        res = await getUserAnnouncementsService(userId, params);
+        if (setUserAnnouncementsLength) setUserAnnouncementsLength(announcements.length + res.data.length);
       }
-    } catch {
-      setShowErrorModal(true);
-    } finally {
+
+      setAnnouncements([...announcements, ...res.data]);
+      if (res.data.length < 8) {
+        setEndReached(true);
+      }
       setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
+      setShowErrorModal(true);
     }
   };
 
@@ -90,12 +90,19 @@ export const AnnouncementsList = ({
     );
   };
 
-  const drawAnnouncementCard = ({ item }) => (
-    <View style={{ flexBasis: sizes.WIDTH_50 }}>
+  const drawAnnouncementCard = ({ item, index }) => (
+    <View
+      style={{ flexBasis: sizes.BASIS_50_PERCENTAGES }}
+      key={item.id}
+    >
       <FAnnouncementCard
         width={horizontal ? sizes.WIDTH_180 : sizes.WIDTH_FULL}
         height={sizes.HEIGHT_280}
         data={item}
+        style={{
+          paddingLeft: index === 0 && horizontal ? sizes.PADDING_1 : sizes.PADDING_5,
+          paddingRight: index === announcements.length - 1 && horizontal ? sizes.PADDING_1 : sizes.PADDING_5,
+        }}
       />
     </View>
   );
@@ -113,7 +120,7 @@ export const AnnouncementsList = ({
   const drawNoAnnouncementInfo = () => {
     if (isLoading === false && announcements.length === 0) {
       return (
-        <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
+        <View style={horizontal ? [styles.containerHorizontal, styles.centerView] : styles.centerView}>
           <FHeading
             align={placements.CENTER}
             size={fonts.HEADING_SMALL}
@@ -126,22 +133,21 @@ export const AnnouncementsList = ({
     }
   };
   const renderActivityIndicator = () => (!endReached
-    ? (
+    && (
       <ActivityIndicator
         animating
         size={Platform.OS === 'ios' ? 'large' : sizes.ICON_30}
         color={colors.GRAY}
-        style={horizontal ? styles.containerHorizontal : ''}
       />
-    ) : null);
+    ));
 
   return (
-    (announcements.length === 0 && isLoading) ? <FSpinner />
+    isLoading ? <FSpinner />
       : (
         <>
           {drawNoAnnouncementInfo()}
           {drawErrorModal()}
-          <View style={horizontal ? styles.containerHorizontal : styles.containerVertical}>
+          <View style={horizontal ? [styles.containerHorizontal, styles.container] : styles.container}>
             <FlatList
               horizontal={horizontal}
               onEndReached={handleEnd}
@@ -161,29 +167,29 @@ export const AnnouncementsList = ({
 
 const styles = StyleSheet.create({
   containerHorizontal: {
-    paddingVertical: sizes.PADDING_20,
     alignItems: placements.CENTER,
+  },
+  container: {
+    backgroundColor: colors.WHITE,
     flex: 1,
   },
-  containerVertical: {
-    height: Dimensions.get('screen').height,
-    backgroundColor: colors.WHITE,
-    paddingVertical: sizes.PADDING_30,
+  centerView: {
     justifyContent: placements.CENTER,
     alignItems: placements.CENTER,
     flex: 1,
+    backgroundColor: colors.WHITE,
   },
   verticalSeparator: {
-    paddingBottom: Platform.OS ? sizes.PADDING_80 : 50,
+    paddingBottom: sizes.PADDING_110,
   },
 });
 
-AnnouncementsList.propTypes = {
-  isMe: PropTypes.bool,
+FAnnouncementsList.propTypes = {
+  isMe: PropTypes.bool.isRequired,
   userId: PropTypes.number,
   onlyActive: PropTypes.bool,
   onlyFavorites: PropTypes.bool,
-  horizontal: PropTypes.bool,
-  numColumns: PropTypes.number,
-  pullData: PropTypes.func,
+  horizontal: PropTypes.bool.isRequired,
+  numColumns: PropTypes.number.isRequired,
+  setUserAnnouncementsLength: PropTypes.func,
 };

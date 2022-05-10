@@ -29,7 +29,7 @@ import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
 import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
 import { SelectScreen } from 'screens/Select.screen';
-import { MyAnnouncementsScreen } from 'screens/MyAnnouncementsScreen';
+import { MyAnnouncementsScreen } from 'screens/MyAnnouncements.screen';
 import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
 import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
 
@@ -84,6 +84,7 @@ export const Navigation = () => {
     headerTitleStyle: {
       fontSize: fonts.HEADING_LARGE,
     },
+
   };
 
   const headerWithoutShadowOptions = {
@@ -231,6 +232,10 @@ export const Navigation = () => {
               options={{
                 ...defaultHeaderOptions,
                 title: locales.MY_ANNOUNCEMENTS,
+                headerStyle: {
+                  shadowOpacity: 20,
+                  borderBottomColor: 'red',
+                },
               }}
             />
             <Stack.Screen

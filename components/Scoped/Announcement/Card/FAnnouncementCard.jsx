@@ -19,7 +19,7 @@ import { parseDate } from 'utils/parseDate';
 import dateFormatTypes from 'constants/dateFormatTypes';
 
 export const FAnnouncementCard = ({
-  width, data, height,
+  width, data, height, style,
 }) => {
   const navigation = useNavigation();
   const animatedScale = useRef(new Animated.Value(1)).current;
@@ -57,6 +57,7 @@ export const FAnnouncementCard = ({
       <Animated.View style={{
         padding: sizes.PADDING_5,
         transform: [{ scale: animatedScale }],
+        ...style,
       }}
       >
         <FCard

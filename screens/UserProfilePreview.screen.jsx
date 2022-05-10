@@ -11,8 +11,9 @@ import fonts from 'themes/fonts';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useNavigation } from '@react-navigation/native';
 import locales from 'constants/locales';
-import { AnnouncementsList } from 'AnnouncementsList';
 import { View } from 'react-native';
+import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
+import sizes from 'themes/sizes';
 
 export const UserProfilePreviewScreen = () => {
   const navigation = useNavigation();
@@ -33,10 +34,6 @@ export const UserProfilePreviewScreen = () => {
     fetchUser();
   }, []);
 
-  const getUserAnnouncementsLength = (data) => {
-    setUserAnnouncementsLength(data.length);
-  };
-
   const fetchUser = async () => {
     try {
       const res = await getOtherUserService(2);
@@ -54,12 +51,13 @@ export const UserProfilePreviewScreen = () => {
               user={user}
               isMe={false}
             />
-            <View>
-              <AnnouncementsList
+            <View style={{ paddingTop: sizes.PADDING_20 }}>
+              <FAnnouncementsList
                 horizontal
                 isMe={false}
                 userId={user.id}
-                pullData={getUserAnnouncementsLength}
+                setUserAnnouncementsLength={setUserAnnouncementsLength}
+                numColumns={1}
               />
             </View>
             {userAnnouncementsLength > 4
@@ -75,6 +73,7 @@ export const UserProfilePreviewScreen = () => {
                     userId: user.id,
                     userName: user.name,
                   })}
+                  buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
                 />
               )}
           </>

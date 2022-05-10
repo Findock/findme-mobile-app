@@ -11,6 +11,7 @@ export default {
   // FLEX BASIS
   BASIS_47_PERCENTAGES: '47%',
   BASIS_30_PERCENTAGES: '30%',
+  BASIS_50_PERCENTAGES: '50%',
   BASIS_53_PERCENTAGES: '53%',
   BASIS_70_PERCENTAGES: '70%',
 
@@ -60,6 +61,7 @@ export default {
 
   // PADDINGS
   PADDING_N30: -30,
+  PADDING_1: 1,
   PADDING_3: 3,
   PADDING_5: 5,
   PADDING_8: 8,
@@ -74,6 +76,7 @@ export default {
   PADDING_35: 35,
   PADDING_50: 50,
   PADDING_80: 80,
+  PADDING_110: 110,
   PADDING_130: 130,
   PADDING_200: 200,
 
