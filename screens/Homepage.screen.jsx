@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
