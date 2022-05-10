@@ -490,8 +490,9 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     position: 'absolute',
     bottom: 0,
+    height: sizes.HEIGHT_170,
     backgroundColor: colors.WHITE,
-    paddingHorizontal: 30,
+    paddingHorizontal: sizes.PADDING_30,
     shadowColor: colors.BLACK,
     shadowOffset: {
       width: 0,

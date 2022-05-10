@@ -34,8 +34,6 @@ export const FCreateAnnouncementForm = () => {
     }));
   }, []);
 
-  console.log(defaultPhotos);
-
   const onSubmit = async () => {
     try {
       const res = await createAnnouncementService({ ...dataForm });

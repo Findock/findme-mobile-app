@@ -24,7 +24,6 @@ import modalsMessages from 'constants/components/modals/modalsMessages';
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const dispatch = useDispatch();
-
   const [
     showConfirmDeleteUserProfileImageModal,
     setShowConfirmDeleteUserProfileImageModal,
@@ -80,10 +79,11 @@ export const UserProfileScreen = () => {
             buttonBgColor={colors.WHITE}
             titleColor={colors.BLACK}
             arrowColor={colors.PRIMARY}
-            title={locales.YOUR_ANNOUNCEMENTS}
+            title={locales.MY_ANNOUNCEMENTS}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             isLink
+            navigateTo={stackNavigatorNames.MY_ANNOUNCEMENTS}
           />
           <FWideButton
             icon={icons.SETTINGS}
@@ -124,6 +124,7 @@ export const UserProfileScreen = () => {
             title={locales.FOLLOWED}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
+            navigateTo={stackNavigatorNames.MY_FOLLOWED_ANNOUNCEMENTS}
             isLink
           />
           <FWideButton
@@ -137,7 +138,6 @@ export const UserProfileScreen = () => {
             title={locales.ADD_ANNOUNCEMENT}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
-            onPress={() => { }}
             style={styles.lastWideButton}
             isLink
           />

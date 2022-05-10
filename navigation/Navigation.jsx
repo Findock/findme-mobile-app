@@ -29,6 +29,9 @@ import { MultiSelectScreen } from 'screens/MultiSelect.screen';
 import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
 import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
 import { SelectScreen } from 'screens/Select.screen';
+import { MyAnnouncementsScreen } from 'screens/MyAnnouncements.screen';
+import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
+import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -81,6 +84,7 @@ export const Navigation = () => {
     headerTitleStyle: {
       fontSize: fonts.HEADING_LARGE,
     },
+
   };
 
   const headerWithoutShadowOptions = {
@@ -220,6 +224,34 @@ export const Navigation = () => {
               options={{
                 ...headerWithoutShadowOptions,
                 headerRight: () => renderLogo(),
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.MY_ANNOUNCEMENTS}
+              component={MyAnnouncementsScreen}
+              options={{
+                ...defaultHeaderOptions,
+                title: locales.MY_ANNOUNCEMENTS,
+                headerStyle: {
+                  shadowOpacity: 20,
+                  borderBottomColor: 'red',
+                },
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.MY_FOLLOWED_ANNOUNCEMENTS}
+              component={MyFollowedAnnouncementsScreen}
+              options={{
+                ...defaultHeaderOptions,
+                title: locales.FOLLOWED_ANNOUNCEMENTS,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.USER_ANNOUNCEMENTS}
+              component={UserAnnouncementsScreen}
+              options={{
+                ...defaultHeaderOptions,
+                title: locales.USER_ANNOUNCEMENTS,
               }}
             />
           </>
