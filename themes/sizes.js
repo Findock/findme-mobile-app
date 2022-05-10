@@ -11,6 +11,7 @@ export default {
   // FLEX BASIS
   BASIS_47_PERCENTAGES: '47%',
   BASIS_30_PERCENTAGES: '30%',
+  BASIS_50_PERCENTAGES: '50%',
   BASIS_53_PERCENTAGES: '53%',
   BASIS_70_PERCENTAGES: '70%',
 
@@ -18,6 +19,7 @@ export default {
   WIDTH_0: 0,
   WIDTH_12: 12,
   WIDTH_15: 15,
+  WIDTH_20: 20,
   WIDTH_22: 22,
   WIDTH_30: 30,
   WIDTH_45: 45,
@@ -25,6 +27,7 @@ export default {
   WIDTH_80: 80,
   WIDTH_120: 120,
   WIDTH_140: 140,
+  WIDTH_180: 180,
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
   WIDTH_70_PERCENTAGES: '70%',
@@ -49,6 +52,7 @@ export default {
   HEIGHT_140: 140,
   HEIGHT_170: 170,
   HEIGHT_210: 210,
+  HEIGHT_280: 280,
   HEIGHT_325: 325,
   HEIGHT_350: 350,
   HEIGHT_400: 400,
@@ -57,6 +61,7 @@ export default {
 
   // PADDINGS
   PADDING_N30: -30,
+  PADDING_1: 1,
   PADDING_3: 3,
   PADDING_5: 5,
   PADDING_8: 8,
@@ -70,6 +75,8 @@ export default {
   PADDING_30: 30,
   PADDING_35: 35,
   PADDING_50: 50,
+  PADDING_80: 80,
+  PADDING_110: 110,
   PADDING_130: 130,
   PADDING_200: 200,
 

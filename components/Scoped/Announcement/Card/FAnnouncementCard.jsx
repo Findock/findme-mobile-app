@@ -15,14 +15,16 @@ import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FAnnouncementCardActionsModal } from 'components/Scoped/Announcement/Card/FAnnouncementCardActionsModal';
+import { parseDate } from 'utils/parseDate';
+import dateFormatTypes from 'constants/dateFormatTypes';
 
 export const FAnnouncementCard = ({
-  width, data, height,
+  width, data, height, style,
 }) => {
   const navigation = useNavigation();
   const animatedScale = useRef(new Animated.Value(1)).current;
   const {
-    id, isUserCreator, photos, title, description, locationName, date,
+    id, isUserCreator, photos, title, description, locationName, createDate,
   } = data;
   const [
     showOptionsModal,
@@ -39,6 +41,7 @@ export const FAnnouncementCard = ({
       delay: 50,
     }).start();
   };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id })}
@@ -54,6 +57,7 @@ export const FAnnouncementCard = ({
       <Animated.View style={{
         padding: sizes.PADDING_5,
         transform: [{ scale: animatedScale }],
+        ...style,
       }}
       >
         <FCard
@@ -71,60 +75,72 @@ export const FAnnouncementCard = ({
           <View style={{
             minHeight: height,
             maxHeight: height,
+            justifyContent: 'space-between',
           }}
           >
-            <FImage
-              imagePath=""
-              imageWidth={sizes.WIDTH_FULL}
-              imageHeight={sizes.HEIGHT_FULL}
-              networkImageUrl={photos[0]}
-              imageStyle={styles.image}
-              height={sizes.HEIGHT_150}
-              resizeMode={sizes.COVER}
-              width={sizes.WIDTH_FULL}
-            />
-            <FHeading
-              title={title}
-              weight={fonts.HEADING_WEIGHT_BOLD}
-              size={fonts.HEADING_MEDIUM}
-              style={{ marginTop: sizes.MARGIN_8 }}
-              ellipsizeMode="tail"
-              numberOfLines={1}
-            />
-            <FHeading
-              title={description}
-              style={{ marginVertical: sizes.MARGIN_5 }}
-              color={colors.DARK_GRAY}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-              size={fonts.HEADING_NORMAL}
-              weight={fonts.HEADING_WEIGHT_REGULAR}
-            />
-            <FHeadingWithIcon
-              icon={icons.LOCATION_OUTLINE}
-              iconColor={colors.PRIMARY}
-              title={locationName}
-              titleStyle={styles.text}
-              titleColor={colors.DARK_GRAY}
-              numberOfLines={2}
-              iconPlacement={placements.LEFT}
-              iconSize={sizes.ICON_20}
-              titleSize={fonts.HEADING_SMALL}
-              titleWeight={fonts.HEADING_WEIGHT_REGULAR}
-            />
-            <FHeadingWithIcon
-              icon={icons.CALENDAR}
-              iconColor={colors.PRIMARY}
-              title={date}
-              titleStyle={styles.text}
-              titleColor={colors.DARK_GRAY}
-              size={fonts.HEADING_MEDIUM}
-              weight={fonts.HEADING_NORMAL}
-              iconPlacement={placements.LEFT}
-              iconSize={sizes.ICON_20}
-              titleSize={fonts.HEADING_SMALL}
-              titleWeight={fonts.HEADING_WEIGHT_REGULAR}
-            />
+            <View>
+              <FImage
+                imagePath=""
+                imageWidth={sizes.WIDTH_FULL}
+                imageHeight={sizes.HEIGHT_FULL}
+                networkImageUrl={photos[0].url}
+                imageStyle={styles.image}
+                height={sizes.HEIGHT_150}
+                resizeMode={sizes.COVER}
+                width={sizes.WIDTH_FULL}
+              />
+              <FHeading
+                title={title}
+                weight={fonts.HEADING_WEIGHT_BOLD}
+                size={fonts.HEADING_MEDIUM}
+                style={{ marginTop: sizes.MARGIN_8 }}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              />
+              <FHeading
+                title={description}
+                style={{ marginVertical: sizes.MARGIN_5 }}
+                color={colors.DARK_GRAY}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+                size={fonts.HEADING_NORMAL}
+                weight={fonts.HEADING_WEIGHT_REGULAR}
+              />
+            </View>
+            <View>
+              <FHeadingWithIcon
+                icon={icons.LOCATION_OUTLINE}
+                iconColor={colors.PRIMARY}
+                title={locationName}
+                titleStyle={styles.text}
+                iconStyle={{ width: sizes.WIDTH_20 }}
+                headingContainerStyle={{ flex: 1 }}
+                titleColor={colors.DARK_GRAY}
+                iconPlacement={placements.LEFT}
+                iconSize={sizes.ICON_20}
+                titleSize={fonts.HEADING_SMALL}
+                titleWeight={fonts.HEADING_WEIGHT_REGULAR}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              />
+              <FHeadingWithIcon
+                icon={icons.CALENDAR}
+                iconColor={colors.PRIMARY}
+                title={parseDate(dateFormatTypes.DATE, createDate)}
+                titleStyle={styles.text}
+                iconStyle={{ width: sizes.WIDTH_20 }}
+                headingContainerStyle={{ flex: 1 }}
+                titleColor={colors.DARK_GRAY}
+                size={fonts.HEADING_MEDIUM}
+                weight={fonts.HEADING_NORMAL}
+                iconPlacement={placements.LEFT}
+                iconSize={sizes.ICON_20}
+                titleSize={fonts.HEADING_SMALL}
+                titleWeight={fonts.HEADING_WEIGHT_REGULAR}
+                ellipsizeMode="tail"
+                numberOfLines={1}
+              />
+            </View>
           </View>
         </FCard>
       </Animated.View>
@@ -153,7 +169,11 @@ FAnnouncementCard.propTypes = {
   ]).isRequired,
   data: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    photos: PropTypes.arrayOf(PropTypes.string).isRequired,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      url: PropTypes.string,
+      created: PropTypes.string,
+    })).isRequired,
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     locationName: PropTypes.string.isRequired,
