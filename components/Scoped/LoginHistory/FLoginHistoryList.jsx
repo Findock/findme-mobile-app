@@ -108,7 +108,7 @@ export const FLoginHistoryList = () => {
         style={styles.list}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: sizes.PADDING_130,
+          paddingBottom: sizes.PADDING_20,
         }}
         ItemSeparatorComponent={() => (
           <View style={{
@@ -126,6 +126,5 @@ const styles = StyleSheet.create({
   list: {
     width: sizes.WIDTH_FULL,
     paddingTop: sizes.PADDING_10,
-    paddingBottom: sizes.PADDING_14,
   },
 });
