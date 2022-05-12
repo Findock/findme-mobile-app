@@ -40,6 +40,7 @@ import modalsMessages from 'constants/components/modals/modalsMessages';
 import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
 import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavouriteAnnouncementManagement';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -153,6 +154,10 @@ export const AnnouncementPreviewScreen = () => {
   const resolveAnnouncementHandler = async () => {
     await resolveAnnouncement();
     fetchAnnouncement();
+  };
+
+  const redirectToUserPreview = () => {
+    navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW, { userId: announcement.creator.id });
   };
 
   const getGenderIcon = () => {
@@ -377,7 +382,7 @@ export const AnnouncementPreviewScreen = () => {
               icon={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE
                 ? icons.ARROW_UNDO : icons.CHECKMARK_OUTLINE}
               backgroundColor={colors.PRIMARY}
-              iconViewSize={60}
+              iconViewSize={sizes.WIDTH_60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
               title={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE ? locales.ACTIVATE : locales.FINISH}
@@ -396,7 +401,7 @@ export const AnnouncementPreviewScreen = () => {
               type={buttonTypes.ICON_BUTTON_WITH_LABEL}
               icon={icons.PENCIL}
               backgroundColor={colors.WARNING}
-              iconViewSize={60}
+              iconViewSize={sizes.WIDTH_60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
               title={locales.EDIT}
@@ -412,7 +417,7 @@ export const AnnouncementPreviewScreen = () => {
               icon={announcement.status === AnnouncementStatusEnum.ARCHIVED
                 ? icons.ARROW_UNDO : icons.FILE_TRAY_FULL}
               backgroundColor={colors.SECONDARY}
-              iconViewSize={60}
+              iconViewSize={sizes.WIDTH_60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
               title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.ACTIVATE : locales.ARCHIVE}
@@ -431,17 +436,21 @@ export const AnnouncementPreviewScreen = () => {
         ) : (
           <>
             <View style={styles.userContainer}>
-              <FAvatar
-                imageUrl={announcement.creator.profileImageUrl}
-                size={sizes.WIDTH_45}
-                isEditable={false}
-              />
-              <View style={{ marginLeft: sizes.MARGIN_5 }}>
-                <FHeading
-                  title={announcement.creator.name}
-                  size={fonts.HEADING_NORMAL}
-                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+              <TouchableOpacity onPress={redirectToUserPreview}>
+                <FAvatar
+                  imageUrl={announcement.creator.profileImageUrl}
+                  size={sizes.WIDTH_45}
+                  isEditable={false}
                 />
+              </TouchableOpacity>
+              <View style={{ marginLeft: sizes.MARGIN_5 }}>
+                <TouchableOpacity onPress={redirectToUserPreview}>
+                  <FHeading
+                    title={announcement.creator.name}
+                    size={fonts.HEADING_NORMAL}
+                    weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                  />
+                </TouchableOpacity>
                 <FPhoneNumber
                   phoneNumber={announcement.creator.phoneNumber}
                   size={fonts.HEADING_MEDIUM}

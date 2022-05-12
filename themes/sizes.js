@@ -24,6 +24,7 @@ export default {
   WIDTH_30: 30,
   WIDTH_45: 45,
   WIDTH_50: 50,
+  WIDTH_60: 60,
   WIDTH_80: 80,
   WIDTH_120: 120,
   WIDTH_140: 140,
