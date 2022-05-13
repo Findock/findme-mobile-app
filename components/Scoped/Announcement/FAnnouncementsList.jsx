@@ -15,6 +15,9 @@ import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnounce
 import { getUserAnnouncementsService } from 'services/announcement/getUserAnnouncements.service';
 import PropTypes from 'prop-types';
 import { searchAnnouncementsService } from 'services/announcement/searchAnnouncements.service';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import { useIsFocused } from '@react-navigation/native';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -25,6 +28,9 @@ export const FAnnouncementsList = ({
   numColumns,
   setUserAnnouncementsLength,
 }) => {
+  const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const [
     params,
     setParams,
@@ -56,6 +62,25 @@ export const FAnnouncementsList = ({
     fetchAnnouncements();
   }, [params]);
 
+  useEffect(() => {
+    if (params.onlyFavorites) {
+      if (updatedAnnouncement) setIsLoading(true);
+      else setIsLoading(false);
+    }
+  }, [updatedAnnouncement]);
+
+  useEffect(() => {
+    if (updatedAnnouncement && isFocused) {
+      const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
+      const newAnnouncemnts = [...announcements];
+      if (params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) {
+        newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
+      } else newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      setAnnouncements([...newAnnouncemnts]);
+      dispatch(setUpdatedAnnouncement(null));
+    }
+  }, [isFocused]);
+
   const fetchAnnouncements = async () => {
     try {
       let res;
@@ -67,7 +92,6 @@ export const FAnnouncementsList = ({
         res = await getUserAnnouncementsService(userId, params);
         if (setUserAnnouncementsLength) setUserAnnouncementsLength(announcements.length + res.data.length);
       }
-
       setAnnouncements([...announcements, ...res.data]);
       if (res.data.length < 8) {
         setEndReached(true);
@@ -149,6 +173,7 @@ export const FAnnouncementsList = ({
           {drawErrorModal()}
           <View style={horizontal ? [styles.containerHorizontal, styles.container] : styles.container}>
             <FlatList
+              extraData={announcements}
               horizontal={horizontal}
               onEndReached={handleEnd}
               onEndReachedThreshold={0}

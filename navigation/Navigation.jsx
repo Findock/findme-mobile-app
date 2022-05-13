@@ -2,7 +2,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import React, { useEffect } from 'react';
-import { HomepageScreen } from 'screens/Homepage.screen';
 import { LoginScreen } from 'screens/Login.screen';
 import { RegistrationScreen } from 'screens/Registration.screen';
 import * as SecureStore from 'expo-secure-store';
@@ -32,6 +31,7 @@ import { SelectScreen } from 'screens/Select.screen';
 import { MyAnnouncementsScreen } from 'screens/MyAnnouncements.screen';
 import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
 import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
+import { HomeDrawer } from 'navigation/drawers/HomeDrawer';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -134,8 +134,8 @@ export const Navigation = () => {
         ) : (
           <>
             <Stack.Screen
-              name={stackNavigatorNames.HOMEPAGE}
-              component={HomepageScreen}
+              name="A"
+              component={HomeDrawer}
               options={{
                 headerShown: false,
               }}

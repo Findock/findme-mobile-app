@@ -9,6 +9,7 @@ import { getAnnouncementService } from 'services/announcement/getAnnouncement.se
 import { updateAnnouncementService } from 'services/announcement/updateAnnouncement.service';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { View } from 'react-native';
+import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 
 export const FEditAnnouncementForm = () => {
   const dispatch = useDispatch();
@@ -82,12 +83,16 @@ export const FEditAnnouncementForm = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      await updateAnnouncementService(announcement.id, { ...dataForm });
+      const res = await updateAnnouncementService(announcement.id, { ...dataForm });
       setLoading(false);
       navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, {
         id: announcement.id,
         announcementEditedSuccessfullyModalVisible: true,
       });
+      dispatch(setUpdatedAnnouncement({
+        ...res.data,
+        isUserCreator: true,
+      }));
     } catch (error) {
       if (error.response && error.response.data) checkFormValidation(error.response.data);
       setLoading(false);

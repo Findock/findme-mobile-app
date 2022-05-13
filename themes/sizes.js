@@ -24,6 +24,7 @@ export default {
   WIDTH_30: 30,
   WIDTH_45: 45,
   WIDTH_50: 50,
+  WIDTH_60: 60,
   WIDTH_80: 80,
   WIDTH_120: 120,
   WIDTH_140: 140,
@@ -31,6 +32,7 @@ export default {
   WIDTH_310: 310,
   WIDTH_HALF: '50%',
   WIDTH_70_PERCENTAGES: '70%',
+  WIDTH_90_PERCENTAGES: '90%',
   WIDTH_98_PERCENTAGES: '98%',
   WIDTH_FULL: '100%',
 
@@ -82,6 +84,7 @@ export default {
 
   // MARGINS
   MARGIN_N30: -30,
+  MARGIN_N6: -6,
   MARGIN_3: 3,
   MARGIN_5: 5,
   MARGIN_8: 8,

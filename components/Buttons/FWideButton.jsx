@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  View, TouchableOpacity, StyleSheet,
+  View, TouchableOpacity, StyleSheet, Dimensions,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FHeading } from 'components/Composition/FHeading';
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: sizes.WIDTH_FULL,
     paddingVertical: sizes.PADDING_12,
-    paddingHorizontal: sizes.PADDING_25,
+    paddingHorizontal: Dimensions.get('window').width < 350 ? sizes.PADDING_15 : sizes.PADDING_25,
     overflow: 'hidden',
   },
   viewWithIconAndTitle: {

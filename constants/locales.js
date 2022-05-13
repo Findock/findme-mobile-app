@@ -66,9 +66,13 @@ export default {
   YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Nie masz jeszcze żadnych ogłoszeń',
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
   ACTIVATE: 'Przywróć',
+  SEARCH: 'Szukaj',
+  RESET: 'Wyczyść',
+  FILTERS: 'Filtry',
   MY_ANNOUNCEMENTS: 'Moje ogłoszenia',
   FOLLOWED_ANNOUNCEMENTS: 'Obserwowane ogłoszenia',
   SHOW_ALL: 'Pokaż wszystkie',
   USER_ANNOUNCEMENTS: 'Ogłoszenia użytkownika',
   NO_FOLLOWED_ANNOUNCEMENTS: 'Brak obserwowanych ogłoszeń',
+  ALL_FEMALE: 'Wszystkie',
 };

@@ -65,10 +65,10 @@ export const UserProfileScreen = () => {
         />
         <FCard
           width={sizes.WIDTH_FULL}
-          paddingVertical={sizes.PADDING_12}
+          paddingVertical={Dimensions.get('window').width < 350 ? 0 : sizes.PADDING_12}
           style={{
             marginTop: sizes.MARGIN_20,
-            paddingTop: sizes.PADDING_17,
+            paddingTop: Dimensions.get('window').width < 350 ? sizes.PADDING_10 : sizes.PADDING_17,
           }}
         >
           <FWideButton

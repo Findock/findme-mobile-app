@@ -59,7 +59,7 @@ export const FAvatar = ({
                 color={colors.WHITE}
                 iconSize={sizes.ICON_20}
                 backgroundColor={colors.PRIMARY}
-                style={{
+                buttonViewStyles={{
                   padding: sizes.PADDING_10,
                   borderRadius: getHalfBorderRadius(sizes.WIDTH_50),
                   ...styles.deleteButton,

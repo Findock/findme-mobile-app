@@ -9,7 +9,7 @@ import colors from 'themes/colors';
 import buttonTypes from 'constants/components/buttonTypes';
 import fonts from 'themes/fonts';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import locales from 'constants/locales';
 import { View } from 'react-native';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
@@ -17,6 +17,8 @@ import sizes from 'themes/sizes';
 
 export const UserProfilePreviewScreen = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+
   const [
     user,
     setUser,
@@ -36,7 +38,7 @@ export const UserProfilePreviewScreen = () => {
 
   const fetchUser = async () => {
     try {
-      const res = await getOtherUserService(2);
+      const res = await getOtherUserService(route.params?.userId || 2);
       setUser(res.data);
     } catch (error) {
       setShowErrorModal(true);

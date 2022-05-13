@@ -87,10 +87,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: sizes.MARGIN_5,
     justifyContent: 'space-between',
-    alignItems: placements.CENTER,
   },
   bottomBoxInner: {
-    width: sizes.WIDTH_HALF,
+    flexBasis: '50%',
+    // width: sizes.WIDTH_HALF,
   },
 });
 

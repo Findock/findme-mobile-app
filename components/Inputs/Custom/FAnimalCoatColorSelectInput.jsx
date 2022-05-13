@@ -1,38 +1,15 @@
-import { FSpinner } from 'components/Composition/FSpinner';
-import React, { useEffect, useState } from 'react';
-import { getCoatColorsService } from 'services/announcement/getCoatColors.service';
+import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { FColorSelect } from 'components/Inputs/FColorSelect';
 import sizes from 'themes/sizes';
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 export const FAnimalCoatColorSelectInput = ({
   style, dataForm, setDataForm, errorMessage,
 }) => {
-  const [
-    loadingCoatColors,
-    setLoadingCoatColors,
-  ] = useState(false);
-  const [
-    coatColors,
-    setCoatColors,
-  ] = useState([]);
-
-  useEffect(() => {
-    fetchCoatColors();
-  }, []);
-
-  const fetchCoatColors = async () => {
-    try {
-      setLoadingCoatColors(true);
-      const res = await getCoatColorsService();
-      setCoatColors(res.data);
-      setLoadingCoatColors(false);
-    } catch (error) {
-      setLoadingCoatColors(false);
-    }
-  };
+  const coatColors = useSelector((state) => state.filtersOptions.coatColors);
 
   const coatColorsHandler = (coatColorId) => {
     const existingCoatColorId = dataForm.coatColorsIds.find((coatColor) => coatColor === coatColorId);
@@ -62,7 +39,6 @@ export const FAnimalCoatColorSelectInput = ({
     />
   ));
 
-  if (loadingCoatColors) return <FSpinner />;
   return (
     <View>
       <ScrollView

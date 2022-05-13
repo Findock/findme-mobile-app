@@ -14,6 +14,7 @@ import PropTypes from 'prop-types';
 import fonts from 'themes/fonts';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
+import opacities from 'themes/opacities';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, iconViewStyles,
@@ -29,7 +30,7 @@ export const FButton = ({
       <View
         style={{
           ...buttonViewStyles,
-          opacity: isDisabled ? 0.5 : 1,
+          opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
         }}
         hitSlop={{
           top: sizes.POSITION_20,
@@ -44,7 +45,7 @@ export const FButton = ({
           size={titleSize}
           weight={titleWeight}
           isUnderline={isUnderline}
-          style={{ opacity: isDisabled ? 0.5 : 1 }}
+          style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
         />
       </View>
     </TouchableOpacity>
@@ -59,14 +60,15 @@ export const FButton = ({
         padding: sizes.PADDING_20,
         backgroundColor,
         ...style,
-        opacity: isDisabled ? 0.5 : 1,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
+        ...buttonViewStyles,
       }}
     >
       <Ionicons
         name={icon}
         color={color}
         size={iconSize}
-        style={{ opacity: isDisabled ? 0.5 : 1 }}
+        style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
       />
     </TouchableOpacity>
   );
@@ -80,7 +82,7 @@ export const FButton = ({
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
-        opacity: isDisabled ? 0.5 : 1,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
       }}
       >
         <View>
@@ -89,7 +91,7 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
-            style={{ opacity: isDisabled ? 0.5 : 1 }}
+            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
       </View>
@@ -107,7 +109,7 @@ export const FButton = ({
         backgroundColor: colors.WHITE,
         borderWidth: sizes.BORDER_2,
         borderColor: color,
-        opacity: isDisabled ? 0.5 : 1,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
       }}
       >
         <View>
@@ -116,7 +118,7 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
-            style={{ opacity: isDisabled ? 0.5 : 1 }}
+            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
       </View>
@@ -132,7 +134,7 @@ export const FButton = ({
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
-        opacity: isDisabled ? 0.5 : 1,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
       }}
       >
         {
@@ -144,7 +146,7 @@ export const FButton = ({
                 size={iconSize}
                 style={{
                   marginRight: sizes.MARGIN_10,
-                  opacity: isDisabled ? 0.5 : 1,
+                  opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
                 }}
               />
               <View>
@@ -153,7 +155,7 @@ export const FButton = ({
                   color={color}
                   size={titleSize}
                   weight={titleWeight}
-                  style={{ opacity: isDisabled ? 0.5 : 1 }}
+                  style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
                 />
               </View>
             </>
@@ -165,7 +167,7 @@ export const FButton = ({
                   color={color}
                   size={titleSize}
                   weight={titleWeight}
-                  style={{ opacity: isDisabled ? 0.5 : 1 }}
+                  style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
                 />
               </View>
               <Ionicons
@@ -174,7 +176,7 @@ export const FButton = ({
                 size={iconSize}
                 style={{
                   marginLeft: sizes.MARGIN_10,
-                  opacity: isDisabled ? 0.5 : 1,
+                  opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
                 }}
               />
             </>
@@ -194,7 +196,7 @@ export const FButton = ({
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
-        opacity: isDisabled ? 0.3 : 1,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
       }}
       >
         <View>
@@ -203,7 +205,7 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
-            style={{ opacity: isDisabled ? 0.5 : 1 }}
+            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
         {loading && (
@@ -213,7 +215,7 @@ export const FButton = ({
             color={color}
             style={{
               marginLeft: sizes.MARGIN_5,
-              opacity: isDisabled ? 0.5 : 1,
+              opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
             }}
           />
         )}
@@ -228,7 +230,6 @@ export const FButton = ({
         onPress();
       }}
       style={{
-        ...style,
         ...styles.iconButtonWithLabel,
         ...buttonViewStyles,
       }}
@@ -242,14 +243,14 @@ export const FButton = ({
           height: iconViewSize,
           borderRadius: getHalfBorderRadius(iconViewSize),
           ...styles.iconContainer,
-          opacity: isDisabled ? 0.5 : 1,
+          opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
         }}
         >
           <Ionicons
             name={icon}
             color={color}
             size={iconSize}
-            style={{ opacity: isDisabled ? 0.5 : 1 }}
+            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
         <View style={{ marginTop: sizes.MARGIN_5 }}>
@@ -258,7 +259,7 @@ export const FButton = ({
             size={fonts.HEADING_NORMAL}
             weight={fonts.HEADING_WEIGHT_MEDIUM}
             color={colors.DARK_GRAY}
-            style={{ opacity: isDisabled ? 0.5 : 1 }}
+            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
       </>
