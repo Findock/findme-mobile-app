@@ -119,11 +119,11 @@ export const FAnnouncementCard = ({
                 imageStyle={{
                   ...styles.image,
                   opacity: getImageOpacity(),
-
                 }}
                 height={sizes.HEIGHT_150}
                 resizeMode={sizes.COVER}
                 width={sizes.WIDTH_FULL}
+                isChildrenInside={false}
               />
               <FHeading
                 title={title}

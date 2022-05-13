@@ -6,8 +6,11 @@ import { useState } from 'react';
 import { archiveAnnouncementService } from 'services/announcement/archiveAnnouncement.service';
 import { makeAnnouncementActiveService } from 'services/announcement/makeAnnouncementActive.service';
 import { resolveAnnouncementService } from 'services/announcement/resolveAnnouncement.service';
+import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import { useDispatch } from 'react-redux';
 
 export const useChangeAnnouncementStatus = (announcement) => {
+  const dispatch = useDispatch();
   const {
     setShowErrorModal: setShowChangeStatusErrorModal,
     drawErrorModal: drawChangeStatusErrorModal,
@@ -26,7 +29,8 @@ export const useChangeAnnouncementStatus = (announcement) => {
   const archiveAnnouncement = async () => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_ARCHIVED);
-      await archiveAnnouncementService(announcement.id);
+      const res = await archiveAnnouncementService(announcement.id);
+      dispatch(setUpdatedAnnouncement(res.data));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);
@@ -36,7 +40,8 @@ export const useChangeAnnouncementStatus = (announcement) => {
   const makeAnnouncementActive = async () => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_ACTIVATED);
-      await makeAnnouncementActiveService(announcement.id);
+      const res = await makeAnnouncementActiveService(announcement.id);
+      dispatch(setUpdatedAnnouncement(res.data));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);
@@ -46,7 +51,8 @@ export const useChangeAnnouncementStatus = (announcement) => {
   const resolveAnnouncement = async () => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_RESOLVED);
-      await resolveAnnouncementService(announcement.id);
+      const res = await resolveAnnouncementService(announcement.id);
+      dispatch(setUpdatedAnnouncement(res.data));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);

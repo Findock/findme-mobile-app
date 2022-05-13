@@ -33,6 +33,7 @@ export const FTileSelectInput = ({
         width,
         height,
       }}
+      isChildrenInside={false}
     />
     <View style={{
       marginTop: 10,

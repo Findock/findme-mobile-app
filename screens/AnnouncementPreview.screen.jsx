@@ -102,6 +102,12 @@ export const AnnouncementPreviewScreen = () => {
   }, [announcement?.isInFavorites]);
 
   useEffect(() => {
+    if (announcement) {
+      dispatch(setUpdatedAnnouncement(announcement));
+    }
+  }, [announcement?.status]);
+
+  useEffect(() => {
     if (route.params?.announcementEditedSuccessfullyModalVisible) {
       setAnnouncementEditedSuccessfullyModalVisible(true);
       navigation.setParams({ announcementEditedSuccessfullyModalVisible: false });

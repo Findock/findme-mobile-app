@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 export const FImage = ({
   width, height, imagePath, children, containerStyle, resizeMode, networkImageUrl, imageStyle,
-  imageWidth = sizes.WIDTH_FULL, imageHeight = sizes.HEIGHT_FULL,
+  imageWidth = sizes.WIDTH_FULL, imageHeight = sizes.HEIGHT_FULL, isChildrenInside = false,
 }) => {
   const getUri = () => {
     if (networkImageUrl) return networkImageUrl;
@@ -21,7 +21,7 @@ export const FImage = ({
       ...containerStyle,
     }}
     >
-      {children}
+      {!isChildrenInside && children}
       <ImageBackground
         source={{
           uri: getUri(),
@@ -33,7 +33,9 @@ export const FImage = ({
           ...imageStyle,
 
         }}
-      />
+      >
+        {isChildrenInside && children}
+      </ImageBackground>
     </View>
   );
 };
@@ -61,4 +63,5 @@ FImage.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]),
+  isChildrenInside: PropTypes.bool.isRequired,
 };

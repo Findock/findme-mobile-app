@@ -57,12 +57,15 @@ export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcemen
 
   const resolveAnnouncementHandler = async () => {
     await resolveAnnouncement();
+    setVisible(false);
   };
   const makeAnnouncementActiveHandler = async () => {
     await makeAnnouncementActive();
+    setVisible(false);
   };
   const archiveAnnouncementHandler = async () => {
     await archiveAnnouncement();
+    setVisible(false);
   };
 
   return (
