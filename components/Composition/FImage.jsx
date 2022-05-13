@@ -21,6 +21,7 @@ export const FImage = ({
       ...containerStyle,
     }}
     >
+      {children}
       <ImageBackground
         source={{
           uri: getUri(),
@@ -30,10 +31,9 @@ export const FImage = ({
           width: imageWidth,
           height: imageHeight,
           ...imageStyle,
+
         }}
-      >
-        {children}
-      </ImageBackground>
+      />
     </View>
   );
 };

@@ -1,5 +1,5 @@
 import {
-  StyleSheet, View, TouchableWithoutFeedback, Animated,
+  StyleSheet, View, TouchableWithoutFeedback, Animated, Dimensions,
 } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import sizes from 'themes/sizes';
@@ -17,6 +17,10 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FAnnouncementCardActionsModal } from 'components/Scoped/Announcement/Card/FAnnouncementCardActionsModal';
 import { parseDate } from 'utils/parseDate';
 import dateFormatTypes from 'constants/dateFormatTypes';
+import { FBadge } from 'components/Composition/FBadge';
+import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
+import opacities from 'themes/opacities';
+import locales from 'constants/locales';
 
 export const FAnnouncementCard = ({
   width, data, height, style,
@@ -24,7 +28,7 @@ export const FAnnouncementCard = ({
   const navigation = useNavigation();
   const animatedScale = useRef(new Animated.Value(1)).current;
   const {
-    id, isUserCreator, photos, title, description, locationName, createDate,
+    id, isUserCreator, photos, title, description, locationName, createDate, status,
   } = data;
   const [
     showOptionsModal,
@@ -40,6 +44,19 @@ export const FAnnouncementCard = ({
       speed: 1,
       delay: 50,
     }).start();
+  };
+
+  const getImageOpacity = () => (status === AnnouncementStatusEnum.NOT_ACTIVE || status === AnnouncementStatusEnum.ARCHIVED
+    ? opacities.OPACITY_05 : opacities.OPACITY_1);
+
+  const getBadgeColor = () => {
+    if (status === AnnouncementStatusEnum.NOT_ACTIVE) return colors.SUCCESS;
+    if (status === AnnouncementStatusEnum.ARCHIVED) return colors.DANGER;
+  };
+
+  const getBadgeStatusTitle = () => {
+    if (status === AnnouncementStatusEnum.NOT_ACTIVE) return locales.FOUND_NONE;
+    if (status === AnnouncementStatusEnum.ARCHIVED) return locales.FINISHED_NONE;
   };
 
   return (
@@ -79,12 +96,31 @@ export const FAnnouncementCard = ({
           }}
           >
             <View>
+              {(status === AnnouncementStatusEnum.ARCHIVED || status === AnnouncementStatusEnum.NOT_ACTIVE)
+                 && (
+                   <View style={{
+                     ...styles.statusBadgeContainer,
+                     top: (sizes.HEIGHT_150 / 2) - 10,
+                   }}
+                   >
+                     <FBadge
+                       title={getBadgeStatusTitle()}
+                       isFill={false}
+                       color={getBadgeColor()}
+                       style={{ paddingHorizontal: Dimensions.get('window').width < 400 ? sizes.PADDING_3 : sizes.PADDING_8 }}
+                     />
+                   </View>
+                 )}
               <FImage
                 imagePath=""
                 imageWidth={sizes.WIDTH_FULL}
                 imageHeight={sizes.HEIGHT_FULL}
                 networkImageUrl={photos[0].url}
-                imageStyle={styles.image}
+                imageStyle={{
+                  ...styles.image,
+                  opacity: getImageOpacity(),
+
+                }}
                 height={sizes.HEIGHT_150}
                 resizeMode={sizes.COVER}
                 width={sizes.WIDTH_FULL}
@@ -152,9 +188,19 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: sizes.RADIUS_20,
     overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     marginLeft: sizes.MARGIN_5,
+  },
+  statusBadgeContainer: {
+    position: 'absolute',
+    justifyContent: placements.CENTER,
+    alignItems: placements.CENTER,
+    width: sizes.WIDTH_FULL,
+    opacity: opacities.OPACITY_1,
+    zIndex: 1,
   },
 });
 

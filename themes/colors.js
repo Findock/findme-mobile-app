@@ -5,7 +5,7 @@ export default {
   LIGHT_GRAY: '#F4F4F4',
   LIGHTEST_GRAY: '#FBFAF7',
   GRAY: '#E6E6E6',
-  DANGER: '#FF4C00',
+  DANGER: '#FF544F',
   WARNING: '#FF9600',
   SUCCESS: '#00D222',
   WHITE: '#FFFFFF',

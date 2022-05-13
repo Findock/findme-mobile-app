@@ -257,24 +257,42 @@ export const AnnouncementPreviewScreen = () => {
           style={{ borderRadius: 0 }}
           width={sizes.WIDTH_FULL}
         >
-          <View style={{ width: sizes.WIDTH_FULL }}>
-            <FHeadingWithIcon
-              icon={icons.LOCATION_OUTLINE}
-              iconColor={colors.DARK_GRAY}
-              iconSize={sizes.ICON_20}
-              title={announcement.locationName}
-              titleColor={colors.DARK_GRAY}
-              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-              titleSize={fonts.HEADING_NORMAL}
-              iconPlacement={placements.LEFT}
-            />
-            <FHeading
-              title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
-              color={colors.DARK_GRAY}
-              weight={fonts.HEADING_WEIGHT_MEDIUM}
-              size={fonts.HEADING_NORMAL}
-              style={{ marginTop: sizes.MARGIN_5 }}
-            />
+          <View style={styles.headerWithStatusContainer}>
+            <View style={{ flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES }}>
+              <FHeadingWithIcon
+                icon={icons.LOCATION_OUTLINE}
+                iconColor={colors.DARK_GRAY}
+                iconSize={sizes.ICON_20}
+                title={announcement.locationName}
+                titleColor={colors.DARK_GRAY}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                titleSize={fonts.HEADING_NORMAL}
+                iconPlacement={placements.LEFT}
+                numberOfLines={2}
+              />
+              <FHeading
+                title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
+                color={colors.DARK_GRAY}
+                weight={fonts.HEADING_WEIGHT_MEDIUM}
+                size={fonts.HEADING_NORMAL}
+                style={{ marginTop: sizes.MARGIN_5 }}
+              />
+            </View>
+            {(announcement.status === AnnouncementStatusEnum.ARCHIVED || announcement.status === AnnouncementStatusEnum.NOT_ACTIVE)
+              && (
+                <View style={styles.statusContainer}>
+                  <FBadge
+                    isFill
+                    color={announcement.status === AnnouncementStatusEnum.ARCHIVED ? colors.DANGER : colors.SUCCESS}
+                    title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.FINISHED_NONE : locales.FOUND_NONE}
+                    style={{
+                      paddingVertical: sizes.PADDING_10,
+                      paddingHorizontal: sizes.PADDING_10,
+                    }}
+                  />
+                </View>
+              )}
+
           </View>
           <View style={styles.headerContainer}>
             <View style={{ flexBasis: !announcement.isUserCreator ? sizes.BASIS_70_PERCENTAGES : sizes.WIDTH_FULL }}>
@@ -499,10 +517,20 @@ const styles = StyleSheet.create({
     alignItems: placements.CENTER,
     width: sizes.WIDTH_FULL,
   },
+  headerWithStatusContainer: {
+    width: sizes.WIDTH_FULL,
+    flexDirection: Dimensions.get('window').width < sizes.WIDTH_330 ? 'column-reverse' : 'row',
+    justifyContent: 'space-between',
+  },
   wrapContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: sizes.WIDTH_FULL,
+  },
+  statusContainer: {
+    flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES,
+    alignItems: Dimensions.get('window').width < sizes.WIDTH_330 ? 'baseline' : 'flex-end',
+    marginBottom: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.MARGIN_20 : 0,
   },
   stickyContainer: {
     width: Dimensions.get('window').width,
