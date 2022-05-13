@@ -32,6 +32,7 @@ import { SelectScreen } from 'screens/Select.screen';
 import { MyAnnouncementsScreen } from 'screens/MyAnnouncements.screen';
 import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
 import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
+import { HomeDrawer } from 'navigation/drawers/HomeDrawer';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -134,8 +135,8 @@ export const Navigation = () => {
         ) : (
           <>
             <Stack.Screen
-              name={stackNavigatorNames.HOMEPAGE}
-              component={HomepageScreen}
+              name="A"
+              component={HomeDrawer}
               options={{
                 headerShown: false,
               }}

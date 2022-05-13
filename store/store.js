@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import announcementSlice from 'store/announcement/announcementSlice';
 import authSlice from 'store/auth/authSlice';
+import filtersOptionsSlice from 'store/filters-options/filtersOptionsSlice';
 import globalLoaderSlice from 'store/global-loader/globalLoaderSlice';
 import meSlice from 'store/me/meSlice';
 import multiSelectSlice from 'store/multi-select/multiSelectSlice';
@@ -14,5 +15,6 @@ export default configureStore({
     multiSelect: multiSelectSlice,
     select: selectSlice,
     announcement: announcementSlice,
+    filtersOptions: filtersOptionsSlice,
   },
 });

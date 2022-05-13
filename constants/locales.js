@@ -74,4 +74,5 @@ export default {
   SHOW_ALL: 'Pokaż wszystkie',
   USER_ANNOUNCEMENTS: 'Ogłoszenia użytkownika',
   NO_FOLLOWED_ANNOUNCEMENTS: 'Brak obserwowanych ogłoszeń',
+  ALL_FEMALE: 'Wszystkie',
 };

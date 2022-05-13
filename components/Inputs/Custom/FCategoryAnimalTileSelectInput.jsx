@@ -1,86 +1,39 @@
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
-import { FSpinner } from 'components/Composition/FSpinner';
 import { FTileSelectInput } from 'components/Inputs/FTileSelectInput';
-import images from 'constants/images';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ScrollView, View } from 'react-native';
-import { getCategoriesService } from 'services/announcement/getCategories.service';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import animalCategoriesIcons from 'constants/filters-options/animalCategoriesIcons';
 
 export const FCategoryAnimalTileSelectInput = ({
   setDataForm, dataForm, style, errorMessage,
 }) => {
-  const [
-    loadingCategories,
-    setLoadingCategories,
-  ] = useState(false);
-  const [
-    categories,
-    setCategories,
-  ] = useState([]);
+  const categories = useSelector((state) => state.filtersOptions.animalCategories);
 
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const drawCategoryAnimalTileInputs = () => categories && categories.filter((_, index) => index > 0).map((category, index) => (
+    <FTileSelectInput
+      key={index}
+      height={sizes.HEIGHT_80}
+      width={sizes.WIDTH_80}
+      iconSize={sizes.ICON_50}
+      iconDefault={animalCategoriesIcons[category.id].iconDefault}
+      iconPressed={animalCategoriesIcons[category.id].iconPressed}
+      label={category.namePl}
+      style={{
+        paddingLeft: index === 0 ? 0 : sizes.PADDING_10,
+        paddingRight: index === categories.length - 1 ? 0 : sizes.PADDING_10,
+      }}
+      setValue={() => setDataForm({
+        ...dataForm,
+        categoryId: category.id,
+      })}
+      value={dataForm.categoryId === category.id}
+    />
+  ));
 
-  const fetchCategories = async () => {
-    try {
-      setLoadingCategories(true);
-      const res = await getCategoriesService();
-      setCategories(res.data);
-      setLoadingCategories(false);
-    } catch (error) {
-      setLoadingCategories(false);
-    }
-  };
-
-  const drawCategoryAnimalTileInputs = () => {
-    const categoriesIcons = [
-      {
-        iconDefault: images.RABBIT_BLACK(),
-        iconPressed: images.RABBIT_WHITE(),
-      },
-      {
-        iconDefault: images.CAT_BLACK(),
-        iconPressed: images.CAT_WHITE(),
-      },
-      {
-        iconDefault: images.DOG_BLACK(),
-        iconPressed: images.DOG_WHITE(),
-      },
-      {
-        iconDefault: images.PIGEON_BLACK(),
-        iconPressed: images.PIGEON_WHITE(),
-      },
-      {
-        iconDefault: images.TURTLE_BLACK(),
-        iconPressed: images.TURTLE_WHITE(),
-      },
-    ];
-    return categories && categories.map((category, index) => (
-      <FTileSelectInput
-        key={index}
-        height={sizes.HEIGHT_80}
-        width={sizes.WIDTH_80}
-        iconSize={sizes.ICON_50}
-        iconDefault={categoriesIcons[category.id - 1].iconDefault}
-        iconPressed={categoriesIcons[category.id - 1].iconPressed}
-        label={category.namePl}
-        style={{
-          paddingLeft: index === 0 ? 0 : sizes.PADDING_10,
-          paddingRight: index === categories.length - 1 ? 0 : sizes.PADDING_10,
-        }}
-        setValue={() => setDataForm({
-          ...dataForm,
-          categoryId: category.id,
-        })}
-        value={dataForm.categoryId === category.id}
-      />
-    ));
-  };
-
-  if (loadingCategories) return <FSpinner />;
+  // if (loadingCategories) return <FSpinner />;
   return (
     <View>
       <ScrollView

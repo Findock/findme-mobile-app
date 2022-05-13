@@ -166,7 +166,7 @@ export const FMapView = ({
             type={buttonTypes.ICON_BUTTON}
             icon={icons.LOCATE_OUTLINE}
             iconSize={sizes.ICON_30}
-            style={{
+            buttonViewStyles={{
               padding: sizes.PADDING_14,
               borderRadius: getHalfBorderRadius(sizes.ICON_30 + sizes.PADDING_25),
             }}

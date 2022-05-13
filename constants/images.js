@@ -20,4 +20,6 @@ export default {
   FEMALE_WHITE: () => require('assets/animalGender/female-w.png'),
   UNKNOWN_BLACK: () => require('assets/animalGender/unknown-b.png'),
   UNKNOWN_WHITE: () => require('assets/animalGender/unknown-w.png'),
+  INFINITY_BLACK: () => require('assets/infinity-b.png'),
+  INFINITY_WHITE: () => require('assets/infinity-w.png'),
 };

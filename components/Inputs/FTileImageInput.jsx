@@ -127,7 +127,7 @@ export const FTileImageInput = ({
           iconSize={sizes.ICON_30}
           color={colors.WHITE}
           backgroundColor={colors.DARK_GRAY}
-          style={{
+          buttonViewStyles={{
             borderRadius: sizes.RADIUS_20,
             padding: sizes.PADDING_3,
             ...styles.centerView,
