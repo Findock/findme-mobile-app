@@ -39,7 +39,6 @@ export const FAnimalCoatColorSelectInput = ({
     />
   ));
 
-  // if (loadingCoatColors) return <FSpinner />;
   return (
     <View>
       <ScrollView
