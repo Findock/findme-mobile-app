@@ -41,10 +41,13 @@ import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
 import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavouriteAnnouncementManagement';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch } from 'react-redux';
+import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [
     announcement,
     setAnnouncement,
@@ -91,6 +94,12 @@ export const AnnouncementPreviewScreen = () => {
       fetchAnnouncement();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    if (announcement) {
+      dispatch(setUpdatedAnnouncement(announcement));
+    }
+  }, [announcement?.isInFavorites]);
 
   useEffect(() => {
     if (route.params?.announcementEditedSuccessfullyModalVisible) {

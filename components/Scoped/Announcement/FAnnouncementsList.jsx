@@ -63,10 +63,19 @@ export const FAnnouncementsList = ({
   }, [params]);
 
   useEffect(() => {
+    if (params.onlyFavorites) {
+      if (updatedAnnouncement) setIsLoading(true);
+      else setIsLoading(false);
+    }
+  }, [updatedAnnouncement]);
+
+  useEffect(() => {
     if (updatedAnnouncement && isFocused) {
       const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
       const newAnnouncemnts = [...announcements];
-      newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      if (params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) {
+        newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
+      } else newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
       setAnnouncements([...newAnnouncemnts]);
       dispatch(setUpdatedAnnouncement(null));
     }
