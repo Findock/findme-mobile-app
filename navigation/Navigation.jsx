@@ -10,28 +10,29 @@ import { removeToken, setToken } from 'store/auth/authSlice';
 import { FGlobalLoader } from 'components/Composition/FGlobalLoader';
 import { setGlobalLoader } from 'store/global-loader/globalLoaderSlice';
 import appConfig from 'app.config';
-import { LoginHistoryScreen } from 'screens/LoginHistory.screen';
+import { LoginHistoryScreen } from 'screens/user/LoginHistory.screen';
 import locales from 'constants/locales';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { setMe } from 'store/me/meSlice';
-import { UserProfileScreen } from 'screens/UserProfile.screen';
-import { SettingsScreen } from 'screens/Settings.screen';
-import { ChangePasswordScreen } from 'screens/ChangePassword.screen';
-import { ForgotPasswordScreen } from 'screens/ForgotPassword.screen';
+import { UserProfileScreen } from 'screens/user/UserProfile.screen';
+import { SettingsScreen } from 'screens/user/Settings.screen';
+import { ChangePasswordScreen } from 'screens/user/ChangePassword.screen';
+import { ForgotPasswordScreen } from 'screens/user/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
 import { FLogo } from 'components/Composition/FLogo';
-import { AddAnnouncementScreen } from 'screens/AddAnnouncement.screen';
+import { AddAnnouncementScreen } from 'screens/announcements/AddAnnouncement.screen';
 import { authValidateTokenService } from 'services/auth/authValidateToken.service';
 import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
-import { AnnouncementPreviewScreen } from 'screens/AnnouncementPreview.screen';
-import { EditAnnouncementScreen } from 'screens/EditAnnouncement.screen';
+import { AnnouncementPreviewScreen } from 'screens/announcements/AnnouncementPreview.screen';
+import { EditAnnouncementScreen } from 'screens/announcements/EditAnnouncement.screen';
 import { SelectScreen } from 'screens/Select.screen';
-import { MyAnnouncementsScreen } from 'screens/MyAnnouncements.screen';
-import { MyFollowedAnnouncementsScreen } from 'screens/MyFollowedAnnouncements.screen';
-import { UserAnnouncementsScreen } from 'screens/UserAnnouncements.screen';
-import { HomeDrawer } from 'navigation/drawers/HomeDrawer';
+import { MyAnnouncementsScreen } from 'screens/announcements/MyAnnouncements.screen';
+import { MyFollowedAnnouncementsScreen } from 'screens/announcements/MyFollowedAnnouncements.screen';
+import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements.screen';
+import { AllAnnouncementsDrawer } from 'navigation/drawers/AllAnnouncementsDrawer';
+import { HomepageScreen } from 'screens/Homepage.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -134,8 +135,15 @@ export const Navigation = () => {
         ) : (
           <>
             <Stack.Screen
-              name="A"
-              component={HomeDrawer}
+              name={stackNavigatorNames.HOMEPAGE}
+              component={HomepageScreen}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name={stackNavigatorNames.ALL_ANNOUNCEMENTS}
+              component={AllAnnouncementsDrawer}
               options={{
                 headerShown: false,
               }}

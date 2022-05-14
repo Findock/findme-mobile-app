@@ -15,6 +15,8 @@ export const MyAnnouncementsScreen = () => (
       isMe
       numColumns={2}
       horizontal={false}
+      FAnnouncementsList={false}
+      onlyFavorites={false}
     />
   </View>
 );

@@ -3,17 +3,17 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FAnnouncementFiltersDrawer } from 'components/Scoped/AnnouncementFiltersDrawer/FAnnouncementFiltersDrawer';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import React from 'react';
-import { HomepageScreen } from 'screens/Homepage.screen';
+import { AllAnnouncementsScreen } from 'screens/announcements/AllAnnouncements.screen';
 import sizes from 'themes/sizes';
 
-export const HomeDrawer = () => {
+export const AllAnnouncementsDrawer = () => {
   const Drawer = createDrawerNavigator();
   const Stack = createNativeStackNavigator();
 
   return (
     <Drawer.Navigator
       drawerContent={() => <FAnnouncementFiltersDrawer />}
-      initialRouteName={stackNavigatorNames.HOMEPAGE}
+      initialRouteName={stackNavigatorNames.ALL_ANNOUNCEMENTS}
       screenOptions={{
         drawerStyle: {
           width: sizes.WIDTH_90_PERCENTAGES,
@@ -25,9 +25,9 @@ export const HomeDrawer = () => {
         swipeEnabled: false,
       }}
     >
-      <Stack.Screen
-        name={stackNavigatorNames.HOMEPAGE}
-        component={HomepageScreen}
+      <Drawer.Screen
+        name={stackNavigatorNames.ALL_ANNOUNCEMENTS_DRAWER}
+        component={AllAnnouncementsScreen}
         options={{
           headerShown: false,
         }}

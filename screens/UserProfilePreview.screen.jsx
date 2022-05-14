@@ -58,8 +58,10 @@ export const UserProfilePreviewScreen = () => {
                 horizontal
                 isMe={false}
                 userId={user.id}
+                onlyFavorites={false}
                 setUserAnnouncementsLength={setUserAnnouncementsLength}
                 numColumns={1}
+                getAll={false}
               />
             </View>
             {userAnnouncementsLength > 4

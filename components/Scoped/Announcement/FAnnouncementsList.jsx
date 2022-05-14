@@ -24,9 +24,17 @@ export const FAnnouncementsList = ({
   isMe,
   userId,
   onlyActive = false,
-  onlyFavorites = false,
-  horizontal = false,
+  onlyFavorites,
+  horizontal,
+  getAll,
   numColumns,
+  filters = {
+    categoriesIds: [],
+    distinctiveFeaturesIds: [],
+    type: null,
+    coatColorsIds: [],
+    genders: [],
+  },
   setUserAnnouncementsLength,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
@@ -40,7 +48,9 @@ export const FAnnouncementsList = ({
     offset: 0,
     onlyActive,
     onlyFavorites,
+    ...filters,
   });
+
   const [
     isLoading,
     setIsLoading,
@@ -62,6 +72,27 @@ export const FAnnouncementsList = ({
   useEffect(() => {
     fetchAnnouncements();
   }, [params]);
+
+  useEffect(() => {
+    setParams({
+      ...params,
+      ...filters,
+    });
+  }, [filters]);
+
+  useEffect(() => {
+    const currentFilters = {
+      categoriesIds: params.categoriesIds,
+      genders: params.genders,
+      distinctiveFeaturesIds: params.distinctiveFeaturesIds,
+      type: params.type,
+      coatColorsIds: params.coatColorsIds,
+    };
+    if (JSON.stringify(filters) !== JSON.stringify(currentFilters)) {
+      setAnnouncements([]);
+      fetchAnnouncements();
+    }
+  }, [filters]);
 
   useEffect(() => {
     if (params.onlyFavorites) {
@@ -93,14 +124,19 @@ export const FAnnouncementsList = ({
   const fetchAnnouncements = async () => {
     try {
       let res;
-      if (onlyFavorites) res = await searchAnnouncementsService(params);
+      if (getAll) {
+        res = await searchAnnouncementsService(params);
+      } else {
+        if (onlyFavorites) res = await searchAnnouncementsService(params);
 
-      if (isMe) res = await getMyAnnouncementsService(params);
+        if (isMe) res = await getMyAnnouncementsService(params);
 
-      if (userId) {
-        res = await getUserAnnouncementsService(userId, params);
-        if (setUserAnnouncementsLength) setUserAnnouncementsLength(announcements.length + res.data.length);
+        if (userId) {
+          res = await getUserAnnouncementsService(userId, params);
+          if (setUserAnnouncementsLength) setUserAnnouncementsLength(announcements.length + res.data.length);
+        }
       }
+
       setAnnouncements([...announcements, ...res.data]);
       if (res.data.length < 8) {
         setEndReached(true);
@@ -119,6 +155,7 @@ export const FAnnouncementsList = ({
         offset: prevState.offset + 8,
         onlyActive: prevState.onlyActive,
         onlyFavorites: prevState.onlyFavorites,
+        ...filters,
       }),
     );
   };
@@ -141,6 +178,9 @@ export const FAnnouncementsList = ({
   );
 
   const getInfoTitle = () => {
+    if (getAll) {
+      return locales.ANNOUNCEMENTS_NOT_FOUND;
+    }
     if (onlyFavorites) {
       return locales.NO_FOLLOWED_ANNOUNCEMENTS;
     }
@@ -222,8 +262,16 @@ FAnnouncementsList.propTypes = {
   isMe: PropTypes.bool.isRequired,
   userId: PropTypes.number,
   onlyActive: PropTypes.bool,
-  onlyFavorites: PropTypes.bool,
+  onlyFavorites: PropTypes.bool.isRequired,
   horizontal: PropTypes.bool.isRequired,
   numColumns: PropTypes.number.isRequired,
   setUserAnnouncementsLength: PropTypes.func,
+  getAll: PropTypes.bool.isRequired,
+  filters: PropTypes.shape({
+    categoriesIds: PropTypes.arrayOf(PropTypes.number),
+    distinctiveFeaturesIds: PropTypes.arrayOf(PropTypes.number),
+    type: PropTypes.string,
+    coatColorsIds: PropTypes.arrayOf(PropTypes.number),
+    genders: PropTypes.arrayOf(PropTypes.string),
+  }),
 };
