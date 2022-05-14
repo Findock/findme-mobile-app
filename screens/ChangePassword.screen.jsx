@@ -125,6 +125,9 @@ export const ChangePasswordScreen = () => {
             height={sizes.HEIGHT_120}
             networkImageUrl=""
             resizeMode={sizes.CONTAIN}
+            isChildrenInside={false}
+            imageHeight={sizes.HEIGHT_FULL}
+            imageWidth={sizes.WIDTH_FULL}
           />
         </View>
         <FInput

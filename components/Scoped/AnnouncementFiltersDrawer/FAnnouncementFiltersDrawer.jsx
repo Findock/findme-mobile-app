@@ -107,6 +107,7 @@ export const FAnnouncementFiltersDrawer = () => {
               titleColor={colors.PRIMARY}
               iconPlacement={placements.LEFT}
               icon={icons.OPTIONS_OUTLINE}
+              iconColor={colors.BLACK}
               iconSize={sizes.ICON_25}
               titleStyle={{ marginLeft: sizes.MARGIN_5 }}
             />

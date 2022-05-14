@@ -32,6 +32,7 @@ export const FSlider = ({ photos }) => {
       imagePath=""
       networkImageUrl={item}
       imageWidth={sizes.WIDTH_FULL}
+      isChildrenInside={false}
     />
   );
 

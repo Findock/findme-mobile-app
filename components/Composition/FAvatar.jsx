@@ -93,6 +93,7 @@ export const FAvatar = ({
       resizeMode={sizes.COVER}
       imageWidth={sizes.WIDTH_FULL}
       imageHeight={sizes.HEIGHT_FULL}
+      isChildrenInside={false}
     />,
   );
 };

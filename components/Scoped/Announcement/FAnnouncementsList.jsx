@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import {
   FlatList, View, StyleSheet, ActivityIndicator, Platform,
 } from 'react-native';
@@ -70,16 +71,24 @@ export const FAnnouncementsList = ({
   }, [updatedAnnouncement]);
 
   useEffect(() => {
-    if (updatedAnnouncement && isFocused) {
+    refreshAnnouncementHandler(false);
+  }, [isFocused]);
+
+  useEffect(() => {
+    refreshAnnouncementHandler(true);
+  }, [updatedAnnouncement]);
+
+  const refreshAnnouncementHandler = (onUpdatedAnnouncementChange = false) => {
+    if (updatedAnnouncement) {
       const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
       const newAnnouncemnts = [...announcements];
-      if (params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) {
-        newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
-      } else newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      if (!onUpdatedAnnouncementChange && params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
+      else if (announcements[updatedAnnouncementIndex].status !== updatedAnnouncement.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      else if (!onUpdatedAnnouncementChange) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
       setAnnouncements([...newAnnouncemnts]);
       dispatch(setUpdatedAnnouncement(null));
     }
-  }, [isFocused]);
+  };
 
   const fetchAnnouncements = async () => {
     try {

@@ -114,6 +114,7 @@ export const FTileImageInput = ({
         ...styles.centerView,
       }}
       imageStyle={{ borderRadius: sizes.RADIUS_10 }}
+      isChildrenInside
     >
       <View style={{
         ...styles.buttonContainer,
