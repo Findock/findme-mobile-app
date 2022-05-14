@@ -23,9 +23,6 @@ export const filtersOptionsSlice = createSlice({
     setCoatColors: (state, action) => {
       state.coatColors = [...action.payload];
     },
-    setDistinctiveFeatures: (state, action) => {
-      state.distinctiveFeatures = [...action.payload];
-    },
     setAreOptionsLoading: (state, action) => {
       state.areOptionsLoading = action.payload;
     },
@@ -33,6 +30,6 @@ export const filtersOptionsSlice = createSlice({
 });
 
 export const {
-  setAnimalCategories, setCoatColors, setDistinctiveFeatures, setAreOptionsLoading,
+  setAnimalCategories, setCoatColors, setAreOptionsLoading,
 } = filtersOptionsSlice.actions;
 export default filtersOptionsSlice.reducer;
