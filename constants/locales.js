@@ -78,4 +78,5 @@ export default {
   NO_FOLLOWED_ANNOUNCEMENTS: 'Brak obserwowanych ogłoszeń',
   ANNOUNCEMENTS_NOT_FOUND: 'Nie znaleziono ogłoszeń.',
   ALL_FEMALE: 'Wszystkie',
+  VIEWS_AMOUNT: 'Wyświetlenia:',
 };
