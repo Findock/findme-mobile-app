@@ -19,6 +19,7 @@ import { searchAnnouncementsService } from 'services/announcement/searchAnnounce
 import { useSelector, useDispatch } from 'react-redux';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { useIsFocused } from '@react-navigation/native';
+import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -35,6 +36,7 @@ export const FAnnouncementsList = ({
     coatColorsIds: [],
     genders: [],
   },
+  sortingMode = AnnouncementSortingModeEnum.BY_NEWEST,
   setUserAnnouncementsLength,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
@@ -49,6 +51,7 @@ export const FAnnouncementsList = ({
     onlyActive,
     onlyFavorites,
     ...filters,
+    sortingMode,
   });
 
   const [
@@ -74,25 +77,51 @@ export const FAnnouncementsList = ({
   }, [params]);
 
   useEffect(() => {
-    setParams({
-      ...params,
-      ...filters,
-    });
+    if (getAll) {
+      setParams({
+        ...params,
+        pageSize: 8,
+        offset: 0,
+        ...filters,
+        sortingMode,
+      });
+    }
   }, [filters]);
 
   useEffect(() => {
-    const currentFilters = {
-      categoriesIds: params.categoriesIds,
-      genders: params.genders,
-      distinctiveFeaturesIds: params.distinctiveFeaturesIds,
-      type: params.type,
-      coatColorsIds: params.coatColorsIds,
-    };
-    if (JSON.stringify(filters) !== JSON.stringify(currentFilters)) {
+    if (getAll) {
+      setParams({
+        ...params,
+        pageSize: 8,
+        offset: 0,
+        ...filters,
+        sortingMode,
+      });
+    }
+  }, [sortingMode]);
+
+  useEffect(() => {
+    if (getAll) {
+      const currentFilters = {
+        categoriesIds: params.categoriesIds,
+        genders: params.genders,
+        distinctiveFeaturesIds: params.distinctiveFeaturesIds,
+        type: params.type,
+        coatColorsIds: params.coatColorsIds,
+      };
+      if (JSON.stringify(filters) !== JSON.stringify(currentFilters)) {
+        setAnnouncements([]);
+        fetchAnnouncements();
+      }
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    if (getAll) {
       setAnnouncements([]);
       fetchAnnouncements();
     }
-  }, [filters]);
+  }, [sortingMode]);
 
   useEffect(() => {
     if (params.onlyFavorites) {
@@ -156,6 +185,7 @@ export const FAnnouncementsList = ({
         onlyActive: prevState.onlyActive,
         onlyFavorites: prevState.onlyFavorites,
         ...filters,
+        sortingMode,
       }),
     );
   };
@@ -274,4 +304,5 @@ FAnnouncementsList.propTypes = {
     coatColorsIds: PropTypes.arrayOf(PropTypes.number),
     genders: PropTypes.arrayOf(PropTypes.string),
   }),
+  sortingMode: PropTypes.string,
 };

@@ -16,6 +16,7 @@ export const MyFollowedAnnouncementsScreen = () => (
       onlyFavorites
       horizontal={false}
       FAnnouncementsList={false}
+      getAll={false}
     />
   </View>
 );

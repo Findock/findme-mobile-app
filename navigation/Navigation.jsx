@@ -36,6 +36,8 @@ import { HomepageScreen } from 'screens/Homepage.screen';
 import { setAnimalCategories, setAreOptionsLoading, setCoatColors } from 'store/filters-options/filtersOptionsSlice';
 import { getCategoriesService } from 'services/announcement/getCategories.service';
 import { getCoatColorsService } from 'services/announcement/getCoatColors.service';
+import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
+import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -108,22 +110,6 @@ export const Navigation = () => {
     } catch (error) {
       dispatch(removeToken());
     }
-  };
-
-  const defaultHeaderOptions = {
-    headerBackTitle: locales.GO_BACK,
-    headerTintColor: colors.BLACK,
-    headerTitleStyle: {
-      fontSize: fonts.HEADING_LARGE,
-    },
-
-  };
-
-  const headerWithoutShadowOptions = {
-    headerBackTitle: locales.GO_BACK,
-    headerTintColor: colors.BLACK,
-    headerShadowVisible: false,
-    headerTitle: '',
   };
 
   return (

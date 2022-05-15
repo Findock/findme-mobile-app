@@ -50,7 +50,7 @@ export const FSelectOptions = ({
 
 FSelectOptions.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
   })).isRequired,
 };

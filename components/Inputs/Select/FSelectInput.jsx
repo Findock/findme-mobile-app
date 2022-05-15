@@ -1,7 +1,7 @@
 import { FInput } from 'components/Inputs/FInput';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import React from 'react';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import { useNavigation } from '@react-navigation/native';
@@ -10,32 +10,41 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 export const FSelectInput = ({
-  width, options, defaultOption,
+  width, options, defaultOption, icon, iconPlacement, rounded,
 }) => {
   const navigation = useNavigation();
   const selectedOption = useSelector((state) => state.select.selectedOption);
   return (
-    <View>
-      <FInput
-        type={inputTypes.TEXT}
-        width={width}
-        marginBottom={0}
-        showSoftInputOnFocus={false}
-        onChangeText={() => { }}
-        iconPlacement={placements.RIGHT}
-        icon={icons.CHEVRON_DOWN_OUTLINE}
-        rounded
-        value={selectedOption.label ? selectedOption.label : defaultOption.label}
-        caretHidden
-        onPress={() => {
-          Keyboard.dismiss();
-          navigation.push(stackNavigatorNames.SELECT, {
-            options,
-            defaultOption,
-          });
-        }}
-      />
-    </View>
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss();
+      navigation.push(stackNavigatorNames.SELECT, {
+        options,
+        defaultOption,
+      });
+    }}
+    >
+      <View>
+        <FInput
+          type={inputTypes.TEXT}
+          width={width}
+          marginBottom={0}
+          showSoftInputOnFocus={false}
+          onChangeText={() => { }}
+          iconPlacement={iconPlacement || placements.RIGHT}
+          icon={icon || icons.CHEVRON_DOWN_OUTLINE}
+          rounded={rounded}
+          value={(selectedOption.label ? selectedOption.label : defaultOption.label)}
+          caretHidden
+          onPress={() => {
+            Keyboard.dismiss();
+            navigation.push(stackNavigatorNames.SELECT, {
+              options,
+              defaultOption,
+            });
+          }}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -46,7 +55,10 @@ FSelectInput.propTypes = {
     label: PropTypes.string.isRequired,
   }).isRequired,
   defaultOption: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     label: PropTypes.string.isRequired,
   }).isRequired,
+  rounded: PropTypes.bool,
+  icon: PropTypes.string,
+  iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
 };

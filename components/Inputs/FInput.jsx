@@ -17,7 +17,7 @@ import { FErrorMessage } from 'components/Composition/FErrorMessage';
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage, rounded = false,
   marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
-  textAreaHeight = sizes.HEIGHT_80,
+  textAreaHeight = sizes.HEIGHT_80, onBlur = () => {},
 }) => {
   const [
     isPasswordVisible,
@@ -101,7 +101,6 @@ export const FInput = ({
       height: type === inputTypes.TEXTAREA ? textAreaHeight : sizes.HEIGHT_54,
     }}
     >
-
       <Ionicons
         style={{
           ...styles.icon,
@@ -124,6 +123,7 @@ export const FInput = ({
         keyboardType={getKeyboardType()}
         multiline={type === inputTypes.TEXTAREA}
         onFocus={onPress}
+        onBlur={onBlur}
         caretHidden={caretHidden}
         style={{
           ...styles.input,
@@ -174,4 +174,5 @@ FInput.propTypes = {
   showSoftInputOnFocus: PropTypes.bool,
   caretHidden: PropTypes.bool,
   textAreaHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onBlur: PropTypes.func,
 };

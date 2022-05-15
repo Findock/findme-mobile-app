@@ -21,6 +21,7 @@ export const UserAnnouncementsScreen = () => {
         horizontal={false}
         FAnnouncementsList={false}
         onlyFavorites={false}
+        getAll={false}
       />
     </View>
   );
