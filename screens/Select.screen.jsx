@@ -12,12 +12,22 @@ export const SelectScreen = () => {
     options,
     setOptions,
   ] = useState([]);
+  const [
+    inputSelectId,
+    setInputSelectId,
+  ] = useState();
 
   useEffect(() => {
     if (route.params.options.length > 0) {
       setOptions([...route.params.options]);
     }
   }, [route.params?.options]);
+
+  useEffect(() => {
+    if (route.params.id) {
+      setInputSelectId(route.params.id);
+    }
+  }, [route.params?.id]);
 
   return (
     <View style={{
@@ -30,6 +40,7 @@ export const SelectScreen = () => {
     >
       <FSelectOptions
         options={options}
+        selectInputId={inputSelectId}
       />
     </View>
   );

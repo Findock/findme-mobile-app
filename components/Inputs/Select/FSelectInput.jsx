@@ -10,16 +10,18 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 export const FSelectInput = ({
-  width, options, defaultOption, icon, iconPlacement, rounded,
+  width, options, defaultOption, icon, iconPlacement, rounded, inputSelectId,
 }) => {
   const navigation = useNavigation();
-  const selectedOption = useSelector((state) => state.select.selectedOption);
+  const selectedOption = useSelector((state) => state.select.selectInputs.filter((x) => x.id === inputSelectId)[0]?.selectedOption);
+
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
       navigation.push(stackNavigatorNames.SELECT, {
         options,
         defaultOption,
+        id: inputSelectId,
       });
     }}
     >
@@ -33,13 +35,14 @@ export const FSelectInput = ({
           iconPlacement={iconPlacement || placements.RIGHT}
           icon={icon || icons.CHEVRON_DOWN_OUTLINE}
           rounded={rounded}
-          value={(selectedOption.label ? selectedOption.label : defaultOption.label)}
+          value={(selectedOption?.label ? selectedOption.label : defaultOption?.label)}
           caretHidden
           onPress={() => {
             Keyboard.dismiss();
             navigation.push(stackNavigatorNames.SELECT, {
               options,
               defaultOption,
+              id: inputSelectId,
             });
           }}
         />
@@ -61,4 +64,5 @@ FSelectInput.propTypes = {
   rounded: PropTypes.bool,
   icon: PropTypes.string,
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
+  inputSelectId: PropTypes.string.isRequired,
 };

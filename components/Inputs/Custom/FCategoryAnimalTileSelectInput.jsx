@@ -33,7 +33,6 @@ export const FCategoryAnimalTileSelectInput = ({
     />
   ));
 
-  // if (loadingCategories) return <FSpinner />;
   return (
     <View>
       <ScrollView

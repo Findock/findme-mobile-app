@@ -7,11 +7,11 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 import { FSelectOption } from 'components/Inputs/Select/FSelectOption';
 import { useDispatch } from 'react-redux';
-import { setSelectedOption } from 'store/select/selectSlice';
+import { setSelectInput } from 'store/select/selectSlice';
 import { useNavigation } from '@react-navigation/native';
 
 export const FSelectOptions = ({
-  options,
+  options, selectInputId,
 }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -20,10 +20,14 @@ export const FSelectOptions = ({
     <FSelectOption
       key={item.id}
       label={item.label}
+      selectInputId={selectInputId}
       selectOption={() => {
-        dispatch(setSelectedOption({
-          id: item.id,
-          label: item.label,
+        dispatch(setSelectInput({
+          id: selectInputId,
+          selectedOption: {
+            id: item.id,
+            label: item.label,
+          },
         }));
         navigation.goBack();
       }}
@@ -53,4 +57,5 @@ FSelectOptions.propTypes = {
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     label: PropTypes.string.isRequired,
   })).isRequired,
+  selectInputId: PropTypes.string.isRequired,
 };

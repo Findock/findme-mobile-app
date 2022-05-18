@@ -15,7 +15,7 @@ import {
   TouchableWithoutFeedback, View, Dimensions, Keyboard, StyleSheet,
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedOption } from 'store/select/selectSlice';
+import { setSelectInput } from 'store/select/selectSlice';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import icons from 'themes/icons';
@@ -27,7 +27,10 @@ export const AllAnnouncementsScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const route = useRoute();
-  const sortingMode = useSelector((state) => state.select.selectedOption);
+  const sortingModeSelectedOption = useSelector((state) => state.select.selectInputs
+    .find((x) => x.id === 'announcement_sorting_mode')?.selectedOption);
+  const locationRangeSelectedOption = useSelector((state) => state.select.selectInputs
+    .find((x) => x.id === 'location_range')?.selectedOption);
 
   const [
     search,
@@ -58,9 +61,19 @@ export const AllAnnouncementsScreen = () => {
   );
 
   useEffect(() => {
-    dispatch(setSelectedOption({
-      id: AnnouncementSortingModeEnum.BY_NEWEST,
-      label: selectOptions.NEWEST,
+    dispatch(setSelectInput({
+      id: 'announcement_sorting_mode',
+      selectedOption: {
+        id: AnnouncementSortingModeEnum.BY_NEWEST,
+        label: selectOptions.NEWEST,
+      },
+    }));
+    dispatch(setSelectInput({
+      id: 'location_range',
+      selectedOption: {
+        id: 1,
+        label: '10 km',
+      },
     }));
   }, []);
 
@@ -125,18 +138,20 @@ export const AllAnnouncementsScreen = () => {
                   width={sizes.WIDTH_FULL}
                   icon={icons.ADD_OUTLINE}
                   iconPlacement={placements.LEFT}
+                  inputSelectId="location_range"
                   defaultOption={{
                     id: 1,
                     label: '10 km',
                   }}
-                  selectedOption={{
-                    id: 1,
-                    label: '10 km',
-                  }}
+                  selectedOption={locationRangeSelectedOption}
                   options={[
                     {
                       id: 1,
                       label: '10 km',
+                    },
+                    {
+                      id: 2,
+                      label: '20 km',
                     },
                   ]}
                 />
@@ -164,7 +179,8 @@ export const AllAnnouncementsScreen = () => {
                   id: AnnouncementSortingModeEnum.BY_NEWEST,
                   label: selectOptions.NEWEST,
                 }}
-                selectedOption={sortingMode}
+                inputSelectId="announcement_sorting_mode"
+                selectedOption={sortingModeSelectedOption}
                 options={getSortingModeOptions()}
                 width={sizes.WIDTH_HALF}
               />
@@ -179,7 +195,7 @@ export const AllAnnouncementsScreen = () => {
               onlyFavorites={false}
               onlyActive
               filters={filters}
-              sortingMode={sortingMode.id}
+              sortingMode={sortingModeSelectedOption?.id}
             />
           </View>
         </>
