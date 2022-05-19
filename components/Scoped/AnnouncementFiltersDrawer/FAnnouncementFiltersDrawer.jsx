@@ -34,6 +34,7 @@ export const FAnnouncementFiltersDrawer = () => {
   const coatColorsScrollViewRef = useRef();
   const announcementTypesScrollViewRef = useRef();
   const filtersDrawerScrollViewRef = useRef();
+  const selectedDistinctiveFeatures = useSelector((state) => state.multiSelect.selectedOptions);
 
   const [
     filters,
@@ -45,6 +46,21 @@ export const FAnnouncementFiltersDrawer = () => {
     coatColorsIds: [],
     genders: [],
   });
+  const [
+    distinctiveFeatures,
+    setDistinctiveFeatures,
+  ] = useState([]);
+
+  useEffect(() => {
+    setDistinctiveFeatures([...selectedDistinctiveFeatures]);
+  }, [selectedDistinctiveFeatures]);
+
+  useEffect(() => {
+    setFilters({
+      ...filters,
+      distinctiveFeaturesIds: [...selectedDistinctiveFeatures.map((x) => x.id)],
+    });
+  }, [distinctiveFeatures]);
 
   useEffect(() => {
     filtersDrawerScrollViewRef.current?.scrollTo({

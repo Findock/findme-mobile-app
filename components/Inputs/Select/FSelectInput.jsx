@@ -15,16 +15,17 @@ export const FSelectInput = ({
   const navigation = useNavigation();
   const selectedOption = useSelector((state) => state.select.selectInputs.filter((x) => x.id === inputSelectId)[0]?.selectedOption);
 
+  const navigateToSelectScreen = () => {
+    Keyboard.dismiss();
+    navigation.push(stackNavigatorNames.SELECT, {
+      options,
+      defaultOption,
+      id: inputSelectId,
+    });
+  };
+
   return (
-    <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss();
-      navigation.push(stackNavigatorNames.SELECT, {
-        options,
-        defaultOption,
-        id: inputSelectId,
-      });
-    }}
-    >
+    <TouchableWithoutFeedback onPress={navigateToSelectScreen}>
       <View>
         <FInput
           type={inputTypes.TEXT}
@@ -37,14 +38,7 @@ export const FSelectInput = ({
           rounded={rounded}
           value={(selectedOption?.label ? selectedOption.label : defaultOption?.label)}
           caretHidden
-          onPress={() => {
-            Keyboard.dismiss();
-            navigation.push(stackNavigatorNames.SELECT, {
-              options,
-              defaultOption,
-              id: inputSelectId,
-            });
-          }}
+          onPress={navigateToSelectScreen}
         />
       </View>
     </TouchableWithoutFeedback>

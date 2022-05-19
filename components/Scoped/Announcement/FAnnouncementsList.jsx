@@ -20,6 +20,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { useIsFocused } from '@react-navigation/native';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
+import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -77,44 +78,21 @@ export const FAnnouncementsList = ({
   }, [params]);
 
   useEffect(() => {
+    dispatch(setSelectedOptions([]));
+  }, []);
+
+  useEffect(() => {
     if (getAll) {
-      setParams({
-        ...params,
-        pageSize: 8,
-        offset: 0,
-        ...filters,
-        sortingMode,
-      });
+      updateParamsHandler();
+      setAnnouncements([]);
     }
   }, [filters]);
 
   useEffect(() => {
     if (getAll) {
-      setParams({
-        ...params,
-        pageSize: 8,
-        offset: 0,
-        ...filters,
-        sortingMode,
-      });
+      updateParamsHandler();
     }
   }, [sortingMode]);
-
-  useEffect(() => {
-    if (getAll) {
-      const currentFilters = {
-        categoriesIds: params.categoriesIds,
-        genders: params.genders,
-        distinctiveFeaturesIds: params.distinctiveFeaturesIds,
-        type: params.type,
-        coatColorsIds: params.coatColorsIds,
-      };
-      if (JSON.stringify(filters) !== JSON.stringify(currentFilters)) {
-        setAnnouncements([]);
-        fetchAnnouncements();
-      }
-    }
-  }, [filters]);
 
   useEffect(() => {
     if (getAll) {
@@ -137,6 +115,16 @@ export const FAnnouncementsList = ({
   useEffect(() => {
     refreshAnnouncementHandler(true);
   }, [updatedAnnouncement]);
+
+  const updateParamsHandler = () => {
+    setParams({
+      ...params,
+      pageSize: 8,
+      offset: 0,
+      ...filters,
+      sortingMode,
+    });
+  };
 
   const refreshAnnouncementHandler = (onUpdatedAnnouncementChange = false) => {
     if (updatedAnnouncement) {
@@ -178,16 +166,18 @@ export const FAnnouncementsList = ({
   };
 
   const handleEnd = () => {
-    setParams(
-      (prevState) => ({
-        pageSize: prevState.pageSize + 8,
-        offset: prevState.offset + 8,
-        onlyActive: prevState.onlyActive,
-        onlyFavorites: prevState.onlyFavorites,
-        ...filters,
-        sortingMode,
-      }),
-    );
+    if (!endReached) {
+      setParams(
+        (prevState) => ({
+          pageSize: prevState.pageSize + 8,
+          offset: prevState.offset + 8,
+          onlyActive: prevState.onlyActive,
+          onlyFavorites: prevState.onlyFavorites,
+          ...filters,
+          sortingMode,
+        }),
+      );
+    }
   };
 
   const drawAnnouncementCard = ({ item, index }) => (

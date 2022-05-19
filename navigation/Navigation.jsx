@@ -20,7 +20,6 @@ import { SettingsScreen } from 'screens/user/Settings.screen';
 import { ChangePasswordScreen } from 'screens/user/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/user/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
-import { FLogo } from 'components/Composition/FLogo';
 import { AddAnnouncementScreen } from 'screens/announcements/AddAnnouncement.screen';
 import { authValidateTokenService } from 'services/auth/authValidateToken.service';
 import { getMeService } from 'services/user/getMe.service';
