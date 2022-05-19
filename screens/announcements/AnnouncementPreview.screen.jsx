@@ -129,7 +129,6 @@ export const AnnouncementPreviewScreen = () => {
       setShowErrorModal(true);
     }
   };
-
   const confirmationHandler = () => {
     if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
     else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();

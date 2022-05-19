@@ -58,7 +58,6 @@ export const FAnnouncementCard = ({
     if (status === AnnouncementStatusEnum.NOT_ACTIVE) return locales.FOUND_NONE;
     if (status === AnnouncementStatusEnum.ARCHIVED) return locales.FINISHED_NONE;
   };
-
   return (
     <TouchableWithoutFeedback
       onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id })}

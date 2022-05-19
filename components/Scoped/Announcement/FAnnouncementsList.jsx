@@ -143,7 +143,7 @@ export const FAnnouncementsList = ({
       const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
       const newAnnouncemnts = [...announcements];
       if (!onUpdatedAnnouncementChange && params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
-      else if (announcements[updatedAnnouncementIndex].status !== updatedAnnouncement.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      else if (announcements[updatedAnnouncementIndex]?.status !== updatedAnnouncement?.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
       else if (!onUpdatedAnnouncementChange) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
       setAnnouncements([...newAnnouncemnts]);
       dispatch(setUpdatedAnnouncement(null));

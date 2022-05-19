@@ -38,6 +38,7 @@ import { getCategoriesService } from 'services/announcement/getCategories.servic
 import { getCoatColorsService } from 'services/announcement/getCoatColors.service';
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
 import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
+import { renderLogo } from 'navigation/utils/renderLogo';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -96,13 +97,6 @@ export const Navigation = () => {
     const res = await getMeService();
     dispatch(setMe(res.data));
   };
-
-  const renderLogo = () => (
-    <FLogo
-      color={colors.PRIMARY}
-      fill={false}
-    />
-  );
 
   const checkIfAuthTokenIsValid = async () => {
     try {
@@ -266,10 +260,6 @@ export const Navigation = () => {
                   options={{
                     ...defaultHeaderOptions,
                     title: locales.MY_ANNOUNCEMENTS,
-                    headerStyle: {
-                      shadowOpacity: 20,
-                      borderBottomColor: 'red',
-                    },
                   }}
                 />
                 <Stack.Screen

@@ -2,6 +2,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { FAnnouncementFiltersDrawer } from 'components/Scoped/AnnouncementFiltersDrawer/FAnnouncementFiltersDrawer';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
+import { renderLogo } from 'navigation/utils/renderLogo';
 import React from 'react';
 import { AllAnnouncementsScreen } from 'screens/announcements/AllAnnouncements.screen';
 import sizes from 'themes/sizes';
@@ -22,6 +23,9 @@ export const AllAnnouncementsDrawer = () => {
         drawerType: 'front',
         drawerPosition: 'right',
         swipeEnabled: false,
+        headerRightContainerStyle: {
+          paddingRight: sizes.PADDING_15,
+        },
       }}
     >
       <Drawer.Screen
@@ -31,6 +35,7 @@ export const AllAnnouncementsDrawer = () => {
           ...defaultHeaderOptions,
           title: '',
           headerLeft: () => null,
+          headerRight: () => renderLogo(),
         }}
       />
     </Drawer.Navigator>

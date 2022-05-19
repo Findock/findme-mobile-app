@@ -1,4 +1,4 @@
-import { locales } from 'moment';
+import locales from 'constants/locales';
 import colors from 'themes/colors';
 
 export default {
