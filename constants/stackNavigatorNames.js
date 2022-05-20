@@ -17,4 +17,6 @@ export default {
   MY_ANNOUNCEMENTS: 'My Announcements',
   MY_FOLLOWED_ANNOUNCEMENTS: 'My Followed Announcements',
   USER_ANNOUNCEMENTS: 'User Announcements',
+  ALL_ANNOUNCEMENTS: 'All Announcements',
+  ALL_ANNOUNCEMENTS_DRAWER: 'All Announcements Drawer',
 };

@@ -89,8 +89,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bottomBoxInner: {
-    flexBasis: '50%',
-    // width: sizes.WIDTH_HALF,
+    flexBasis: sizes.WIDTH_HALF,
   },
 });
 

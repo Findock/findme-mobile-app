@@ -10,4 +10,5 @@ export default {
   ADD_LOCATION_DESCRIPTION: 'Dodatkowy opis miejsca',
   SEARCH: 'Wyszukaj...',
   MARK_ON_THE_MAP: 'Zaznacz na mapie...',
+  LOCALIZATION: 'Lokalizacja',
 };

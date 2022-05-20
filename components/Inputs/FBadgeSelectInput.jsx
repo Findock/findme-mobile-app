@@ -18,7 +18,7 @@ export const FBadgeSelectInput = ({
     <FBadge
       style={{
         ...badgeStyle,
-        ...styles.badge,
+        paddingVertical: value ? sizes.PADDING_12 : sizes.PADDING_10,
       }}
       isFill={value}
       color={colors.PRIMARY}
@@ -31,9 +31,7 @@ const styles = StyleSheet.create({
   container: {
     paddingRight: sizes.PADDING_5,
   },
-  badge: {
-    paddingVertical: sizes.PADDING_10,
-  },
+
 });
 
 FBadgeSelectInput.propTypes = {

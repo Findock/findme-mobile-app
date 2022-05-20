@@ -1,10 +1,9 @@
-import { Dimensions, View } from 'react-native';
-import React from 'react';
-import sizes from 'themes/sizes';
-import colors from 'themes/colors';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
+import { Dimensions, View } from 'react-native';
+import colors from 'themes/colors';
+import sizes from 'themes/sizes';
 
-export const MyAnnouncementsScreen = () => (
+export const MyFollowedAnnouncementsScreen = () => (
   <View style={{
     height: Dimensions.get('screen').height,
     backgroundColor: colors.WHITE,
@@ -12,9 +11,12 @@ export const MyAnnouncementsScreen = () => (
   }}
   >
     <FAnnouncementsList
-      isMe
+      isMe={false}
       numColumns={2}
+      onlyFavorites
       horizontal={false}
+      FAnnouncementsList={false}
+      getAll={false}
     />
   </View>
 );

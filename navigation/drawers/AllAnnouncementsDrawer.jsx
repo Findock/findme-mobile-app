@@ -1,19 +1,19 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { FAnnouncementFiltersDrawer } from 'components/Scoped/AnnouncementFiltersDrawer/FAnnouncementFiltersDrawer';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
+import { renderLogo } from 'navigation/utils/renderLogo';
 import React from 'react';
-import { HomepageScreen } from 'screens/Homepage.screen';
+import { AllAnnouncementsScreen } from 'screens/announcements/AllAnnouncements.screen';
 import sizes from 'themes/sizes';
 
-export const HomeDrawer = () => {
+export const AllAnnouncementsDrawer = () => {
   const Drawer = createDrawerNavigator();
-  const Stack = createNativeStackNavigator();
 
   return (
     <Drawer.Navigator
       drawerContent={() => <FAnnouncementFiltersDrawer />}
-      initialRouteName={stackNavigatorNames.HOMEPAGE}
+      initialRouteName={stackNavigatorNames.ALL_ANNOUNCEMENTS}
       screenOptions={{
         drawerStyle: {
           width: sizes.WIDTH_90_PERCENTAGES,
@@ -23,13 +23,19 @@ export const HomeDrawer = () => {
         drawerType: 'front',
         drawerPosition: 'right',
         swipeEnabled: false,
+        headerRightContainerStyle: {
+          paddingRight: sizes.PADDING_15,
+        },
       }}
     >
-      <Stack.Screen
-        name={stackNavigatorNames.HOMEPAGE}
-        component={HomepageScreen}
+      <Drawer.Screen
+        name={stackNavigatorNames.ALL_ANNOUNCEMENTS_DRAWER}
+        component={AllAnnouncementsScreen}
         options={{
-          headerShown: false,
+          ...defaultHeaderOptions,
+          title: '',
+          headerLeft: () => null,
+          headerRight: () => renderLogo(),
         }}
       />
     </Drawer.Navigator>

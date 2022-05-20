@@ -30,7 +30,10 @@ export const useChangeAnnouncementStatus = (announcement) => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_ARCHIVED);
       const res = await archiveAnnouncementService(announcement.id);
-      dispatch(setUpdatedAnnouncement(res.data));
+      dispatch(setUpdatedAnnouncement({
+        ...res.data,
+        isUserCreator: true,
+      }));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);
@@ -41,7 +44,10 @@ export const useChangeAnnouncementStatus = (announcement) => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_ACTIVATED);
       const res = await makeAnnouncementActiveService(announcement.id);
-      dispatch(setUpdatedAnnouncement(res.data));
+      dispatch(setUpdatedAnnouncement({
+        ...res.data,
+        isUserCreator: true,
+      }));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);
@@ -52,7 +58,10 @@ export const useChangeAnnouncementStatus = (announcement) => {
     try {
       setSuccessfulModalTitle(modalsMessages.ANNOUNCEMENT_RESOLVED);
       const res = await resolveAnnouncementService(announcement.id);
-      dispatch(setUpdatedAnnouncement(res.data));
+      dispatch(setUpdatedAnnouncement({
+        ...res.data,
+        isUserCreator: true,
+      }));
       setSuccessfulModalVisible(true);
     } catch (error) {
       setShowChangeStatusErrorModal(true);

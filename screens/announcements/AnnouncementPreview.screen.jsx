@@ -129,7 +129,6 @@ export const AnnouncementPreviewScreen = () => {
       setShowErrorModal(true);
     }
   };
-
   const confirmationHandler = () => {
     if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
     else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
@@ -188,12 +187,12 @@ export const AnnouncementPreviewScreen = () => {
   };
 
   const drawDistinctiveFeatures = () => {
-    if (announcement.distinctiveFeatures) {
+    if (announcement.distinctiveFeatures.length > 0) {
       return announcement.distinctiveFeatures.map((distinctiveFeature) => (
         <FBadge
           key={distinctiveFeature.id}
           isFill={false}
-          color={colors.DARK_GRAY}
+          color={colors.PRIMARY}
           title={distinctiveFeature.namePl}
           style={{
             paddingVertical: sizes.PADDING_8,
@@ -265,23 +264,24 @@ export const AnnouncementPreviewScreen = () => {
         >
           <View style={styles.headerWithStatusContainer}>
             <View style={{ flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES }}>
-              <FHeadingWithIcon
-                icon={icons.LOCATION_OUTLINE}
-                iconColor={colors.DARK_GRAY}
-                iconSize={sizes.ICON_20}
-                title={announcement.locationName}
-                titleColor={colors.DARK_GRAY}
-                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                titleSize={fonts.HEADING_NORMAL}
-                iconPlacement={placements.LEFT}
-                numberOfLines={2}
-              />
+
               <FHeading
                 title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
                 color={colors.DARK_GRAY}
                 weight={fonts.HEADING_WEIGHT_MEDIUM}
                 size={fonts.HEADING_NORMAL}
-                style={{ marginTop: sizes.MARGIN_5 }}
+                style={{ marginBottom: sizes.MARGIN_5 }}
+              />
+              <FHeadingWithIcon
+                icon={icons.EYE_OUTLINE}
+                iconColor={colors.PRIMARY}
+                iconSize={sizes.ICON_20}
+                title={`${locales.VIEWS_AMOUNT} ${announcement.viewsAmount}`}
+                titleColor={colors.DARK_GRAY}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                titleSize={fonts.HEADING_NORMAL}
+                iconPlacement={placements.LEFT}
+                iconStyle={{ marginRight: sizes.MARGIN_5 }}
               />
             </View>
             {(announcement.status === AnnouncementStatusEnum.ARCHIVED || announcement.status === AnnouncementStatusEnum.NOT_ACTIVE)
@@ -298,10 +298,9 @@ export const AnnouncementPreviewScreen = () => {
                   />
                 </View>
               )}
-
           </View>
           <View style={styles.headerContainer}>
-            <View style={{ flexBasis: !announcement.isUserCreator ? sizes.BASIS_70_PERCENTAGES : sizes.WIDTH_FULL }}>
+            <View style={{ flexBasis: !announcement.isUserCreator ? sizes.BASIS_80_PERCENTAGES : sizes.WIDTH_FULL }}>
               <FHeading
                 title={announcement.title}
                 size={fonts.HEADING_EXTRA_LARGE}
@@ -310,7 +309,7 @@ export const AnnouncementPreviewScreen = () => {
             </View>
             {!announcement.isUserCreator && (
               <View style={{
-                flexBasis: sizes.BASIS_30_PERCENTAGES,
+                flexBasis: sizes.BASIS_20_PERCENTAGES,
                 alignItems: 'flex-end',
               }}
               >
@@ -342,6 +341,7 @@ export const AnnouncementPreviewScreen = () => {
               resizeMode={sizes.CONTAIN}
               imageWidth={sizes.WIDTH_FULL}
               imageHeight={sizes.HEIGHT_FULL}
+              isChildrenInside={false}
             />
           </View>
           <View style={{ marginTop: sizes.MARGIN_25 }}>
@@ -372,7 +372,7 @@ export const AnnouncementPreviewScreen = () => {
             <FAnnouncementHeading title={locales.LOCATION} />
             <FHeadingWithIcon
               icon={icons.LOCATION_OUTLINE}
-              iconColor={colors.DARK_GRAY}
+              iconColor={colors.PRIMARY}
               iconSize={sizes.ICON_20}
               title={announcement.locationName}
               titleColor={colors.DARK_GRAY}

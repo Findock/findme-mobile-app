@@ -7,10 +7,9 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 
-export const FSelectOption = ({ label, selectOption }) => {
-  const selectedOption = useSelector((state) => state.select.selectedOption);
-
-  const isChosen = () => label === selectedOption.label;
+export const FSelectOption = ({ label, selectOption, selectInputId }) => {
+  const selectedOption = useSelector((state) => state.select.selectInputs.find((x) => x.id === selectInputId)?.selectedOption);
+  const isChosen = () => label === selectedOption?.label;
 
   return (
     <TouchableOpacity onPress={selectOption}>
@@ -41,4 +40,5 @@ const styles = StyleSheet.create({
 FSelectOption.propTypes = {
   label: PropTypes.string.isRequired,
   selectOption: PropTypes.func.isRequired,
+  selectInputId: PropTypes.string.isRequired,
 };
