@@ -96,14 +96,14 @@ export const AnnouncementPreviewScreen = () => {
   }, [isFocused]);
 
   useEffect(() => {
-    if (announcement) {
-      dispatch(setUpdatedAnnouncement(announcement));
+    if (announcement && route.params.isNew === false) {
+      dispatch(setUpdatedAnnouncement({ ...announcement }));
     }
   }, [announcement?.isInFavorites]);
 
   useEffect(() => {
-    if (announcement) {
-      dispatch(setUpdatedAnnouncement(announcement));
+    if (announcement && route.params.isNew === false) {
+      dispatch(setUpdatedAnnouncement({ ...announcement }));
     }
   }, [announcement?.status]);
 
@@ -213,17 +213,17 @@ export const AnnouncementPreviewScreen = () => {
   };
 
   const drawCoatColors = () => announcement.coatColors
-      && announcement.coatColors.map((coatColor) => (
-        <FColorSelect
-          key={coatColor.id}
-          readOnly
-          size={sizes.WIDTH_45}
-          color={coatColor.hex}
-          style={{ paddingLeft: 0 }}
-        />
-      ));
+    && announcement.coatColors.map((coatColor) => (
+      <FColorSelect
+        key={coatColor.id}
+        readOnly
+        size={sizes.WIDTH_45}
+        color={coatColor.hex}
+        style={{ paddingLeft: 0 }}
+      />
+    ));
 
-  if (!announcement) return <FSpinner />;
+  if (!announcement && (route.params.isNew !== null || route.params.isNew !== undefined)) return <FSpinner />;
   return (
     <View style={{ flex: 1 }}>
       {drawErrorModal()}

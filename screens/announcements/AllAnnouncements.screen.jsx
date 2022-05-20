@@ -21,6 +21,7 @@ import fonts from 'themes/fonts';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import locationRange from 'constants/filters-options/locationRange';
 
 export const AllAnnouncementsScreen = () => {
   const drawerStatus = useDrawerStatus();
@@ -35,6 +36,18 @@ export const AllAnnouncementsScreen = () => {
   const [
     search,
     setSearch,
+  ] = useState('');
+  const [
+    textQuery,
+    setTextQuery,
+  ] = useState('');
+  const [
+    locationQuery,
+    setLocationQuery,
+  ] = useState('');
+  const [
+    locationSearch,
+    setLocationSearch,
   ] = useState('');
   const [
     filters,
@@ -70,10 +83,7 @@ export const AllAnnouncementsScreen = () => {
     }));
     dispatch(setSelectInput({
       id: 'location_range',
-      selectedOption: {
-        id: 1,
-        label: '10 km',
-      },
+      selectedOption: locationRange[0],
     }));
   }, []);
 
@@ -111,7 +121,7 @@ export const AllAnnouncementsScreen = () => {
               marginBottom={sizes.MARGIN_10}
               value={search}
               onChangeText={setSearch}
-              onBlur={() => {}}
+              onBlur={() => setTextQuery(search)}
             />
             <View style={{
               ...styles.rowContainer,
@@ -126,8 +136,9 @@ export const AllAnnouncementsScreen = () => {
                 iconPlacement={placements.LEFT}
                 width={sizes.BASIS_65_PERCENTAGES}
                 marginBottom={0}
-                value=""
-                onChangeText={() => {}}
+                value={locationSearch}
+                onChangeText={setLocationSearch}
+                onBlur={() => setLocationQuery(locationSearch)}
               />
               <View style={{
                 flex: 1,
@@ -139,21 +150,9 @@ export const AllAnnouncementsScreen = () => {
                   icon={icons.ADD_OUTLINE}
                   iconPlacement={placements.LEFT}
                   inputSelectId="location_range"
-                  defaultOption={{
-                    id: 1,
-                    label: '10 km',
-                  }}
+                  defaultOption={locationRangeSelectedOption}
                   selectedOption={locationRangeSelectedOption}
-                  options={[
-                    {
-                      id: 1,
-                      label: '10 km',
-                    },
-                    {
-                      id: 2,
-                      label: '20 km',
-                    },
-                  ]}
+                  options={locationRange}
                 />
               </View>
             </View>
@@ -169,7 +168,7 @@ export const AllAnnouncementsScreen = () => {
               />
             </View>
             <View style={{
-              width: sizes.WIDTH_FULL,
+              width: sizes.WIDTH_HALF,
               marginBottom: sizes.MARGIN_20,
             }}
             >
@@ -182,7 +181,7 @@ export const AllAnnouncementsScreen = () => {
                 inputSelectId="announcement_sorting_mode"
                 selectedOption={sortingModeSelectedOption}
                 options={getSortingModeOptions()}
-                width={sizes.WIDTH_HALF}
+                width={sizes.WIDTH_FULL}
               />
             </View>
           </View>
@@ -196,6 +195,8 @@ export const AllAnnouncementsScreen = () => {
               onlyActive
               filters={filters}
               sortingMode={sortingModeSelectedOption?.id}
+              textQuery={textQuery}
+              locationQuery={locationQuery}
             />
           </View>
         </>

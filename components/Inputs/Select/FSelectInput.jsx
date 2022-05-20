@@ -48,13 +48,13 @@ export const FSelectInput = ({
 FSelectInput.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   selectedOption: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    label: PropTypes.string,
+  }),
   defaultOption: PropTypes.shape({
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    label: PropTypes.string.isRequired,
-  }).isRequired,
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    label: PropTypes.string,
+  }),
   rounded: PropTypes.bool,
   icon: PropTypes.string,
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),
