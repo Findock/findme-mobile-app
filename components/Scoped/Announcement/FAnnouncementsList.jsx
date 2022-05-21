@@ -17,10 +17,10 @@ import { getUserAnnouncementsService } from 'services/announcement/getUserAnnoun
 import PropTypes from 'prop-types';
 import { searchAnnouncementsService } from 'services/announcement/searchAnnouncements.service';
 import { useSelector, useDispatch } from 'react-redux';
-import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { useIsFocused } from '@react-navigation/native';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
+import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -38,6 +38,9 @@ export const FAnnouncementsList = ({
     genders: [],
   },
   sortingMode = AnnouncementSortingModeEnum.BY_NEWEST,
+  textQuery,
+  locationQuery,
+  locationThreshold = 1,
   setUserAnnouncementsLength,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
@@ -53,6 +56,9 @@ export const FAnnouncementsList = ({
     onlyFavorites,
     ...filters,
     sortingMode,
+    textQuery,
+    locationQuery,
+    locationThreshold,
   });
 
   const [
@@ -79,17 +85,37 @@ export const FAnnouncementsList = ({
 
   useEffect(() => {
     dispatch(setSelectedOptions([]));
+    dispatch(setUpdatedAnnouncement(null));
   }, []);
 
   useEffect(() => {
     if (getAll) {
-      updateParamsHandler();
       setAnnouncements([]);
+      setEndReached(false);
+      updateParamsHandler();
     }
   }, [filters]);
 
   useEffect(() => {
     if (getAll) {
+      setAnnouncements([]);
+      setEndReached(false);
+      updateParamsHandler();
+    }
+  }, [textQuery]);
+
+  useEffect(() => {
+    if (getAll) {
+      setAnnouncements([]);
+      setEndReached(false);
+      updateParamsHandler();
+    }
+  }, [locationQuery]);
+
+  useEffect(() => {
+    if (getAll) {
+      setAnnouncements([]);
+      setEndReached(false);
       updateParamsHandler();
     }
   }, [sortingMode]);
@@ -97,9 +123,10 @@ export const FAnnouncementsList = ({
   useEffect(() => {
     if (getAll) {
       setAnnouncements([]);
-      fetchAnnouncements();
+      setEndReached(false);
+      updateParamsHandler();
     }
-  }, [sortingMode]);
+  }, [locationThreshold]);
 
   useEffect(() => {
     if (params.onlyFavorites) {
@@ -113,7 +140,7 @@ export const FAnnouncementsList = ({
   }, [isFocused]);
 
   useEffect(() => {
-    refreshAnnouncementHandler(true);
+    if (updatedAnnouncement) refreshAnnouncementHandler(true);
   }, [updatedAnnouncement]);
 
   const updateParamsHandler = () => {
@@ -123,6 +150,9 @@ export const FAnnouncementsList = ({
       offset: 0,
       ...filters,
       sortingMode,
+      textQuery,
+      locationQuery,
+      locationThreshold,
     });
   };
 
@@ -131,13 +161,14 @@ export const FAnnouncementsList = ({
       const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
       const newAnnouncemnts = [...announcements];
       if (!onUpdatedAnnouncementChange && params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
-      else if (announcements[updatedAnnouncementIndex]?.status !== updatedAnnouncement?.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
-      else if (!onUpdatedAnnouncementChange) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, updatedAnnouncement);
+      else if (announcements[updatedAnnouncementIndex]?.status !== updatedAnnouncement?.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
+      else if (!onUpdatedAnnouncementChange) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
       setAnnouncements([...newAnnouncemnts]);
-      dispatch(setUpdatedAnnouncement(null));
+      setTimeout(() => {
+        dispatch(setUpdatedAnnouncement(null));
+      }, 5000);
     }
   };
-
   const fetchAnnouncements = async () => {
     try {
       let res;
@@ -164,17 +195,19 @@ export const FAnnouncementsList = ({
       setShowErrorModal(true);
     }
   };
-
   const handleEnd = () => {
     if (!endReached) {
       setParams(
-        (prevState) => ({
-          pageSize: prevState.pageSize + 8,
-          offset: prevState.offset + 8,
-          onlyActive: prevState.onlyActive,
-          onlyFavorites: prevState.onlyFavorites,
+        (prevValue) => ({
+          pageSize: prevValue.pageSize,
+          offset: prevValue.offset + 8,
+          onlyActive: prevValue.onlyActive,
+          onlyFavorites: prevValue.onlyFavorites,
           ...filters,
-          sortingMode,
+          sortingMode: prevValue.sortingMode,
+          textQuery: prevValue.textQuery,
+          locationQuery: prevValue.locationQuery,
+          locationThreshold: prevValue.locationThreshold,
         }),
       );
     }
@@ -295,4 +328,6 @@ FAnnouncementsList.propTypes = {
     genders: PropTypes.arrayOf(PropTypes.string),
   }),
   sortingMode: PropTypes.string,
+  textQuery: PropTypes.string,
+  locationQuery: PropTypes.string,
 };

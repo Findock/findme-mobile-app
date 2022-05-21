@@ -46,6 +46,7 @@ export const FCreateAnnouncementForm = () => {
       navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, {
         id: res.data.id,
         announcementAddedSuccessfullyModalVisible: true,
+        isNew: true,
       });
     } catch (error) {
       if (error.response && error.response.data) checkFormValidation(error.response.data);

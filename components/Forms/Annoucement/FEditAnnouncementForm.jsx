@@ -88,11 +88,14 @@ export const FEditAnnouncementForm = () => {
       navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, {
         id: announcement.id,
         announcementEditedSuccessfullyModalVisible: true,
+        isNew: false,
       });
-      dispatch(setUpdatedAnnouncement({
-        ...res.data,
-        isUserCreator: true,
-      }));
+      if (announcement.id) {
+        dispatch(setUpdatedAnnouncement({
+          ...res.data,
+          isUserCreator: true,
+        }));
+      }
     } catch (error) {
       if (error.response && error.response.data) checkFormValidation(error.response.data);
       setLoading(false);

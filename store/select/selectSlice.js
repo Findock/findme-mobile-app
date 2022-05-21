@@ -14,13 +14,13 @@ export const selectSlice = createSlice({
       if (existingInput) {
         state.selectInputs[state.selectInputs.indexOf(existingInput)] = {
           id: existingInput.id,
-          selectedOption,
+          selectedOption: { ...selectedOption },
         };
       } else {
         state.selectInputs = [
           ...state.selectInputs, {
             id,
-            selectedOption,
+            selectedOption: { ...selectedOption },
           },
         ];
       }

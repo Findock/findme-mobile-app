@@ -8,6 +8,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import placeholders from 'constants/components/inputs/placeholders';
 import selectOptions from 'constants/components/inputs/select-options/selectOptions';
+import locationThresholds from 'constants/filters-options/locationThresholds';
 import locales from 'constants/locales';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import React, { useEffect, useState } from 'react';
@@ -29,12 +30,24 @@ export const AllAnnouncementsScreen = () => {
   const route = useRoute();
   const sortingModeSelectedOption = useSelector((state) => state.select.selectInputs
     .find((x) => x.id === 'announcement_sorting_mode')?.selectedOption);
-  const locationRangeSelectedOption = useSelector((state) => state.select.selectInputs
-    .find((x) => x.id === 'location_range')?.selectedOption);
+  const locationThresholdSelectedOption = useSelector((state) => state.select.selectInputs
+    .find((x) => x.id === 'location_threshold')?.selectedOption);
 
   const [
     search,
     setSearch,
+  ] = useState('');
+  const [
+    textQuery,
+    setTextQuery,
+  ] = useState('');
+  const [
+    locationQuery,
+    setLocationQuery,
+  ] = useState('');
+  const [
+    locationSearch,
+    setLocationSearch,
   ] = useState('');
   const [
     filters,
@@ -69,11 +82,8 @@ export const AllAnnouncementsScreen = () => {
       },
     }));
     dispatch(setSelectInput({
-      id: 'location_range',
-      selectedOption: {
-        id: 1,
-        label: '10 km',
-      },
+      id: 'location_threshold',
+      selectedOption: { ...locationThresholds[0] },
     }));
   }, []);
 
@@ -83,6 +93,16 @@ export const AllAnnouncementsScreen = () => {
     }
   }, [route.params?.filters]);
 
+  const parseLocationThresholdLabelStringToNumberValue = (label) => {
+    if (label) {
+      const number = label.substring(0, label.length - 3);
+      if (number === '0') return 1;
+      return +number;
+    }
+    return 1;
+  };
+
+  if (!sortingModeSelectedOption || !locationThresholdSelectedOption) return <></>;
   return (
     <TouchableWithoutFeedback
       style={{ flex: 1 }}
@@ -111,7 +131,7 @@ export const AllAnnouncementsScreen = () => {
               marginBottom={sizes.MARGIN_10}
               value={search}
               onChangeText={setSearch}
-              onBlur={() => {}}
+              onBlur={() => setTextQuery(search)}
             />
             <View style={{
               ...styles.rowContainer,
@@ -124,38 +144,31 @@ export const AllAnnouncementsScreen = () => {
                 type={inputTypes.TEXT}
                 icon={icons.LOCATION_OUTLINE}
                 iconPlacement={placements.LEFT}
-                width={sizes.BASIS_65_PERCENTAGES}
+                width={!locationSearch ? sizes.WIDTH_FULL : sizes.BASIS_65_PERCENTAGES}
                 marginBottom={0}
-                value=""
-                onChangeText={() => {}}
+                value={locationSearch}
+                onChangeText={setLocationSearch}
+                onBlur={() => setLocationQuery(locationSearch)}
               />
-              <View style={{
-                flex: 1,
-                marginLeft: sizes.MARGIN_3,
-              }}
-              >
-                <FSelectInput
-                  width={sizes.WIDTH_FULL}
-                  icon={icons.ADD_OUTLINE}
-                  iconPlacement={placements.LEFT}
-                  inputSelectId="location_range"
-                  defaultOption={{
-                    id: 1,
-                    label: '10 km',
+              {
+                locationSearch !== '' && (
+                  <View style={{
+                    flex: 1,
+                    marginLeft: sizes.MARGIN_3,
                   }}
-                  selectedOption={locationRangeSelectedOption}
-                  options={[
-                    {
-                      id: 1,
-                      label: '10 km',
-                    },
-                    {
-                      id: 2,
-                      label: '20 km',
-                    },
-                  ]}
-                />
-              </View>
+                  >
+                    <FSelectInput
+                      width={sizes.WIDTH_FULL}
+                      icon={icons.ADD_OUTLINE}
+                      iconPlacement={placements.LEFT}
+                      inputSelectId="location_threshold"
+                      defaultOption={locationThresholdSelectedOption}
+                      selectedOption={locationThresholdSelectedOption}
+                      options={[...locationThresholds]}
+                    />
+                  </View>
+                )
+              }
             </View>
             <View style={{ marginBottom: sizes.MARGIN_20 }}>
               <FButton
@@ -169,7 +182,7 @@ export const AllAnnouncementsScreen = () => {
               />
             </View>
             <View style={{
-              width: sizes.WIDTH_FULL,
+              width: sizes.WIDTH_HALF,
               marginBottom: sizes.MARGIN_20,
             }}
             >
@@ -182,7 +195,7 @@ export const AllAnnouncementsScreen = () => {
                 inputSelectId="announcement_sorting_mode"
                 selectedOption={sortingModeSelectedOption}
                 options={getSortingModeOptions()}
-                width={sizes.WIDTH_HALF}
+                width={sizes.WIDTH_FULL}
               />
             </View>
           </View>
@@ -195,7 +208,10 @@ export const AllAnnouncementsScreen = () => {
               onlyFavorites={false}
               onlyActive
               filters={filters}
-              sortingMode={sortingModeSelectedOption?.id}
+              sortingMode={sortingModeSelectedOption.id}
+              textQuery={textQuery}
+              locationQuery={locationQuery}
+              locationThreshold={parseLocationThresholdLabelStringToNumberValue(locationThresholdSelectedOption.label)}
             />
           </View>
         </>
