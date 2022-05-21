@@ -1,7 +1,6 @@
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
-import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { FSelectInput } from 'components/Inputs/Select/FSelectInput';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
