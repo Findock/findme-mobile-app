@@ -64,5 +64,6 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/forbid-prop-types': 'off',
     'no-unsafe-optional-chaining': 'off',
+    'react/jsx-no-useless-fragment': 'off',
   },
 };

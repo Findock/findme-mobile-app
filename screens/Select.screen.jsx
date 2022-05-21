@@ -15,7 +15,7 @@ export const SelectScreen = () => {
   const [
     inputSelectId,
     setInputSelectId,
-  ] = useState();
+  ] = useState('');
 
   useEffect(() => {
     if (route.params.options.length > 0) {

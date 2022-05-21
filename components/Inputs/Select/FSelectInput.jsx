@@ -50,11 +50,11 @@ FSelectInput.propTypes = {
   selectedOption: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     label: PropTypes.string,
-  }),
+  }).isRequired,
   defaultOption: PropTypes.shape({
     id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     label: PropTypes.string,
-  }),
+  }).isRequired,
   rounded: PropTypes.bool,
   icon: PropTypes.string,
   iconPlacement: PropTypes.oneOf(['center', 'left', 'right']),

@@ -1,6 +1,7 @@
 import { useDrawerStatus } from '@react-navigation/drawer';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
+import { FSpinner } from 'components/Composition/FSpinner';
 import { FInput } from 'components/Inputs/FInput';
 import { FSelectInput } from 'components/Inputs/Select/FSelectInput';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
@@ -8,6 +9,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import placeholders from 'constants/components/inputs/placeholders';
 import selectOptions from 'constants/components/inputs/select-options/selectOptions';
+import locationThresholds from 'constants/filters-options/locationThresholds';
 import locales from 'constants/locales';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import React, { useEffect, useState } from 'react';
@@ -21,7 +23,6 @@ import fonts from 'themes/fonts';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import sizes from 'themes/sizes';
-import locationRange from 'constants/filters-options/locationRange';
 
 export const AllAnnouncementsScreen = () => {
   const drawerStatus = useDrawerStatus();
@@ -30,8 +31,8 @@ export const AllAnnouncementsScreen = () => {
   const route = useRoute();
   const sortingModeSelectedOption = useSelector((state) => state.select.selectInputs
     .find((x) => x.id === 'announcement_sorting_mode')?.selectedOption);
-  const locationRangeSelectedOption = useSelector((state) => state.select.selectInputs
-    .find((x) => x.id === 'location_range')?.selectedOption);
+  const locationThresholdSelectedOption = useSelector((state) => state.select.selectInputs
+    .find((x) => x.id === 'location_threshold')?.selectedOption);
 
   const [
     search,
@@ -82,8 +83,8 @@ export const AllAnnouncementsScreen = () => {
       },
     }));
     dispatch(setSelectInput({
-      id: 'location_range',
-      selectedOption: locationRange[0],
+      id: 'location_threshold',
+      selectedOption: { ...locationThresholds[0] },
     }));
   }, []);
 
@@ -93,6 +94,16 @@ export const AllAnnouncementsScreen = () => {
     }
   }, [route.params?.filters]);
 
+  const parseLocationThresholdLabelStringToNumberValue = (label) => {
+    if (label) {
+      const number = label.substring(0, label.length - 3);
+      if (number === '0') return 1;
+      return +number;
+    }
+    return 1;
+  };
+
+  if (!sortingModeSelectedOption || !locationThresholdSelectedOption) return <></>;
   return (
     <TouchableWithoutFeedback
       style={{ flex: 1 }}
@@ -134,27 +145,31 @@ export const AllAnnouncementsScreen = () => {
                 type={inputTypes.TEXT}
                 icon={icons.LOCATION_OUTLINE}
                 iconPlacement={placements.LEFT}
-                width={sizes.BASIS_65_PERCENTAGES}
+                width={!locationSearch ? sizes.WIDTH_FULL : sizes.BASIS_65_PERCENTAGES}
                 marginBottom={0}
                 value={locationSearch}
                 onChangeText={setLocationSearch}
                 onBlur={() => setLocationQuery(locationSearch)}
               />
-              <View style={{
-                flex: 1,
-                marginLeft: sizes.MARGIN_3,
-              }}
-              >
-                <FSelectInput
-                  width={sizes.WIDTH_FULL}
-                  icon={icons.ADD_OUTLINE}
-                  iconPlacement={placements.LEFT}
-                  inputSelectId="location_range"
-                  defaultOption={locationRangeSelectedOption}
-                  selectedOption={locationRangeSelectedOption}
-                  options={locationRange}
-                />
-              </View>
+              {
+                locationSearch !== '' && (
+                  <View style={{
+                    flex: 1,
+                    marginLeft: sizes.MARGIN_3,
+                  }}
+                  >
+                    <FSelectInput
+                      width={sizes.WIDTH_FULL}
+                      icon={icons.ADD_OUTLINE}
+                      iconPlacement={placements.LEFT}
+                      inputSelectId="location_threshold"
+                      defaultOption={locationThresholdSelectedOption}
+                      selectedOption={locationThresholdSelectedOption}
+                      options={[...locationThresholds]}
+                    />
+                  </View>
+                )
+              }
             </View>
             <View style={{ marginBottom: sizes.MARGIN_20 }}>
               <FButton
@@ -194,9 +209,10 @@ export const AllAnnouncementsScreen = () => {
               onlyFavorites={false}
               onlyActive
               filters={filters}
-              sortingMode={sortingModeSelectedOption?.id}
+              sortingMode={sortingModeSelectedOption.id}
               textQuery={textQuery}
               locationQuery={locationQuery}
+              locationThreshold={parseLocationThresholdLabelStringToNumberValue(locationThresholdSelectedOption.label)}
             />
           </View>
         </>

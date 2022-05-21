@@ -40,6 +40,7 @@ export const FAnnouncementsList = ({
   sortingMode = AnnouncementSortingModeEnum.BY_NEWEST,
   textQuery,
   locationQuery,
+  locationThreshold = 1,
   setUserAnnouncementsLength,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
@@ -57,6 +58,7 @@ export const FAnnouncementsList = ({
     sortingMode,
     textQuery,
     locationQuery,
+    locationThreshold,
   });
 
   const [
@@ -119,6 +121,14 @@ export const FAnnouncementsList = ({
   }, [sortingMode]);
 
   useEffect(() => {
+    if (getAll) {
+      setAnnouncements([]);
+      setEndReached(false);
+      updateParamsHandler();
+    }
+  }, [locationThreshold]);
+
+  useEffect(() => {
     if (params.onlyFavorites) {
       if (updatedAnnouncement) setIsLoading(true);
       else setIsLoading(false);
@@ -142,6 +152,7 @@ export const FAnnouncementsList = ({
       sortingMode,
       textQuery,
       locationQuery,
+      locationThreshold,
     });
   };
 
@@ -196,6 +207,7 @@ export const FAnnouncementsList = ({
           sortingMode: prevValue.sortingMode,
           textQuery: prevValue.textQuery,
           locationQuery: prevValue.locationQuery,
+          locationThreshold: prevValue.locationThreshold,
         }),
       );
     }
