@@ -22,6 +22,7 @@ export const UserAnnouncementsScreen = () => {
         FAnnouncementsList={false}
         onlyFavorites={false}
         getAll={false}
+        lastViewed={false}
       />
     </View>
   );

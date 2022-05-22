@@ -58,6 +58,7 @@ export const FAnnouncementCard = ({
     if (status === AnnouncementStatusEnum.NOT_ACTIVE) return locales.FOUND_NONE;
     if (status === AnnouncementStatusEnum.ARCHIVED) return locales.FINISHED_NONE;
   };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => navigation.push(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, { id })}
@@ -114,7 +115,7 @@ export const FAnnouncementCard = ({
                 imagePath=""
                 imageWidth={sizes.WIDTH_FULL}
                 imageHeight={sizes.HEIGHT_FULL}
-                networkImageUrl={photos[0].url}
+                networkImageUrl={photos ? photos[0].url : ''}
                 imageStyle={{
                   ...styles.image,
                   opacity: getImageOpacity(),

@@ -19,4 +19,5 @@ export default {
   USER_ANNOUNCEMENTS: 'User Announcements',
   ALL_ANNOUNCEMENTS: 'All Announcements',
   ALL_ANNOUNCEMENTS_DRAWER: 'All Announcements Drawer',
+  LAST_VIEWED_ANNOUNCEMENTS: 'Last Viewed Announcements',
 };

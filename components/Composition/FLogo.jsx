@@ -9,13 +9,15 @@ import placements from 'themes/placements';
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const FLogo = ({ color, fill }) => {
+export const FLogo = ({
+  color, fill, iconSize, titleSize,
+}) => {
   const getIconName = () => (fill ? icons.PAW : icons.PAW_OUTLINE);
 
   return (
     <View style={styles.logoContainer}>
       <Ionicons
-        size={sizes.ICON_25}
+        size={iconSize || sizes.ICON_25}
         name={getIconName()}
         color={color}
         style={styles.icon}
@@ -25,7 +27,7 @@ export const FLogo = ({ color, fill }) => {
           title={locales.FIND_ME}
           color={color}
           weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-          size={fonts.HEADING_LARGE}
+          size={titleSize || fonts.HEADING_LARGE}
         />
       </View>
     </View>
@@ -44,4 +46,6 @@ const styles = StyleSheet.create({
 FLogo.propTypes = {
   color: PropTypes.string.isRequired,
   fill: PropTypes.bool.isRequired,
+  iconSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  titleSize: PropTypes.number,
 };

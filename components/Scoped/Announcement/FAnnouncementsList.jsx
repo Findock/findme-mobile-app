@@ -21,12 +21,14 @@ import { useIsFocused } from '@react-navigation/native';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
 
 export const FAnnouncementsList = ({
   isMe,
   userId,
   onlyActive = false,
   onlyFavorites,
+  lastViewed,
   horizontal,
   getAll,
   numColumns,
@@ -41,7 +43,7 @@ export const FAnnouncementsList = ({
   textQuery,
   locationQuery,
   locationThreshold = 1,
-  setUserAnnouncementsLength,
+  setAnnouncementsLength,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
   const dispatch = useDispatch();
@@ -179,9 +181,14 @@ export const FAnnouncementsList = ({
 
         if (isMe) res = await getMyAnnouncementsService(params);
 
+        if (lastViewed) {
+          res = await getLastViewedAnnouncementsService(params);
+          if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
+        }
+
         if (userId) {
           res = await getUserAnnouncementsService(userId, params);
-          if (setUserAnnouncementsLength) setUserAnnouncementsLength(announcements.length + res.data.length);
+          if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
         }
       }
 
@@ -231,8 +238,8 @@ export const FAnnouncementsList = ({
   );
 
   const getInfoTitle = () => {
-    if (getAll) {
-      return locales.ANNOUNCEMENTS_NOT_FOUND;
+    if (userId) {
+      return locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
     }
     if (onlyFavorites) {
       return locales.NO_FOLLOWED_ANNOUNCEMENTS;
@@ -240,7 +247,7 @@ export const FAnnouncementsList = ({
     if (isMe) {
       return locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
     }
-    return locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
+    return locales.ANNOUNCEMENTS_NOT_FOUND;
   };
 
   const drawNoAnnouncementInfo = () => {
@@ -318,7 +325,7 @@ FAnnouncementsList.propTypes = {
   onlyFavorites: PropTypes.bool.isRequired,
   horizontal: PropTypes.bool.isRequired,
   numColumns: PropTypes.number.isRequired,
-  setUserAnnouncementsLength: PropTypes.func,
+  setAnnouncementsLength: PropTypes.func,
   getAll: PropTypes.bool.isRequired,
   filters: PropTypes.shape({
     categoriesIds: PropTypes.arrayOf(PropTypes.number),
@@ -330,4 +337,5 @@ FAnnouncementsList.propTypes = {
   sortingMode: PropTypes.string,
   textQuery: PropTypes.string,
   locationQuery: PropTypes.string,
+  lastViewed: PropTypes.bool.isRequired,
 };

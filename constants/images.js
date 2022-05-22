@@ -22,4 +22,6 @@ export default {
   UNKNOWN_WHITE: () => require('assets/animalGender/unknown-w.png'),
   INFINITY_BLACK: () => require('assets/infinity-b.png'),
   INFINITY_WHITE: () => require('assets/infinity-w.png'),
+  LOST_ANIMAL: () => require('assets/lost-animal.png'),
+  FOUND_ANIMAL: () => require('assets/found-animal.png'),
 };

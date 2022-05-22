@@ -6,4 +6,5 @@ export default {
   OUTLINE_TEXT_BUTTON: 'outline-text',
   LOADING_BUTTON: 'loading',
   ICON_BUTTON_WITH_LABEL: 'icon-with-label',
+  BUTTON_WITH_TEXT_AND_IMAGE: 'text-and-image',
 };

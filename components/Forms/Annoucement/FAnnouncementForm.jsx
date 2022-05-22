@@ -7,7 +7,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import placeholders from 'constants/components/inputs/placeholders';
 import locales from 'constants/locales';
-import AnnouncementEnum from 'enums/AnnouncementEnum';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 import React from 'react';
 import {
   View, StyleSheet,
@@ -86,7 +86,7 @@ export const FAnnouncementForm = ({
       <View>
         <FBigSwitch
           labels={[locales.FOUND, locales.LOST]}
-          values={[AnnouncementEnum.FOUND.toString(), AnnouncementEnum.LOST.toString()]}
+          values={[AnnouncementTypeEnum.FOUND.toString(), AnnouncementTypeEnum.LOST.toString()]}
           value={announcementType}
           setValue={setAnnouncementType}
         />

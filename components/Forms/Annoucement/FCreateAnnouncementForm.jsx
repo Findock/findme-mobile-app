@@ -2,7 +2,7 @@ import { FAnnouncementForm } from 'components/Forms/Annoucement/FAnnouncementFor
 import { useAnnouncementForm } from 'hooks/form/useAnnouncementForm';
 import React, { useEffect, useState } from 'react';
 import { createAnnouncementService } from 'services/announcement/createAnnouncement.service';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FCreateAnnouncementForm = () => {
@@ -21,11 +21,19 @@ export const FCreateAnnouncementForm = () => {
     announcementType,
   } = useAnnouncementForm();
   const navigation = useNavigation();
+  const route = useRoute();
 
   const [
     defaultPhotos,
     setDefaultPhotos,
   ] = useState(null);
+
+  useEffect(() => {
+    setDefaultPhotos(new Array(6).fill({
+      id: null,
+      url: '',
+    }));
+  }, []);
 
   useEffect(() => {
     setDefaultPhotos(new Array(6).fill({
@@ -56,7 +64,7 @@ export const FCreateAnnouncementForm = () => {
 
   return (
     <FAnnouncementForm
-      announcementType={announcementType}
+      announcementType={route.params.announcementType || announcementType}
       dataForm={dataForm}
       drawErrorModal={drawErrorModal}
       defaultPhotos={defaultPhotos}

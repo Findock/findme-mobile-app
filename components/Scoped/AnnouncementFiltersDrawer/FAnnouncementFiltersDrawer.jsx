@@ -18,7 +18,7 @@ import placements from 'themes/placements';
 import sizes from 'themes/sizes';
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { useDrawerStatus } from '@react-navigation/drawer';
-import AnnouncementEnum from 'enums/AnnouncementEnum';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FBadgeSelectInput } from '../../Inputs/FBadgeSelectInput';
@@ -240,19 +240,19 @@ export const FAnnouncementFiltersDrawer = () => {
             />
             <FBadgeSelectInput
               title={locales.FOUND}
-              value={filters.type === AnnouncementEnum.FOUND}
+              value={filters.type === AnnouncementTypeEnum.FOUND}
               setValue={() => setFilters({
                 ...filters,
-                type: AnnouncementEnum.FOUND,
+                type: AnnouncementTypeEnum.FOUND,
               })}
             />
             <FBadgeSelectInput
               title={locales.LOST}
               containerStyle={{ paddingRight: 0 }}
-              value={filters.type === AnnouncementEnum.LOST}
+              value={filters.type === AnnouncementTypeEnum.LOST}
               setValue={() => setFilters({
                 ...filters,
-                type: AnnouncementEnum.LOST,
+                type: AnnouncementTypeEnum.LOST,
               })}
             />
           </ScrollView>

@@ -1,5 +1,5 @@
 import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
-import AnnouncementEnum from 'enums/AnnouncementEnum';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +10,7 @@ export const useAnnouncementForm = (form = {
   description: '',
   gender: '',
   categoryId: '',
-  type: AnnouncementEnum.FOUND,
+  type: AnnouncementTypeEnum.FOUND,
   distinctiveFeaturesIds: [],
   coatColorsIds: [],
   locationName: '',
@@ -34,7 +34,7 @@ export const useAnnouncementForm = (form = {
   const [
     announcementType,
     setAnnouncementType,
-  ] = useState(AnnouncementEnum.FOUND);
+  ] = useState(AnnouncementTypeEnum.FOUND);
   const [
     loading,
     setLoading,
@@ -95,7 +95,7 @@ export const useAnnouncementForm = (form = {
       description: '',
       gender: '',
       categoryId: '',
-      type: AnnouncementEnum.FOUND,
+      type: AnnouncementTypeEnum.FOUND,
       distinctiveFeaturesIds: [],
       coatColorsIds: [],
       locationName: '',
@@ -106,7 +106,7 @@ export const useAnnouncementForm = (form = {
       locationLon: 0,
     });
     dispatch(setSelectedOptions([]));
-    setAnnouncementType(AnnouncementEnum.FOUND);
+    setAnnouncementType(AnnouncementTypeEnum.FOUND);
   };
 
   const checkFormValidation = (error) => {
