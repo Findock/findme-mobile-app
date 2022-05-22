@@ -10,7 +10,6 @@ import colors from 'themes/colors';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import locales from 'constants/locales';
 import fonts from 'themes/fonts';
-import { } from 'react-native-web';
 import { FLogo } from 'components/Composition/FLogo';
 import { FHeading } from 'components/Composition/FHeading';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
