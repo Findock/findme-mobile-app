@@ -35,13 +35,6 @@ export const FCreateAnnouncementForm = () => {
     }));
   }, []);
 
-  useEffect(() => {
-    setDefaultPhotos(new Array(6).fill({
-      id: null,
-      url: '',
-    }));
-  }, []);
-
   const onSubmit = async () => {
     try {
       const res = await createAnnouncementService({ ...dataForm });
