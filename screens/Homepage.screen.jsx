@@ -1,98 +1,156 @@
-import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { FDefaultLayout } from 'layouts/FDefault.layout';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
-import locales from 'constants/locales';
-import stackNavigatorNames from 'constants/stackNavigatorNames';
-import * as SecureStore from 'expo-secure-store';
-import { FDefaultLayout } from 'layouts/FDefault.layout';
-import {
-  StyleSheet, View,
-} from 'react-native';
-import { useDispatch } from 'react-redux';
-import { logoutUserService } from 'services/user/logoutUser.service';
-import { removeToken } from 'store/auth/authSlice';
-import colors from 'themes/colors';
-import fonts from 'themes/fonts';
-import placements from 'themes/placements';
 import sizes from 'themes/sizes';
+import placements from 'themes/placements';
+import images from 'constants/images';
+import colors from 'themes/colors';
+import defaultBoxShadow from 'styles/defaultBoxShadow';
+import locales from 'constants/locales';
+import fonts from 'themes/fonts';
+import { FLogo } from 'components/Composition/FLogo';
+import { FHeading } from 'components/Composition/FHeading';
+import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { useNavigation } from '@react-navigation/native';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 
 export const HomepageScreen = () => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  const logout = async () => {
-    await logoutUserService();
-    await SecureStore.deleteItemAsync('Authorization');
-    dispatch(removeToken());
-    navigation.navigate(stackNavigatorNames.LOGIN, { showLogoutModal: true });
-  };
+  const [
+    viewedAnnouncementsLength,
+    setViewedAnnouncementsLength,
+  ] = useState(0);
 
   return (
     <FDefaultLayout>
-      <View style={{ flex: 1 }}>
-        <View style={styles.buttonContainer}>
-          <FButton
-            title={locales.LOG_OUT}
-            color={colors.WHITE}
-            backgroundColor={colors.PRIMARY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={logout}
+      <SafeAreaView>
+        <View style={{
+          marginTop: sizes.MARGIN_30,
+          ...styles.columnContainer,
+        }}
+        >
+          <FLogo
+            fill={false}
+            color={colors.PRIMARY}
+            iconSize={sizes.ICON_40}
+            titleSize={fonts.HEADING_EXTRA_LARGE}
           />
-          <FButton
-            title="Wszystkie ogłoszenia"
-            color={colors.WHITE}
-            backgroundColor={colors.PRIMARY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-            onPress={() => navigation.navigate(stackNavigatorNames.ALL_ANNOUNCEMENTS)}
-          />
-          <FButton
-            title="Profil użytkownika"
-            color={colors.WHITE}
-            backgroundColor={colors.DARK_GRAY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE)}
-            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-          />
-          <FButton
-            title="Inny użytkownik"
-            color={colors.WHITE}
-            backgroundColor={colors.PRIMARY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW)}
-            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-          />
-          <FButton
-            title="Dodaj ogłoszenie"
-            color={colors.WHITE}
-            backgroundColor={colors.DARK_GRAY}
-            type={buttonTypes.TEXT_BUTTON}
-            titleSize={fonts.HEADING_NORMAL}
-            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => navigation.navigate(stackNavigatorNames.ADD_ANNOUNCEMENT)}
-            buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+          <FHeading
+            align={placements.LEFT}
+            size={fonts.HEADING_LARGE}
+            title={locales.HELP_TO_FIND_US}
+            style={{ marginTop: sizes.MARGIN_5 }}
+            weight={fonts.HEADING_WEIGHT_REGULAR}
           />
         </View>
-      </View>
+        <View style={{
+          width: sizes.WIDTH_FULL,
+          marginTop: sizes.MARGIN_40,
+        }}
+        >
+          <View style={styles.rowContainer}>
+            <View style={{
+              ...styles.halfContainer,
+              marginRight: 10,
+            }}
+            >
+              <FButton
+                type={buttonTypes.BUTTON_WITH_TEXT_AND_IMAGE}
+                iconPlacement={placements.CENTER}
+                imagePath={images.LOST_ANIMAL()}
+                imageSize={sizes.WIDTH_52}
+                backgroundColor={colors.PRIMARY}
+                color={colors.WHITE}
+                buttonViewStyles={{
+                  ...defaultBoxShadow,
+                  paddingVertical: sizes.PADDING_30,
+                }}
+                title={`${locales.HAVE_YOU_LOST}\n${locales.ANIMAL}`}
+                titleSize={fonts.HEADING_LARGE}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                onPress={() => navigation.navigate(stackNavigatorNames.ADD_ANNOUNCEMENT, {
+                  announcementType: AnnouncementTypeEnum.LOST,
+                })}
+              />
+            </View>
+            <View style={styles.halfContainer}>
+              <FButton
+                type={buttonTypes.BUTTON_WITH_TEXT_AND_IMAGE}
+                iconPlacement={placements.CENTER}
+                imagePath={images.FOUND_ANIMAL()}
+                imageSize={sizes.WIDTH_52}
+                color={colors.WHITE}
+                backgroundColor={colors.PRIMARY}
+                buttonViewStyles={{
+                  ...defaultBoxShadow,
+                  paddingVertical: sizes.PADDING_30,
+                }}
+                title={`${locales.HAVE_YOU_FOUND}\n${locales.ANIMAL}`}
+                titleSize={fonts.HEADING_LARGE}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                onPress={() => navigation.navigate(stackNavigatorNames.ADD_ANNOUNCEMENT, {
+                  announcementType: AnnouncementTypeEnum.FOUND,
+                })}
+              />
+            </View>
+          </View>
+          <View style={{ marginTop: sizes.MARGIN_25 }}>
+            <FHeading
+              align={placements.LEFT}
+              size={fonts.HEADING_LARGE}
+              title={locales.LAST_VIEWED}
+              style={{
+                marginTop: sizes.MARGIN_5,
+                marginBottom: sizes.MARGIN_10,
+              }}
+              weight={fonts.HEADING_WEIGHT_REGULAR}
+            />
+            <View>
+              <FAnnouncementsList
+                getAll={false}
+                horizontal
+                lastViewed
+                isMe={false}
+                onlyFavorites={false}
+                numColumns={1}
+                setAnnouncementsLength={setViewedAnnouncementsLength}
+              />
+            </View>
+            {viewedAnnouncementsLength > 6
+              && (
+                <FButton
+                  title={locales.SHOW_ALL}
+                  color={colors.PRIMARY}
+                  backgroundColor={colors.LIGHT_GRAY}
+                  type={buttonTypes.TEXT_BUTTON}
+                  titleSize={fonts.HEADING_NORMAL}
+                  titleWeight={fonts.HEADING_WEIGHT_BOLD}
+                  onPress={() => navigation.navigate(stackNavigatorNames.LAST_VIEWED_ANNOUNCEMENTS)}
+                  buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+                />
+              )}
+          </View>
+        </View>
+      </SafeAreaView>
     </FDefaultLayout>
+
   );
 };
 
 const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    justifyContent: placements.CENTER,
-    alignItems: placements.CENTER,
+  columnContainer: {
+    flexDirection: 'column',
+    width: sizes.WIDTH_FULL,
   },
-  buttonContainer: {
-    marginTop: sizes.MARGIN_30,
+  rowContainer: {
+    flexDirection: 'row',
+    width: sizes.WIDTH_FULL,
+    justifyContent: 'center',
+  },
+  halfContainer: {
+    flexBasis: sizes.BASIS_50_PERCENTAGES,
   },
 });

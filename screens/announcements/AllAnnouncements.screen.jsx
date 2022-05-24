@@ -212,6 +212,7 @@ export const AllAnnouncementsScreen = () => {
               textQuery={textQuery}
               locationQuery={locationQuery}
               locationThreshold={parseLocationThresholdLabelStringToNumberValue(locationThresholdSelectedOption.label)}
+              lastViewed={false}
             />
           </View>
         </>

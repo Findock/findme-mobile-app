@@ -31,13 +31,15 @@ import { MyAnnouncementsScreen } from 'screens/announcements/MyAnnouncements.scr
 import { MyFollowedAnnouncementsScreen } from 'screens/announcements/MyFollowedAnnouncements.screen';
 import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements.screen';
 import { AllAnnouncementsDrawer } from 'navigation/drawers/AllAnnouncementsDrawer';
-import { HomepageScreen } from 'screens/Homepage.screen';
 import { setAnimalCategories, setAreOptionsLoading, setCoatColors } from 'store/filters-options/filtersOptionsSlice';
 import { getCategoriesService } from 'services/announcement/getCategories.service';
 import { getCoatColorsService } from 'services/announcement/getCoatColors.service';
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
 import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
 import { renderLogo } from 'navigation/utils/renderLogo';
+import { TemporaryScreen } from 'screens/Temporary.screen';
+import { HomepageScreen } from 'screens/Homepage.screen';
+import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -153,6 +155,13 @@ export const Navigation = () => {
           )
             : (
               <>
+                <Stack.Screen
+                  name="Temporary"
+                  component={TemporaryScreen}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
                 <Stack.Screen
                   name={stackNavigatorNames.HOMEPAGE}
                   component={HomepageScreen}
@@ -275,6 +284,14 @@ export const Navigation = () => {
                   options={{
                     ...defaultHeaderOptions,
                     title: locales.USER_ANNOUNCEMENTS,
+                  }}
+                />
+                <Stack.Screen
+                  name={stackNavigatorNames.LAST_VIEWED_ANNOUNCEMENTS}
+                  component={LastViewedAnnouncementsScreen}
+                  options={{
+                    ...defaultHeaderOptions,
+                    title: locales.LAST_VIEWED,
                   }}
                 />
               </>

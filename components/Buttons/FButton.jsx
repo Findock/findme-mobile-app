@@ -15,10 +15,12 @@ import fonts from 'themes/fonts';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 import opacities from 'themes/opacities';
+import { FImage } from 'components/Composition/FImage';
 
 export const FButton = ({
   type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, iconViewStyles,
   backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading, iconViewSize, isDisabled = false,
+  imagePath, imageSize,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
@@ -186,6 +188,51 @@ export const FButton = ({
     </TouchableOpacity>
   );
 
+  const drawTextAndImageButton = () => (
+    <TouchableOpacity onPress={() => {
+      if (isDisabled) return;
+      onPress();
+    }}
+    >
+      <View style={{
+        ...styles.buttonContainer,
+        flexDirection: 'column',
+        ...buttonViewStyles,
+        backgroundColor,
+        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
+      }}
+      >
+        <View style={{ width: sizes.WIDTH_FULL }}>
+          <FImage
+            networkImageUrl=""
+            imageWidth={imageSize}
+            imageHeight={imageSize}
+            imagePath={imagePath}
+            isChildrenInside={false}
+            width={sizes.WIDTH_FULL}
+            height={imageSize}
+            resizeMode={sizes.COVER}
+            containerStyle={{
+              opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          />
+          <View style={{ marginTop: sizes.MARGIN_12 }}>
+            <FHeading
+              title={title}
+              color={color}
+              size={titleSize}
+              weight={titleWeight}
+              style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
+              align={placements.CENTER}
+            />
+          </View>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+
   const drawLoadingButton = () => (
     <TouchableOpacity onPress={() => {
       if (isDisabled) return;
@@ -280,6 +327,8 @@ export const FButton = ({
       return drawLoadingButton();
     case buttonTypes.ICON_BUTTON_WITH_LABEL:
       return drawIconButtonWithLabel();
+    case buttonTypes.BUTTON_WITH_TEXT_AND_IMAGE:
+      return drawTextAndImageButton();
     case buttonTypes.TEXT_BUTTON:
     default:
       return drawTextButton();
@@ -308,7 +357,16 @@ const styles = StyleSheet.create({
 });
 
 FButton.propTypes = {
-  type: PropTypes.oneOf(['link', 'text-and-icon', 'icon', 'text', 'outline-text', 'loading', 'icon-with-label']).isRequired,
+  type: PropTypes.oneOf([
+    'link',
+    'text-and-icon',
+    'icon',
+    'text',
+    'outline-text',
+    'loading',
+    'icon-with-label',
+    'text-and-image',
+  ]).isRequired,
   iconViewSize: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   icon: PropTypes.string,
   title: PropTypes.string,
@@ -323,4 +381,9 @@ FButton.propTypes = {
   isUnderline: PropTypes.bool,
   loading: PropTypes.bool,
   isDisabled: PropTypes.bool,
+  imagePath: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
+  imageSize: PropTypes.number,
 };
