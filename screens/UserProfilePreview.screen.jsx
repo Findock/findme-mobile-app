@@ -63,6 +63,7 @@ export const UserProfilePreviewScreen = () => {
                 numColumns={1}
                 getAll={false}
                 lastViewed={false}
+                recentlyCreated={false}
               />
             </View>
             {userAnnouncementsLength > 4

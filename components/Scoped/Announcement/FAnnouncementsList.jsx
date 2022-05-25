@@ -22,6 +22,9 @@ import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
+import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
+import { FButton } from 'components/Buttons/FButton';
+import buttonTypes from 'constants/components/buttonTypes';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -32,6 +35,7 @@ export const FAnnouncementsList = ({
   horizontal,
   getAll,
   numColumns,
+  recentlyCreated,
   filters = {
     categoriesIds: [],
     distinctiveFeaturesIds: [],
@@ -181,6 +185,11 @@ export const FAnnouncementsList = ({
 
         if (isMe) res = await getMyAnnouncementsService(params);
 
+        if (recentlyCreated) {
+          res = await getRecentlyCreatedAnnouncementsService(params);
+          if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
+        }
+
         if (lastViewed) {
           res = await getLastViewedAnnouncementsService(params);
           if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
@@ -247,6 +256,9 @@ export const FAnnouncementsList = ({
     if (isMe) {
       return locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
     }
+    if (recentlyCreated) {
+      return locales.NO_RECENTLY_CREATED_ANNOUNCEMENTS;
+    }
     return locales.ANNOUNCEMENTS_NOT_FOUND;
   };
 
@@ -273,7 +285,6 @@ export const FAnnouncementsList = ({
         color={colors.GRAY}
       />
     ));
-
   return (
     isLoading ? <FSpinner />
       : (
@@ -338,4 +349,5 @@ FAnnouncementsList.propTypes = {
   textQuery: PropTypes.string,
   locationQuery: PropTypes.string,
   lastViewed: PropTypes.bool.isRequired,
+  recentlyCreated: PropTypes.bool.isRequired,
 };

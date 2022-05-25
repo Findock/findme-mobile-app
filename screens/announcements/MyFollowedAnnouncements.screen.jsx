@@ -18,6 +18,7 @@ export const MyFollowedAnnouncementsScreen = () => (
       FAnnouncementsList={false}
       getAll={false}
       lastViewed={false}
+      recentlyCreated={false}
     />
   </View>
 );
