@@ -23,8 +23,6 @@ import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
 import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
-import { FButton } from 'components/Buttons/FButton';
-import buttonTypes from 'constants/components/buttonTypes';
 
 export const FAnnouncementsList = ({
   isMe,
