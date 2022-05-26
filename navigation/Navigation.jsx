@@ -40,6 +40,7 @@ import { renderLogo } from 'navigation/utils/renderLogo';
 import { TemporaryScreen } from 'screens/Temporary.screen';
 import { HomepageScreen } from 'screens/Homepage.screen';
 import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
+import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -292,6 +293,14 @@ export const Navigation = () => {
                   options={{
                     ...defaultHeaderOptions,
                     title: locales.LAST_VIEWED,
+                  }}
+                />
+                <Stack.Screen
+                  name={stackNavigatorNames.RECENTLY_CREATED_ANNOUNCEMENTS}
+                  component={RecentlyCreatedAnnouncementsScreen}
+                  options={{
+                    ...defaultHeaderOptions,
+                    title: locales.RECENTLY_CREATED,
                   }}
                 />
               </>

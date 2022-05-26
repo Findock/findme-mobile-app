@@ -64,6 +64,7 @@ export default {
   ARCHIVE: 'Archiwizuj',
   YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Nie masz jeszcze żadnych ogłoszeń',
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
+  NO_RECENTLY_CREATED_ANNOUNCEMENTS: 'W ostatnim czasie nie pojawiły się żadne nowe ogłoszenia',
   ACTIVATE: 'Przywróć',
   SEARCH: 'Szukaj',
   RESET: 'Wyczyść',
@@ -81,4 +82,8 @@ export default {
   HAVE_YOU_FOUND: 'Znalazłeś',
   HELP_TO_FIND_US: 'Pomóż nas odnaleźć',
   LAST_VIEWED: 'Ostatnio przeglądane',
+  RECENTLY_CREATED: 'Ostatnio dodane',
+  ANNOUNCEMENTS: 'ogłoszenia',
+  IN_YOUR: 'W Twojej',
+  SURROUNDINGS: 'okolicy',
 };

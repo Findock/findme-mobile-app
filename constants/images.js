@@ -24,4 +24,6 @@ export default {
   INFINITY_WHITE: () => require('assets/infinity-w.png'),
   LOST_ANIMAL: () => require('assets/lost-animal.png'),
   FOUND_ANIMAL: () => require('assets/found-animal.png'),
+  ALL_ANNOUNCEMENTS: () => require('assets/all-announcements.png'),
+  LOCATION: () => require('assets/location.png'),
 };

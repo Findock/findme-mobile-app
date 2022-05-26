@@ -23,6 +23,7 @@ export const UserAnnouncementsScreen = () => {
         onlyFavorites={false}
         getAll={false}
         lastViewed={false}
+        recentlyCreated={false}
       />
     </View>
   );
