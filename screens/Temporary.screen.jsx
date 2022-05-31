@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
+import { FComment } from 'components/Scoped/Announcement/Comments/FComment';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import * as SecureStore from 'expo-secure-store';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import {
-  StyleSheet, View,
+  StyleSheet, View, Dimensions,
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logoutUserService } from 'services/user/logoutUser.service';
@@ -79,6 +80,24 @@ export const TemporaryScreen = () => {
             titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
             onPress={() => navigation.navigate(stackNavigatorNames.HOMEPAGE)}
             buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+          />
+        </View>
+        <View style={{
+          marginTop: 30,
+          width: Dimensions.get('window').width,
+          left: -30,
+        }}
+        >
+          <FComment createMode />
+          <FComment
+            createMode={false}
+            isCommentCreator={false}
+            isUserCreator={false}
+          />
+          <FComment
+            createMode={false}
+            isUserCreator
+            isCommentCreator
           />
         </View>
       </View>

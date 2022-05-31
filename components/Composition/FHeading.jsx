@@ -7,6 +7,7 @@ import colors from 'themes/colors';
 
 export const FHeading = ({
   title, size, color = colors.BLACK, weight, align = placements.LEFT, style, isUnderline = false, numberOfLines, ellipsizeMode,
+  onTextLayout,
 }) => (
   <View style={{
     width: sizes.WIDTH_FULL,
@@ -16,6 +17,7 @@ export const FHeading = ({
     <Text
       numberOfLines={numberOfLines}
       ellipsizeMode={ellipsizeMode}
+      onTextLayout={onTextLayout}
       style={{
         fontSize: size,
         color,
@@ -39,4 +41,5 @@ FHeading.propTypes = {
   isUnderline: PropTypes.bool,
   numberOfLines: PropTypes.number,
   ellipsizeMode: PropTypes.oneOf(['head', 'middle', 'tail', 'clip']),
+  onTextLayout: PropTypes.func,
 };

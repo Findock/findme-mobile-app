@@ -11,4 +11,5 @@ export default {
   SEARCH: 'Wyszukaj...',
   MARK_ON_THE_MAP: 'Zaznacz na mapie...',
   LOCALIZATION: 'Lokalizacja',
+  ADD_COMMENT: 'Dodaj komentarz...',
 };
