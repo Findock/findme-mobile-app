@@ -43,6 +43,8 @@ import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavour
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch } from 'react-redux';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import { getAnnouncementComments } from 'services/comment/getAnnouncementComments.service';
+import { FSimpleComment } from 'components/Scoped/Announcement/Comments/FSimpleComment';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -52,6 +54,10 @@ export const AnnouncementPreviewScreen = () => {
     announcement,
     setAnnouncement,
   ] = useState(null);
+  const [
+    comments,
+    setComments,
+  ] = useState([]);
   const [
     confirmationModalVisible,
     setConfirmationModalVisible,
@@ -92,6 +98,7 @@ export const AnnouncementPreviewScreen = () => {
   useEffect(() => {
     if (isFocused) {
       fetchAnnouncement();
+      fetchAnnouncementComments();
     }
   }, [isFocused]);
 
@@ -129,6 +136,16 @@ export const AnnouncementPreviewScreen = () => {
       setShowErrorModal(true);
     }
   };
+
+  const fetchAnnouncementComments = async () => {
+    try {
+      const res = await getAnnouncementComments(route.params?.id);
+      setComments(res.data.commentedAnnouncement);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
   const confirmationHandler = () => {
     if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
     else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
@@ -366,7 +383,7 @@ export const AnnouncementPreviewScreen = () => {
           </View>
           <View style={{
             marginTop: sizes.MARGIN_25,
-            marginBottom: announcement.isUserCreator ? sizes.MARGIN_50 : sizes.MARGIN_100,
+            // marginBottom: announcement.isUserCreator ? sizes.MARGIN_50 : sizes.MARGIN_100,
           }}
           >
             <FAnnouncementHeading title={locales.LOCATION} />
@@ -385,19 +402,25 @@ export const AnnouncementPreviewScreen = () => {
               size={fonts.HEADING_NORMAL}
               weight={fonts.HEADING_WEIGHT_REGULAR}
               style={{
-                marginBottom: sizes.MARGIN_10,
                 marginTop: sizes.MARGIN_5,
               }}
             />
             <FMapView
               height={sizes.HEIGHT_400}
-              onChangeLocation={() => {}}
-              onChangeCoordinates={() => {}}
-              onChangeLocationDescription={() => {}}
+              onChangeLocation={() => { }}
+              onChangeCoordinates={() => { }}
+              onChangeLocationDescription={() => { }}
               isInteractive={false}
               lat={+announcement.locationLat}
               lon={+announcement.locationLon}
               doNotLoadCoordinatesFromLocation
+            />
+          </View>
+          <View style={{ marginBottom: announcement.isUserCreator ? sizes.MARGIN_100 : 120 }}>
+            <FSimpleComment
+              commentsAmmount={comments ? comments.length : 0}
+              comment={comments ? comments[0]?.comment : ''}
+              creator={comments ? comments[0]?.creator : ''}
             />
           </View>
         </FCard>

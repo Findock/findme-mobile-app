@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
   },
   map: {
     width: sizes.WIDTH_FULL,
-    height: sizes.HEIGHT_90_PERCENTAGES,
+    height: sizes.HEIGHT_FULL,
     zIndex: -1,
   },
 });

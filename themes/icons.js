@@ -43,4 +43,5 @@ export default {
   CAMERA_OUTLINE: 'camera-outline',
   ATTACH_OUTLINE: 'attach-outline',
   SEND_OUTLINE: 'send-outline',
+  EXPAND_OUTLINE: 'expand-outline'
 };

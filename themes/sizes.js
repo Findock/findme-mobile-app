@@ -1,5 +1,6 @@
 export default {
   // ICONS
+  ICON_15: 15,
   ICON_20: 20,
   ICON_22: 22,
   ICON_25: 25,
