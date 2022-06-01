@@ -21,14 +21,52 @@ import { FInput } from 'components/Inputs/FInput';
 import placeholders from 'constants/components/inputs/placeholders';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import { FCommentActionsModal } from 'components/Scoped/Announcement/Comments/FCommentActionsModal';
+import { addCommentForAnnouncement } from 'services/comment/addCommentForAnnouncement.service';
+import { FModal } from 'components/Composition/FModal';
+import modalTypes from 'constants/components/modals/modalTypes';
+import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useErrorModal } from 'hooks/useErrorModal';
+import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
+import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
+import { appendFileToFormData } from 'utils/appendFileToFormData';
+import { uploadPhotoForAnnouncementComment } from 'services/comment/uploadPhotoForAnnouncementComment.service';
+import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
+import images from 'constants/images';
+import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
+import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
+import * as Location from 'expo-location';
 
-export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
+export const FComment = ({
+  createMode, isCommentCreator, isUserCreator, announcementId, commentedAnnouncement,
+}) => {
   const navigation = useNavigation();
   const me = useSelector((state) => state.me.me);
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal();
+  const {
+    tryToAskForCameraRollPermissionsIfIsNotGranted,
+    drawNoPermissionsModal,
+    granted: status,
+  } = useCameraRollPermission();
+  const {
+    tryToAskForCameraPermissionsIfIsNotGranted,
+    drawNoPermissionsModal: drawNoCameraPermissionsModal,
+    granted: cameraStatus,
+  } = useCameraPermission();
+  const {
+    tryToAskForLocationPermissionsIfIsNotGranted, granted: locationStatus,
+    drawNoPermissionsModal: drawNoLocationPermissionModal,
+  } = useLocationPermission();
 
   const [
     showMore,
     setShowMore,
+  ] = useState(false);
+  const [
+    showSharedLocationModal,
+    setShowSharedLocationModal,
   ] = useState(false);
   const [
     hasMoreLines,
@@ -42,6 +80,21 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
     showCommentActionsModal,
     setShowCommentActionsModal,
   ] = useState(false);
+  const [
+    location,
+    setLocation,
+  ] = useState({
+    latitude: null,
+    longitude: null,
+  });
+  const [
+    photos,
+    setPhotos,
+  ] = useState([]);
+  const [
+    showSuccessfulAddedCommentModal,
+    setShowSuccessfulAddedCommentModal,
+  ] = useState(false);
 
   const checkIfHasMoreLines = React.useCallback((e) => {
     if (e.nativeEvent.lines.length > 4) setHasMoreLines(true);
@@ -50,6 +103,124 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
   const commentHandler = (newComment) => {
     setComment(newComment);
   };
+  const createCommentHandler = async () => {
+    try {
+      let newCommentData = {
+        commentedAnnouncementId: announcementId,
+        comment,
+        photosIds: photos.map((photo) => photo.id),
+
+      };
+      if ((location.latitude && location.longitude) && (location.latitude !== 0 && location.longitude !== 0)) {
+        newCommentData = {
+          ...newCommentData,
+          locationLat: location.latitude,
+          locationLon: location.longitude,
+        };
+      }
+      await addCommentForAnnouncement(newCommentData);
+      setShowSuccessfulAddedCommentModal(true);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
+  const removeUploadedPhoto = (photoId) => {
+    const existingPhotoId = photos.find((photo) => photo.id === photoId);
+    if (existingPhotoId) {
+      const newPhotos = [...photos];
+      newPhotos.splice(photos.indexOf(existingPhotoId), 1);
+      setPhotos([...newPhotos]);
+    }
+  };
+
+  const uploadPhoto = async (source) => {
+    if (source === 'camera-roll') {
+      if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
+    } else if (source === 'camera') {
+      if (!cameraStatus) tryToAskForCameraPermissionsIfIsNotGranted();
+    }
+    try {
+      if (source === 'camera-roll') {
+        if (status) {
+          await pickImageFromCameraRoll(async (result) => {
+            const formData = appendFileToFormData(result, 'announcement-comment-image.jpg');
+            const res = await uploadPhotoForAnnouncementComment(formData);
+            setPhotos([
+              ...photos, {
+                id: res.id,
+                url: res.url,
+              },
+            ]);
+          }, {
+            allowsEditing: true,
+          });
+        }
+      } else if (source === 'camera') {
+        if (cameraStatus && status) {
+          await takePhotoWithCamera(async (result) => {
+            const formData = appendFileToFormData(result, 'announcement-comment-image.jpg');
+            const res = await uploadPhotoForAnnouncementComment(formData);
+            setPhotos([
+              ...photos, {
+                id: res.id,
+                url: res.url,
+              },
+            ]);
+          }, {
+            allowsEditing: true,
+          });
+        }
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
+  const shareCurrentLocation = async () => {
+    if (!locationStatus) tryToAskForLocationPermissionsIfIsNotGranted();
+    if (locationStatus) {
+      const position = await Location.getCurrentPositionAsync();
+      setLocation({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+      setShowSharedLocationModal(true);
+    }
+  };
+
+  const drawPhotos = (commentPhotos) => commentPhotos.map((photo) => (
+    <FImage
+      key={photo.id}
+      networkImageUrl={photo.url}
+      imagePath={images.DOG()}
+      height={sizes.WIDTH_50}
+      width={sizes.HEIGHT_50}
+      imageHeight={sizes.HEIGHT_FULL}
+      imageWidth={sizes.WIDTH_FULL}
+      containerStyle={{
+        marginRight: sizes.MARGIN_8,
+      }}
+      resizeMode={sizes.COVER}
+      isChildrenInside={createMode}
+    >
+      {createMode && (
+        <FButton
+          type={buttonTypes.ICON_BUTTON}
+          icon={icons.CLOSE_OUTLINE}
+          iconSize={sizes.ICON_35}
+          buttonViewStyles={{
+            padding: 0,
+            width: sizes.WIDTH_FULL,
+            height: sizes.HEIGHT_FULL,
+            alignItems: placements.CENTER,
+            justifyContent: placements.CENTER,
+          }}
+          onPress={() => removeUploadedPhoto(photo.id)}
+        />
+      )}
+    </FImage>
+  ));
 
   const drawContent = () => {
     if (createMode) {
@@ -81,6 +252,14 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
               textAreaPaddingHorizontal={0}
             />
             <View style={{
+              ...styles.photosContainer,
+              marginBottom: sizes.MARGIN_10,
+            }}
+            >
+              {drawPhotos(photos)}
+            </View>
+
+            <View style={{
               ...styles.rowContainer,
               justifyContent: 'space-between',
             }}
@@ -95,6 +274,8 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
                     padding: 0,
                     marginRight: sizes.MARGIN_12,
                   }}
+                  isDisabled={photos.length === 3}
+                  onPress={() => uploadPhoto('camera-roll')}
                 />
                 <FButton
                   type={buttonTypes.ICON_BUTTON}
@@ -105,6 +286,8 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
                     padding: 0,
                     marginRight: sizes.MARGIN_12,
                   }}
+                  isDisabled={photos.length === 3}
+                  onPress={() => uploadPhoto('camera')}
                 />
                 <FButton
                   type={buttonTypes.ICON_BUTTON}
@@ -112,6 +295,9 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
                   icon={icons.LOCATION_OUTLINE}
                   color={colors.PRIMARY}
                   buttonViewStyles={{ padding: 0 }}
+                  isDisabled={(location.latitude && location.longitude)
+                    && (location.latitude !== 0 && location.longitude !== 0)}
+                  onPress={shareCurrentLocation}
                 />
               </View>
               <FButton
@@ -120,8 +306,35 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
                 icon={icons.SEND_OUTLINE}
                 color={colors.PRIMARY}
                 buttonViewStyles={{ padding: 0 }}
+                isDisabled={photos.length === 0 && comment.length === 0}
+                onPress={createCommentHandler}
               />
             </View>
+            {(location.latitude && location.longitude)
+                    && (location.latitude !== 0 && location.longitude !== 0)
+            && (
+              <View style={styles.rowContainer}>
+                <FButton
+                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+                  icon={icons.CLOSE_OUTLINE}
+                  color={colors.DANGER}
+                  backgroundColor={colors.WHITE}
+                  title={locales.DONT_SHARE_LOCATION}
+                  iconPlacement={placements.LEFT}
+                  iconSize={sizes.ICON_20}
+                  buttonViewStyles={{
+                    paddingVertical: 0,
+                    paddingHorizontal: 0,
+                  }}
+                  titleSize={fonts.HEADING_SMALL}
+                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                  onPress={() => setLocation({
+                    latitude: null,
+                    longitude: null,
+                  })}
+                />
+              </View>
+            )}
           </View>
         </>
       );
@@ -133,23 +346,26 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
           marginRight: sizes.MARGIN_10,
         }}
         >
-          <TouchableOpacity onPress={() => navigation.navigate('')}>
+          <TouchableOpacity onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW, {
+            userId: commentedAnnouncement.creator.id,
+          })}
+          >
             <FAvatar
               size={sizes.WIDTH_35}
               isEditable={false}
-              imageUrl="https://upload.wikimedia.org/wikipedia/commons/0/0e/Grazyna_Krukowna.jpg"
+              imageUrl={commentedAnnouncement.creator.profileImageUrl}
             />
           </TouchableOpacity>
         </View>
         <View style={{ flexBasis: (isUserCreator || isCommentCreator) ? sizes.BASIS_80_PERCENTAGES : sizes.BASIS_90_PERCENTAGES }}>
           <View style={{
             ...styles.rowContainer,
-            justifyContent: (isUserCreator || isCommentCreator) ? '' : 'space-between',
+            justifyContent: (isUserCreator || isCommentCreator) ? 'flex-start' : 'space-between',
           }}
           >
             <View style={{ flexBasis: sizes.BASIS_50_PERCENTAGES }}>
               <FHeading
-                title="Grayżyna Torbacz jdasd ajsdaj sdja jsdaj jasdj jas djads"
+                title={commentedAnnouncement.creator.name}
                 size={fonts.HEADING_SMALL}
                 align={placements.LEFT}
                 weight={fonts.HEADING_WEIGHT_MEDIUM}
@@ -162,7 +378,7 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
             }}
             >
               <FHeading
-                title={parseDate(dateFormatTypes.DATE_TIME, '2014-09-08T08:02:17-05:00')}
+                title={parseDate(dateFormatTypes.DATE_TIME, commentedAnnouncement.createDate)}
                 size={fonts.HEADING_SMALL}
                 align={placements.RIGHT}
                 weight={fonts.HEADING_WEIGHT_REGULAR}
@@ -196,13 +412,7 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
           }}
           >
             <FHeading
-              title="Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki. Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki.
-                Widziałem go przy monopolowym, jakiś gościu chciał go sprzedać za 2 flaszki."
+              title={commentedAnnouncement.comment}
               size={fonts.HEADING_NORMAL}
               align={placements.LEFT}
               weight={fonts.HEADING_WEIGHT_REGULAR}
@@ -227,39 +437,7 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
             )}
           </View>
           <View style={styles.photosContainer}>
-            <FImage
-              networkImageUrl="https://upload.wikimedia.org/wikipedia/commons/0/0e/Grazyna_Krukowna.jpg"
-              height={sizes.WIDTH_50}
-              width={sizes.HEIGHT_50}
-              imageHeight={sizes.HEIGHT_FULL}
-              imageWidth={sizes.WIDTH_FULL}
-              imagePath=""
-              containerStyle={{ marginRight: sizes.MARGIN_8 }}
-              resizeMode={sizes.COVER}
-              isChildrenInside={false}
-            />
-            <FImage
-              networkImageUrl="https://upload.wikimedia.org/wikipedia/commons/0/0e/Grazyna_Krukowna.jpg"
-              height={sizes.WIDTH_50}
-              width={sizes.HEIGHT_50}
-              imageHeight={sizes.HEIGHT_FULL}
-              imageWidth={sizes.WIDTH_FULL}
-              imagePath=""
-              containerStyle={{ marginRight: sizes.MARGIN_8 }}
-              resizeMode={sizes.COVER}
-              isChildrenInside={false}
-            />
-            <FImage
-              networkImageUrl="https://upload.wikimedia.org/wikipedia/commons/0/0e/Grazyna_Krukowna.jpg"
-              height={sizes.WIDTH_50}
-              width={sizes.HEIGHT_50}
-              imageHeight={sizes.HEIGHT_FULL}
-              imageWidth={sizes.WIDTH_FULL}
-              imagePath=""
-              containerStyle={{ marginRight: sizes.MARGIN_8 }}
-              resizeMode={sizes.COVER}
-              isChildrenInside={false}
-            />
+            {drawPhotos(commentedAnnouncement.photos)}
           </View>
         </View>
         {(isUserCreator || isCommentCreator) && (
@@ -292,7 +470,27 @@ export const FComment = ({ createMode, isCommentCreator, isUserCreator }) => {
         setVisible={setShowCommentActionsModal}
         visible={showCommentActionsModal}
       />
+      {showSuccessfulAddedCommentModal && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          title={modalsMessages.COMMENT_HAS_BEEN_ADDED}
+          visible={showSuccessfulAddedCommentModal}
+          setVisible={setShowSuccessfulAddedCommentModal}
+        />
+      )}
+      {showSharedLocationModal && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          title={modalsMessages.LOCATION_HAS_BEEN_SHARED}
+          visible={showSharedLocationModal}
+          setVisible={setShowSharedLocationModal}
+        />
+      )}
       {drawContent()}
+      {drawErrorModal()}
+      {drawNoCameraPermissionsModal()}
+      {drawNoPermissionsModal()}
+      {drawNoLocationPermissionModal()}
     </View>
   );
 };
@@ -322,4 +520,5 @@ FComment.propTypes = {
   createMode: PropTypes.bool.isRequired,
   isUserCreator: PropTypes.bool.isRequired,
   isCommentCreator: PropTypes.bool.isRequired,
+  announcementId: PropTypes.number.isRequired,
 };

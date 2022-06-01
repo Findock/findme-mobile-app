@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import {
   Modal, Pressable, View, StyleSheet, Platform,
 } from 'react-native';
