@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { getOtherUserService } from 'services/user/getOtherUser.service';
 import { FDefaultLayout } from 'layouts/FDefault.layout';

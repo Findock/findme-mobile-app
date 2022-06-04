@@ -11,7 +11,7 @@ import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActi
 import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
 import { getMyAuthTokensService } from 'services/auth/getMyAuthTokens.service';
 import { deleteAuthTokenService } from 'services/auth/deleteAuthToken.service';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 
 export const FLoginHistoryList = () => {
   const [

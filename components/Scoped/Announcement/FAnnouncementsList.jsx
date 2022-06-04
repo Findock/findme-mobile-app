@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
 import {
-  FlatList, View, StyleSheet, ActivityIndicator, Platform,
+  ActivityIndicator, FlatList, Platform, StyleSheet, View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { FSpinner } from 'components/Composition/FSpinner';
@@ -16,7 +16,7 @@ import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnounce
 import { getUserAnnouncementsService } from 'services/announcement/getUserAnnouncements.service';
 import PropTypes from 'prop-types';
 import { searchAnnouncementsService } from 'services/announcement/searchAnnouncements.service';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useIsFocused } from '@react-navigation/native';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
@@ -134,8 +134,11 @@ export const FAnnouncementsList = ({
 
   useEffect(() => {
     if (params.onlyFavorites) {
-      if (updatedAnnouncement) setIsLoading(true);
-      else setIsLoading(false);
+      if (updatedAnnouncement) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
     }
   }, [updatedAnnouncement]);
 
@@ -163,11 +166,13 @@ export const FAnnouncementsList = ({
   const refreshAnnouncementHandler = (onUpdatedAnnouncementChange = false) => {
     if (updatedAnnouncement) {
       const updatedAnnouncementIndex = announcements.findIndex((x) => x.id === updatedAnnouncement.id);
-      const newAnnouncemnts = [...announcements];
-      if (!onUpdatedAnnouncementChange && params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) newAnnouncemnts.splice(updatedAnnouncementIndex, 1);
-      else if (announcements[updatedAnnouncementIndex]?.status !== updatedAnnouncement?.status) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
-      else if (!onUpdatedAnnouncementChange) newAnnouncemnts.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
-      setAnnouncements([...newAnnouncemnts]);
+      const newAnnouncements = [...announcements];
+      if (!onUpdatedAnnouncementChange && params.onlyFavorites && announcements[updatedAnnouncementIndex].isInFavorites !== updatedAnnouncement.isInFavorites) {
+        newAnnouncements.splice(updatedAnnouncementIndex, 1);
+      } else if (announcements[updatedAnnouncementIndex]?.status !== updatedAnnouncement?.status) {
+        newAnnouncements.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
+      } else if (!onUpdatedAnnouncementChange) newAnnouncements.splice(updatedAnnouncementIndex, 1, { ...updatedAnnouncement });
+      setAnnouncements([...newAnnouncements]);
       setTimeout(() => {
         dispatch(setUpdatedAnnouncement(null));
       }, 5000);
@@ -227,7 +232,10 @@ export const FAnnouncementsList = ({
     }
   };
 
-  const drawAnnouncementCard = ({ item, index }) => (
+  const drawAnnouncementCard = ({
+    item,
+    index,
+  }) => (
     <View
       style={{ flexBasis: sizes.BASIS_50_PERCENTAGES }}
       key={item.id}

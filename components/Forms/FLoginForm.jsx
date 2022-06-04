@@ -4,7 +4,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -25,27 +25,17 @@ import { authUserService } from 'services/auth/authUser.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import modalsMessages from 'constants/components/modals/modalsMessages';
 import modalTypes from 'constants/components/modals/modalTypes';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 
 export const FLoginForm = () => {
   const dispatch = useDispatch();
   const route = useRoute();
   const navigation = useNavigation();
 
-  const [
-    logoutModalVisible,
-    setLogoutModalVisible,
-  ] = useState(false);
+  const successfulModalTitle = useRef('');
   const [
     noInternetConnectionModalVisible,
     setNoInternetConnectionModalVisible,
-  ] = useState(false);
-  const [
-    registrationModalVisible,
-    setRegistrationModalVisible,
-  ] = useState(false);
-  const [
-    deleteAccountModalVisible,
-    setDeleteAccountModalVisible,
   ] = useState(false);
   const [
     dataForm,
@@ -67,21 +57,24 @@ export const FLoginForm = () => {
 
   useEffect(() => {
     if (route.params?.showLogoutModal) {
-      setLogoutModalVisible(true);
+      successfulModalTitle.current = modalsMessages.SUCCESSFUL_LOGOUT;
+      setShowSuccessModal(true);
       navigation.setParams({ showLogoutModal: false });
     }
   }, [route.params?.showLogoutModal]);
 
   useEffect(() => {
     if (route.params?.showRegistrationModal) {
-      setRegistrationModalVisible(true);
+      successfulModalTitle.current = modalsMessages.SUCCESSFUL_REGISTRATION;
+      setShowSuccessModal(true);
       navigation.setParams({ showRegistrationModal: false });
     }
   }, [route.params?.showDeleteAccountModal]);
 
   useEffect(() => {
     if (route.params?.showDeleteAccountModal) {
-      setDeleteAccountModalVisible(true);
+      successfulModalTitle.current = modalsMessages.SUCCESSFUL_ACCOUNT_DELETING;
+      setShowSuccessModal(true);
       navigation.setParams({ showDeleteAccountModal: false });
     }
   }, [route.params?.showDeleteAccountModal]);
@@ -116,21 +109,28 @@ export const FLoginForm = () => {
   };
 
   const checkFormValidation = (error) => {
-    const { message, statusCode } = error;
+    const {
+      message,
+      statusCode,
+    } = error;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('email')) {
+      if (message.join(' ')
+        .includes('email')) {
         errs.push(userMessages.INVALID_EMAIL);
       }
-      if (message.join(' ').includes('password')) {
+      if (message.join(' ')
+        .includes('password')) {
         errs.push(userMessages.INVALID_PASSWORD);
       }
     }
     if (statusCode === 401) {
-      if (message.join(' ').includes('email')) {
+      if (message.join(' ')
+        .includes('email')) {
         errs.push(userMessages.USER_WITH_THIS_EMAIL_DOES_NOT_EXIST);
       }
-      if (message.join(' ').includes('password')) {
+      if (message.join(' ')
+        .includes('password')) {
         errs.push(userMessages.INVALID_PASSWORD);
       }
     }
@@ -143,7 +143,12 @@ export const FLoginForm = () => {
   const onAccessForegroundPermissions = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status === 'granted') {
-      const { coords: { altitude, latitude } } = await Location.getCurrentPositionAsync({});
+      const {
+        coords: {
+          altitude,
+          latitude,
+        },
+      } = await Location.getCurrentPositionAsync({});
       return `${altitude} ${latitude}`;
     }
     return 'unknown';
@@ -168,6 +173,12 @@ export const FLoginForm = () => {
       setLoading(false);
     }
   };
+
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(successfulModalTitle.current);
+
   return (
     <>
       {loading && <FSpinner />}
@@ -179,30 +190,7 @@ export const FLoginForm = () => {
           setVisible={setNoInternetConnectionModalVisible}
         />
       )}
-      {registrationModalVisible && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          title={modalsMessages.SUCCESSFUL_REGISTRATION}
-          visible={registrationModalVisible}
-          setVisible={setRegistrationModalVisible}
-        />
-      )}
-      {logoutModalVisible && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          title={modalsMessages.SUCCESSFUL_LOGOUT}
-          visible={logoutModalVisible}
-          setVisible={setLogoutModalVisible}
-        />
-      )}
-      {deleteAccountModalVisible && (
-        <FModal
-          type={modalTypes.INFO_MODAL}
-          title={modalsMessages.SUCCESSFUL_ACCOUNT_DELETING}
-          visible={deleteAccountModalVisible}
-          setVisible={setDeleteAccountModalVisible}
-        />
-      )}
+      {drawSuccessModal()}
       <View>
         <FInput
           type={inputTypes.EMAIL}

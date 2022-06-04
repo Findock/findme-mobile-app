@@ -12,15 +12,14 @@ import inputTypes from 'constants/components/inputs/inputTypes';
 import icons from 'themes/icons';
 import sizes from 'themes/sizes';
 import { StyleSheet, View } from 'react-native';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import placeholders from 'constants/components/inputs/placeholders';
 import { resetPasswordEmailService } from 'services/user/resetPasswordEmail.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 
 export const ForgotPasswordScreen = () => {
   const [
@@ -31,10 +30,6 @@ export const ForgotPasswordScreen = () => {
     errors,
     setErrors,
   ] = useState([]);
-  const [
-    mailSentSuccessModalVisible,
-    setMailSentSuccessModalVisible,
-  ] = useState(false);
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -60,7 +55,7 @@ export const ForgotPasswordScreen = () => {
   const onSubmit = async () => {
     try {
       await resetPasswordEmailService({ email });
-      setMailSentSuccessModalVisible(true);
+      setShowSuccessModal(true);
       setErrors([]);
     } catch (error) {
       if (error.response && error.response.data) {
@@ -68,17 +63,14 @@ export const ForgotPasswordScreen = () => {
       }
     }
   };
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(modalsMessages.MESSAGE_SEND_SUCCESS);
 
   return (
     <FFormLayout>
-      {mailSentSuccessModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          title={modalsMessages.MESSAGE_SEND_SUCCESS}
-          visible={mailSentSuccessModalVisible}
-          setVisible={setMailSentSuccessModalVisible}
-        />
-      )}
+      {drawSuccessModal()}
       {drawErrorModal()}
       <View style={{
         flexGrow: 1,

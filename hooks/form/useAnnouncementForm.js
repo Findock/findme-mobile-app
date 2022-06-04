@@ -1,6 +1,6 @@
 import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
 import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
@@ -110,25 +110,34 @@ export const useAnnouncementForm = (form = {
   };
 
   const checkFormValidation = (error) => {
-    const { message, statusCode } = error;
+    const {
+      message,
+      statusCode,
+    } = error;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('title')) {
+      if (message.join(' ')
+        .includes('title')) {
         errs.push(announcementMessages.TITLE_CANNOT_BE_EMPTY);
       }
-      if (message.join(' ').includes('description')) {
+      if (message.join(' ')
+        .includes('description')) {
         errs.push(announcementMessages.DESCRIPTION_CANNOT_BE_EMPTY);
       }
-      if (message.join(' ').includes('gender')) {
+      if (message.join(' ')
+        .includes('gender')) {
         errs.push(announcementMessages.CHOOSE_GENDER);
       }
-      if (message.join(' ').includes('categoryId')) {
+      if (message.join(' ')
+        .includes('categoryId')) {
         errs.push(announcementMessages.CHOOSE_CATEGORY);
       }
-      if (message.join(' ').includes('photosIds')) {
+      if (message.join(' ')
+        .includes('photosIds')) {
         errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_PHOTO);
       }
-      if (message.join(' ').includes('coatColorsIds')) {
+      if (message.join(' ')
+        .includes('coatColorsIds')) {
         errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR);
       }
     }

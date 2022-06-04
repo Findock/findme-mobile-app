@@ -1,6 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useRef, useState,
+} from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  Keyboard, StyleSheet, TouchableOpacity, View,
+} from 'react-native';
 import { FAvatar } from 'components/Composition/FAvatar';
 import sizes from 'themes/sizes';
 import { FHeading } from 'components/Composition/FHeading';
@@ -21,10 +25,8 @@ import { FInput } from 'components/Inputs/FInput';
 import placeholders from 'constants/components/inputs/placeholders';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import { FCommentActionsModal } from 'components/Scoped/Comments/FCommentActionsModal';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import modalsMessages from 'constants/components/modals/modalsMessages';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { appendFileToFormData } from 'utils/appendFileToFormData';
@@ -36,7 +38,10 @@ import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
 import { updateCommentService } from 'services/comment/updateComment.service';
 import { addCommentService } from 'services/comment/addComment.service';
 import { FSpinner } from 'components/Composition/FSpinner';
-import { uploadPhotoCommentService } from '../../../services/comment/uploadCommentPhoto.service';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import { uploadPhotoCommentService } from 'services/comment/uploadCommentPhoto.service';
+import { deleteCommentService } from 'services/comment/deleteComment.service';
 
 export const FComment = ({
   createMode,
@@ -50,6 +55,7 @@ export const FComment = ({
   const me = useSelector((state) => state.me.me);
   const comments = useSelector((state) => state.comments.comments);
   const commentToUpdate = useSelector((state) => state.comments.commentToUpdate);
+  const successfulModalTitle = useRef('');
 
   const [
     loading,
@@ -93,10 +99,6 @@ export const FComment = ({
     setShowMore,
   ] = useState(false);
   const [
-    showSharedLocationModal,
-    setShowSharedLocationModal,
-  ] = useState(false);
-  const [
     hasMoreLines,
     setHasMoreLines,
   ] = useState(false);
@@ -119,14 +121,6 @@ export const FComment = ({
     photos,
     setPhotos,
   ] = useState([]);
-  const [
-    showSuccessfulAddedCommentModal,
-    setShowSuccessfulAddedCommentModal,
-  ] = useState(false);
-  const [
-    showSuccessfulUpdatedCommentModal,
-    setShowSuccessfulUpdatedCommentModal,
-  ] = useState(false);
 
   useEffect(() => {
     if (photos.length === 0 && !comment && !isCreateCommentButtonDisabled) {
@@ -191,12 +185,15 @@ export const FComment = ({
         newComments[newComments.indexOf(commentToUpdate)] = { ...res.data };
         dispatch(setComments(newComments));
         dispatch(setCommentToUpdate(null));
-        setShowSuccessfulUpdatedCommentModal(true);
+        successfulModalTitle.current = modalsMessages.COMMENT_HAS_BEEN_UPDATED;
+        setShowSuccessModal(true);
       } else {
         const res = await addCommentService(newCommentData);
         dispatch(setComments([res.data, ...comments]));
-        setShowSuccessfulAddedCommentModal(true);
+        successfulModalTitle.current = modalsMessages.COMMENT_HAS_BEEN_ADDED;
+        setShowSuccessModal(true);
       }
+      Keyboard.dismiss();
       resetCommentData();
     } catch (error) {
       setShowErrorModal(true);
@@ -212,7 +209,7 @@ export const FComment = ({
       setIsAddPhotoButtonDisabled(false);
     }
   };
-  console.log(photos.length);
+
   const uploadPhoto = async (source) => {
     if (source === 'camera-roll') {
       if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
@@ -270,7 +267,8 @@ export const FComment = ({
         longitude: position.coords.longitude,
       });
       setIsLocationButtonDisabled(true);
-      setShowSharedLocationModal(true);
+      successfulModalTitle.current = modalsMessages.LOCATION_HAS_BEEN_SHARED;
+      setShowSuccessModal(true);
     }
   };
 
@@ -310,6 +308,38 @@ export const FComment = ({
   const editHandler = () => {
     dispatch(setCommentToUpdate(commentedAnnouncement));
   };
+
+  const deleteHandler = async () => {
+    try {
+      await deleteCommentService(commentedAnnouncement.id);
+      const newComments = [...comments];
+      newComments.splice(newComments.indexOf(commentedAnnouncement), 1);
+      dispatch(setComments(newComments));
+      navigation.setParams({
+        successfulDeletedComment: true,
+      });
+      setShowSuccessModal(true);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
+  const redirectToUserProfile = () => {
+    if (commentedAnnouncement.creator.id === me.id) {
+      navigation.navigate(stackNavigatorNames.USER_PROFILE);
+    } else {
+      navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW, { userId: commentedAnnouncement.creator.id });
+    }
+  };
+
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(successfulModalTitle.current);
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmationModal(modalsMessages.DELETE_COMMENT, deleteHandler);
 
   const drawContent = () => {
     if (createMode) {
@@ -436,10 +466,7 @@ export const FComment = ({
           marginRight: sizes.MARGIN_10,
         }}
         >
-          <TouchableOpacity onPress={() => navigation.navigate(stackNavigatorNames.USER_PROFILE_PREVIEW, {
-            userId: commentedAnnouncement.creator.id,
-          })}
-          >
+          <TouchableOpacity onPress={redirectToUserProfile}>
             <FAvatar
               size={sizes.WIDTH_35}
               isEditable={false}
@@ -563,31 +590,10 @@ export const FComment = ({
         setVisible={setShowCommentActionsModal}
         visible={showCommentActionsModal}
         onEdit={editHandler}
+        onDelete={() => setShowConfirmationModal(true)}
       />
-      {showSuccessfulAddedCommentModal && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          title={modalsMessages.COMMENT_HAS_BEEN_ADDED}
-          visible={showSuccessfulAddedCommentModal}
-          setVisible={setShowSuccessfulAddedCommentModal}
-        />
-      )}
-      {showSuccessfulUpdatedCommentModal && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          title={modalsMessages.COMMENT_HAS_BEEN_UPDATED}
-          visible={showSuccessfulUpdatedCommentModal}
-          setVisible={setShowSuccessfulUpdatedCommentModal}
-        />
-      )}
-      {showSharedLocationModal && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          title={modalsMessages.LOCATION_HAS_BEEN_SHARED}
-          visible={showSharedLocationModal}
-          setVisible={setShowSharedLocationModal}
-        />
-      )}
+      {drawSuccessModal()}
+      {drawConfirmationModal()}
       {drawContent()}
       {drawErrorModal()}
       {drawNoCameraPermissionsModal()}

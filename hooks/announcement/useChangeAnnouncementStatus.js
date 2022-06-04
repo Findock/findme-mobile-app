@@ -1,7 +1,7 @@
 import { FModal } from 'components/Composition/FModal';
 import modalsMessages from 'constants/components/modals/modalsMessages';
 import modalTypes from 'constants/components/modals/modalTypes';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useState } from 'react';
 import { archiveAnnouncementService } from 'services/announcement/archiveAnnouncement.service';
 import { makeAnnouncementActiveService } from 'services/announcement/makeAnnouncementActive.service';

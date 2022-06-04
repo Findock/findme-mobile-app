@@ -4,9 +4,7 @@ import locales from 'constants/locales';
 import React, { useState } from 'react';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
-import {
-  View, StyleSheet,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FSettingsRow } from 'components/Scoped/Settings/FSettingsRow';
 import { FHeading } from 'components/Composition/FHeading';
 import sizes from 'themes/sizes';
@@ -15,11 +13,9 @@ import { filterErrorMessages } from 'utils/filterErrorMessages';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useDispatch } from 'react-redux';
 import { setMe } from 'store/me/meSlice';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { updateUserService } from 'services/user/updateUser.service';
 import { deleteAccountService } from 'services/user/deleteAccount.service';
 import { getMeService } from 'services/user/getMe.service';
@@ -27,8 +23,13 @@ import PropTypes from 'prop-types';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 
-export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
+export const FSettingsFormScreen = ({
+  me,
+  setIsForm,
+  scrollRef,
+}) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [
@@ -49,40 +50,37 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
     errors,
     setErrors,
   ] = useState([]);
-  const [
-    showDeleteAccountConfirmationModal,
-    setShowDeleteAccountConfirmationModal,
-  ] = useState(false);
+
   const {
     setShowErrorModal,
     drawErrorModal,
   } = useErrorModal();
 
-  const nameInputhandler = (newName) => {
+  const nameInputHandler = (newName) => {
     setDataForm({
       ...dataForm,
       name: newName,
     });
   };
-  const streetInputhandler = (newStreet) => {
+  const streetInputHandler = (newStreet) => {
     setDataForm({
       ...dataForm,
       street: newStreet,
     });
   };
-  const phoneInputhandler = (newPhone) => {
+  const phoneInputHandler = (newPhone) => {
     setDataForm({
       ...dataForm,
       phoneNumber: newPhone,
     });
   };
-  const cityInputhandler = (newCity) => {
+  const cityInputHandler = (newCity) => {
     setDataForm({
       ...dataForm,
       city: newCity,
     });
   };
-  const bioInputhandler = (newBio) => {
+  const bioInputHandler = (newBio) => {
     setDataForm({
       ...dataForm,
       bio: newBio,
@@ -90,10 +88,14 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
   };
 
   const checkFormValidation = (error) => {
-    const { message, statusCode } = error;
+    const {
+      message,
+      statusCode,
+    } = error;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('phone')) {
+      if (message.join(' ')
+        .includes('phone')) {
         errs.push(userMessages.INVALID_PHONE_NUMBER);
       }
     }
@@ -131,18 +133,15 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
     }
   };
 
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmationModal(modalsMessages.DELETE_USER_ACCOUNT_CONFIRMATION, onDeleteAccount);
+
   return (
     <FFormLayout scrollRef={scrollRef}>
       {loading && <FSpinner />}
-      {showDeleteAccountConfirmationModal && (
-        <FModal
-          type={modalTypes.CONFIRM_MODAL}
-          setVisible={setShowDeleteAccountConfirmationModal}
-          visible={showDeleteAccountConfirmationModal}
-          title={modalsMessages.DELETE_USER_ACCOUNT_CONFIRMATION}
-          onConfirm={onDeleteAccount}
-        />
-      )}
+      {drawConfirmationModal()}
       {drawErrorModal()}
       <View />
       <FHeading
@@ -158,7 +157,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
         label={locales.NAME}
         value={dataForm.name}
         style={styles.headerSpace}
-        onChangeText={nameInputhandler}
+        onChangeText={nameInputHandler}
       />
       <FSettingsRow
         isForm
@@ -166,7 +165,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
         label={locales.PHONE}
         value={dataForm.phoneNumber}
         style={styles.settingRowSpace}
-        onChangeText={phoneInputhandler}
+        onChangeText={phoneInputHandler}
         isPhoneInput
         errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
       />
@@ -176,7 +175,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
         label={locales.STREET}
         value={dataForm.street}
         style={styles.settingRowSpace}
-        onChangeText={streetInputhandler}
+        onChangeText={streetInputHandler}
       />
       <FSettingsRow
         isForm
@@ -184,7 +183,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
         label={locales.CITY}
         value={dataForm.city}
         style={styles.settingRowSpace}
-        onChangeText={cityInputhandler}
+        onChangeText={cityInputHandler}
       />
       <FSettingsRow
         isForm
@@ -192,7 +191,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
         label={locales.BIO}
         value={dataForm.bio}
         style={styles.settingRowSpace}
-        onChangeText={bioInputhandler}
+        onChangeText={bioInputHandler}
         maxLength={100}
         isTextarea
         numberOfLines={3}
@@ -204,7 +203,7 @@ export const FSettingsFormScreen = ({ me, setIsForm, scrollRef }) => {
           color={colors.DANGER}
           titleWeight={fonts.HEADING_WEIGHT_BOLD}
           titleSize={fonts.HEADING_MEDIUM}
-          onPress={() => setShowDeleteAccountConfirmationModal(true)}
+          onPress={() => setShowConfirmationModal(true)}
         />
       </View>
       <View style={styles.buttonsContainer}>
