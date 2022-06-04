@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import {
-  View, StyleSheet, Dimensions, Keyboard,
+  Dimensions, Keyboard, StyleSheet, View,
 } from 'react-native';
 import mapStyle from 'components/Inputs/Map/styles/styles.json';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
@@ -21,10 +21,20 @@ import colors from 'themes/colors';
 import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FMapView = ({
-  height, isInteractive, location = {
+  height,
+  width,
+  isInteractive,
+  location = {
     locationName: '',
     locationDescription: '',
-  }, onChangeLocation, onChangeLocationDescription, onChangeCoordinates, lat, lon, doNotLoadCoordinatesFromLocation = false,
+  },
+  onChangeLocation,
+  onChangeLocationDescription,
+  onChangeCoordinates,
+  lat,
+  lon,
+  doNotLoadCoordinatesFromLocation = false,
+  markerTitle,
 }) => {
   const { granted: status } = useLocationPermission();
 
@@ -50,7 +60,7 @@ export const FMapView = ({
   useEffect(() => {
     if (!doNotLoadCoordinatesFromLocation) {
       setTimeout(() => {
-        getCoorindates();
+        getCoordinates();
       }, 300);
     }
   }, [status]);
@@ -74,7 +84,7 @@ export const FMapView = ({
     setLocationByCoords(res.data.name);
   };
 
-  const getCoorindates = async () => {
+  const getCoordinates = async () => {
     if (status) {
       const position = await Location.getCurrentPositionAsync();
       setCoordinates({
@@ -112,7 +122,8 @@ export const FMapView = ({
             type={inputTypes.TEXT}
             width={sizes.WIDTH_FULL}
             showSoftInputOnFocus={false}
-            onChangeText={() => {}}
+            onChangeText={() => {
+            }}
             onPress={() => {
               Keyboard.dismiss();
             }}
@@ -128,10 +139,12 @@ export const FMapView = ({
             />
           </View>
         </View>
-      ) }
+      )}
       <View style={{
         ...styles.mapContainer,
         height,
+        width: width || Dimensions.get('window').width,
+        left: width ? 0 : sizes.POSITION_N30,
       }}
       >
         {!coordinates ? <FSpinner /> : (
@@ -140,8 +153,10 @@ export const FMapView = ({
             provider="google"
             region={coordinates}
             customMapStyle={mapStyle}
-            onPress={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {}}
-            onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {}}
+            onPress={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {
+            }}
+            onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {
+            }}
             zoomEnabled
             scrollEnabled
             rotateEnabled
@@ -152,6 +167,7 @@ export const FMapView = ({
                 longitude: coordinates.longitude,
               }}
               pinColor="orange"
+              title={markerTitle}
             />
           </MapView>
         )}
@@ -198,6 +214,7 @@ const styles = StyleSheet.create({
 
 FMapView.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isInteractive: PropTypes.bool.isRequired,
   location: PropTypes.shape({
     locationName: PropTypes.string,
@@ -209,4 +226,5 @@ FMapView.propTypes = {
   lat: PropTypes.number,
   lon: PropTypes.number,
   doNotLoadCoordinatesFromLocation: PropTypes.bool.isRequired,
+  markerTitle: PropTypes.string,
 };

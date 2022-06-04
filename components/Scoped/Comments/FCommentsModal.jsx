@@ -4,10 +4,11 @@ import { useRoute } from '@react-navigation/native';
 import { FComment } from 'components/Scoped/Comments/FComment';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useSelector } from 'react-redux';
-import { FCommentsModalHeader } from 'components/Scoped/Comments/FCommentsModalHeader';
 import colors from 'themes/colors';
 import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import locales from 'constants/locales';
+import { FModalHeader } from 'components/Composition/FModalHeader';
 
 export const FCommentsModal = () => {
   const route = useRoute();
@@ -53,7 +54,7 @@ export const FCommentsModal = () => {
     }}
     >
       {drawSuccessModal()}
-      <FCommentsModalHeader commentsAmount={comments.length} />
+      <FModalHeader title={`${locales.COMMENTS} ${comments.length}`} />
       <FComment
         isCommentCreator
         isUserCreator={route.params.isUserCreator}

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FHeading } from 'components/Composition/FHeading';
 import fonts from 'themes/fonts';
-import locales from 'constants/locales';
 import colors from 'themes/colors';
 import PropTypes from 'prop-types';
 import sizes from 'themes/sizes';
@@ -12,7 +11,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import icons from 'themes/icons';
 import { useNavigation } from '@react-navigation/native';
 
-export const FCommentsModalHeader = ({ commentsAmount }) => {
+export const FModalHeader = ({ title }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -21,7 +20,7 @@ export const FCommentsModalHeader = ({ commentsAmount }) => {
           <FHeading
             size={fonts.HEADING_MEDIUM}
             weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-            title={`${locales.COMMENTS} ${commentsAmount}`}
+            title={title}
             color={colors.BLACK}
           />
         </View>
@@ -55,6 +54,6 @@ const styles = StyleSheet.create({
   },
 });
 
-FCommentsModalHeader.propTypes = {
-  commentsAmount: PropTypes.number.isRequired,
+FModalHeader.propTypes = {
+  title: PropTypes.string.isRequired,
 };

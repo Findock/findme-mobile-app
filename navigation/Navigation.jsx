@@ -42,6 +42,7 @@ import { HomepageScreen } from 'screens/Homepage.screen';
 import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
 import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
 import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
+import { FMapPreviewModal } from 'components/Composition/FMapPreviewModal';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -273,6 +274,15 @@ export const Navigation = () => {
                     }}
                     name={stackNavigatorNames.COMMENTS_MODAL}
                     component={FCommentsModal}
+                  />
+                  <Stack.Screen
+                    options={{
+                      presentation: 'modal',
+                      headerShown: false,
+                      animation: 'slide_from_bottom',
+                    }}
+                    name={stackNavigatorNames.MAP_PREVIEW_MODAL}
+                    component={FMapPreviewModal}
                   />
                 </Stack.Group>
                 <Stack.Screen

@@ -37,13 +37,14 @@ export const FButton = ({
   isDisabled = false,
   imagePath,
   imageSize,
+  navigationParams,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
     <TouchableOpacity
       onPress={() => {
         if (isDisabled) return;
-        navigation.navigate(to);
+        navigation.navigate(to, navigationParams);
       }}
       disabled={isDisabled}
     >

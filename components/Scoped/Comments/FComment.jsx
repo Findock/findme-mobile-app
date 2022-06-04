@@ -519,6 +519,14 @@ export const FComment = ({
                       paddingVertical: 0,
                       marginTop: sizes.MARGIN_5,
                     }}
+                    to={stackNavigatorNames.MAP_PREVIEW_MODAL}
+                    navigationParams={{
+                      location: {
+                        longitude: commentedAnnouncement.locationLon,
+                        latitude: commentedAnnouncement.locationLat,
+                        name: commentedAnnouncement.commentedAnnouncement.locationName,
+                      },
+                    }}
                   />
                 </View>
               )}
