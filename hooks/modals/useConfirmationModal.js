@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modals/modalTypes';
 
-export const useConfirmation = (title, onConfirm) => {
+export const useConfirmationModal = (title, onConfirm) => {
   const [
     showConfirmationModal,
     setShowConfirmationModal,

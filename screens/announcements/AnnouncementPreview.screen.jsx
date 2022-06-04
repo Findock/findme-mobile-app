@@ -1,7 +1,7 @@
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FSlider } from 'components/Composition/Slider/FSlider';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions, ScrollView, StyleSheet, View,
 } from 'react-native';
@@ -28,12 +28,10 @@ import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import modalsMessages from 'constants/components/modals/modalsMessages';
 import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
@@ -44,13 +42,16 @@ import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getCommentsService } from 'services/comment/getComments.service';
 import { FSimpleComment } from 'components/Scoped/Comments/FSimpleComment';
 import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
-import { useConfirmation } from 'hooks/confirmation/useConfirmation';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const comments = useSelector((state) => state.comments.comments);
+
+  const successfulModalTitle = useRef('');
   const [
     announcement,
     setAnnouncement,
@@ -72,14 +73,14 @@ export const AnnouncementPreviewScreen = () => {
     drawFavouriteAnnouncementErrorModal,
     drawSuccessfulModal,
   } = useFavouriteAnnouncementManagement(announcement);
-  const [
-    announcementAddedSuccessfullyModalVisible,
-    setAnnouncementAddedSuccessfullyModalVisible,
-  ] = useState(false);
-  const [
-    announcementEditedSuccessfullyModalVisible,
-    setAnnouncementEditedSuccessfullyModalVisible,
-  ] = useState(false);
+  // const [
+  //   announcementAddedSuccessfullyModalVisible,
+  //   setAnnouncementAddedSuccessfullyModalVisible,
+  // ] = useState(false);
+  // const [
+  //   announcementEditedSuccessfullyModalVisible,
+  //   setAnnouncementEditedSuccessfullyModalVisible,
+  // ] = useState(false);
 
   const {
     setShowErrorModal,
@@ -110,14 +111,16 @@ export const AnnouncementPreviewScreen = () => {
 
   useEffect(() => {
     if (route.params?.announcementEditedSuccessfullyModalVisible) {
-      setAnnouncementEditedSuccessfullyModalVisible(true);
+      successfulModalTitle.current = modalsMessages.SAVED_SUCCESSFULLY;
+      setShowSuccessModal(true);
       navigation.setParams({ announcementEditedSuccessfullyModalVisible: false });
     }
   }, [route.params?.announcementEditedSuccessfullyModalVisible]);
 
   useEffect(() => {
     if (route.params?.announcementAddedSuccessfullyModalVisible) {
-      setAnnouncementAddedSuccessfullyModalVisible(true);
+      successfulModalTitle.current = modalsMessages.ANNOUNCEMENT_ADDED_SUCCESSFULLY;
+      setShowSuccessModal(true);
       navigation.setParams({ announcementAddedSuccessfullyModalVisible: false });
     }
   }, [route.params?.announcementAddedSuccessfullyModalVisible]);
@@ -189,6 +192,11 @@ export const AnnouncementPreviewScreen = () => {
     }
   };
 
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(successfulModalTitle.current);
+
   const drawDistinctiveFeatures = () => {
     if (announcement.distinctiveFeatures.length > 0) {
       return announcement.distinctiveFeatures.map((distinctiveFeature) => (
@@ -229,7 +237,7 @@ export const AnnouncementPreviewScreen = () => {
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
-  } = useConfirmation(confirmationModalTitle, confirmationHandler);
+  } = useConfirmationModal(confirmationModalTitle, confirmationHandler);
 
   if (!announcement && (route.params.isNew !== null || route.params.isNew !== undefined)) return <FSpinner />;
   return (
@@ -241,22 +249,7 @@ export const AnnouncementPreviewScreen = () => {
       {drawFavouriteAnnouncementErrorModal()}
       {drawSuccessfulModal()}
       {drawConfirmationModal()}
-      {announcementAddedSuccessfullyModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          setVisible={setAnnouncementAddedSuccessfullyModalVisible}
-          visible={announcementAddedSuccessfullyModalVisible}
-          title={modalsMessages.ANNOUNCEMENT_ADDED_SUCCESSFULLY}
-        />
-      )}
-      {announcementEditedSuccessfullyModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          setVisible={setAnnouncementEditedSuccessfullyModalVisible}
-          visible={announcementEditedSuccessfullyModalVisible}
-          title={modalsMessages.SAVED_SUCCESSFULLY}
-        />
-      )}
+      {drawSuccessModal()}
       <ScrollView
         style={{
           backgroundColor: colors.WHITE,

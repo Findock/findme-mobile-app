@@ -9,13 +9,11 @@ import inputTypes from 'constants/components/inputs/inputTypes';
 import { FInput } from 'components/Inputs/FInput';
 import buttonTypes from 'constants/components/buttonTypes';
 import { FButton } from 'components/Buttons/FButton';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FImage } from 'components/Composition/FImage';
 import images from 'constants/images';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useNavigation } from '@react-navigation/native';
 import placeholders from 'constants/components/inputs/placeholders';
@@ -23,6 +21,7 @@ import { updatePasswordService } from 'services/user/updatePassword.service';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 
 export const ChangePasswordScreen = () => {
   const navigation = useNavigation();
@@ -44,10 +43,6 @@ export const ChangePasswordScreen = () => {
   const [
     loading,
     setLoading,
-  ] = useState(false);
-  const [
-    passwordChangeSuccessModalVisible,
-    setPasswordChangeSuccessModalVisible,
   ] = useState(false);
   const {
     setShowErrorModal,
@@ -71,13 +66,18 @@ export const ChangePasswordScreen = () => {
   };
 
   const checkPasswordValidation = (response) => {
-    const { message, statusCode } = response;
+    const {
+      message,
+      statusCode,
+    } = response;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('old')) {
+      if (message.join(' ')
+        .includes('old')) {
         errs.push(userMessages.INVALID_OLD_PASSWORD);
       }
-      if (message.join(' ').includes('newPassword')) {
+      if (message.join(' ')
+        .includes('newPassword')) {
         errs.push(userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       }
       setErrors([...errs]);
@@ -94,7 +94,7 @@ export const ChangePasswordScreen = () => {
         setLoading(true);
         await updatePasswordService(dataForm);
         setLoading(false);
-        setPasswordChangeSuccessModalVisible(true);
+        setShowSuccessModal(true);
         setErrors([]);
       } catch (error) {
         setLoading(false);
@@ -104,17 +104,14 @@ export const ChangePasswordScreen = () => {
       }
     }
   };
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(modalsMessages.PASSWORD_CHANGED_SUCCESSFULLY, navigation.goBack());
+
   return (
     <FFormLayout>
-      {passwordChangeSuccessModalVisible && (
-        <FModal
-          type={modalTypes.INFO_SUCCESS_MODAL}
-          title={modalsMessages.PASSWORD_CHANGED_SUCCESSFULLY}
-          visible={passwordChangeSuccessModalVisible}
-          setVisible={setPasswordChangeSuccessModalVisible}
-          onContinue={() => navigation.goBack()}
-        />
-      )}
+      {drawSuccessModal()}
       {drawErrorModal()}
       <>
         {loading && <FSpinner />}
@@ -159,7 +156,7 @@ export const ChangePasswordScreen = () => {
           placeholder={placeholders.REPEAT_NEW_PASSWORD}
           onChangeText={confirmNewPasswordInputHandler}
           errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
-              || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
           width={sizes.WIDTH_FULL}
           value={confirmNewPassword}
         />

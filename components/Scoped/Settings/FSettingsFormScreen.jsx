@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 import { setMe } from 'store/me/meSlice';
 import { redirectToLoginScreen } from 'utils/redirectToLoginScreen';
 import { useNavigation } from '@react-navigation/native';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { updateUserService } from 'services/user/updateUser.service';
 import { deleteAccountService } from 'services/user/deleteAccount.service';
 import { getMeService } from 'services/user/getMe.service';
@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import userMessages from 'constants/components/inputs/errorMessages/userMessages';
 import { FFormLayout } from 'layouts/FFormLayout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
-import { useConfirmation } from 'hooks/confirmation/useConfirmation';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 
 export const FSettingsFormScreen = ({
   me,
@@ -56,31 +56,31 @@ export const FSettingsFormScreen = ({
     drawErrorModal,
   } = useErrorModal();
 
-  const nameInputhandler = (newName) => {
+  const nameInputHandler = (newName) => {
     setDataForm({
       ...dataForm,
       name: newName,
     });
   };
-  const streetInputhandler = (newStreet) => {
+  const streetInputHandler = (newStreet) => {
     setDataForm({
       ...dataForm,
       street: newStreet,
     });
   };
-  const phoneInputhandler = (newPhone) => {
+  const phoneInputHandler = (newPhone) => {
     setDataForm({
       ...dataForm,
       phoneNumber: newPhone,
     });
   };
-  const cityInputhandler = (newCity) => {
+  const cityInputHandler = (newCity) => {
     setDataForm({
       ...dataForm,
       city: newCity,
     });
   };
-  const bioInputhandler = (newBio) => {
+  const bioInputHandler = (newBio) => {
     setDataForm({
       ...dataForm,
       bio: newBio,
@@ -136,7 +136,7 @@ export const FSettingsFormScreen = ({
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
-  } = useConfirmation(modalsMessages.DELETE_USER_ACCOUNT_CONFIRMATION, onDeleteAccount);
+  } = useConfirmationModal(modalsMessages.DELETE_USER_ACCOUNT_CONFIRMATION, onDeleteAccount);
 
   return (
     <FFormLayout scrollRef={scrollRef}>
@@ -157,7 +157,7 @@ export const FSettingsFormScreen = ({
         label={locales.NAME}
         value={dataForm.name}
         style={styles.headerSpace}
-        onChangeText={nameInputhandler}
+        onChangeText={nameInputHandler}
       />
       <FSettingsRow
         isForm
@@ -165,7 +165,7 @@ export const FSettingsFormScreen = ({
         label={locales.PHONE}
         value={dataForm.phoneNumber}
         style={styles.settingRowSpace}
-        onChangeText={phoneInputhandler}
+        onChangeText={phoneInputHandler}
         isPhoneInput
         errorMessage={filterErrorMessages(errors, userMessages.INVALID_PHONE_NUMBER)}
       />
@@ -175,7 +175,7 @@ export const FSettingsFormScreen = ({
         label={locales.STREET}
         value={dataForm.street}
         style={styles.settingRowSpace}
-        onChangeText={streetInputhandler}
+        onChangeText={streetInputHandler}
       />
       <FSettingsRow
         isForm
@@ -183,7 +183,7 @@ export const FSettingsFormScreen = ({
         label={locales.CITY}
         value={dataForm.city}
         style={styles.settingRowSpace}
-        onChangeText={cityInputhandler}
+        onChangeText={cityInputHandler}
       />
       <FSettingsRow
         isForm
@@ -191,7 +191,7 @@ export const FSettingsFormScreen = ({
         label={locales.BIO}
         value={dataForm.bio}
         style={styles.settingRowSpace}
-        onChangeText={bioInputhandler}
+        onChangeText={bioInputHandler}
         maxLength={100}
         isTextarea
         numberOfLines={3}

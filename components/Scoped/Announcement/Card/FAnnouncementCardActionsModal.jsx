@@ -16,7 +16,7 @@ import PropTypes from 'prop-types';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
 import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
 import modalsMessages from 'constants/components/modals/modalsMessages';
-import { useConfirmation } from 'hooks/confirmation/useConfirmation';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 
 export const FAnnouncementCardActionsModal = ({
   visible,
@@ -53,7 +53,7 @@ export const FAnnouncementCardActionsModal = ({
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
-  } = useConfirmation(confirmationModalTitle, confirmationHandler);
+  } = useConfirmationModal(confirmationModalTitle, confirmationHandler);
 
   const resolveAnnouncementHandler = async () => {
     await resolveAnnouncement();

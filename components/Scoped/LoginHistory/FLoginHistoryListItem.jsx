@@ -14,7 +14,10 @@ import { parseDate } from 'utils/parseDate';
 import PropTypes from 'prop-types';
 
 export const FLoginHistoryListItem = ({
-  deviceName, location, isActiveSession, date,
+  deviceName,
+  location,
+  isActiveSession,
+  date,
 }) => {
   const drawDateDependingOnPassedTime = () => {
     const oneDay = 60 * 60 * 3600;
@@ -23,10 +26,7 @@ export const FLoginHistoryListItem = ({
   };
 
   return (
-    <View style={{
-      ...styles.container,
-    }}
-    >
+    <View style={styles.container}>
       <View style={styles.topBox}>
         <View>
           <FHeading

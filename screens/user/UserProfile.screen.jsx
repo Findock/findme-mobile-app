@@ -14,11 +14,11 @@ import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
-import { useConfirmation } from 'hooks/confirmation/useConfirmation';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
@@ -40,7 +40,7 @@ export const UserProfileScreen = () => {
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
-  } = useConfirmation(modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION, deleteImage);
+  } = useConfirmationModal(modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION, deleteImage);
 
   return (
     <FDefaultLayout>

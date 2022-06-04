@@ -3,7 +3,7 @@ import {
   ActivityIndicator, FlatList, Platform, StyleSheet, View,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { useErrorModal } from 'hooks/useErrorModal';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { FSpinner } from 'components/Composition/FSpinner';
