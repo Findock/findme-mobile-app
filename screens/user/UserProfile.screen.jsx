@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  View, StyleSheet, Dimensions, Platform,
+  Dimensions, Platform, StyleSheet, View,
 } from 'react-native';
 import sizes from 'themes/sizes';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { FWideButton } from 'components/Buttons/FWideButton';
@@ -12,22 +12,17 @@ import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import opacities from 'themes/opacities';
 import { FCard } from 'components/Composition/FCard';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import { setMe } from 'store/me/meSlice';
 import { FUserProfileCard } from 'components/Scoped/UserProfile/FUserProfileCard';
 import { useErrorModal } from 'hooks/useErrorModal';
 import { deleteUserProfileImageService } from 'services/user/deleteUserProfileImage.service';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useConfirmation } from 'hooks/confirmation/useConfirmation';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const dispatch = useDispatch();
-  const [
-    showConfirmDeleteUserProfileImageModal,
-    setShowConfirmDeleteUserProfileImageModal,
-  ] = useState(false);
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -35,32 +30,27 @@ export const UserProfileScreen = () => {
 
   const deleteImage = async () => {
     try {
-      if (showConfirmDeleteUserProfileImageModal) {
-        const res = await deleteUserProfileImageService();
-        dispatch(setMe(res.data));
-      }
+      const res = await deleteUserProfileImageService();
+      dispatch(setMe(res.data));
     } catch (error) {
       setShowErrorModal(true);
     }
   };
 
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmation(modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION, deleteImage);
+
   return (
     <FDefaultLayout>
-      {showConfirmDeleteUserProfileImageModal && (
-        <FModal
-          type={modalTypes.CONFIRM_MODAL}
-          setVisible={setShowConfirmDeleteUserProfileImageModal}
-          visible={showConfirmDeleteUserProfileImageModal}
-          title={modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION}
-          onConfirm={deleteImage}
-        />
-      )}
+      {drawConfirmationModal()}
       {drawErrorModal()}
       <View>
         <FUserProfileCard
           user={me}
           isMe
-          setShowConfirmDeleteUserProfileImageModal={setShowConfirmDeleteUserProfileImageModal}
+          setShowConfirmDeleteUserProfileImageModal={setShowConfirmationModal}
           setShowErrorModal={setShowErrorModal}
         />
         <FCard

@@ -44,6 +44,7 @@ import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getCommentsService } from 'services/comment/getComments.service';
 import { FSimpleComment } from 'components/Scoped/Comments/FSimpleComment';
 import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
+import { useConfirmation } from 'hooks/confirmation/useConfirmation';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -54,10 +55,6 @@ export const AnnouncementPreviewScreen = () => {
     announcement,
     setAnnouncement,
   ] = useState(null);
-  const [
-    confirmationModalVisible,
-    setConfirmationModalVisible,
-  ] = useState(false);
   const [
     confirmationModalTitle,
     setConfirmationModalTitle,
@@ -151,16 +148,6 @@ export const AnnouncementPreviewScreen = () => {
     } else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
   };
 
-  const drawConfirmationModal = () => confirmationModalVisible && (
-    <FModal
-      type={modalTypes.CONFIRM_MODAL}
-      setVisible={setConfirmationModalVisible}
-      visible={confirmationModalVisible}
-      title={confirmationModalTitle}
-      onConfirm={confirmationHandler}
-    />
-  );
-
   const addAnnouncementToFavouritesHandler = async () => {
     await addAnnouncementToFavourites();
     fetchAnnouncement();
@@ -238,6 +225,11 @@ export const AnnouncementPreviewScreen = () => {
         style={{ paddingLeft: 0 }}
       />
     ));
+
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmation(confirmationModalTitle, confirmationHandler);
 
   if (!announcement && (route.params.isNew !== null || route.params.isNew !== undefined)) return <FSpinner />;
   return (
@@ -450,10 +442,10 @@ export const AnnouncementPreviewScreen = () => {
               onPress={() => {
                 if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
                   setConfirmationModalTitle(modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 } else if (announcement.status === AnnouncementStatusEnum.NOT_ACTIVE) {
                   setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 }
               }}
             />
@@ -485,10 +477,10 @@ export const AnnouncementPreviewScreen = () => {
               onPress={() => {
                 if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
                   setConfirmationModalTitle(modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 } else if (announcement.status === AnnouncementStatusEnum.ARCHIVED) {
                   setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 }
               }}
             />

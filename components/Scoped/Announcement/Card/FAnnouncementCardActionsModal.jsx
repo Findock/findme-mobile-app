@@ -4,7 +4,7 @@ import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import React, { useRef, useState } from 'react';
 import {
-  View, StyleSheet, Modal, Pressable,
+  Modal, Pressable, StyleSheet, View,
 } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -15,22 +15,25 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 import PropTypes from 'prop-types';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
 import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
-import { FModal } from 'components/Composition/FModal';
-import modalTypes from 'constants/components/modals/modalTypes';
 import modalsMessages from 'constants/components/modals/modalsMessages';
+import { useConfirmation } from 'hooks/confirmation/useConfirmation';
 
-export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcement }) => {
+export const FAnnouncementCardActionsModal = ({
+  visible,
+  setVisible,
+  announcement,
+}) => {
   const ref = useRef(null);
   const navigation = useNavigation();
-  const [
-    confirmationModalVisible,
-    setConfirmationModalVisible,
-  ] = useState(false);
+
   const [
     confirmationModalTitle,
     setConfirmationModalTitle,
   ] = useState('');
-  const { status, id } = announcement;
+  const {
+    status,
+    id,
+  } = announcement;
   const {
     resolveAnnouncement,
     makeAnnouncementActive,
@@ -40,20 +43,17 @@ export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcemen
   } = useChangeAnnouncementStatus(announcement);
 
   const confirmationHandler = () => {
-    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
-    else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
-    else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
+    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) {
+      archiveAnnouncementHandler();
+    } else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) {
+      makeAnnouncementActiveHandler();
+    } else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
   };
 
-  const drawConfirmationModal = () => confirmationModalVisible && (
-    <FModal
-      type={modalTypes.CONFIRM_MODAL}
-      setVisible={setConfirmationModalVisible}
-      visible={confirmationModalVisible}
-      title={confirmationModalTitle}
-      onConfirm={confirmationHandler}
-    />
-  );
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmation(confirmationModalTitle, confirmationHandler);
 
   const resolveAnnouncementHandler = async () => {
     await resolveAnnouncement();
@@ -118,7 +118,7 @@ export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcemen
                 color={colors.BLACK}
                 onPress={() => {
                   setConfirmationModalTitle(modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 }}
               />
             )}
@@ -132,7 +132,7 @@ export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcemen
                 buttonViewStyles={styles.option}
                 onPress={() => {
                   setConfirmationModalTitle(modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 }}
               />
             )}
@@ -146,7 +146,7 @@ export const FAnnouncementCardActionsModal = ({ visible, setVisible, announcemen
                 buttonViewStyles={styles.option}
                 onPress={() => {
                   setConfirmationModalTitle(modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION);
-                  setConfirmationModalVisible(true);
+                  setShowConfirmationModal(true);
                 }}
               />
             )}
