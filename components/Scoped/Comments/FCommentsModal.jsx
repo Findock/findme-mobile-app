@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useRoute } from '@react-navigation/native';
-import { FComment } from 'components/Scoped/Announcement/Comments/FComment';
+import { FComment } from 'components/Scoped/Comments/FComment';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { useSelector } from 'react-redux';
-import { FCommentsModalHeader } from 'components/Scoped/Announcement/Comments/FCommentsModalHeader';
+import { FCommentsModalHeader } from 'components/Scoped/Comments/FCommentsModalHeader';
 import colors from 'themes/colors';
 
 export const FCommentsModal = () => {
   const route = useRoute();
   const me = useSelector((state) => state.me.me);
   const comments = useSelector((state) => state.comments.comments);
+
   const [
     announcementId,
     setAnnouncementId,

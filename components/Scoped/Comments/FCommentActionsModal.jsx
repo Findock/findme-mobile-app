@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import {
-  Modal, Pressable, View, StyleSheet, Platform,
+  Modal, Platform, Pressable, StyleSheet, View,
 } from 'react-native';
 import colors from 'themes/colors';
 import { FCard } from 'components/Composition/FCard';
@@ -14,7 +14,11 @@ import fonts from 'themes/fonts';
 import PropTypes from 'prop-types';
 
 export const FCommentActionsModal = ({
-  canEdit, canDelete, visible, setVisible,
+  canEdit,
+  canDelete,
+  visible,
+  setVisible,
+  onEdit,
 }) => {
   const ref = useRef(null);
 
@@ -55,6 +59,10 @@ export const FCommentActionsModal = ({
                   titleSize={fonts.HEADING_NORMAL}
                   titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
                   buttonViewStyles={styles.button}
+                  onPress={() => {
+                    onEdit();
+                    setVisible(false);
+                  }}
                 />
               </View>
             )}
@@ -119,4 +127,5 @@ const styles = StyleSheet.create({
 FCommentActionsModal.propTypes = {
   canEdit: PropTypes.bool.isRequired,
   canDelete: PropTypes.bool.isRequired,
+  onEdit: PropTypes.func,
 };
