@@ -22,4 +22,5 @@ export default {
   LAST_VIEWED_ANNOUNCEMENTS: 'Last Viewed Announcements',
   RECENTLY_CREATED_ANNOUNCEMENTS: 'Recently Created Announcements',
   COMMENTS_MODAL: 'Comments Modal',
+  MAP_PREVIEW_MODAL: 'Map Preview Modal',
 };

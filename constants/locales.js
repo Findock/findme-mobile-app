@@ -90,4 +90,5 @@ export default {
   SEE_LOCATION: 'Zobacz lokalizację',
   DONT_SHARE_LOCATION: 'Nie udostępniaj lokalizacji',
   COMMENTS: 'Komentarze',
+
 };
