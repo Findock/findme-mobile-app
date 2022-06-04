@@ -86,4 +86,8 @@ export default {
   ANNOUNCEMENTS: 'ogłoszenia',
   IN_YOUR: 'W Twojej',
   SURROUNDINGS: 'okolicy',
+  SHOW_MORE: 'Pokaż więcej',
+  SEE_LOCATION: 'Zobacz lokalizację',
+  DONT_SHARE_LOCATION: 'Nie udostępniaj lokalizacji',
+  COMMENTS: 'Komentarze',
 };

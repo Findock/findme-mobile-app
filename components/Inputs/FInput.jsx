@@ -17,7 +17,7 @@ import { FErrorMessage } from 'components/Composition/FErrorMessage';
 export const FInput = ({
   value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage, rounded = false,
   marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
-  textAreaHeight = sizes.HEIGHT_80, onBlur = () => {},
+  textAreaHeight = sizes.HEIGHT_80, onBlur = () => {}, transparent, textAreaPaddingHorizontal,
 }) => {
   const [
     isPasswordVisible,
@@ -38,6 +38,7 @@ export const FInput = ({
   const getBackgroundColors = () => {
     if (rounded) return colors.WHITE;
     if (outline) return colors.TRANSPARENT;
+    if (transparent) return colors.TRANSPARENT;
     return colors.LIGHT_GRAY;
   };
   const getBorderWidth = () => {
@@ -123,17 +124,19 @@ export const FInput = ({
         keyboardType={getKeyboardType()}
         multiline={type === inputTypes.TEXTAREA}
         onFocus={onPress}
+        textAlign={placements.LEFT}
         onBlur={onBlur}
         caretHidden={caretHidden}
         style={{
           ...styles.input,
-          paddingLeft: calcPaddingLeft(),
-          paddingRight: calcPaddingRight(),
+          paddingLeft: type === inputTypes.TEXTAREA && (textAreaPaddingHorizontal || textAreaPaddingHorizontal === 0)
+            ? textAreaPaddingHorizontal : calcPaddingLeft(),
+          paddingRight: type === inputTypes.TEXTAREA ? textAreaPaddingHorizontal : calcPaddingRight(),
           backgroundColor: getBackgroundColors(),
           borderWidth: getBorderWidth(),
           borderRadius: getBorderRadius(),
-          paddingTop: type === inputTypes.TEXTAREA ? 10 : 0,
-          paddingBottom: type === inputTypes.TEXTAREA ? 10 : 0,
+          paddingTop: type === inputTypes.TEXTAREA ? sizes.PADDING_10 : 0,
+          paddingBottom: type === inputTypes.TEXTAREA ? sizes.PADDING_10 : 0,
           textAlignVertical: type === inputTypes.TEXTAREA ? 'top' : 'auto',
         }}
       />
@@ -175,4 +178,6 @@ FInput.propTypes = {
   caretHidden: PropTypes.bool,
   textAreaHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onBlur: PropTypes.func,
+  transparent: PropTypes.bool,
+  textAreaPaddingHorizontal: PropTypes.number,
 };

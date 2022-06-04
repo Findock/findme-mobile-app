@@ -39,4 +39,9 @@ export default {
   FILE_TRAY_FULL: 'file-tray-full',
   ARROW_UNDO: 'arrow-undo',
   OPTIONS_OUTLINE: 'options-outline',
+  ELLIPSIS_VERTICAL_OUTLINE: 'ellipsis-vertical-outline',
+  CAMERA_OUTLINE: 'camera-outline',
+  ATTACH_OUTLINE: 'attach-outline',
+  SEND_OUTLINE: 'send-outline',
+  EXPAND_OUTLINE: 'expand-outline',
 };

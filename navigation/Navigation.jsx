@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { LoginScreen } from 'screens/Login.screen';
 import { RegistrationScreen } from 'screens/Registration.screen';
 import * as SecureStore from 'expo-secure-store';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { removeToken, setToken } from 'store/auth/authSlice';
 import { FGlobalLoader } from 'components/Composition/FGlobalLoader';
 import { setGlobalLoader } from 'store/global-loader/globalLoaderSlice';
@@ -41,6 +41,7 @@ import { TemporaryScreen } from 'screens/Temporary.screen';
 import { HomepageScreen } from 'screens/Homepage.screen';
 import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
 import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
+import { FCommentsModal } from 'components/Scoped/Announcement/Comments/FCommentsModal';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -255,14 +256,25 @@ export const Navigation = () => {
                     headerRight: () => renderLogo(),
                   }}
                 />
-                <Stack.Screen
-                  name={stackNavigatorNames.ANNOUNCEMENT_PREVIEW}
-                  component={AnnouncementPreviewScreen}
-                  options={{
-                    ...headerWithoutShadowOptions,
-                    headerRight: () => renderLogo(),
-                  }}
-                />
+                <Stack.Group screenOptions={{ ...defaultHeaderOptions }}>
+                  <Stack.Screen
+                    name={stackNavigatorNames.ANNOUNCEMENT_PREVIEW}
+                    component={AnnouncementPreviewScreen}
+                    options={{
+                      ...headerWithoutShadowOptions,
+                      headerRight: () => renderLogo(),
+                    }}
+                  />
+                  <Stack.Screen
+                    options={{
+                      presentation: 'modal',
+                      headerShown: false,
+                      animation: 'slide_from_bottom',
+                    }}
+                    name={stackNavigatorNames.COMMENTS_MODAL}
+                    component={FCommentsModal}
+                  />
+                </Stack.Group>
                 <Stack.Screen
                   name={stackNavigatorNames.MY_ANNOUNCEMENTS}
                   component={MyAnnouncementsScreen}

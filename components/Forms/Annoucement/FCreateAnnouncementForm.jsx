@@ -57,7 +57,7 @@ export const FCreateAnnouncementForm = () => {
 
   return (
     <FAnnouncementForm
-      announcementType={route.params.announcementType || announcementType}
+      announcementType={route.params?.announcementType || announcementType}
       dataForm={dataForm}
       drawErrorModal={drawErrorModal}
       defaultPhotos={defaultPhotos}

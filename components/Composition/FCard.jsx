@@ -6,7 +6,7 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FCard = ({
-  children, width, paddingVertical, paddingHorizontal, style, backgroundColor = colors.WHITE,
+  children, width, paddingVertical, paddingHorizontal, style, backgroundColor = colors.WHITE, rounded = true,
 }) => (
   <View style={{
     width,
@@ -15,6 +15,7 @@ export const FCard = ({
     paddingHorizontal,
     paddingVertical,
     backgroundColor,
+    borderRadius: rounded ? sizes.RADIUS_20 : 0,
   }}
   >
     {children}
@@ -23,7 +24,6 @@ export const FCard = ({
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: sizes.RADIUS_20,
     elevation: sizes.ELEVATION_3,
     shadowOffset: {
       width: 0,
@@ -43,4 +43,5 @@ FCard.propTypes = {
   backgroundColor: PropTypes.string,
   paddingVertical: PropTypes.number,
   paddingHorizontal: PropTypes.number,
+  rounded: PropTypes.bool,
 };
