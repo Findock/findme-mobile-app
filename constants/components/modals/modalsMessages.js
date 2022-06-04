@@ -23,5 +23,6 @@ export default {
   RESOLVE_ANNOUNCEMENT_CONFIRMATION: 'Jesteś pewien, że chcesz zakończyć to ogłoszenie?',
   MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION: 'Jesteś pewien, że chcesz przywrócić to ogłoszenie?',
   COMMENT_HAS_BEEN_ADDED: 'Komentarz został dodany!',
+  COMMENT_HAS_BEEN_UPDATED: 'Komentarz został edytowany!',
   LOCATION_HAS_BEEN_SHARED: 'Twoja lokalizacja została udostępniona',
 };

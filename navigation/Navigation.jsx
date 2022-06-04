@@ -41,7 +41,7 @@ import { TemporaryScreen } from 'screens/Temporary.screen';
 import { HomepageScreen } from 'screens/Homepage.screen';
 import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
 import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
-import { FCommentsModal } from 'components/Scoped/Announcement/Comments/FCommentsModal';
+import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();

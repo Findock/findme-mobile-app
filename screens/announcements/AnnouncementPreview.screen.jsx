@@ -41,9 +41,9 @@ import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavour
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
-import { getAnnouncementComments } from 'services/comment/getAnnouncementComments.service';
-import { FSimpleComment } from 'components/Scoped/Announcement/Comments/FSimpleComment';
-import { setComments } from 'store/comments/commentsSlice';
+import { getCommentsService } from 'services/comment/getComments.service';
+import { FSimpleComment } from 'components/Scoped/Comments/FSimpleComment';
+import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -94,12 +94,10 @@ export const AnnouncementPreviewScreen = () => {
   useEffect(() => {
     if (isFocused) {
       fetchAnnouncement();
+      dispatch(setCommentToUpdate(null));
+      fetchAnnouncementComments();
     }
   }, [isFocused]);
-
-  useEffect(() => {
-    fetchAnnouncementComments();
-  }, []);
 
   useEffect(() => {
     if (announcement && route.params.isNew === false) {
@@ -138,7 +136,7 @@ export const AnnouncementPreviewScreen = () => {
 
   const fetchAnnouncementComments = async () => {
     try {
-      const res = await getAnnouncementComments(route.params?.id);
+      const res = await getCommentsService(route.params?.id);
       dispatch(setComments(res.data));
     } catch (error) {
       setShowErrorModal(true);
@@ -282,7 +280,6 @@ export const AnnouncementPreviewScreen = () => {
         >
           <View style={styles.headerWithStatusContainer}>
             <View style={{ flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES }}>
-
               <FHeading
                 title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
                 color={colors.DARK_GRAY}

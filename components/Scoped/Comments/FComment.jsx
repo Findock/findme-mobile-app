@@ -20,8 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FInput } from 'components/Inputs/FInput';
 import placeholders from 'constants/components/inputs/placeholders';
 import inputTypes from 'constants/components/inputs/inputTypes';
-import { FCommentActionsModal } from 'components/Scoped/Announcement/Comments/FCommentActionsModal';
-import { addCommentForAnnouncement } from 'services/comment/addCommentForAnnouncement.service';
+import { FCommentActionsModal } from 'components/Scoped/Comments/FCommentActionsModal';
 import { FModal } from 'components/Composition/FModal';
 import modalTypes from 'constants/components/modals/modalTypes';
 import modalsMessages from 'constants/components/modals/modalsMessages';
@@ -29,12 +28,15 @@ import { useErrorModal } from 'hooks/useErrorModal';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
 import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { appendFileToFormData } from 'utils/appendFileToFormData';
-import { uploadPhotoForAnnouncementComment } from 'services/comment/uploadPhotoForAnnouncementComment.service';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import * as Location from 'expo-location';
-import { setComments } from 'store/comments/commentsSlice';
+import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
+import { updateCommentService } from 'services/comment/updateComment.service';
+import { addCommentService } from 'services/comment/addComment.service';
+import { FSpinner } from 'components/Composition/FSpinner';
+import { uploadPhotoCommentService } from '../../../services/comment/uploadCommentPhoto.service';
 
 export const FComment = ({
   createMode,
@@ -47,6 +49,12 @@ export const FComment = ({
   const dispatch = useDispatch();
   const me = useSelector((state) => state.me.me);
   const comments = useSelector((state) => state.comments.comments);
+  const commentToUpdate = useSelector((state) => state.comments.commentToUpdate);
+
+  const [
+    loading,
+    setLoading,
+  ] = useState(false);
   const [
     isAddPhotoButtonDisabled,
     setIsAddPhotoButtonDisabled,
@@ -104,8 +112,8 @@ export const FComment = ({
     location,
     setLocation,
   ] = useState({
-    latitude: null,
-    longitude: null,
+    latitude: 0,
+    longitude: 0,
   });
   const [
     photos,
@@ -115,12 +123,31 @@ export const FComment = ({
     showSuccessfulAddedCommentModal,
     setShowSuccessfulAddedCommentModal,
   ] = useState(false);
+  const [
+    showSuccessfulUpdatedCommentModal,
+    setShowSuccessfulUpdatedCommentModal,
+  ] = useState(false);
 
   useEffect(() => {
     if (photos.length === 0 && !comment && !isCreateCommentButtonDisabled) {
       setIsCreateCommentButtonDisabled(true);
     } else if (isCreateCommentButtonDisabled && (photos.length > 0 || comment)) setIsCreateCommentButtonDisabled(false);
   }, [comment, photos.length]);
+
+  useEffect(() => {
+    if (commentToUpdate) {
+      setComment(commentToUpdate.comment);
+      setPhotos([...commentToUpdate.photos]);
+      if (commentToUpdate.locationLat !== 0 && commentToUpdate.locationLon !== 0) {
+        setLocation({
+          longitude: commentToUpdate.locationLon,
+          latitude: commentToUpdate.locationLat,
+        });
+      }
+    } else {
+      resetCommentData();
+    }
+  }, [commentToUpdate]);
 
   const checkIfHasMoreLines = useCallback((e) => {
     if (e.nativeEvent.lines.length >= 4) {
@@ -136,30 +163,41 @@ export const FComment = ({
     setComment('');
     setPhotos([]);
     setLocation({
-      longitude: null,
-      latitude: null,
+      longitude: 0,
+      latitude: 0,
     });
+    setIsLocationButtonDisabled(false);
+    setIsCreateCommentButtonDisabled(true);
+    setIsAddPhotoButtonDisabled(false);
   };
 
-  const createCommentHandler = async () => {
+  const submitCommentHandler = async () => {
     try {
       let newCommentData = {
         commentedAnnouncementId: announcementId,
         comment,
         photosIds: photos.map((photo) => photo.id),
       };
-      if ((location.latitude && location.longitude) && (location.latitude !== 0 && location.longitude !== 0)) {
+      if (location.latitude !== 0 && location.longitude !== 0) {
         newCommentData = {
           ...newCommentData,
           locationLat: location.latitude,
           locationLon: location.longitude,
         };
       }
-      const res = await addCommentForAnnouncement(newCommentData);
-      dispatch(setComments([res.data, ...comments]));
+      if (commentToUpdate) {
+        const res = await updateCommentService(commentToUpdate.id, newCommentData);
+        const newComments = [...comments];
+        newComments[newComments.indexOf(commentToUpdate)] = { ...res.data };
+        dispatch(setComments(newComments));
+        dispatch(setCommentToUpdate(null));
+        setShowSuccessfulUpdatedCommentModal(true);
+      } else {
+        const res = await addCommentService(newCommentData);
+        dispatch(setComments([res.data, ...comments]));
+        setShowSuccessfulAddedCommentModal(true);
+      }
       resetCommentData();
-      setShowSuccessfulAddedCommentModal(true);
-      navigation.setParams();
     } catch (error) {
       setShowErrorModal(true);
     }
@@ -174,7 +212,7 @@ export const FComment = ({
       setIsAddPhotoButtonDisabled(false);
     }
   };
-
+  console.log(photos.length);
   const uploadPhoto = async (source) => {
     if (source === 'camera-roll') {
       if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
@@ -184,9 +222,11 @@ export const FComment = ({
     try {
       if (source === 'camera-roll') {
         if (status) {
+          setLoading(true);
           await pickImageFromCameraRoll(async (result) => {
+            setLoading(true);
             const formData = appendFileToFormData(result, 'announcement-comment-image.jpg');
-            const res = await uploadPhotoForAnnouncementComment(formData);
+            const res = await uploadPhotoCommentService(formData);
             setPhotos([
               ...photos, {
                 id: res.id,
@@ -202,7 +242,7 @@ export const FComment = ({
         if (cameraStatus && status) {
           await takePhotoWithCamera(async (result) => {
             const formData = appendFileToFormData(result, 'announcement-comment-image.jpg');
-            const res = await uploadPhotoForAnnouncementComment(formData);
+            const res = await uploadPhotoCommentService(formData);
             setPhotos([
               ...photos, {
                 id: res.id,
@@ -215,6 +255,7 @@ export const FComment = ({
           });
         }
       }
+      setLoading(false);
     } catch (error) {
       setShowErrorModal(true);
     }
@@ -266,6 +307,10 @@ export const FComment = ({
     </FImage>
   ));
 
+  const editHandler = () => {
+    dispatch(setCommentToUpdate(commentedAnnouncement));
+  };
+
   const drawContent = () => {
     if (createMode) {
       return (
@@ -300,6 +345,7 @@ export const FComment = ({
               marginBottom: sizes.MARGIN_10,
             }}
             >
+              {loading && <FSpinner />}
               {drawPhotos(photos)}
             </View>
             <View style={{
@@ -349,10 +395,10 @@ export const FComment = ({
                 color={colors.PRIMARY}
                 buttonViewStyles={{ padding: 0 }}
                 isDisabled={isCreateCommentButtonDisabled}
-                onPress={createCommentHandler}
+                onPress={submitCommentHandler}
               />
             </View>
-            {(location.latitude !== null && location.longitude !== null)
+            {(location.latitude !== 0 && location.longitude !== 0)
               && (
                 <View style={styles.rowContainer}>
                   <FButton
@@ -371,8 +417,8 @@ export const FComment = ({
                     titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
                     onPress={() => {
                       setLocation({
-                        latitude: null,
-                        longitude: null,
+                        latitude: 0,
+                        longitude: 0,
                       });
                       setIsLocationButtonDisabled(false);
                     }}
@@ -428,25 +474,27 @@ export const FComment = ({
                 weight={fonts.HEADING_WEIGHT_REGULAR}
                 color={colors.DARK_GRAY}
               />
-              <View style={{
-                width: sizes.WIDTH_FULL,
-                alignItems: 'flex-end',
-              }}
-              >
-                <FButton
-                  type={buttonTypes.LINK_BUTTON}
-                  color={colors.PRIMARY}
-                  titleSize={fonts.HEADING_NORMAL}
-                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                  isUnderline
-                  title={locales.SEE_LOCATION}
-                  buttonViewStyles={{
-                    paddingHorizontal: 0,
-                    paddingVertical: 0,
-                    marginTop: sizes.MARGIN_5,
-                  }}
-                />
-              </View>
+              {commentedAnnouncement.locationLat !== 0 && commentedAnnouncement.locationLon !== 0 && (
+                <View style={{
+                  width: sizes.WIDTH_FULL,
+                  alignItems: 'flex-end',
+                }}
+                >
+                  <FButton
+                    type={buttonTypes.LINK_BUTTON}
+                    color={colors.PRIMARY}
+                    titleSize={fonts.HEADING_NORMAL}
+                    titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                    isUnderline
+                    title={locales.SEE_LOCATION}
+                    buttonViewStyles={{
+                      paddingHorizontal: 0,
+                      paddingVertical: 0,
+                      marginTop: sizes.MARGIN_5,
+                    }}
+                  />
+                </View>
+              )}
             </View>
           </View>
           <View style={{
@@ -514,6 +562,7 @@ export const FComment = ({
         canEdit={isCommentCreator}
         setVisible={setShowCommentActionsModal}
         visible={showCommentActionsModal}
+        onEdit={editHandler}
       />
       {showSuccessfulAddedCommentModal && (
         <FModal
@@ -521,6 +570,14 @@ export const FComment = ({
           title={modalsMessages.COMMENT_HAS_BEEN_ADDED}
           visible={showSuccessfulAddedCommentModal}
           setVisible={setShowSuccessfulAddedCommentModal}
+        />
+      )}
+      {showSuccessfulUpdatedCommentModal && (
+        <FModal
+          type={modalTypes.INFO_SUCCESS_MODAL}
+          title={modalsMessages.COMMENT_HAS_BEEN_UPDATED}
+          visible={showSuccessfulUpdatedCommentModal}
+          setVisible={setShowSuccessfulUpdatedCommentModal}
         />
       )}
       {showSharedLocationModal && (
