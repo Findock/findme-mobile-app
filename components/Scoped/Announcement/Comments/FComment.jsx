@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { FAvatar } from 'components/Composition/FAvatar';
 import sizes from 'themes/sizes';
 import { FHeading } from 'components/Composition/FHeading';
@@ -16,7 +16,7 @@ import locales from 'constants/locales';
 import { FImage } from 'components/Composition/FImage';
 import icons from 'themes/icons';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FInput } from 'components/Inputs/FInput';
 import placeholders from 'constants/components/inputs/placeholders';
 import inputTypes from 'constants/components/inputs/inputTypes';
@@ -31,16 +31,35 @@ import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
 import { appendFileToFormData } from 'utils/appendFileToFormData';
 import { uploadPhotoForAnnouncementComment } from 'services/comment/uploadPhotoForAnnouncementComment.service';
 import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
-import images from 'constants/images';
 import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
 import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
 import * as Location from 'expo-location';
+import { setComments } from 'store/comments/commentsSlice';
 
 export const FComment = ({
-  createMode, isCommentCreator, isUserCreator, announcementId, commentedAnnouncement,
+  createMode,
+  isCommentCreator,
+  isUserCreator,
+  announcementId,
+  commentedAnnouncement,
 }) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const me = useSelector((state) => state.me.me);
+  const comments = useSelector((state) => state.comments.comments);
+  const [
+    isAddPhotoButtonDisabled,
+    setIsAddPhotoButtonDisabled,
+  ] = useState(false);
+  const [
+    isLocationButtonDisabled,
+    setIsLocationButtonDisabled,
+  ] = useState(false);
+  const [
+    isCreateCommentButtonDisabled,
+    setIsCreateCommentButtonDisabled,
+  ] = useState(false);
+
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -56,7 +75,8 @@ export const FComment = ({
     granted: cameraStatus,
   } = useCameraPermission();
   const {
-    tryToAskForLocationPermissionsIfIsNotGranted, granted: locationStatus,
+    tryToAskForLocationPermissionsIfIsNotGranted,
+    granted: locationStatus,
     drawNoPermissionsModal: drawNoLocationPermissionModal,
   } = useLocationPermission();
 
@@ -96,20 +116,37 @@ export const FComment = ({
     setShowSuccessfulAddedCommentModal,
   ] = useState(false);
 
-  const checkIfHasMoreLines = React.useCallback((e) => {
-    if (e.nativeEvent.lines.length > 4) setHasMoreLines(true);
-  });
+  useEffect(() => {
+    if (photos.length === 0 && !comment && !isCreateCommentButtonDisabled) {
+      setIsCreateCommentButtonDisabled(true);
+    } else if (isCreateCommentButtonDisabled && (photos.length > 0 || comment)) setIsCreateCommentButtonDisabled(false);
+  }, [comment, photos.length]);
+
+  const checkIfHasMoreLines = useCallback((e) => {
+    if (e.nativeEvent.lines.length >= 4) {
+      setHasMoreLines(true);
+    }
+  }, []);
 
   const commentHandler = (newComment) => {
     setComment(newComment);
   };
+
+  const resetCommentData = () => {
+    setComment('');
+    setPhotos([]);
+    setLocation({
+      longitude: null,
+      latitude: null,
+    });
+  };
+
   const createCommentHandler = async () => {
     try {
       let newCommentData = {
         commentedAnnouncementId: announcementId,
         comment,
         photosIds: photos.map((photo) => photo.id),
-
       };
       if ((location.latitude && location.longitude) && (location.latitude !== 0 && location.longitude !== 0)) {
         newCommentData = {
@@ -118,8 +155,11 @@ export const FComment = ({
           locationLon: location.longitude,
         };
       }
-      await addCommentForAnnouncement(newCommentData);
+      const res = await addCommentForAnnouncement(newCommentData);
+      dispatch(setComments([res.data, ...comments]));
+      resetCommentData();
       setShowSuccessfulAddedCommentModal(true);
+      navigation.setParams();
     } catch (error) {
       setShowErrorModal(true);
     }
@@ -131,6 +171,7 @@ export const FComment = ({
       const newPhotos = [...photos];
       newPhotos.splice(photos.indexOf(existingPhotoId), 1);
       setPhotos([...newPhotos]);
+      setIsAddPhotoButtonDisabled(false);
     }
   };
 
@@ -152,6 +193,7 @@ export const FComment = ({
                 url: res.url,
               },
             ]);
+            if (photos.length >= 2) setIsAddPhotoButtonDisabled(true);
           }, {
             allowsEditing: true,
           });
@@ -167,6 +209,7 @@ export const FComment = ({
                 url: res.url,
               },
             ]);
+            if (photos.length >= 2) setIsAddPhotoButtonDisabled(true);
           }, {
             allowsEditing: true,
           });
@@ -185,6 +228,7 @@ export const FComment = ({
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       });
+      setIsLocationButtonDisabled(true);
       setShowSharedLocationModal(true);
     }
   };
@@ -193,7 +237,7 @@ export const FComment = ({
     <FImage
       key={photo.id}
       networkImageUrl={photo.url}
-      imagePath={images.DOG()}
+      imagePath=""
       height={sizes.WIDTH_50}
       width={sizes.HEIGHT_50}
       imageHeight={sizes.HEIGHT_FULL}
@@ -258,7 +302,6 @@ export const FComment = ({
             >
               {drawPhotos(photos)}
             </View>
-
             <View style={{
               ...styles.rowContainer,
               justifyContent: 'space-between',
@@ -274,7 +317,7 @@ export const FComment = ({
                     padding: 0,
                     marginRight: sizes.MARGIN_12,
                   }}
-                  isDisabled={photos.length === 3}
+                  isDisabled={isAddPhotoButtonDisabled}
                   onPress={() => uploadPhoto('camera-roll')}
                 />
                 <FButton
@@ -286,7 +329,7 @@ export const FComment = ({
                     padding: 0,
                     marginRight: sizes.MARGIN_12,
                   }}
-                  isDisabled={photos.length === 3}
+                  isDisabled={isAddPhotoButtonDisabled}
                   onPress={() => uploadPhoto('camera')}
                 />
                 <FButton
@@ -295,8 +338,7 @@ export const FComment = ({
                   icon={icons.LOCATION_OUTLINE}
                   color={colors.PRIMARY}
                   buttonViewStyles={{ padding: 0 }}
-                  isDisabled={(location.latitude && location.longitude)
-                    && (location.latitude !== 0 && location.longitude !== 0)}
+                  isDisabled={isLocationButtonDisabled}
                   onPress={shareCurrentLocation}
                 />
               </View>
@@ -306,35 +348,37 @@ export const FComment = ({
                 icon={icons.SEND_OUTLINE}
                 color={colors.PRIMARY}
                 buttonViewStyles={{ padding: 0 }}
-                isDisabled={photos.length === 0 && comment.length === 0}
+                isDisabled={isCreateCommentButtonDisabled}
                 onPress={createCommentHandler}
               />
             </View>
-            {(location.latitude && location.longitude)
-                    && (location.latitude !== 0 && location.longitude !== 0)
-            && (
-              <View style={styles.rowContainer}>
-                <FButton
-                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-                  icon={icons.CLOSE_OUTLINE}
-                  color={colors.DANGER}
-                  backgroundColor={colors.WHITE}
-                  title={locales.DONT_SHARE_LOCATION}
-                  iconPlacement={placements.LEFT}
-                  iconSize={sizes.ICON_20}
-                  buttonViewStyles={{
-                    paddingVertical: 0,
-                    paddingHorizontal: 0,
-                  }}
-                  titleSize={fonts.HEADING_SMALL}
-                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                  onPress={() => setLocation({
-                    latitude: null,
-                    longitude: null,
-                  })}
-                />
-              </View>
-            )}
+            {(location.latitude !== null && location.longitude !== null)
+              && (
+                <View style={styles.rowContainer}>
+                  <FButton
+                    type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+                    icon={icons.CLOSE_OUTLINE}
+                    color={colors.DANGER}
+                    backgroundColor={colors.WHITE}
+                    title={locales.DONT_SHARE_LOCATION}
+                    iconPlacement={placements.LEFT}
+                    iconSize={sizes.ICON_20}
+                    buttonViewStyles={{
+                      paddingVertical: 0,
+                      paddingHorizontal: 0,
+                    }}
+                    titleSize={fonts.HEADING_SMALL}
+                    titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                    onPress={() => {
+                      setLocation({
+                        latitude: null,
+                        longitude: null,
+                      });
+                      setIsLocationButtonDisabled(false);
+                    }}
+                  />
+                </View>
+              )}
           </View>
         </>
       );
@@ -379,7 +423,7 @@ export const FComment = ({
             >
               <FHeading
                 title={parseDate(dateFormatTypes.DATE_TIME, commentedAnnouncement.createDate)}
-                size={fonts.HEADING_SMALL}
+                size={fonts.HEADING_EXTRA_SMALL}
                 align={placements.RIGHT}
                 weight={fonts.HEADING_WEIGHT_REGULAR}
                 color={colors.DARK_GRAY}
@@ -455,6 +499,7 @@ export const FComment = ({
                 paddingHorizontal: 0,
                 paddingVertical: 0,
               }}
+              onPress={() => setShowCommentActionsModal(true)}
             />
           </View>
         )}

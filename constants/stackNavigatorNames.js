@@ -21,4 +21,5 @@ export default {
   ALL_ANNOUNCEMENTS_DRAWER: 'All Announcements Drawer',
   LAST_VIEWED_ANNOUNCEMENTS: 'Last Viewed Announcements',
   RECENTLY_CREATED_ANNOUNCEMENTS: 'Recently Created Announcements',
+  COMMENTS_MODAL: 'Comments Modal'
 };

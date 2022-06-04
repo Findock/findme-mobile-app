@@ -1,7 +1,6 @@
 import { FHeading } from 'components/Composition/FHeading';
 import {
-  View, StyleSheet, TouchableOpacity,
-  ActivityIndicator, Platform,
+  ActivityIndicator, Platform, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import buttonTypes from 'constants/components/buttonTypes';
@@ -18,16 +17,35 @@ import opacities from 'themes/opacities';
 import { FImage } from 'components/Composition/FImage';
 
 export const FButton = ({
-  type, icon = '', title = '', to, color, titleSize, titleWeight, iconSize, onPress, buttonViewStyles, iconViewStyles,
-  backgroundColor, iconPlacement = placements.RIGHT, style, isUnderline, loading, iconViewSize, isDisabled = false,
-  imagePath, imageSize,
+  type,
+  icon = '',
+  title = '',
+  to,
+  color,
+  titleSize,
+  titleWeight,
+  iconSize,
+  onPress,
+  buttonViewStyles,
+  iconViewStyles,
+  backgroundColor,
+  iconPlacement = placements.RIGHT,
+  style,
+  isUnderline,
+  loading,
+  iconViewSize,
+  isDisabled = false,
+  imagePath,
+  imageSize,
 }) => {
   const navigation = useNavigation();
   const drawLinkButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      navigation.navigate(to);
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        navigation.navigate(to);
+      }}
+      disabled={isDisabled}
     >
       <View
         style={{
@@ -58,6 +76,7 @@ export const FButton = ({
         if (isDisabled) return;
         onPress();
       }}
+      disabled={isDisabled}
       style={{
         padding: sizes.PADDING_20,
         backgroundColor,
@@ -70,21 +89,21 @@ export const FButton = ({
         name={icon}
         color={color}
         size={iconSize}
-        style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
       />
     </TouchableOpacity>
   );
   const drawTextButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      onPress();
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
+      disabled={isDisabled}
     >
       <View style={{
         ...styles.buttonContainer,
         ...buttonViewStyles,
         backgroundColor,
-        opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
       }}
       >
         <View>
@@ -93,17 +112,18 @@ export const FButton = ({
             color={color}
             size={titleSize}
             weight={titleWeight}
-            style={{ opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1 }}
           />
         </View>
       </View>
     </TouchableOpacity>
   );
   const drawOutlineTextButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      onPress();
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
+      disabled={isDisabled}
     >
       <View style={{
         ...styles.buttonContainer,
@@ -127,10 +147,12 @@ export const FButton = ({
     </TouchableOpacity>
   );
   const drawIconAndTextButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      onPress();
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
+      disabled={isDisabled}
     >
       <View style={{
         ...styles.buttonContainer,
@@ -189,10 +211,12 @@ export const FButton = ({
   );
 
   const drawTextAndImageButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      onPress();
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
+      disabled={isDisabled}
     >
       <View style={{
         ...styles.buttonContainer,
@@ -234,10 +258,12 @@ export const FButton = ({
   );
 
   const drawLoadingButton = () => (
-    <TouchableOpacity onPress={() => {
-      if (isDisabled) return;
-      onPress();
-    }}
+    <TouchableOpacity
+      onPress={() => {
+        if (isDisabled) return;
+        onPress();
+      }}
+      disabled={isDisabled}
     >
       <View style={{
         ...styles.buttonContainer,
@@ -276,6 +302,7 @@ export const FButton = ({
         if (isDisabled) return;
         onPress();
       }}
+      disabled={isDisabled}
       style={{
         ...styles.iconButtonWithLabel,
         ...buttonViewStyles,

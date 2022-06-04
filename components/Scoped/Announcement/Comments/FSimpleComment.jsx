@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  StyleSheet, View, TouchableOpacity, Dimensions,
+  Dimensions, StyleSheet, TouchableOpacity, View,
 } from 'react-native';
 import { FAvatar } from 'components/Composition/FAvatar';
 import { useSelector } from 'react-redux';
@@ -17,45 +17,49 @@ import buttonTypes from 'constants/components/buttonTypes';
 import icons from 'themes/icons';
 
 export const FSimpleComment = ({
-  comment, creator, showComments, commentsAmmount,
+  comment,
+  creator,
+  showComments,
+  commentsAmount,
 }) => {
   const me = useSelector((state) => state.me.me);
 
   return (
-    <View style={styles.container}>
-      <View style={{
-        ...styles.rowContainer,
-        justifyContent: 'space-between',
-      }}
-      >
-        <View style={styles.headingContainer}>
-          <FHeading
-            title={commentsAmmount === 0 ? locales.COMMENTS : `${locales.COMMENTS} ${commentsAmmount}`}
-            size={fonts.HEADING_MEDIUM}
-            align={placements.LEFT}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
-            numberOfLines={2}
-            ellipsizeMode="tail"
+    <TouchableOpacity onPress={showComments}>
+      <View style={styles.container}>
+        <View style={{
+          ...styles.rowContainer,
+          justifyContent: 'space-between',
+        }}
+        >
+          <View style={styles.headingContainer}>
+            <FHeading
+              title={commentsAmount === 0 ? locales.COMMENTS : `${locales.COMMENTS} ${commentsAmount}`}
+              size={fonts.HEADING_MEDIUM}
+              align={placements.LEFT}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+              numberOfLines={2}
+              ellipsizeMode="tail"
+            />
+          </View>
+          <FButton
+            type={buttonTypes.ICON_BUTTON}
+            icon={icons.EXPAND_OUTLINE}
+            buttonViewStyles={{ padding: 0 }}
+            iconSize={sizes.ICON_15}
           />
         </View>
-        <FButton
-          type={buttonTypes.ICON_BUTTON}
-          icon={icons.EXPAND_OUTLINE}
-          buttonViewStyles={{ padding: 0 }}
-          iconSize={sizes.ICON_15}
-        />
-      </View>
-      <TouchableOpacity onPress={showComments}>
         <View style={styles.rowContainer}>
           <View style={styles.avatarContainer}>
             <FAvatar
               size={sizes.WIDTH_35}
-              imageUrl={commentsAmmount === 0 ? me.profileImageUrl : creator.profileImageUrl}
+              imageUrl={commentsAmount === 0 ? me.profileImageUrl : creator.profileImageUrl}
+              isEditable={false}
             />
           </View>
           <View style={{ width: sizes.BASIS_90_PERCENTAGES }}>
             <FHeading
-              title={commentsAmmount === 0 ? placeholders.ADD_COMMENT : comment}
+              title={commentsAmount === 0 ? placeholders.ADD_COMMENT : comment}
               size={fonts.HEADING_NORMAL}
               align={placements.LEFT}
               weight={fonts.HEADING_WEIGHT_REGULAR}
@@ -64,8 +68,8 @@ export const FSimpleComment = ({
             />
           </View>
         </View>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -97,5 +101,5 @@ FSimpleComment.propTypes = {
     profileImageUrl: PropTypes.string,
   }),
   showComments: PropTypes.func.isRequired,
-  commentsAmmount: PropTypes.number.isRequired,
+  commentsAmount: PropTypes.number.isRequired,
 };

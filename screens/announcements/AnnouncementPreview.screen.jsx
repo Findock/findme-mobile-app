@@ -3,7 +3,7 @@ import { FSpinner } from 'components/Composition/FSpinner';
 import { FSlider } from 'components/Composition/Slider/FSlider';
 import React, { useEffect, useState } from 'react';
 import {
-  View, StyleSheet, ScrollView, Dimensions,
+  Dimensions, ScrollView, StyleSheet, View,
 } from 'react-native';
 import icons from 'themes/icons';
 import colors from 'themes/colors';
@@ -29,9 +29,7 @@ import { FAvatar } from 'components/Composition/FAvatar';
 import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/useErrorModal';
-import {
-  useRoute, useNavigation, useIsFocused,
-} from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import { getAnnouncementService } from 'services/announcement/getAnnouncement.service';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { FModal } from 'components/Composition/FModal';
@@ -41,23 +39,21 @@ import AnnouncementStatusEnum from 'enums/AnnouncementStatusEnum';
 import { useChangeAnnouncementStatus } from 'hooks/announcement/useChangeAnnouncementStatus';
 import { useFavouriteAnnouncementManagement } from 'hooks/announcement/useFavouriteAnnouncementManagement';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getAnnouncementComments } from 'services/comment/getAnnouncementComments.service';
 import { FSimpleComment } from 'components/Scoped/Announcement/Comments/FSimpleComment';
+import { setComments } from 'store/comments/commentsSlice';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const comments = useSelector((state) => state.comments.comments);
   const [
     announcement,
     setAnnouncement,
   ] = useState(null);
-  const [
-    comments,
-    setComments,
-  ] = useState([]);
   const [
     confirmationModalVisible,
     setConfirmationModalVisible,
@@ -98,9 +94,12 @@ export const AnnouncementPreviewScreen = () => {
   useEffect(() => {
     if (isFocused) {
       fetchAnnouncement();
-      fetchAnnouncementComments();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    fetchAnnouncementComments();
+  }, []);
 
   useEffect(() => {
     if (announcement && route.params.isNew === false) {
@@ -140,16 +139,18 @@ export const AnnouncementPreviewScreen = () => {
   const fetchAnnouncementComments = async () => {
     try {
       const res = await getAnnouncementComments(route.params?.id);
-      setComments(res.data.commentedAnnouncement);
+      dispatch(setComments(res.data));
     } catch (error) {
       setShowErrorModal(true);
     }
   };
 
   const confirmationHandler = () => {
-    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) archiveAnnouncementHandler();
-    else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) makeAnnouncementActiveHandler();
-    else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
+    if (confirmationModalTitle === modalsMessages.ARCHIVE_ANNOUNCEMENT_CONFIRMATION) {
+      archiveAnnouncementHandler();
+    } else if (confirmationModalTitle === modalsMessages.MAKE_ANNOUNCEMENT_ACTIVE_CONFIRMATION) {
+      makeAnnouncementActiveHandler();
+    } else if (confirmationModalTitle === modalsMessages.RESOLVE_ANNOUNCEMENT_CONFIRMATION) resolveAnnouncementHandler();
   };
 
   const drawConfirmationModal = () => confirmationModalVisible && (
@@ -341,8 +342,11 @@ export const AnnouncementPreviewScreen = () => {
                     borderRadius: getHalfBorderRadius(sizes.ICON_40 + sizes.PADDING_10),
                   }}
                   onPress={() => {
-                    if (announcement.isInFavorites) removeAnnouncementFromFavouritesHandler();
-                    else addAnnouncementToFavouritesHandler();
+                    if (announcement.isInFavorites) {
+                      removeAnnouncementFromFavouritesHandler();
+                    } else {
+                      addAnnouncementToFavouritesHandler();
+                    }
                   }}
                 />
               </View>
@@ -381,11 +385,7 @@ export const AnnouncementPreviewScreen = () => {
               weight={fonts.HEADING_WEIGHT_REGULAR}
             />
           </View>
-          <View style={{
-            marginTop: sizes.MARGIN_25,
-            // marginBottom: announcement.isUserCreator ? sizes.MARGIN_50 : sizes.MARGIN_100,
-          }}
-          >
+          <View style={{ marginTop: sizes.MARGIN_25 }}>
             <FAnnouncementHeading title={locales.LOCATION} />
             <FHeadingWithIcon
               icon={icons.LOCATION_OUTLINE}
@@ -407,20 +407,27 @@ export const AnnouncementPreviewScreen = () => {
             />
             <FMapView
               height={sizes.HEIGHT_400}
-              onChangeLocation={() => { }}
-              onChangeCoordinates={() => { }}
-              onChangeLocationDescription={() => { }}
+              onChangeLocation={() => {
+              }}
+              onChangeCoordinates={() => {
+              }}
+              onChangeLocationDescription={() => {
+              }}
               isInteractive={false}
               lat={+announcement.locationLat}
               lon={+announcement.locationLon}
               doNotLoadCoordinatesFromLocation
             />
           </View>
-          <View style={{ marginBottom: announcement.isUserCreator ? sizes.MARGIN_100 : 120 }}>
+          <View style={{ marginBottom: announcement.isUserCreator ? sizes.MARGIN_100 : sizes.MARGIN_150 }}>
             <FSimpleComment
-              commentsAmmount={comments ? comments.length : 0}
-              comment={comments ? comments[0]?.comment : ''}
-              creator={comments ? comments[0]?.creator : ''}
+              commentsAmount={comments ? comments.length : 0}
+              comment={comments ? comments.find((x) => x.comment)?.comment : ''}
+              creator={comments ? comments.find((x) => x.comment)?.creator : ''}
+              showComments={() => navigation.navigate(stackNavigatorNames.COMMENTS_MODAL, {
+                announcementId: announcement.id,
+                isUserCreator: announcement.isUserCreator,
+              })}
             />
           </View>
         </FCard>

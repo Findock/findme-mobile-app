@@ -109,6 +109,7 @@ export default {
   MARGIN_50: 50,
   MARGIN_80: 80,
   MARGIN_100: 100,
+  MARGIN_150: 150,
 
   // POSITION
   POSITION_N60: -60,
