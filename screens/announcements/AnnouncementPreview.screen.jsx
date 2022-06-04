@@ -73,15 +73,6 @@ export const AnnouncementPreviewScreen = () => {
     drawFavouriteAnnouncementErrorModal,
     drawSuccessfulModal,
   } = useFavouriteAnnouncementManagement(announcement);
-  // const [
-  //   announcementAddedSuccessfullyModalVisible,
-  //   setAnnouncementAddedSuccessfullyModalVisible,
-  // ] = useState(false);
-  // const [
-  //   announcementEditedSuccessfullyModalVisible,
-  //   setAnnouncementEditedSuccessfullyModalVisible,
-  // ] = useState(false);
-
   const {
     setShowErrorModal,
     drawErrorModal,

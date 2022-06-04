@@ -19,6 +19,7 @@ export const FCommentActionsModal = ({
   visible,
   setVisible,
   onEdit,
+  onDelete,
 }) => {
   const ref = useRef(null);
 
@@ -77,6 +78,10 @@ export const FCommentActionsModal = ({
                   titleSize={fonts.HEADING_NORMAL}
                   titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
                   buttonViewStyles={styles.button}
+                  onPress={() => {
+                    onDelete();
+                    setVisible(false);
+                  }}
                 />
               </View>
             )}
@@ -128,4 +133,5 @@ FCommentActionsModal.propTypes = {
   canEdit: PropTypes.bool.isRequired,
   canDelete: PropTypes.bool.isRequired,
   onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
 };
