@@ -17,7 +17,6 @@ import { useNavigation } from '@react-navigation/native';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
-import { FImage } from 'components/Composition/FImage';
 import icons from 'themes/icons';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,6 +41,8 @@ import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 import { uploadPhotoCommentService } from 'services/comment/uploadCommentPhoto.service';
 import { deleteCommentService } from 'services/comment/deleteComment.service';
+import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
+import { FImage } from 'components/Composition/FImage';
 
 export const FComment = ({
   createMode,
@@ -272,38 +273,60 @@ export const FComment = ({
     }
   };
 
-  const drawPhotos = (commentPhotos) => commentPhotos.map((photo) => (
-    <FImage
-      key={photo.id}
-      networkImageUrl={photo.url}
-      imagePath=""
-      height={sizes.WIDTH_50}
-      width={sizes.HEIGHT_50}
-      imageHeight={sizes.HEIGHT_FULL}
-      imageWidth={sizes.WIDTH_FULL}
-      containerStyle={{
-        marginRight: sizes.MARGIN_8,
-      }}
-      resizeMode={sizes.COVER}
-      isChildrenInside={createMode}
-    >
-      {createMode && (
-        <FButton
-          type={buttonTypes.ICON_BUTTON}
-          icon={icons.CLOSE_OUTLINE}
-          iconSize={sizes.ICON_35}
-          buttonViewStyles={{
-            padding: 0,
-            width: sizes.WIDTH_FULL,
-            height: sizes.HEIGHT_FULL,
-            alignItems: placements.CENTER,
-            justifyContent: placements.CENTER,
+  const drawPhotos = (commentPhotos) => commentPhotos.map((photo) => {
+    if (createMode) {
+      return (
+        <FImage
+          key={photo.id}
+          networkImageUrl={photo.url}
+          imagePath=""
+          height={sizes.WIDTH_50}
+          width={sizes.HEIGHT_50}
+          imageHeight={sizes.HEIGHT_FULL}
+          imageWidth={sizes.WIDTH_FULL}
+          containerStyle={{
+            marginRight: sizes.MARGIN_8,
           }}
-          onPress={() => removeUploadedPhoto(photo.id)}
-        />
-      )}
-    </FImage>
-  ));
+          resizeMode={sizes.COVER}
+          isChildrenInside={createMode}
+          photos={commentPhotos.map((commentPhoto) => commentPhoto.url)}
+          canBeOpenAsFullscreen
+        >
+          <FButton
+            type={buttonTypes.ICON_BUTTON}
+            icon={icons.CLOSE_OUTLINE}
+            iconSize={sizes.ICON_35}
+            buttonViewStyles={{
+              padding: 0,
+              width: sizes.WIDTH_FULL,
+              height: sizes.HEIGHT_FULL,
+              alignItems: placements.CENTER,
+              justifyContent: placements.CENTER,
+            }}
+            onPress={() => removeUploadedPhoto(photo.id)}
+          />
+        </FImage>
+      );
+    }
+    return (
+      <FImageWithFullscreenPreview
+        key={photo.id}
+        networkImageUrl={photo.url}
+        imagePath=""
+        height={sizes.WIDTH_50}
+        width={sizes.HEIGHT_50}
+        imageHeight={sizes.HEIGHT_FULL}
+        imageWidth={sizes.WIDTH_FULL}
+        containerStyle={{
+          marginRight: sizes.MARGIN_8,
+        }}
+        resizeMode={sizes.COVER}
+        isChildrenInside={createMode}
+        photos={commentPhotos.map((commentPhoto) => commentPhoto.url)}
+        canBeOpenAsFullscreen
+      />
+    );
+  });
 
   const editHandler = () => {
     dispatch(setCommentToUpdate(commentedAnnouncement));

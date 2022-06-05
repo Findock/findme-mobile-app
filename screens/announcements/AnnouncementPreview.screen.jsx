@@ -247,7 +247,11 @@ export const AnnouncementPreviewScreen = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <FSlider photos={announcement.photos.map((photo) => photo.url)} />
+        <FSlider
+          photos={announcement.photos.map((photo) => photo.url)}
+          height={sizes.HEIGHT_400}
+          imageResizeMode={sizes.COVER}
+        />
         <FCard
           paddingHorizontal={sizes.PADDING_30}
           paddingVertical={sizes.PADDING_30}

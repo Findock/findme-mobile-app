@@ -6,18 +6,19 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 import { FSliderDot } from 'components/Composition/Slider/FSliderDot';
 import placements from 'themes/placements';
-import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
+import { FImage } from 'components/Composition/FImage';
 
-export const FSlider = ({
+export const FSliderWithFullscreenPreview = ({
   photos,
   height,
   imageResizeMode,
+  startingIndex,
 }) => {
   const fullWidth = Dimensions.get('window').width;
   const [
     currentIndex,
     setCurrentIndex,
-  ] = useState(0);
+  ] = useState(startingIndex || 0);
 
   const drawDots = () => photos && photos.map((_, index) => (
     <FSliderDot
@@ -27,14 +28,14 @@ export const FSlider = ({
   ));
 
   const drawSliderItem = ({ item }) => (
-    <FImageWithFullscreenPreview
+    <FImage
       height={sizes.HEIGHT_FULL}
       width={fullWidth}
       resizeMode={imageResizeMode}
       imagePath=""
       networkImageUrl={item}
       imageWidth={sizes.WIDTH_FULL}
-      photos={photos}
+      isChildrenInside={false}
     />
   );
 
@@ -56,6 +57,7 @@ export const FSlider = ({
         horizontal
         bounces={false}
         initialNumToRender={0}
+        initialScrollIndex={startingIndex}
         maxToRenderPerBatch={1}
         windowSize={2}
         removeClippedSubviews
@@ -66,6 +68,11 @@ export const FSlider = ({
         keyExtractor={(_, index) => index}
         renderItem={drawSliderItem}
         showsHorizontalScrollIndicator={false}
+        getItemLayout={(data, index) => ({
+          length: fullWidth,
+          offset: fullWidth * index,
+          index,
+        })}
         style={{
           ...styles.sliderContainer,
           height,
@@ -97,7 +104,7 @@ const styles = StyleSheet.create({
   },
 });
 
-FSlider.propTypes = {
+FSliderWithFullscreenPreview.propTypes = {
   photos: PropTypes.arrayOf(PropTypes.string).isRequired,
   height: PropTypes.oneOfType([
     PropTypes.string,
