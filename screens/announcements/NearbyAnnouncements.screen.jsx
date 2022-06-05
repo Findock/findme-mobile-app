@@ -1,10 +1,10 @@
 import { Dimensions, View } from 'react-native';
 import colors from 'themes/colors';
-import { useRoute } from '@react-navigation/native';
 import sizes from 'themes/sizes';
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
+import { useRoute } from '@react-navigation/native';
 
-export const UserAnnouncementsScreen = () => {
+export const NearbyAnnouncementsScreen = () => {
   const route = useRoute();
 
   return (
@@ -15,15 +15,17 @@ export const UserAnnouncementsScreen = () => {
     }}
     >
       <FAnnouncementsList
-        userId={route.params?.userId}
-        numColumns={2}
         isMe={false}
-        horizontal={false}
+        numColumns={2}
         onlyFavorites={false}
+        horizontal={false}
         getAll={false}
         lastViewed={false}
         recentlyCreated={false}
-        nearby={false}
+        nearby
+        location={{
+          ...route.params?.location,
+        }}
       />
     </View>
   );

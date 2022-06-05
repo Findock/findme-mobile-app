@@ -15,10 +15,10 @@ export const MyFollowedAnnouncementsScreen = () => (
       numColumns={2}
       onlyFavorites
       horizontal={false}
-      FAnnouncementsList={false}
       getAll={false}
       lastViewed={false}
       recentlyCreated={false}
+      nearby={false}
     />
   </View>
 );

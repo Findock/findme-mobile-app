@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
 import sizes from 'themes/sizes';
@@ -16,9 +16,16 @@ import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncement
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import { useNavigation } from '@react-navigation/native';
 import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
+import { useLocationPermission } from 'hooks/permissions/useLocationPermission';
+import * as Location from 'expo-location';
 
 export const HomepageScreen = () => {
   const navigation = useNavigation();
+  const {
+    tryToAskForLocationPermissionsIfIsNotGranted,
+    granted: locationStatus,
+    drawNoPermissionsModal: drawNoLocationPermissionModal,
+  } = useLocationPermission();
   const [
     viewedAnnouncementsLength,
     setViewedAnnouncementsLength,
@@ -28,8 +35,22 @@ export const HomepageScreen = () => {
     setRecentlyCreatedAnnouncementsLength,
   ] = useState(0);
 
+  const navigateToNearbyAnnouncementsScreen = async () => {
+    if (!locationStatus) tryToAskForLocationPermissionsIfIsNotGranted();
+    if (locationStatus) {
+      const position = await Location.getCurrentPositionAsync();
+      navigation.navigate(stackNavigatorNames.NEARBY_ANNOUNCEMENTS, {
+        location: {
+          locationLon: position.coords.longitude,
+          locationLat: position.coords.latitude,
+        },
+      });
+    }
+  };
+
   return (
     <FDefaultLayout>
+      {drawNoLocationPermissionModal()}
       <View style={{
         marginTop: sizes.MARGIN_30,
         ...styles.columnContainer,
@@ -142,6 +163,7 @@ export const HomepageScreen = () => {
               title={`${locales.IN_YOUR}\n${locales.SURROUNDINGS}`}
               titleSize={fonts.HEADING_LARGE}
               titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              onPress={navigateToNearbyAnnouncementsScreen}
             />
           </View>
         </View>
@@ -166,21 +188,22 @@ export const HomepageScreen = () => {
               numColumns={1}
               setAnnouncementsLength={setRecentlyCreatedAnnouncementsLength}
               recentlyCreated
+              nearby={false}
             />
           </View>
           {recentlyCreatedAnnouncementsLength > 6
-              && (
-                <FButton
-                  title={locales.SHOW_ALL}
-                  color={colors.PRIMARY}
-                  backgroundColor={colors.LIGHT_GRAY}
-                  type={buttonTypes.TEXT_BUTTON}
-                  titleSize={fonts.HEADING_NORMAL}
-                  titleWeight={fonts.HEADING_WEIGHT_BOLD}
-                  onPress={() => navigation.navigate(stackNavigatorNames.RECENTLY_CREATED_ANNOUNCEMENTS)}
-                  buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-                />
-              )}
+            && (
+              <FButton
+                title={locales.SHOW_ALL}
+                color={colors.PRIMARY}
+                backgroundColor={colors.LIGHT_GRAY}
+                type={buttonTypes.TEXT_BUTTON}
+                titleSize={fonts.HEADING_NORMAL}
+                titleWeight={fonts.HEADING_WEIGHT_BOLD}
+                onPress={() => navigation.navigate(stackNavigatorNames.RECENTLY_CREATED_ANNOUNCEMENTS)}
+                buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+              />
+            )}
         </View>
         <View style={{ marginTop: sizes.MARGIN_25 }}>
           <FHeading
@@ -203,21 +226,22 @@ export const HomepageScreen = () => {
               numColumns={1}
               setAnnouncementsLength={setViewedAnnouncementsLength}
               recentlyCreated={false}
+              nearby={false}
             />
           </View>
           {viewedAnnouncementsLength > 6
-              && (
-                <FButton
-                  title={locales.SHOW_ALL}
-                  color={colors.PRIMARY}
-                  backgroundColor={colors.LIGHT_GRAY}
-                  type={buttonTypes.TEXT_BUTTON}
-                  titleSize={fonts.HEADING_NORMAL}
-                  titleWeight={fonts.HEADING_WEIGHT_BOLD}
-                  onPress={() => navigation.navigate(stackNavigatorNames.LAST_VIEWED_ANNOUNCEMENTS)}
-                  buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
-                />
-              )}
+            && (
+              <FButton
+                title={locales.SHOW_ALL}
+                color={colors.PRIMARY}
+                backgroundColor={colors.LIGHT_GRAY}
+                type={buttonTypes.TEXT_BUTTON}
+                titleSize={fonts.HEADING_NORMAL}
+                titleWeight={fonts.HEADING_WEIGHT_BOLD}
+                onPress={() => navigation.navigate(stackNavigatorNames.LAST_VIEWED_ANNOUNCEMENTS)}
+                buttonViewStyles={{ marginTop: sizes.MARGIN_20 }}
+              />
+            )}
         </View>
       </View>
     </FDefaultLayout>

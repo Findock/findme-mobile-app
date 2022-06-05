@@ -23,6 +23,7 @@ import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
 import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
+import { getNearbyAnnouncementsService } from '../../../services/announcement/getNearbyAnnouncements.service';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -46,6 +47,8 @@ export const FAnnouncementsList = ({
   locationQuery,
   locationThreshold = 1,
   setAnnouncementsLength,
+  nearby,
+  location,
 }) => {
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
   const dispatch = useDispatch();
@@ -198,6 +201,13 @@ export const FAnnouncementsList = ({
           if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
         }
 
+        if (nearby) {
+          res = await getNearbyAnnouncementsService({
+            ...params,
+            ...location,
+          });
+        }
+
         if (userId) {
           res = await getUserAnnouncementsService(userId, params);
           if (setAnnouncementsLength) setAnnouncementsLength(announcements.length + res.data.length);
@@ -264,6 +274,9 @@ export const FAnnouncementsList = ({
     }
     if (recentlyCreated) {
       return locales.NO_RECENTLY_CREATED_ANNOUNCEMENTS;
+    }
+    if (nearby) {
+      return locales.NO_NEARBY_ANNOUNCEMENTS;
     }
     return locales.ANNOUNCEMENTS_NOT_FOUND;
   };
@@ -356,4 +369,9 @@ FAnnouncementsList.propTypes = {
   locationQuery: PropTypes.string,
   lastViewed: PropTypes.bool.isRequired,
   recentlyCreated: PropTypes.bool.isRequired,
+  nearby: PropTypes.bool.isRequired,
+  location: PropTypes.shape({
+    locationLat: PropTypes.number,
+    locationLon: PropTypes.number,
+  }),
 };
