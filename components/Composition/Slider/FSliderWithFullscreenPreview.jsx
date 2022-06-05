@@ -74,7 +74,7 @@ export const FSliderWithFullscreenPreview = ({
         keyExtractor={(_, index) => index}
         renderItem={drawSliderItem}
         showsHorizontalScrollIndicator={false}
-        getItemLayout={(data, index) => ({
+        getItemLayout={(_data, index) => ({
           length: fullWidth,
           offset: fullWidth * index,
           index,

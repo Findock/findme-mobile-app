@@ -85,7 +85,7 @@ export const FSlider = ({
           ...styles.sliderContainer,
           height,
         }}
-        getItemLayout={(data, index) => ({
+        getItemLayout={(_data, index) => ({
           length: fullWidth,
           offset: fullWidth * index,
           index,
