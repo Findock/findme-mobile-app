@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { FSliderDot } from 'components/Composition/Slider/FSliderDot';
 import placements from 'themes/placements';
 import { FImage } from 'components/Composition/FImage';
+import { useNavigation } from '@react-navigation/native';
 
 export const FSliderWithFullscreenPreview = ({
   photos,
@@ -15,6 +16,8 @@ export const FSliderWithFullscreenPreview = ({
   startingIndex,
 }) => {
   const fullWidth = Dimensions.get('window').width;
+  const navigation = useNavigation();
+
   const [
     currentIndex,
     setCurrentIndex,
@@ -48,6 +51,9 @@ export const FSliderWithFullscreenPreview = ({
     const isNoMansLand = distance > 0.4;
     if (!isNoMansLand) {
       setCurrentIndex(roundIndex);
+      navigation.setParams({
+        lastViewedPhotoIndex: roundIndex,
+      });
     }
   }, []);
 
@@ -111,4 +117,5 @@ FSliderWithFullscreenPreview.propTypes = {
     PropTypes.number,
   ]).isRequired,
   imageResizeMode: PropTypes.oneOf(['cover', 'contain']).isRequired,
+  startingIndex: PropTypes.number.isRequired,
 };

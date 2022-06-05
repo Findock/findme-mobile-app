@@ -1,4 +1,4 @@
-import { TouchableOpacity } from 'react-native';
+import { TouchableWithoutFeedback, View } from 'react-native';
 import React, { useState } from 'react';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
@@ -16,33 +16,41 @@ export const FImageWithFullscreenPreview = ({
   imageWidth = sizes.WIDTH_FULL,
   imageHeight = sizes.HEIGHT_FULL,
   photos,
+  onClose = () => ({}),
 }) => {
   const [
     showFullscreenImagePreview,
     setShowFullscreenImagePreview,
   ] = useState(false);
 
+  const handleVisibleChange = (visible) => {
+    setShowFullscreenImagePreview(visible);
+    onClose();
+  };
+
   return (
-    <TouchableOpacity onPress={() => setShowFullscreenImagePreview(true)}>
-      <FFullscreenImagePreview
-        visible={showFullscreenImagePreview}
-        setVisible={setShowFullscreenImagePreview}
-        photos={photos}
-        chosenImage={networkImageUrl}
-      />
-      <FImage
-        networkImageUrl={networkImageUrl}
-        isChildrenInside={false}
-        resizeMode={resizeMode}
-        containerStyle={containerStyle}
-        width={width}
-        height={height}
-        imagePath={imagePath}
-        imageHeight={imageHeight}
-        imageWidth={imageWidth}
-        imageStyle={imageStyle}
-      />
-    </TouchableOpacity>
+    <TouchableWithoutFeedback onPress={() => setShowFullscreenImagePreview(true)}>
+      <View>
+        <FFullscreenImagePreview
+          visible={showFullscreenImagePreview}
+          setVisible={handleVisibleChange}
+          photos={photos}
+          chosenImage={networkImageUrl}
+        />
+        <FImage
+          networkImageUrl={networkImageUrl}
+          isChildrenInside={false}
+          resizeMode={resizeMode}
+          containerStyle={containerStyle}
+          width={width}
+          height={height}
+          imagePath={imagePath}
+          imageHeight={imageHeight}
+          imageWidth={imageWidth}
+          imageStyle={imageStyle}
+        />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -70,4 +78,5 @@ FImage.propTypes = {
     PropTypes.number,
   ]),
   photos: PropTypes.arrayOf(PropTypes.string),
+  onClose: PropTypes.func,
 };

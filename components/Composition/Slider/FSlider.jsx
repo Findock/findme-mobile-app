@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Dimensions, FlatList, StyleSheet, View,
 } from 'react-native';
@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { FSliderDot } from 'components/Composition/Slider/FSliderDot';
 import placements from 'themes/placements';
 import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
+import { useRoute } from '@react-navigation/native';
 
 export const FSlider = ({
   photos,
@@ -14,10 +15,21 @@ export const FSlider = ({
   imageResizeMode,
 }) => {
   const fullWidth = Dimensions.get('window').width;
+  const route = useRoute();
+  const sliderRef = useRef(null);
   const [
     currentIndex,
     setCurrentIndex,
   ] = useState(0);
+
+  const handleClose = () => {
+    if (route.params?.lastViewedPhotoIndex !== undefined) {
+      sliderRef?.current.scrollToIndex({
+        index: +route.params?.lastViewedPhotoIndex,
+        animated: false,
+      });
+    }
+  };
 
   const drawDots = () => photos && photos.map((_, index) => (
     <FSliderDot
@@ -35,6 +47,7 @@ export const FSlider = ({
       networkImageUrl={item}
       imageWidth={sizes.WIDTH_FULL}
       photos={photos}
+      onClose={handleClose}
     />
   );
 
@@ -53,10 +66,12 @@ export const FSlider = ({
   return (
     <View>
       <FlatList
+        ref={sliderRef}
         horizontal
         bounces={false}
         initialNumToRender={0}
         maxToRenderPerBatch={1}
+        initialScrollIndex={currentIndex}
         windowSize={2}
         removeClippedSubviews
         onScroll={onScroll}
@@ -70,6 +85,11 @@ export const FSlider = ({
           ...styles.sliderContainer,
           height,
         }}
+        getItemLayout={(data, index) => ({
+          length: fullWidth,
+          offset: fullWidth * index,
+          index,
+        })}
       />
       {photos.length > 1 && (
         <View style={{

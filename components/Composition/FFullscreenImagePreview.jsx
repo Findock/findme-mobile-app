@@ -21,6 +21,7 @@ export const FFullscreenImagePreview = ({
       if (chosenPhoto) return photos.indexOf(chosenPhoto);
     }
   };
+
   return (
     <Modal
       visible={visible}
