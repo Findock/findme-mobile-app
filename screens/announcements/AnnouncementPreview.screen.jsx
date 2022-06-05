@@ -1,6 +1,5 @@
 import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
-import { FSlider } from 'components/Composition/Slider/FSlider';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions, ScrollView, StyleSheet, View,
@@ -44,6 +43,7 @@ import { FSimpleComment } from 'components/Scoped/Comments/FSimpleComment';
 import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 import { useSuccessModal } from 'hooks/modals/useSuccessModal';
+import { FSlider } from 'components/Composition/Slider/FSlider';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -247,7 +247,11 @@ export const AnnouncementPreviewScreen = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <FSlider photos={announcement.photos.map((photo) => photo.url)} />
+        <FSlider
+          photos={announcement.photos.map((photo) => photo.url)}
+          height={sizes.HEIGHT_400}
+          imageResizeMode={sizes.COVER}
+        />
         <FCard
           paddingHorizontal={sizes.PADDING_30}
           paddingVertical={sizes.PADDING_30}

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Dimensions, FlatList, StyleSheet, View,
 } from 'react-native';
@@ -6,30 +6,22 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 import { FSliderDot } from 'components/Composition/Slider/FSliderDot';
 import placements from 'themes/placements';
-import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
-import { useRoute } from '@react-navigation/native';
+import { FImage } from 'components/Composition/FImage';
+import { useNavigation } from '@react-navigation/native';
 
-export const FSlider = ({
+export const FSliderWithFullscreenPreview = ({
   photos,
   height,
   imageResizeMode,
+  startingIndex,
 }) => {
   const fullWidth = Dimensions.get('window').width;
-  const route = useRoute();
-  const sliderRef = useRef(null);
+  const navigation = useNavigation();
+
   const [
     currentIndex,
     setCurrentIndex,
-  ] = useState(0);
-
-  const handleClose = () => {
-    if (route.params?.lastViewedPhotoIndex !== undefined) {
-      sliderRef?.current.scrollToIndex({
-        index: +route.params?.lastViewedPhotoIndex,
-        animated: false,
-      });
-    }
-  };
+  ] = useState(startingIndex || 0);
 
   const drawDots = () => photos && photos.map((_, index) => (
     <FSliderDot
@@ -39,15 +31,14 @@ export const FSlider = ({
   ));
 
   const drawSliderItem = ({ item }) => (
-    <FImageWithFullscreenPreview
+    <FImage
       height={sizes.HEIGHT_FULL}
       width={fullWidth}
       resizeMode={imageResizeMode}
       imagePath=""
       networkImageUrl={item}
       imageWidth={sizes.WIDTH_FULL}
-      photos={photos}
-      onClose={handleClose}
+      isChildrenInside={false}
     />
   );
 
@@ -60,18 +51,20 @@ export const FSlider = ({
     const isNoMansLand = distance > 0.4;
     if (!isNoMansLand) {
       setCurrentIndex(roundIndex);
+      navigation.setParams({
+        lastViewedPhotoIndex: roundIndex,
+      });
     }
   }, []);
 
   return (
     <View>
       <FlatList
-        ref={sliderRef}
         horizontal
         bounces={false}
         initialNumToRender={0}
+        initialScrollIndex={startingIndex}
         maxToRenderPerBatch={1}
-        initialScrollIndex={currentIndex}
         windowSize={2}
         removeClippedSubviews
         onScroll={onScroll}
@@ -81,15 +74,15 @@ export const FSlider = ({
         keyExtractor={(_, index) => index}
         renderItem={drawSliderItem}
         showsHorizontalScrollIndicator={false}
-        style={{
-          ...styles.sliderContainer,
-          height,
-        }}
         getItemLayout={(_data, index) => ({
           length: fullWidth,
           offset: fullWidth * index,
           index,
         })}
+        style={{
+          ...styles.sliderContainer,
+          height,
+        }}
       />
       {photos.length > 1 && (
         <View style={{
@@ -117,11 +110,12 @@ const styles = StyleSheet.create({
   },
 });
 
-FSlider.propTypes = {
+FSliderWithFullscreenPreview.propTypes = {
   photos: PropTypes.arrayOf(PropTypes.string).isRequired,
   height: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
   imageResizeMode: PropTypes.oneOf(['cover', 'contain']).isRequired,
+  startingIndex: PropTypes.number.isRequired,
 };

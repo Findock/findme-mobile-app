@@ -1,19 +1,27 @@
-import {
-  ImageBackground, View, Image,
-} from 'react-native';
+import { Image, ImageBackground, View } from 'react-native';
 import React from 'react';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FImage = ({
-  width, height, imagePath, children, containerStyle, resizeMode, networkImageUrl, imageStyle,
-  imageWidth = sizes.WIDTH_FULL, imageHeight = sizes.HEIGHT_FULL, isChildrenInside = false,
+  width,
+  height,
+  imagePath,
+  children,
+  containerStyle,
+  resizeMode,
+  networkImageUrl,
+  imageStyle,
+  imageWidth = sizes.WIDTH_FULL,
+  imageHeight = sizes.HEIGHT_FULL,
+  isChildrenInside = false,
 }) => {
   const getUri = () => {
     if (networkImageUrl) return networkImageUrl;
     if (imagePath) return Image.resolveAssetSource(imagePath).uri;
     return null;
   };
+
   return (
     <View style={{
       width,
@@ -31,7 +39,6 @@ export const FImage = ({
           width: imageWidth,
           height: imageHeight,
           ...imageStyle,
-
         }}
       >
         {isChildrenInside && children}
