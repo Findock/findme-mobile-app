@@ -43,6 +43,7 @@ import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedA
 import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
 import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
 import { FMapPreviewModal } from 'components/Composition/FMapPreviewModal';
+import { NearbyAnnouncementsScreen } from 'screens/announcements/NearbyAnnouncements.screen';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -315,6 +316,14 @@ export const Navigation = () => {
                   options={{
                     ...defaultHeaderOptions,
                     title: locales.LAST_VIEWED,
+                  }}
+                />
+                <Stack.Screen
+                  name={stackNavigatorNames.NEARBY_ANNOUNCEMENTS}
+                  component={NearbyAnnouncementsScreen}
+                  options={{
+                    ...defaultHeaderOptions,
+                    title: locales.NEARBY_ANNOUNCEMENTS,
                   }}
                 />
                 <Stack.Screen

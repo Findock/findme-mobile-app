@@ -19,6 +19,7 @@ export const MyAnnouncementsScreen = () => (
       getAll={false}
       lastViewed={false}
       recentlyCreated={false}
+      nearby={false}
     />
   </View>
 );

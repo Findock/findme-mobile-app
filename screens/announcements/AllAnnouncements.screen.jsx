@@ -13,9 +13,9 @@ import locales from 'constants/locales';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import React, { useEffect, useState } from 'react';
 import {
-  TouchableWithoutFeedback, View, Dimensions, Keyboard, StyleSheet,
+  Dimensions, Keyboard, StyleSheet, TouchableWithoutFeedback, View,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectInput } from 'store/select/selectSlice';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
@@ -214,6 +214,7 @@ export const AllAnnouncementsScreen = () => {
               locationThreshold={parseLocationThresholdLabelStringToNumberValue(locationThresholdSelectedOption.label)}
               lastViewed={false}
               recentlyCreated={false}
+              nearby={false}
             />
           </View>
         </>

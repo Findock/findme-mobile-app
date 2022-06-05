@@ -16,7 +16,7 @@ export default {
   SOMETHING_WENT_WRONG: 'Coś poszło nie tak. Spróbuj ponownie.',
   CAMERA_ROLL_DENIED: 'Nie zezwoliłeś na dostęp do galerii zdjęć. Przejdź do ustawień, aby móc korzystać z galerii zdjęć w aplikacji.',
   CAMERA_DENIED: 'Nie zezwoliłeś na dostęp do aparatu. Przejdź do ustawień, aby umożliwić korzystanie z aparatu w aplikacji.',
-  LOCATION_DENIED: 'Twoja lokalizacja nie będzie udostępniana. Przejdź do ustawień, aby zezwolić na dostęp do Twojej lokalizacji.',
+  LOCATION_DENIED: 'Nie zezwoliłeś na dostęp do swojej lokalizacji. Przejdź do ustawień, aby móc w pełni korzystać ze wszystkich funkcjonalności aplikacji.',
   SUCCESSFUL_REGISTRATION: 'Rejestracja przebiegła pomyślnie! Teraz możesz się zalogować.',
   SUCCESSFUL_LOGOUT: 'Zostałeś pomyślnie wylogowany!',
   ARCHIVE_ANNOUNCEMENT_CONFIRMATION: 'Jesteś pewien, że chcesz zarchiwizować to ogłoszenie?',

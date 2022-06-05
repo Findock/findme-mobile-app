@@ -65,6 +65,7 @@ export default {
   YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Nie masz jeszcze żadnych ogłoszeń',
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
   NO_RECENTLY_CREATED_ANNOUNCEMENTS: 'W ostatnim czasie nie pojawiły się żadne nowe ogłoszenia',
+  NO_NEARBY_ANNOUNCEMENTS: 'Nie znaleziono żadnych ogłoszeń w Twojej okolicy.',
   ACTIVATE: 'Przywróć',
   SEARCH: 'Szukaj',
   RESET: 'Wyczyść',
@@ -90,5 +91,5 @@ export default {
   SEE_LOCATION: 'Zobacz lokalizację',
   DONT_SHARE_LOCATION: 'Nie udostępniaj lokalizacji',
   COMMENTS: 'Komentarze',
-
+  NEARBY_ANNOUNCEMENTS: 'Ogłoszenia w Twojej okolicy',
 };

@@ -23,4 +23,5 @@ export default {
   RECENTLY_CREATED_ANNOUNCEMENTS: 'Recently Created Announcements',
   COMMENTS_MODAL: 'Comments Modal',
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
+  NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
 };

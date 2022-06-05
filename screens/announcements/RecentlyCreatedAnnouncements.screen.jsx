@@ -1,6 +1,6 @@
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
 import React from 'react';
-import { View, Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 
@@ -19,6 +19,7 @@ export const RecentlyCreatedAnnouncementsScreen = () => (
       getAll={false}
       lastViewed={false}
       recentlyCreated
+      nearby={false}
     />
   </View>
 );

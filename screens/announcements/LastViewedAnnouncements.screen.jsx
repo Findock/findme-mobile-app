@@ -2,7 +2,7 @@ import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncement
 import React from 'react';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
-import { View, Dimensions } from 'react-native';
+import { Dimensions, View } from 'react-native';
 
 export const LastViewedAnnouncementsScreen = () => (
   <View style={{
@@ -18,6 +18,7 @@ export const LastViewedAnnouncementsScreen = () => (
       onlyFavorites={false}
       getAll={false}
       lastViewed
+      nearby={false}
     />
   </View>
 );
