@@ -20,9 +20,12 @@ export const FActionsModal = ({
 }) => {
   const ref = useRef(null);
 
-  const drawActionsButtons = () => actions.map((action) => (
+  const drawActionsButtons = () => actions.map((action, index) => (
     action.visible && (
-      <View style={[styles.actionButtonContainer]}>
+      <View
+        style={[styles.actionButtonContainer]}
+        key={index}
+      >
         <FButton
           type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
           icon={action.actionIcon}
