@@ -12,7 +12,6 @@ import colors from 'themes/colors';
 import PropTypes from 'prop-types';
 import fonts from 'themes/fonts';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
-import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 import opacities from 'themes/opacities';
 import { FImage } from 'components/Composition/FImage';
 
@@ -316,7 +315,7 @@ export const FButton = ({
           ...defaultBoxShadow,
           width: iconViewSize,
           height: iconViewSize,
-          borderRadius: getHalfBorderRadius(iconViewSize),
+          borderRadius: sizes.RADIUS_20,
           ...styles.iconContainer,
           opacity: isDisabled ? opacities.OPACITY_05 : opacities.OPACITY_1,
         }}

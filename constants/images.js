@@ -22,8 +22,10 @@ export default {
   UNKNOWN_WHITE: () => require('assets/animalGender/unknown-w.png'),
   INFINITY_BLACK: () => require('assets/infinity-b.png'),
   INFINITY_WHITE: () => require('assets/infinity-w.png'),
-  LOST_ANIMAL: () => require('assets/lost-animal.png'),
-  FOUND_ANIMAL: () => require('assets/found-animal.png'),
+  LOST_ANIMAL_BLACK: () => require('assets/lost-animal-b.png'),
+  LOST_ANIMAL_WHITE: () => require('assets/lost-animal-w.png'),
+  FOUND_ANIMAL_BLACK: () => require('assets/found-animal-b.png'),
+  FOUND_ANIMAL_WHITE: () => require('assets/found-animal-w.png'),
   ALL_ANNOUNCEMENTS: () => require('assets/all-announcements.png'),
   LOCATION: () => require('assets/location.png'),
 };

@@ -92,4 +92,6 @@ export default {
   DONT_SHARE_LOCATION: 'Nie udostępniaj lokalizacji',
   COMMENTS: 'Komentarze',
   NEARBY_ANNOUNCEMENTS: 'Ogłoszenia w Twojej okolicy',
+  CONTACT: 'Kontakt',
+  ZOOM: 'Powiększ',
 };

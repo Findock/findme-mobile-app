@@ -26,8 +26,6 @@ export default {
   SETTINGS: 'settings',
   CHECKMARK_OUTLINE: 'checkmark-outline',
   MEGAPHONE: 'megaphone',
-  STAR: 'star',
-  STAR_OUTLINE: 'star-outline',
   RECEIPT: 'receipt',
   ARROW_BACK: 'arrow-back',
   TRASH: 'trash',
@@ -44,4 +42,7 @@ export default {
   ATTACH_OUTLINE: 'attach-outline',
   SEND_OUTLINE: 'send-outline',
   EXPAND_OUTLINE: 'expand-outline',
+  HEART_OUTLINE: 'heart-outline',
+  HEART: 'heart',
+  CALL: 'call',
 };
