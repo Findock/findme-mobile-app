@@ -1,4 +1,3 @@
-import { FHeadingWithIcon } from 'components/Composition/FHeadingWithIcon';
 import { FSpinner } from 'components/Composition/FSpinner';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -7,8 +6,6 @@ import {
 import icons from 'themes/icons';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
-import { parseDate } from 'utils/parseDate';
-import dateFormatTypes from 'constants/dateFormatTypes';
 import fonts from 'themes/fonts';
 import { FHeading } from 'components/Composition/FHeading';
 import placements from 'themes/placements';
@@ -19,13 +16,9 @@ import { FAnnouncementHeading } from 'components/Scoped/Announcement/FAnnounceme
 import locales from 'constants/locales';
 import GenderEnum from 'enums/GenderEnum';
 import images from 'constants/images';
-import { FImage } from 'components/Composition/FImage';
 import { FBadge } from 'components/Composition/FBadge';
 import { FColorSelect } from 'components/Inputs/FColorSelect';
-import { FMapView } from 'components/Inputs/Map/FMapView';
-import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 import { FAvatar } from 'components/Composition/FAvatar';
-import { FPhoneNumber } from 'components/Utils/FPhoneNumber';
 import opacities from 'themes/opacities';
 import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
@@ -44,6 +37,15 @@ import { setComments, setCommentToUpdate } from 'store/comments/commentsSlice';
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 import { useSuccessModal } from 'hooks/modals/useSuccessModal';
 import { FSlider } from 'components/Composition/Slider/FSlider';
+import { FTile } from 'components/Composition/Slider/FTile';
+import tileTypes from 'constants/components/tileTypes';
+import { parseDate } from 'utils/parseDate';
+import dateFormatTypes from 'constants/dateFormatTypes';
+import { FMapView } from 'components/Inputs/Map/FMapView';
+import { parsePhoneNumber } from 'utils/parsePhoneNumber';
+import { FActionsModal } from 'components/Composition/FActionsModal';
+import { makePhoneCall } from 'utils/makePhoneCall';
+import AnnouncementTypeEnum from '../../enums/AnnouncementTypeEnum';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -60,6 +62,10 @@ export const AnnouncementPreviewScreen = () => {
     confirmationModalTitle,
     setConfirmationModalTitle,
   ] = useState('');
+  const [
+    showContactActionsModal,
+    setShowContactActionsModal,
+  ] = useState(false);
   const {
     resolveAnnouncement,
     makeAnnouncementActive,
@@ -183,6 +189,54 @@ export const AnnouncementPreviewScreen = () => {
     }
   };
 
+  const getGenderTitle = () => {
+    switch (announcement.gender) {
+    case GenderEnum.FEMALE:
+      return locales.FEMALE;
+    case GenderEnum.MALE:
+      return locales.MALE;
+    case GenderEnum.UNKNOWN:
+      return locales.UNKNOW;
+    default:
+    }
+  };
+
+  const getAnimalCategoryIcon = () => {
+    switch (announcement.category.id) {
+    case 1:
+      return images.RABBIT_BLACK();
+    case 2:
+      return images.CAT_BLACK();
+    case 3:
+      return images.DOG_BLACK();
+    case 4:
+      return images.PIGEON_BLACK();
+    case 5:
+      return images.TURTLE_BLACK();
+    default:
+    }
+  };
+
+  const getAnnouncementTypeIcon = () => {
+    switch (announcement.type) {
+    case AnnouncementTypeEnum.LOST:
+      return images.LOST_ANIMAL_BLACK();
+    case AnnouncementTypeEnum.FOUND:
+      return images.FOUND_ANIMAL_BLACK();
+    default:
+    }
+  };
+
+  const getAnnouncementTypeTitle = () => {
+    switch (announcement.type) {
+    case AnnouncementTypeEnum.LOST:
+      return locales.LOST;
+    case AnnouncementTypeEnum.FOUND:
+      return locales.FOUND;
+    default:
+    }
+  };
+
   const {
     setShowSuccessModal,
     drawSuccessModal,
@@ -204,14 +258,6 @@ export const AnnouncementPreviewScreen = () => {
         />
       ));
     }
-    return (
-      <FBadge
-        isFill={false}
-        color={colors.DARK_GRAY}
-        title={locales.NONE}
-        style={{ paddingVertical: sizes.PADDING_8 }}
-      />
-    );
   };
 
   const drawCoatColors = () => announcement.coatColors
@@ -230,6 +276,22 @@ export const AnnouncementPreviewScreen = () => {
     drawConfirmationModal,
   } = useConfirmationModal(confirmationModalTitle, confirmationHandler);
 
+  const modalActions = [
+    {
+      actionName: parsePhoneNumber(announcement?.creator?.phoneNumber) || '',
+      actionIcon: icons.CALL,
+      action: () => makePhoneCall(announcement?.creator?.phoneNumber),
+      visible: true,
+    },
+    {
+      actionName: locales.WRITE_MESSAGE,
+      actionIcon: icons.MAIL_OUTLINE,
+      action: () => {
+      },
+      visible: true,
+    },
+  ];
+
   if (!announcement && (route.params.isNew !== null || route.params.isNew !== undefined)) return <FSpinner />;
   return (
     <View style={{ flex: 1 }}>
@@ -241,6 +303,11 @@ export const AnnouncementPreviewScreen = () => {
       {drawSuccessfulModal()}
       {drawConfirmationModal()}
       {drawSuccessModal()}
+      <FActionsModal
+        setVisible={setShowContactActionsModal}
+        visible={showContactActionsModal}
+        actions={modalActions}
+      />
       <ScrollView
         style={{
           backgroundColor: colors.WHITE,
@@ -251,152 +318,199 @@ export const AnnouncementPreviewScreen = () => {
           photos={announcement.photos.map((photo) => photo.url)}
           height={sizes.HEIGHT_400}
           imageResizeMode={sizes.COVER}
-        />
+          isChildrenInside
+        >
+          {(announcement.status === AnnouncementStatusEnum.ARCHIVED || announcement.status === AnnouncementStatusEnum.NOT_ACTIVE)
+            && (
+              <View style={styles.statusContainer}>
+                <FBadge
+                  isFill
+                  color={announcement.status === AnnouncementStatusEnum.ARCHIVED ? colors.DANGER : colors.SUCCESS}
+                  title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.FINISHED_NONE : locales.FOUND_NONE}
+                  style={{
+                    paddingVertical: sizes.PADDING_10,
+                    paddingHorizontal: sizes.PADDING_10,
+                  }}
+                />
+              </View>
+            )}
+        </FSlider>
         <FCard
           paddingHorizontal={sizes.PADDING_30}
           paddingVertical={sizes.PADDING_30}
           style={{ borderRadius: 0 }}
           width={sizes.WIDTH_FULL}
         >
-          <View style={styles.headerWithStatusContainer}>
-            <View style={{ flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES }}>
-              <FHeading
-                title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
-                color={colors.DARK_GRAY}
-                weight={fonts.HEADING_WEIGHT_MEDIUM}
-                size={fonts.HEADING_NORMAL}
-                style={{ marginBottom: sizes.MARGIN_5 }}
-              />
-              <FHeadingWithIcon
-                icon={icons.EYE_OUTLINE}
-                iconColor={colors.PRIMARY}
-                iconSize={sizes.ICON_20}
-                title={`${locales.VIEWS_AMOUNT} ${announcement.viewsAmount}`}
-                titleColor={colors.DARK_GRAY}
-                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                titleSize={fonts.HEADING_NORMAL}
-                iconPlacement={placements.LEFT}
-                iconStyle={{ marginRight: sizes.MARGIN_5 }}
-              />
-            </View>
-            {(announcement.status === AnnouncementStatusEnum.ARCHIVED || announcement.status === AnnouncementStatusEnum.NOT_ACTIVE)
-              && (
-                <View style={styles.statusContainer}>
-                  <FBadge
-                    isFill
-                    color={announcement.status === AnnouncementStatusEnum.ARCHIVED ? colors.DANGER : colors.SUCCESS}
-                    title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.FINISHED_NONE : locales.FOUND_NONE}
-                    style={{
-                      paddingVertical: sizes.PADDING_10,
-                      paddingHorizontal: sizes.PADDING_10,
-                    }}
-                  />
-                </View>
-              )}
-          </View>
-          <View style={styles.headerContainer}>
-            <View style={{ flexBasis: !announcement.isUserCreator ? sizes.BASIS_80_PERCENTAGES : sizes.WIDTH_FULL }}>
-              <FHeading
-                title={announcement.title}
-                size={fonts.HEADING_EXTRA_LARGE}
-                weight={fonts.HEADING_WEIGHT_MEDIUM}
-              />
-            </View>
-            {!announcement.isUserCreator && (
-              <View style={{
-                flexBasis: sizes.BASIS_20_PERCENTAGES,
-                alignItems: 'flex-end',
-              }}
-              >
-                <FButton
-                  type={buttonTypes.ICON_BUTTON}
-                  icon={announcement.isInFavorites ? icons.STAR : icons.STAR_OUTLINE}
-                  backgroundColor={colors.PRIMARY}
-                  color={colors.WHITE}
-                  iconSize={sizes.ICON_40}
-                  style={{
-                    padding: sizes.PADDING_5,
-                    borderRadius: getHalfBorderRadius(sizes.ICON_40 + sizes.PADDING_10),
-                  }}
-                  onPress={() => {
-                    if (announcement.isInFavorites) {
-                      removeAnnouncementFromFavouritesHandler();
-                    } else {
-                      addAnnouncementToFavouritesHandler();
-                    }
-                  }}
-                />
-              </View>
-            )}
-          </View>
-          <View style={{ marginTop: sizes.MARGIN_25 }}>
-            <FAnnouncementHeading title={locales.GENDER} />
-            <FImage
-              width={sizes.WIDTH_30}
-              height={sizes.HEIGHT_30}
-              networkImageUrl=""
-              imagePath={getGenderIcon()}
-              resizeMode={sizes.CONTAIN}
-              imageWidth={sizes.WIDTH_FULL}
-              imageHeight={sizes.HEIGHT_FULL}
-              isChildrenInside={false}
+          <View>
+            <FHeading
+              title={announcement.locationName}
+              color={colors.DARK_GRAY}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+              size={fonts.HEADING_NORMAL}
+              style={{ marginBottom: sizes.MARGIN_5 }}
+            />
+            <FHeading
+              title={parseDate(dateFormatTypes.DATE_TIME, announcement.createDate)}
+              color={colors.DARK_GRAY}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+              size={fonts.HEADING_NORMAL}
+              style={{ marginBottom: sizes.MARGIN_5 }}
             />
           </View>
-          <View style={{ marginTop: sizes.MARGIN_25 }}>
-            <FAnnouncementHeading title={locales.DISTINCTIVE_FEATURES} />
-            <View style={styles.wrapContainer}>
-              {drawDistinctiveFeatures()}
-            </View>
+          <View style={{
+            width: sizes.WIDTH_FULL,
+            marginTop: sizes.MARGIN_20,
+          }}
+          >
+            <FHeading
+              title={announcement.title}
+              size={fonts.HEADING_EXTRA_LARGE}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+            />
           </View>
+          <ScrollView
+            horizontal
+            contentContainerStyle={{ padding: sizes.PADDING_5 }}
+            style={{
+              marginTop: sizes.MARGIN_20,
+            }}
+          >
+            <FTile
+              type={tileTypes.IMAGE_AND_TEXT_TILE}
+              image={getGenderIcon()}
+              width={sizes.WIDTH_80}
+              height={sizes.HEIGHT_80}
+              imageSize={sizes.WIDTH_35}
+              title={getGenderTitle()}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              titleSize={fonts.HEADING_EXTRA_SMALL}
+              titleStyle={{ marginTop: sizes.MARGIN_3 }}
+              titleColor={colors.DARK_GRAY}
+              style={{
+                marginRight: sizes.MARGIN_20,
+              }}
+            />
+            <FTile
+              type={tileTypes.IMAGE_AND_TEXT_TILE}
+              image={getAnimalCategoryIcon()}
+              width={sizes.WIDTH_80}
+              height={sizes.HEIGHT_80}
+              imageSize={sizes.WIDTH_35}
+              title={announcement.category.namePl}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              titleSize={fonts.HEADING_EXTRA_SMALL}
+              titleStyle={{ marginTop: sizes.MARGIN_3 }}
+              titleColor={colors.DARK_GRAY}
+              style={{ marginRight: sizes.MARGIN_20 }}
+            />
+            <FTile
+              type={tileTypes.IMAGE_AND_TEXT_TILE}
+              image={getAnnouncementTypeIcon()}
+              width={sizes.WIDTH_80}
+              height={sizes.HEIGHT_80}
+              imageSize={sizes.WIDTH_35}
+              title={getAnnouncementTypeTitle()}
+              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+              titleSize={fonts.HEADING_EXTRA_SMALL}
+              titleStyle={{ marginTop: sizes.MARGIN_3 }}
+              titleColor={colors.DARK_GRAY}
+              style={{ marginRight: sizes.MARGIN_20 }}
+            />
+          </ScrollView>
+          {announcement.distinctiveFeatures.length > 0 && (
+            <View style={{ marginTop: sizes.MARGIN_25 }}>
+              <FAnnouncementHeading title={locales.DISTINCTIVE_FEATURES} />
+              <View style={styles.wrapContainer}>
+                {drawDistinctiveFeatures()}
+              </View>
+            </View>
+          )}
           <View style={{ marginTop: sizes.MARGIN_25 }}>
             <FAnnouncementHeading title={locales.COAT_COLORS} />
             <ScrollView horizontal>
               {drawCoatColors()}
             </ScrollView>
           </View>
-          <View style={{ marginTop: sizes.MARGIN_25 }}>
-            <FAnnouncementHeading title={locales.DESCRIPTION} />
-            <FHeading
-              title={announcement.description}
-              size={fonts.HEADING_NORMAL}
-              weight={fonts.HEADING_WEIGHT_REGULAR}
-            />
-          </View>
-          <View style={{ marginTop: sizes.MARGIN_25 }}>
-            <FAnnouncementHeading title={locales.LOCATION} />
-            <FHeadingWithIcon
-              icon={icons.LOCATION_OUTLINE}
-              iconColor={colors.PRIMARY}
-              iconSize={sizes.ICON_20}
-              title={announcement.locationName}
-              titleColor={colors.DARK_GRAY}
-              titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-              titleSize={fonts.HEADING_NORMAL}
-              iconPlacement={placements.LEFT}
-            />
-            <FHeading
-              title={announcement.locationDescription}
-              size={fonts.HEADING_NORMAL}
-              weight={fonts.HEADING_WEIGHT_REGULAR}
-              style={{
-                marginTop: sizes.MARGIN_5,
-              }}
-            />
+          <View style={{
+            marginTop: sizes.MARGIN_20,
+            height: sizes.HEIGHT_200,
+            width: sizes.WIDTH_FULL,
+          }}
+          >
             <FMapView
-              height={sizes.HEIGHT_400}
+              doNotLoadCoordinatesFromLocation
+              isInteractive={false}
+              lat={+announcement.locationLat}
+              lon={+announcement.locationLon}
+              height={sizes.HEIGHT_200}
+              width={sizes.WIDTH_FULL}
               onChangeLocation={() => {
               }}
               onChangeCoordinates={() => {
               }}
               onChangeLocationDescription={() => {
               }}
-              isInteractive={false}
-              lat={+announcement.locationLat}
-              lon={+announcement.locationLon}
-              doNotLoadCoordinatesFromLocation
             />
           </View>
-          <View style={{ marginBottom: announcement.isUserCreator ? sizes.MARGIN_100 : sizes.MARGIN_150 }}>
+          <FButton
+            type={buttonTypes.LINK_BUTTON}
+            title={locales.ZOOM}
+            titleSize={fonts.HEADING_NORMAL}
+            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+            buttonViewStyles={{ marginTop: sizes.MARGIN_10 }}
+            color={colors.PRIMARY}
+            navigationParams={{
+              location: {
+                longitude: announcement.locationLon,
+                latitude: announcement.locationLat,
+                name: announcement.locationName,
+              },
+            }}
+            to={stackNavigatorNames.MAP_PREVIEW_MODAL}
+          />
+          <View style={{ marginTop: sizes.MARGIN_25 }}>
+            <View style={{
+              flexDirection: 'row',
+              width: sizes.WIDTH_FULL,
+              justifyContent: 'space-between',
+            }}
+            />
+            {!announcement.isUserCreator && (
+              <View style={{
+                flexBasis: sizes.BASIS_50_PERCENTAGES,
+                marginBottom: sizes.MARGIN_20,
+              }}
+              >
+                <View style={styles.userContainer}>
+                  <TouchableOpacity onPress={redirectToUserPreview}>
+                    <FAvatar
+                      imageUrl={announcement.creator.profileImageUrl}
+                      size={sizes.WIDTH_45}
+                      isEditable={false}
+                    />
+                  </TouchableOpacity>
+                  <View style={{ marginLeft: sizes.MARGIN_10 }}>
+                    <TouchableOpacity onPress={redirectToUserPreview}>
+                      <FHeading
+                        title={announcement.creator.name}
+                        size={fonts.HEADING_NORMAL}
+                        weight={fonts.HEADING_WEIGHT_SEMIBOLD}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            )}
+            <FHeading
+              title={announcement.description}
+              size={fonts.HEADING_NORMAL}
+              weight={fonts.HEADING_WEIGHT_REGULAR}
+              style={{
+                marginBottom: sizes.MARGIN_40,
+              }}
+            />
+          </View>
+          <View style={{ marginBottom: sizes.MARGIN_100 }}>
             <FSimpleComment
               commentsAmount={comments ? comments.length : 0}
               comment={comments ? comments.find((x) => x.comment)?.comment : ''}
@@ -411,8 +525,8 @@ export const AnnouncementPreviewScreen = () => {
       </ScrollView>
       <View style={{
         ...styles.stickyContainer,
-        height: announcement.isUserCreator ? sizes.HEIGHT_120 : sizes.HEIGHT_170,
-        paddingVertical: announcement.isUserCreator ? sizes.PADDING_15 : sizes.PADDING_30,
+        height: sizes.HEIGHT_120,
+        paddingVertical: sizes.PADDING_15,
       }}
       >
         {announcement.isUserCreator ? (
@@ -475,45 +589,38 @@ export const AnnouncementPreviewScreen = () => {
           </View>
         ) : (
           <>
-            <View style={styles.userContainer}>
-              <TouchableOpacity onPress={redirectToUserPreview}>
-                <FAvatar
-                  imageUrl={announcement.creator.profileImageUrl}
-                  size={sizes.WIDTH_45}
-                  isEditable={false}
-                />
-              </TouchableOpacity>
-              <View style={{ marginLeft: sizes.MARGIN_5 }}>
-                <TouchableOpacity onPress={redirectToUserPreview}>
-                  <FHeading
-                    title={announcement.creator.name}
-                    size={fonts.HEADING_NORMAL}
-                    weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-                  />
-                </TouchableOpacity>
-                <FPhoneNumber
-                  phoneNumber={announcement.creator.phoneNumber}
-                  size={fonts.HEADING_MEDIUM}
-                  weight={fonts.HEADING_WEIGHT_SEMIBOLD}
-                  color={colors.DARK_GRAY}
-                  isUnderline
-                />
-              </View>
-            </View>
-            <View style={styles.buttonContainer}>
-              <View>
-                <FButton
-                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-                  backgroundColor={colors.PRIMARY}
-                  color={colors.WHITE}
-                  title={locales.WRITE_MESSAGE}
-                  icon={icons.PAW}
-                  iconSize={sizes.ICON_20}
-                  iconPlacement={placements.RIGHT}
-                  titleSize={fonts.HEADING_MEDIUM}
-                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                />
-              </View>
+            <View style={styles.buttonsContainer}>
+              <FButton
+                type={buttonTypes.ICON_BUTTON}
+                icon={announcement.isInFavorites ? icons.HEART : icons.HEART_OUTLINE}
+                backgroundColor={colors.PRIMARY}
+                iconSize={sizes.ICON_30}
+                buttonViewStyles={{
+                  borderRadius: sizes.RADIUS_20,
+                  paddingVertical: 15,
+                }}
+                color={colors.WHITE}
+                onPress={() => {
+                  if (announcement.isInFavorites) {
+                    removeAnnouncementFromFavouritesHandler();
+                  } else {
+                    addAnnouncementToFavouritesHandler();
+                  }
+                }}
+              />
+              <FButton
+                type={buttonTypes.TEXT_BUTTON}
+                title={locales.CONTACT}
+                titleSize={fonts.HEADING_LARGE}
+                titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+                backgroundColor={colors.PRIMARY}
+                color={colors.WHITE}
+                buttonViewStyles={{
+                  width: sizes.WIDTH_FULL,
+                  paddingVertical: 18,
+                }}
+                onPress={() => setShowContactActionsModal(true)}
+              />
             </View>
           </>
         )}
@@ -523,33 +630,23 @@ export const AnnouncementPreviewScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: sizes.MARGIN_10,
-    alignItems: placements.CENTER,
-    width: sizes.WIDTH_FULL,
-  },
-  headerWithStatusContainer: {
-    width: sizes.WIDTH_FULL,
-    flexDirection: Dimensions.get('window').width < sizes.WIDTH_330 ? 'column-reverse' : 'row',
-    justifyContent: 'space-between',
-  },
   wrapContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     width: sizes.WIDTH_FULL,
   },
   statusContainer: {
-    flexBasis: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.WIDTH_FULL : sizes.BASIS_50_PERCENTAGES,
-    alignItems: Dimensions.get('window').width < sizes.WIDTH_330 ? 'baseline' : 'flex-end',
-    marginBottom: Dimensions.get('window').width < sizes.WIDTH_330 ? sizes.MARGIN_20 : 0,
+    marginTop: sizes.MARGIN_20,
+    paddingRight: sizes.PADDING_20,
+    width: sizes.WIDTH_FULL,
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
   },
   stickyContainer: {
     width: Dimensions.get('window').width,
     position: 'absolute',
+    justifyContent: 'center',
     bottom: 0,
-    height: sizes.HEIGHT_170,
     backgroundColor: colors.WHITE,
     paddingHorizontal: sizes.PADDING_30,
     shadowColor: colors.BLACK,
@@ -565,10 +662,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: sizes.WIDTH_FULL,
     alignItems: placements.CENTER,
-  },
-  buttonContainer: {
-    width: sizes.WIDTH_FULL,
-    marginTop: sizes.MARGIN_12,
   },
   buttonsContainer: {
     flexDirection: 'row',

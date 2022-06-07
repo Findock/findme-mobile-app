@@ -84,7 +84,7 @@ export const HomepageScreen = () => {
             <FButton
               type={buttonTypes.BUTTON_WITH_TEXT_AND_IMAGE}
               iconPlacement={placements.CENTER}
-              imagePath={images.LOST_ANIMAL()}
+              imagePath={images.LOST_ANIMAL_WHITE()}
               imageSize={sizes.WIDTH_52}
               backgroundColor={colors.PRIMARY}
               color={colors.WHITE}
@@ -104,7 +104,7 @@ export const HomepageScreen = () => {
             <FButton
               type={buttonTypes.BUTTON_WITH_TEXT_AND_IMAGE}
               iconPlacement={placements.CENTER}
-              imagePath={images.FOUND_ANIMAL()}
+              imagePath={images.FOUND_ANIMAL_WHITE()}
               imageSize={sizes.WIDTH_52}
               color={colors.WHITE}
               backgroundColor={colors.PRIMARY}

@@ -1,28 +1,48 @@
-import React, { useRef } from 'react';
 import {
   Modal, Platform, Pressable, StyleSheet, View,
 } from 'react-native';
-import colors from 'themes/colors';
 import { FCard } from 'components/Composition/FCard';
 import sizes from 'themes/sizes';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
-import icons from 'themes/icons';
-import locales from 'constants/locales';
 import placements from 'themes/placements';
 import fonts from 'themes/fonts';
+import React, { useRef } from 'react';
+import colors from 'themes/colors';
 import PropTypes from 'prop-types';
+import icons from 'themes/icons';
+import locales from 'constants/locales';
 
-export const FCommentActionsModal = ({
-  canEdit,
-  canDelete,
+export const FActionsModal = ({
   visible,
   setVisible,
-  onEdit,
-  onDelete,
+  actions,
 }) => {
   const ref = useRef(null);
 
+  const drawActionsButtons = () => actions.map((action, index) => (
+    action.visible && (
+      <View
+        style={[styles.actionButtonContainer]}
+        key={index}
+      >
+        <FButton
+          type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
+          icon={action.actionIcon}
+          iconSize={sizes.ICON_30}
+          title={action.actionName}
+          iconPlacement={placements.LEFT}
+          titleSize={fonts.HEADING_NORMAL}
+          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          buttonViewStyles={styles.button}
+          onPress={() => {
+            action.action();
+            setVisible(false);
+          }}
+        />
+      </View>
+    )
+  ));
   return (
     <Modal
       transparent
@@ -49,42 +69,7 @@ export const FCommentActionsModal = ({
             width={sizes.WIDTH_FULL}
             rounded={false}
           >
-            {canEdit && (
-              <View style={styles.actionButtonContainer}>
-                <FButton
-                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-                  icon={icons.PENCIL}
-                  iconSize={sizes.ICON_22}
-                  title={locales.EDIT}
-                  iconPlacement={placements.LEFT}
-                  titleSize={fonts.HEADING_NORMAL}
-                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                  buttonViewStyles={styles.button}
-                  onPress={() => {
-                    onEdit();
-                    setVisible(false);
-                  }}
-                />
-              </View>
-            )}
-            {canDelete && (
-              <View style={styles.actionButtonContainer}>
-                <FButton
-                  type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
-                  icon={icons.TRASH}
-                  iconSize={sizes.ICON_22}
-                  title={locales.DELETE}
-                  iconPlacement={placements.LEFT}
-                  titleSize={fonts.HEADING_NORMAL}
-                  titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-                  buttonViewStyles={styles.button}
-                  onPress={() => {
-                    onDelete();
-                    setVisible(false);
-                  }}
-                />
-              </View>
-            )}
+            {drawActionsButtons()}
             <View style={[styles.actionButtonContainer, styles.lastActionButtonContainer]}>
               <FButton
                 type={buttonTypes.BUTTON_WITH_ICON_AND_TEXT}
@@ -129,9 +114,13 @@ const styles = StyleSheet.create({
   },
 });
 
-FCommentActionsModal.propTypes = {
-  canEdit: PropTypes.bool.isRequired,
-  canDelete: PropTypes.bool.isRequired,
-  onEdit: PropTypes.func,
-  onDelete: PropTypes.func,
+FActionsModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  setVisible: PropTypes.func.isRequired,
+  actions: PropTypes.arrayOf(PropTypes.shape({
+    action: PropTypes.func.isRequired,
+    actionName: PropTypes.string.isRequired,
+    actionIcon: PropTypes.string.isRequired,
+    visible: PropTypes.bool.isRequired,
+  })).isRequired,
 };

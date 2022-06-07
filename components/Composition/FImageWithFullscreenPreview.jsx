@@ -17,6 +17,8 @@ export const FImageWithFullscreenPreview = ({
   imageHeight = sizes.HEIGHT_FULL,
   photos,
   onClose = () => ({}),
+  isChildrenInside,
+  children,
 }) => {
   const [
     showFullscreenImagePreview,
@@ -39,7 +41,7 @@ export const FImageWithFullscreenPreview = ({
         />
         <FImage
           networkImageUrl={networkImageUrl}
-          isChildrenInside={false}
+          isChildrenInside={isChildrenInside}
           resizeMode={resizeMode}
           containerStyle={containerStyle}
           width={width}
@@ -48,7 +50,9 @@ export const FImageWithFullscreenPreview = ({
           imageHeight={imageHeight}
           imageWidth={imageWidth}
           imageStyle={imageStyle}
-        />
+        >
+          {isChildrenInside && children}
+        </FImage>
       </View>
     </TouchableWithoutFeedback>
   );
@@ -72,11 +76,12 @@ FImage.propTypes = {
   imageWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]).isRequired,
+  ]),
   imageHeight: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
   ]),
   photos: PropTypes.arrayOf(PropTypes.string),
   onClose: PropTypes.func,
+  isChildrenInside: PropTypes.bool.isRequired,
 };

@@ -16,6 +16,7 @@ export const FMapPreviewModal = () => {
   ] = useState(null);
 
   useEffect(() => {
+    console.log(route.params);
     if (route.params?.location) setLocation(route.params.location);
   }, [route.params.location]);
 

@@ -65,7 +65,7 @@ FImage.propTypes = {
   imageWidth: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]).isRequired,
+  ]),
   imageHeight: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,

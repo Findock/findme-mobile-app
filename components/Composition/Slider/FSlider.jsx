@@ -13,6 +13,8 @@ export const FSlider = ({
   photos,
   height,
   imageResizeMode,
+  children,
+  isChildrenInside,
 }) => {
   const fullWidth = Dimensions.get('window').width;
   const route = useRoute();
@@ -48,7 +50,10 @@ export const FSlider = ({
       imageWidth={sizes.WIDTH_FULL}
       photos={photos}
       onClose={handleClose}
-    />
+      isChildrenInside
+    >
+      {isChildrenInside && children}
+    </FImageWithFullscreenPreview>
   );
 
   const onScroll = useCallback((e) => {
@@ -124,4 +129,5 @@ FSlider.propTypes = {
     PropTypes.number,
   ]).isRequired,
   imageResizeMode: PropTypes.oneOf(['cover', 'contain']).isRequired,
+  isChildrenInside: PropTypes.bool.isRequired,
 };

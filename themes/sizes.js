@@ -63,6 +63,7 @@ export default {
   HEIGHT_150: 150,
   HEIGHT_140: 140,
   HEIGHT_170: 170,
+  HEIGHT_200: 200,
   HEIGHT_210: 210,
   HEIGHT_280: 280,
   HEIGHT_325: 325,
@@ -110,7 +111,6 @@ export default {
   MARGIN_50: 50,
   MARGIN_80: 80,
   MARGIN_100: 100,
-  MARGIN_150: 150,
 
   // POSITION
   POSITION_N60: -60,

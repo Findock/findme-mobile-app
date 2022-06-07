@@ -16,9 +16,13 @@ import buttonTypes from 'constants/components/buttonTypes';
 import locales from 'constants/locales';
 import { FBadge } from 'components/Composition/FBadge';
 import PropTypes from 'prop-types';
+import { makePhoneCall } from 'utils/makePhoneCall';
 
 export const FUserProfileCard = ({
-  user, isMe, setShowConfirmDeleteUserProfileImageModal, setShowErrorModal,
+  user,
+  isMe,
+  setShowConfirmDeleteUserProfileImageModal,
+  setShowErrorModal,
 }) => {
   const drawAvatarDependingOnUser = () => {
     if (isMe) {
@@ -154,7 +158,7 @@ export const FUserProfileCard = ({
               titleSize={fonts.HEADING_NORMAL}
               icon={icons.PAW}
               iconSize={sizes.ICON_20}
-              onPress={() => {}}
+              onPress={() => makePhoneCall(user.phoneNumber)}
             />
           </View>
         )}

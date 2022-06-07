@@ -23,7 +23,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FInput } from 'components/Inputs/FInput';
 import placeholders from 'constants/components/inputs/placeholders';
 import inputTypes from 'constants/components/inputs/inputTypes';
-import { FCommentActionsModal } from 'components/Scoped/Comments/FCommentActionsModal';
 import modalsMessages from 'constants/components/modals/modalsMessages';
 import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
@@ -43,6 +42,7 @@ import { uploadPhotoCommentService } from 'services/comment/uploadCommentPhoto.s
 import { deleteCommentService } from 'services/comment/deleteComment.service';
 import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
 import { FImage } from 'components/Composition/FImage';
+import { FActionsModal } from 'components/Composition/FActionsModal';
 
 export const FComment = ({
   createMode,
@@ -364,6 +364,21 @@ export const FComment = ({
     drawConfirmationModal,
   } = useConfirmationModal(modalsMessages.DELETE_COMMENT, deleteHandler);
 
+  const modalActions = [
+    {
+      actionName: locales.EDIT,
+      actionIcon: icons.PENCIL,
+      action: editHandler,
+      visible: isCommentCreator,
+    },
+    {
+      actionName: locales.DELETE,
+      actionIcon: icons.TRASH,
+      action: () => setShowConfirmationModal(true),
+      visible: isUserCreator || isCommentCreator,
+    },
+  ];
+
   const drawContent = () => {
     if (createMode) {
       return (
@@ -615,13 +630,10 @@ export const FComment = ({
 
   return (
     <View style={styles.container}>
-      <FCommentActionsModal
-        canDelete={isUserCreator || isCommentCreator}
-        canEdit={isCommentCreator}
-        setVisible={setShowCommentActionsModal}
+      <FActionsModal
+        actions={modalActions}
         visible={showCommentActionsModal}
-        onEdit={editHandler}
-        onDelete={() => setShowConfirmationModal(true)}
+        setVisible={setShowCommentActionsModal}
       />
       {drawSuccessModal()}
       {drawConfirmationModal()}
