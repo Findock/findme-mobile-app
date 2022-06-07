@@ -85,11 +85,6 @@ export const AnnouncementPreviewScreen = () => {
   } = useErrorModal(true);
 
   const isFocused = useIsFocused();
-  const location = {
-    longitude: announcement?.locationLon || null,
-    latitude: announcement?.locationLat || null,
-    name: announcement?.locationName || '',
-  };
 
   useEffect(() => {
     if (isFocused) {
