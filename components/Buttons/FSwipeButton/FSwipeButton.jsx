@@ -3,9 +3,13 @@ import React, { useRef } from 'react';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import PropTypes from 'prop-types';
 
-export const FSwipeButton = ({ children, actions = [] }) => {
+export const FSwipeButton = ({
+  children,
+  actions = [],
+}) => {
   const swipeRef = useRef();
-  const RigthSwipeActions = () => actions && actions.map((action, index) => (
+
+  const RightSwipeActions = () => actions && actions.map((action, index) => (
     <FSwipeButtonCell
       key={index}
       cellAction={action.cellAction}
@@ -19,7 +23,7 @@ export const FSwipeButton = ({ children, actions = [] }) => {
 
   return (
     <Swipeable
-      renderRightActions={RigthSwipeActions}
+      renderRightActions={RightSwipeActions}
       rightThreshold
       ref={swipeRef}
     >

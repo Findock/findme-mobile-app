@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
 import icons from 'themes/icons';
@@ -12,13 +12,16 @@ import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
 import PropTypes from 'prop-types';
 
 export const FSwipeButtonCell = ({
-  cellType, cellAction, onActionPress,
+  cellType,
+  cellAction,
+  onActionPress,
 }) => {
   const getIconByCellAction = () => {
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
       return icons.TRASH;
-    default: return '';
+    default:
+      return '';
     }
   };
 
@@ -26,7 +29,8 @@ export const FSwipeButtonCell = ({
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
       return locales.DELETE;
-    default: return '';
+    default:
+      return '';
     }
   };
 
@@ -34,7 +38,8 @@ export const FSwipeButtonCell = ({
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
       return colors.DANGER;
-    default: return '';
+    default:
+      return '';
     }
   };
 

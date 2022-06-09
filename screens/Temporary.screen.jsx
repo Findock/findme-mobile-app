@@ -5,9 +5,7 @@ import locales from 'constants/locales';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import * as SecureStore from 'expo-secure-store';
 import { FDefaultLayout } from 'layouts/FDefault.layout';
-import {
-  StyleSheet, View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logoutUserService } from 'services/user/logoutUser.service';
 import { removeToken } from 'store/auth/authSlice';
