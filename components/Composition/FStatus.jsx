@@ -1,11 +1,15 @@
 import statusTypes from 'constants/components/statusTypes';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
+import { getHalfBorderRadius } from '../../styles/utils/getHalfBorderRadius';
 
-export const FStatus = ({ status, style }) => {
+export const FStatus = ({
+  status,
+  style,
+}) => {
   const getStatusBgColorByStatus = () => {
     switch (status) {
     case statusTypes.ACTIVE:
@@ -28,9 +32,9 @@ export const FStatus = ({ status, style }) => {
 };
 const styles = StyleSheet.create({
   status: {
-    width: sizes.WIDTH_15,
-    height: sizes.HEIGHT_15,
-    borderRadius: Math.ceil(sizes.RADIUS_15 / 2),
+    width: sizes.WIDTH_12,
+    height: sizes.HEIGHT_12,
+    borderRadius: getHalfBorderRadius(sizes.RADIUS_15),
   },
 });
 
