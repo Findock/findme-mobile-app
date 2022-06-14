@@ -15,12 +15,9 @@ import locales from 'constants/locales';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import { setMe } from 'store/me/meSlice';
-import { UserProfileScreen } from 'screens/user/UserProfile.screen';
-import { SettingsScreen } from 'screens/user/Settings.screen';
 import { ChangePasswordScreen } from 'screens/user/ChangePassword.screen';
 import { ForgotPasswordScreen } from 'screens/user/ForgotPassword.screen';
 import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
-import { AddAnnouncementScreen } from 'screens/announcements/AddAnnouncement.screen';
 import { authValidateTokenService } from 'services/auth/authValidateToken.service';
 import { getMeService } from 'services/user/getMe.service';
 import { MultiSelectScreen } from 'screens/MultiSelect.screen';
@@ -37,13 +34,12 @@ import { getCoatColorsService } from 'services/announcement/getCoatColors.servic
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
 import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
 import { renderLogo } from 'navigation/utils/renderLogo';
-import { TemporaryScreen } from 'screens/Temporary.screen';
-import { HomepageScreen } from 'screens/Homepage.screen';
 import { LastViewedAnnouncementsScreen } from 'screens/announcements/LastViewedAnnouncements.screen';
 import { RecentlyCreatedAnnouncementsScreen } from 'screens/announcements/RecentlyCreatedAnnouncements.screen';
 import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
 import { FMapPreviewModal } from 'components/Composition/FMapPreviewModal';
 import { NearbyAnnouncementsScreen } from 'screens/announcements/NearbyAnnouncements.screen';
+import { HomeTabs } from 'navigation/bottom-tabs/HomeTabs';
 
 export const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -160,15 +156,8 @@ export const Navigation = () => {
             : (
               <>
                 <Stack.Screen
-                  name="Temporary"
-                  component={TemporaryScreen}
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-                <Stack.Screen
-                  name={stackNavigatorNames.HOMEPAGE}
-                  component={HomepageScreen}
+                  name={stackNavigatorNames.HOME_TABS}
+                  component={HomeTabs}
                   options={{
                     headerShown: false,
                   }}
@@ -189,22 +178,6 @@ export const Navigation = () => {
                   }}
                 />
                 <Stack.Screen
-                  name={stackNavigatorNames.USER_PROFILE}
-                  component={UserProfileScreen}
-                  options={{
-                    ...headerWithoutShadowOptions,
-                    headerRight: () => renderLogo(),
-                  }}
-                />
-                <Stack.Screen
-                  name={stackNavigatorNames.SETTINGS}
-                  component={SettingsScreen}
-                  options={{
-                    ...defaultHeaderOptions,
-                    title: locales.SETTINGS,
-                  }}
-                />
-                <Stack.Screen
                   name={stackNavigatorNames.PASSWORD_CHANGE}
                   component={ChangePasswordScreen}
                   options={{
@@ -219,14 +192,6 @@ export const Navigation = () => {
                 <Stack.Screen
                   name={stackNavigatorNames.USER_PROFILE_PREVIEW}
                   component={UserProfilePreviewScreen}
-                  options={{
-                    ...headerWithoutShadowOptions,
-                    headerRight: () => renderLogo(),
-                  }}
-                />
-                <Stack.Screen
-                  name={stackNavigatorNames.ADD_ANNOUNCEMENT}
-                  component={AddAnnouncementScreen}
                   options={{
                     ...headerWithoutShadowOptions,
                     headerRight: () => renderLogo(),

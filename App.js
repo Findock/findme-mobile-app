@@ -2,14 +2,20 @@ import Constants from 'expo-constants';
 import { Navigation } from 'navigation/Navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
-import { StatusBar, Platform } from 'react-native';
+import { SafeAreaView, StatusBar } from 'react-native';
 import store from 'store/store';
+import colors from 'themes/colors';
 import storybook from './storybook';
 
 const App = () => (
   <GestureHandlerRootView style={{ flex: 1 }}>
     <Provider store={store}>
-      <StatusBar barStyle={Platform.OS === 'ios' ? 'dark-content' : 'default'} />
+      <SafeAreaView>
+        <StatusBar
+          barStyle="dark-content"
+          backgroundColor={colors.WHITE}
+        />
+      </SafeAreaView>
       <Navigation />
     </Provider>
   </GestureHandlerRootView>

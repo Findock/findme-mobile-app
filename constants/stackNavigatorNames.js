@@ -24,4 +24,5 @@ export default {
   COMMENTS_MODAL: 'Comments Modal',
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
   NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
+  HOME_TABS: 'Home Tabs',
 };

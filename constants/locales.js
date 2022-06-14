@@ -94,4 +94,5 @@ export default {
   NEARBY_ANNOUNCEMENTS: 'Ogłoszenia w Twojej okolicy',
   CONTACT: 'Kontakt',
   ZOOM: 'Powiększ',
+  HOME: 'Home',
 };
