@@ -46,4 +46,5 @@ export default {
   HEART_OUTLINE: 'heart-outline',
   HEART: 'heart',
   CALL: 'call',
+  LOG_OUT: 'log-out',
 };

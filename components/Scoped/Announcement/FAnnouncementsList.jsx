@@ -17,7 +17,7 @@ import { getUserAnnouncementsService } from 'services/announcement/getUserAnnoun
 import PropTypes from 'prop-types';
 import { searchAnnouncementsService } from 'services/announcement/searchAnnouncements.service';
 import { useDispatch, useSelector } from 'react-redux';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import AnnouncementSortingModeEnum from 'enums/AnnouncementSortingModeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
@@ -53,6 +53,9 @@ export const FAnnouncementsList = ({
   const updatedAnnouncement = useSelector((state) => state.announcement.updatedAnnouncement);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const navigation = useNavigation();
+  const route = useRoute();
+
   const [
     params,
     setParams,
@@ -152,6 +155,14 @@ export const FAnnouncementsList = ({
   useEffect(() => {
     if (updatedAnnouncement) refreshAnnouncementHandler(true);
   }, [updatedAnnouncement]);
+
+  useEffect(() => {
+    if (userId) {
+      navigation.setOptions({
+        title: `${locales.USER_ANNOUNCEMENTS} ${route.params.userName}`,
+      });
+    }
+  }, [userId]);
 
   const updateParamsHandler = () => {
     setParams({
@@ -282,7 +293,7 @@ export const FAnnouncementsList = ({
   };
 
   const drawNoAnnouncementInfo = () => {
-    if (isLoading === false && announcements.length === 0) {
+    if (!isLoading && announcements.length === 0) {
       return (
         <View style={horizontal ? [styles.containerHorizontal, styles.centerView] : styles.centerView}>
           <FHeading
@@ -331,11 +342,11 @@ export const FAnnouncementsList = ({
 
 const styles = StyleSheet.create({
   containerHorizontal: {
-    alignItems: placements.CENTER,
+    // alignItems: placements.CENTER,
   },
   container: {
-    backgroundColor: colors.WHITE,
-    flex: 1,
+    // backgroundColor: colors.WHITE,
+    // flex: 1,
   },
   centerView: {
     justifyContent: placements.CENTER,
@@ -344,7 +355,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   verticalSeparator: {
-    paddingBottom: sizes.PADDING_110,
+    // paddingBottom: sizes.PADDING_110,
+    paddingVertical: sizes.PADDING_10,
   },
 });
 

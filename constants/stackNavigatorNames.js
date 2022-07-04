@@ -25,4 +25,6 @@ export default {
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
   NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
   HOME_TABS: 'Home Tabs',
+  AUTH_ROOT: 'Auth Root',
+  APP_ROOT: 'App Root',
 };

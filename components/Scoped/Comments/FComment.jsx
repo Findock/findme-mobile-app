@@ -508,7 +508,7 @@ export const FComment = ({
             <FAvatar
               size={sizes.WIDTH_35}
               isEditable={false}
-              imageUrl={commentedAnnouncement.creator.profileImageUrl}
+              imageUrl={commentedAnnouncement.creator?.profileImageUrl || ''}
             />
           </TouchableOpacity>
         </View>

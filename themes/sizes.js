@@ -92,9 +92,8 @@ export default {
   PADDING_25: 25,
   PADDING_30: 30,
   PADDING_35: 35,
-  PADDING_40: 40,
   PADDING_50: 50,
-  PADDING_80: 80,
+  PADDING_70: 70,
   PADDING_110: 110,
   PADDING_130: 130,
   PADDING_200: 200,
@@ -103,6 +102,7 @@ export default {
   MARGIN_N30: -30,
   MARGIN_N6: -6,
   MARGIN_N4: -4,
+  MARGIN_1: 1,
   MARGIN_3: 3,
   MARGIN_5: 5,
   MARGIN_8: 8,
@@ -114,7 +114,6 @@ export default {
   MARGIN_30: 30,
   MARGIN_40: 40,
   MARGIN_50: 50,
-  MARGIN_80: 80,
   MARGIN_100: 100,
 
   // POSITION

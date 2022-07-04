@@ -21,6 +21,7 @@ import * as Location from 'expo-location';
 
 export const HomepageScreen = () => {
   const navigation = useNavigation();
+  console.log(navigation.getState());
   const {
     tryToAskForLocationPermissionsIfIsNotGranted,
     granted: locationStatus,
@@ -142,7 +143,7 @@ export const HomepageScreen = () => {
                 ...defaultBoxShadow,
                 paddingVertical: sizes.PADDING_30,
               }}
-              title={`${locales.ALL_FEMALE}\n${locales.ANNOUNCEMENTS}`}
+              title={`${locales.ALL_FEMALE}\n${locales.ANNOUNCEMENTS.toLowerCase()}`}
               titleSize={fonts.HEADING_LARGE}
               titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
               onPress={() => navigation.navigate(stackNavigatorNames.ALL_ANNOUNCEMENTS)}

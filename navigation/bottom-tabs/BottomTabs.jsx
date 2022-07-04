@@ -1,20 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { UserProfileScreen } from 'screens/user/UserProfile.screen';
-import { SettingsScreen } from 'screens/user/Settings.screen';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import icons from 'themes/icons';
-import locales from 'constants/locales';
-import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
-import { renderLogo } from 'navigation/utils/renderLogo';
-import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
 import { StyleSheet, View } from 'react-native';
-import { HomepageScreen } from '../../screens/Homepage.screen';
-import { AddAnnouncementScreen } from '../../screens/announcements/AddAnnouncement.screen';
+import { HomepageNavigationStack } from 'navigation/stacks/HomepageNavigationStack';
+import { UserProfileNavigationStack } from 'navigation/stacks/UserProfileNavigationStack';
+import { AddAnnouncementNavigationStack } from 'navigation/stacks/AddAnnouncementNavigationStack';
+import React from 'react';
+import { MyFollowedAnnouncementsStackNavigation } from 'navigation/stacks/MyFollowedAnnouncementsStackNavigation';
 
-export const HomeTabs = () => {
+export const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
 
   const drawIcon = (
@@ -29,45 +26,40 @@ export const HomeTabs = () => {
   );
 
   return (
-    <Tab.Navigator screenOptions={{
-      tabBarStyle: {
-        backgroundColor: colors.WHITE,
-      },
-      tabBarActiveTintColor: colors.PRIMARY,
-      tabBarInactiveTintColor: colors.SECONDARY,
-      tabBarShowLabel: false,
-    }}
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: colors.WHITE,
+        },
+        tabBarActiveTintColor: colors.PRIMARY,
+        tabBarInactiveTintColor: colors.SECONDARY,
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}
+      backBehavior="none"
     >
       <Tab.Screen
-        navigationKey="homepage"
         name={stackNavigatorNames.HOMEPAGE}
-        component={HomepageScreen}
+        component={HomepageNavigationStack}
         options={{
-          headerShown: false,
           tabBarIcon: ({
             color,
           }) => drawIcon(icons.HOME_OUTLINE, color),
         }}
       />
       <Tab.Screen
-        navigationKey="user-profile"
         name={stackNavigatorNames.USER_PROFILE}
-        component={UserProfileScreen}
+        component={UserProfileNavigationStack}
         options={{
-          ...headerWithoutShadowOptions,
-          headerRight: () => renderLogo(),
           tabBarIcon: ({
             color,
           }) => drawIcon(icons.PERSON_OUTLINE, color),
         }}
       />
       <Tab.Screen
-        navigationKey="add-announcement"
         name={stackNavigatorNames.ADD_ANNOUNCEMENT}
-        component={AddAnnouncementScreen}
+        component={AddAnnouncementNavigationStack}
         options={{
-          ...headerWithoutShadowOptions,
-          headerRight: () => renderLogo(),
           tabBarIcon: ({
             color,
           }) => (
@@ -87,9 +79,8 @@ export const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        navigationKey="messages"
-        name="Wiadomości"
-        component={UserProfileScreen}
+        name="Messages"
+        component={UserProfileNavigationStack}
         options={{
           tabBarIcon: ({
             color,
@@ -97,15 +88,12 @@ export const HomeTabs = () => {
         }}
       />
       <Tab.Screen
-        navigationKey="settings"
-        name={stackNavigatorNames.SETTINGS}
-        component={SettingsScreen}
+        name={stackNavigatorNames.MY_FOLLOWED_ANNOUNCEMENTS}
+        component={MyFollowedAnnouncementsStackNavigation}
         options={{
-          ...defaultHeaderOptions,
-          headerTitle: locales.SETTINGS,
           tabBarIcon: ({
             color,
-          }) => drawIcon(icons.SETTINGS_OUTLINE, color),
+          }) => drawIcon(icons.HEART_OUTLINE, color),
         }}
       />
     </Tab.Navigator>

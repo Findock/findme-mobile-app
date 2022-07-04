@@ -513,8 +513,8 @@ export const AnnouncementPreviewScreen = () => {
           <View style={{ marginBottom: sizes.MARGIN_100 }}>
             <FSimpleComment
               commentsAmount={comments ? comments.length : 0}
-              comment={comments ? comments.find((x) => x.comment)?.comment : ''}
-              creator={comments ? comments.find((x) => x.comment)?.creator : ''}
+              comment={comments && comments.length > 0 ? comments[0] : ''}
+              creator={comments && comments.length > 0 ? comments[0].creator : ''}
               showComments={() => navigation.navigate(stackNavigatorNames.COMMENTS_MODAL, {
                 announcementId: announcement.id,
                 isUserCreator: announcement.isUserCreator,

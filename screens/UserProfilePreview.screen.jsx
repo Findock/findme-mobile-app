@@ -36,6 +36,14 @@ export const UserProfilePreviewScreen = () => {
     fetchUser();
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      navigation.setOptions({
+        title: `${locales.USER} ${user.name}`,
+      });
+    }
+  }, [user]);
+
   const fetchUser = async () => {
     try {
       const res = await getOtherUserService(route.params?.userId || 2);
@@ -67,7 +75,7 @@ export const UserProfilePreviewScreen = () => {
                 nearby={false}
               />
             </View>
-            {userAnnouncementsLength > 4
+            {userAnnouncementsLength > 1
               && (
                 <FButton
                   title={locales.SHOW_ALL}

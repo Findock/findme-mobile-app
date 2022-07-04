@@ -9,9 +9,7 @@ import placeholders from 'constants/components/inputs/placeholders';
 import locales from 'constants/locales';
 import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 import React from 'react';
-import {
-  View, StyleSheet,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import icons from 'themes/icons';
@@ -26,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import announcementMessages from 'constants/components/inputs/errorMessages/announcementMessages';
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import PropTypes from 'prop-types';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FAnnouncementForm = ({
   dataForm,
@@ -158,7 +157,13 @@ export const FAnnouncementForm = ({
           titleSize={fonts.HEADING_MEDIUM}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           buttonViewStyles={{ paddingHorizontal: sizes.PADDING_35 }}
-          onPress={() => navigation.goBack()}
+          onPress={() => {
+            if (isEdit) {
+              navigation.goBack();
+            } else {
+              navigation.navigate(stackNavigatorNames.HOMEPAGE);
+            }
+          }}
         />
         <FButton
           type={buttonTypes.LOADING_BUTTON}

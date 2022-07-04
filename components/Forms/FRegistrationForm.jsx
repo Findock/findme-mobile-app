@@ -1,8 +1,6 @@
 import locales from 'constants/locales';
 import React, { useState } from 'react';
-import {
-  View, StyleSheet, Dimensions,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
 import inputTypes from 'constants/components/inputs/inputTypes';
@@ -77,24 +75,33 @@ export const FRegistrationForm = () => {
   };
 
   const checkFormValidation = (error) => {
-    const { message, statusCode } = error;
+    const {
+      message,
+      statusCode,
+    } = error;
     const errs = [];
     if (statusCode === 400) {
-      if (message.join(' ').includes('email')) {
+      if (message.join(' ')
+        .includes('email')) {
         errs.push(userMessages.INVALID_EMAIL);
       }
-      if (message.join(' ').includes('password')) {
+      if (message.join(' ')
+        .includes('password')) {
         errs.push(userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6);
       }
-      if (message.join(' ').includes('name')) {
+      if (message.join(' ')
+        .includes('name')) {
         errs.push(userMessages.NAME_CANNOT_BE_EMPTY);
       }
-      if (message.join(' ').includes('Terms') || message.join(' ').includes('terms')) {
+      if (message.join(' ')
+        .includes('Terms') || message.join(' ')
+        .includes('terms')) {
         errs.push(userMessages.YOU_HAVE_TO_ACCEPT_REGULATIONS);
       }
     }
     if (statusCode === 409) {
-      if (message.join(' ').includes('email')) {
+      if (message.join(' ')
+        .includes('email')) {
         errs.push(userMessages.USER_ALREADY_EXISTS);
       }
     }
@@ -104,10 +111,13 @@ export const FRegistrationForm = () => {
     try {
       setLoading(true);
       await createUserService(dataForm);
-      navigation.navigate(stackNavigatorNames.LOGIN, {
-        afterRegisterEmail: dataForm.email,
-        afterRegisterPassword: dataForm.password,
-        showRegistrationModal: true,
+      navigation.navigate(stackNavigatorNames.AUTH_ROOT, {
+        screen: stackNavigatorNames.LOGIN,
+        params: {
+          afterRegisterEmail: dataForm.email,
+          afterRegisterPassword: dataForm.password,
+          showRegistrationModal: true,
+        },
       });
     } catch (error) {
       if (error.response && error.response.data) {
@@ -140,7 +150,7 @@ export const FRegistrationForm = () => {
           type={inputTypes.EMAIL}
           width={sizes.WIDTH_FULL}
           errorMessage={filterErrorMessages(errors, userMessages.INVALID_EMAIL)
-              || filterErrorMessages(errors, userMessages.USER_ALREADY_EXISTS)}
+            || filterErrorMessages(errors, userMessages.USER_ALREADY_EXISTS)}
         />
         <FInput
           placeholder={placeholders.NAME}

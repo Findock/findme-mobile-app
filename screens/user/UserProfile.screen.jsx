@@ -19,10 +19,15 @@ import { deleteUserProfileImageService } from 'services/user/deleteUserProfileIm
 import { FDefaultLayout } from 'layouts/FDefault.layout';
 import modalsMessages from 'constants/components/modals/modalsMessages';
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import * as SecureStore from 'expo-secure-store';
+import { removeToken } from 'store/auth/authSlice';
+import { useNavigation } from '@react-navigation/native';
+import { logoutUserService } from 'services/user/logoutUser.service';
 
 export const UserProfileScreen = () => {
   const me = useSelector((state) => state.me.me);
   const dispatch = useDispatch();
+  const navigation = useNavigation();
   const {
     setShowErrorModal,
     drawErrorModal,
@@ -41,6 +46,16 @@ export const UserProfileScreen = () => {
     setShowConfirmationModal,
     drawConfirmationModal,
   } = useConfirmationModal(modalsMessages.DELETE_USER_PROFILE_IMAGE_CONFIRMATION, deleteImage);
+
+  const logout = async () => {
+    await logoutUserService();
+    await SecureStore.deleteItemAsync('Authorization');
+    dispatch(removeToken());
+    navigation.navigate(stackNavigatorNames.AUTH_ROOT, {
+      screen: stackNavigatorNames.LOGIN,
+      params: { showLogoutModal: true },
+    });
+  };
 
   return (
     <FDefaultLayout>
@@ -104,7 +119,7 @@ export const UserProfileScreen = () => {
             navigateTo={stackNavigatorNames.LOGIN_HISTORY}
           />
           <FWideButton
-            icon={icons.STAR}
+            icon={icons.HEART}
             iconBgColor={colors.PRIMARY}
             iconColor={colors.WHITE}
             iconSize={sizes.ICON_20}
@@ -118,18 +133,19 @@ export const UserProfileScreen = () => {
             isLink
           />
           <FWideButton
-            icon={icons.DUPLICATE}
+            icon={icons.LOG_OUT}
             iconBgColor={colors.WHITE}
             iconColor={colors.PRIMARY}
-            iconSize={sizes.ICON_20}
+            iconSize={sizes.ICON_25}
             buttonBgColor={colors.PRIMARY}
             titleColor={colors.WHITE}
             arrowColor={colors.WHITE}
-            title={locales.ADD_ANNOUNCEMENT}
+            title={locales.LOG_OUT}
             titleWeight={fonts.HEADING_WEIGHT_SEMIBOLD}
             titleSize={fonts.HEADING_NORMAL}
             style={styles.lastWideButton}
-            isLink
+            isLink={false}
+            onPress={logout}
           />
         </FCard>
       </View>

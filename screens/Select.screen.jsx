@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import { FSelectOptions } from 'components/Inputs/Select/FSelectOptions';
@@ -31,11 +31,10 @@ export const SelectScreen = () => {
 
   return (
     <View style={{
-      height: Dimensions.get('screen').height,
+      flexGrow: 1,
       backgroundColor: colors.WHITE,
       paddingHorizontal: sizes.PADDING_30,
       paddingVertical: sizes.PADDING_30,
-      flexGrow: 0,
     }}
     >
       <FSelectOptions

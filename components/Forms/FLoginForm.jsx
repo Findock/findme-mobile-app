@@ -69,7 +69,7 @@ export const FLoginForm = () => {
       setShowSuccessModal(true);
       navigation.setParams({ showRegistrationModal: false });
     }
-  }, [route.params?.showDeleteAccountModal]);
+  }, [route.params?.showRegistrationModal]);
 
   useEffect(() => {
     if (route.params?.showDeleteAccountModal) {
