@@ -8,11 +8,36 @@ import { StyleSheet, View } from 'react-native';
 import { HomepageNavigationStack } from 'navigation/stacks/HomepageNavigationStack';
 import { UserProfileNavigationStack } from 'navigation/stacks/UserProfileNavigationStack';
 import { AddAnnouncementNavigationStack } from 'navigation/stacks/AddAnnouncementNavigationStack';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { MyFollowedAnnouncementsStackNavigation } from 'navigation/stacks/MyFollowedAnnouncementsStackNavigation';
 
 export const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
+  const shouldRefreshHomeTab = useRef(false);
+  const shouldRefreshUserProfileTab = useRef(false);
+  const shouldRefreshAddAnnouncementTab = useRef(false);
+  const shouldRefreshMessagesTab = useRef(false);
+  const shouldRefreshFollowedAnnouncementsTab = useRef(false);
+  const [
+    homeNavigationStackKey,
+    setHomeNavigationStackKey,
+  ] = useState(0);
+  const [
+    userProfileNavigationStackKey,
+    setUserProfileNavigationStackKey,
+  ] = useState(0);
+  const [
+    addAnnouncementNavigationStackKey,
+    setAddAnnouncementNavigationStackKey,
+  ] = useState(0);
+  const [
+    messagesNavigationStackKey,
+    setMessagesNavigationStackKey,
+  ] = useState(0);
+  const [
+    followedAnnouncementsNavigationStackKey,
+    setFollowedAnnouncementsNavigationStackKey,
+  ] = useState(0);
 
   const drawIcon = (
     icon,
@@ -39,7 +64,30 @@ export const BottomTabs = () => {
       backBehavior="none"
     >
       <Tab.Screen
-        name={stackNavigatorNames.HOMEPAGE}
+        name={stackNavigatorNames.HOME_TAB}
+        navigationKey={`homepage-navigation-stack-${homeNavigationStackKey.toString()}`}
+        listeners={() => ({
+          state: (state) => {
+            if (!state.data.state.routes[0].state || state.data.state.routes[0].state.index === 0) {
+              shouldRefreshHomeTab.current = true;
+            } else {
+              shouldRefreshHomeTab.current = false;
+              shouldRefreshUserProfileTab.current = false;
+              shouldRefreshAddAnnouncementTab.current = false;
+              shouldRefreshMessagesTab.current = false;
+              shouldRefreshFollowedAnnouncementsTab.current = false;
+            }
+          },
+          tabPress: () => {
+            if (shouldRefreshHomeTab.current) {
+              setHomeNavigationStackKey(homeNavigationStackKey + 1);
+            }
+            shouldRefreshUserProfileTab.current = false;
+            shouldRefreshAddAnnouncementTab.current = false;
+            shouldRefreshMessagesTab.current = false;
+            shouldRefreshFollowedAnnouncementsTab.current = false;
+          },
+        })}
         component={HomepageNavigationStack}
         options={{
           tabBarIcon: ({
@@ -48,8 +96,31 @@ export const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name={stackNavigatorNames.USER_PROFILE}
+        name={stackNavigatorNames.USER_PROFILE_TAB}
         component={UserProfileNavigationStack}
+        navigationKey={`user-profile-navigation-stack-${userProfileNavigationStackKey.toString()}`}
+        listeners={() => ({
+          state: (state) => {
+            if (!state.data.state.routes[1].state || state.data.state.routes[1].state.index === 0) {
+              shouldRefreshUserProfileTab.current = true;
+            } else {
+              shouldRefreshUserProfileTab.current = false;
+              shouldRefreshHomeTab.current = false;
+              shouldRefreshAddAnnouncementTab.current = false;
+              shouldRefreshMessagesTab.current = false;
+              shouldRefreshFollowedAnnouncementsTab.current = false;
+            }
+          },
+          tabPress: () => {
+            if (shouldRefreshUserProfileTab.current) {
+              setUserProfileNavigationStackKey(userProfileNavigationStackKey + 1);
+            }
+            shouldRefreshHomeTab.current = false;
+            shouldRefreshAddAnnouncementTab.current = false;
+            shouldRefreshMessagesTab.current = false;
+            shouldRefreshFollowedAnnouncementsTab.current = false;
+          },
+        })}
         options={{
           tabBarIcon: ({
             color,
@@ -57,8 +128,31 @@ export const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name={stackNavigatorNames.ADD_ANNOUNCEMENT}
+        name={stackNavigatorNames.ADD_ANNOUNCEMENT_TAB}
+        navigationKey={`add-announcement-navigation-stack-${addAnnouncementNavigationStackKey.toString()}`}
         component={AddAnnouncementNavigationStack}
+        listeners={() => ({
+          state: (state) => {
+            if (!state.data.state.routes[2].state || state.data.state.routes[2].state.index === 0) {
+              shouldRefreshAddAnnouncementTab.current = true;
+            } else {
+              shouldRefreshUserProfileTab.current = false;
+              shouldRefreshHomeTab.current = false;
+              shouldRefreshAddAnnouncementTab.current = false;
+              shouldRefreshMessagesTab.current = false;
+              shouldRefreshFollowedAnnouncementsTab.current = false;
+            }
+          },
+          tabPress: () => {
+            if (shouldRefreshAddAnnouncementTab.current) {
+              setAddAnnouncementNavigationStackKey(addAnnouncementNavigationStackKey + 1);
+            }
+            shouldRefreshUserProfileTab.current = false;
+            shouldRefreshHomeTab.current = false;
+            shouldRefreshMessagesTab.current = false;
+            shouldRefreshFollowedAnnouncementsTab.current = false;
+          },
+        })}
         options={{
           tabBarIcon: ({
             color,
@@ -80,7 +174,30 @@ export const BottomTabs = () => {
       />
       <Tab.Screen
         name="Messages"
+        navigationKey={`messages-navigation-stack-${messagesNavigationStackKey.toString()}`}
         component={UserProfileNavigationStack}
+        listeners={() => ({
+          state: (state) => {
+            if (!state.data.state.routes[3].state || state.data.state.routes[3].state.index === 0) {
+              shouldRefreshMessagesTab.current = true;
+            } else {
+              shouldRefreshUserProfileTab.current = false;
+              shouldRefreshHomeTab.current = false;
+              shouldRefreshAddAnnouncementTab.current = false;
+              shouldRefreshMessagesTab.current = false;
+              shouldRefreshFollowedAnnouncementsTab.current = false;
+            }
+          },
+          tabPress: () => {
+            if (shouldRefreshMessagesTab.current) {
+              setMessagesNavigationStackKey(messagesNavigationStackKey + 1);
+            }
+            shouldRefreshUserProfileTab.current = false;
+            shouldRefreshHomeTab.current = false;
+            shouldRefreshFollowedAnnouncementsTab.current = false;
+            shouldRefreshAddAnnouncementTab.current = false;
+          },
+        })}
         options={{
           tabBarIcon: ({
             color,
@@ -88,8 +205,31 @@ export const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name={stackNavigatorNames.MY_FOLLOWED_ANNOUNCEMENTS}
+        name={stackNavigatorNames.FOLLOWED_ANNOUNCEMENTS_TAB}
+        navigationKey={`followed-announcements-navigation-stack-${followedAnnouncementsNavigationStackKey.toString()}`}
         component={MyFollowedAnnouncementsStackNavigation}
+        listeners={() => ({
+          state: (state) => {
+            if (!state.data.state.routes[4].state || state.data.state.routes[4].state.index === 0) {
+              shouldRefreshFollowedAnnouncementsTab.current = true;
+            } else {
+              shouldRefreshUserProfileTab.current = false;
+              shouldRefreshHomeTab.current = false;
+              shouldRefreshAddAnnouncementTab.current = false;
+              shouldRefreshMessagesTab.current = false;
+              shouldRefreshFollowedAnnouncementsTab.current = false;
+            }
+          },
+          tabPress: () => {
+            if (shouldRefreshFollowedAnnouncementsTab.current) {
+              setFollowedAnnouncementsNavigationStackKey(followedAnnouncementsNavigationStackKey + 1);
+            }
+            shouldRefreshUserProfileTab.current = false;
+            shouldRefreshHomeTab.current = false;
+            shouldRefreshMessagesTab.current = false;
+            shouldRefreshAddAnnouncementTab.current = false;
+          },
+        })}
         options={{
           tabBarIcon: ({
             color,

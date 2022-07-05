@@ -24,7 +24,10 @@ export default {
   COMMENTS_MODAL: 'Comments Modal',
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
   NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
-  HOME_TABS: 'Home Tabs',
+  HOME_TAB: 'Home Tab',
+  USER_PROFILE_TAB: 'User Profile Tab',
+  FOLLOWED_ANNOUNCEMENTS_TAB: 'Followed Announcement Tab',
+  ADD_ANNOUNCEMENT_TAB: 'Add Announcement Tab',
   AUTH_ROOT: 'Auth Root',
   APP_ROOT: 'App Root',
 };

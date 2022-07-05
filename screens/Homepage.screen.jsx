@@ -21,7 +21,6 @@ import * as Location from 'expo-location';
 
 export const HomepageScreen = () => {
   const navigation = useNavigation();
-  console.log(navigation.getState());
   const {
     tryToAskForLocationPermissionsIfIsNotGranted,
     granted: locationStatus,
