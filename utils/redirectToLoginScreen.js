@@ -5,5 +5,8 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 export const redirectToLoginScreen = async (dispatch, navigation, navigationParams) => {
   await SecureStore.deleteItemAsync('Authorization');
   await dispatch(removeToken());
-  navigation.navigate(stackNavigatorNames.LOGIN, navigationParams);
+  navigation.navigate(stackNavigatorNames.AUTH_ROOT, {
+    screen: stackNavigatorNames.LOGIN,
+    params: { ...navigationParams },
+  });
 };

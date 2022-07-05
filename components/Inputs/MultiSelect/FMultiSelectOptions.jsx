@@ -3,9 +3,7 @@ import { FInput } from 'components/Inputs/FInput';
 import { FMultiSelectOption } from 'components/Inputs/MultiSelect/FMultiSelectOption';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import React from 'react';
-import {
-  FlatList, View,
-} from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import sizes from 'themes/sizes';
@@ -13,13 +11,15 @@ import PropTypes from 'prop-types';
 import placeholders from 'constants/components/inputs/placeholders';
 
 export const FMultiSelectOptions = ({
-  options, search, setSearch,
+  options,
+  search,
+  setSearch,
 }) => {
   const dispatch = useDispatch();
   const selectedOptions = useSelector((state) => state.multiSelect.selectedOptions);
 
-  const searchInputHandler = (newSerach) => {
-    setSearch(newSerach);
+  const searchInputHandler = (newSearch) => {
+    setSearch(newSearch);
   };
   const drawMultiSelectOptions = ({ item }) => (
     <FMultiSelectOption
@@ -35,12 +35,14 @@ export const FMultiSelectOptions = ({
       const newOptions = [...selectedOptions];
       newOptions.splice(selectedOptions.indexOf(existingOption), 1);
       dispatch(setSelectedOptions([...newOptions]));
-    } else dispatch(setSelectedOptions([...selectedOptions, option]));
+    } else {
+      dispatch(setSelectedOptions([...selectedOptions, option]));
+    }
   };
 
   if (!options) return <FSpinner />;
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <FInput
         placeholder={placeholders.SEARCH}
         type={inputTypes.TEXT}
@@ -48,24 +50,26 @@ export const FMultiSelectOptions = ({
         onChangeText={searchInputHandler}
         width={sizes.WIDTH_FULL}
       />
-      <FlatList
-        scrollEnabled
-        data={options}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        scrollEventThrottle={1}
-        renderItem={drawMultiSelectOptions}
-        contentContainerStyle={{
-          paddingBottom: sizes.PADDING_200,
-        }}
-        ItemSeparatorComponent={() => (
-          <View style={{
-            width: sizes.WIDTH_FULL,
-            paddingTop: sizes.PADDING_14,
+      <View>
+        <FlatList
+          scrollEnabled
+          data={options}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          scrollEventThrottle={1}
+          renderItem={drawMultiSelectOptions}
+          contentContainerStyle={{
+            paddingBottom: sizes.PADDING_70,
           }}
-          />
-        )}
-      />
+          ItemSeparatorComponent={() => (
+            <View style={{
+              width: sizes.WIDTH_FULL,
+              paddingTop: sizes.PADDING_14,
+            }}
+            />
+          )}
+        />
+      </View>
     </View>
 
   );

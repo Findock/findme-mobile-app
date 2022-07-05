@@ -1,14 +1,14 @@
 import { FAnnouncementsList } from 'components/Scoped/Announcement/FAnnouncementsList';
 import React from 'react';
-import { Dimensions, View } from 'react-native';
+import { View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 
 export const RecentlyCreatedAnnouncementsScreen = () => (
   <View style={{
-    height: Dimensions.get('screen').height,
+    flex: 1,
     backgroundColor: colors.WHITE,
-    paddingTop: sizes.PADDING_10,
+    marginTop: sizes.MARGIN_1,
   }}
   >
     <FAnnouncementsList

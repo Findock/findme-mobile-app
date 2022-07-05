@@ -24,6 +24,7 @@ export default {
   EYE_OFF_OUTLINE: 'eye-off-outline',
   PIN: 'pin',
   SETTINGS: 'settings',
+  SETTINGS_OUTLINE: 'settings-outline',
   CHECKMARK_OUTLINE: 'checkmark-outline',
   MEGAPHONE: 'megaphone',
   RECEIPT: 'receipt',
@@ -45,4 +46,5 @@ export default {
   HEART_OUTLINE: 'heart-outline',
   HEART: 'heart',
   CALL: 'call',
+  LOG_OUT: 'log-out',
 };

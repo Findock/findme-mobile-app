@@ -2,10 +2,10 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { FAnnouncementFiltersDrawer } from 'components/Scoped/AnnouncementFiltersDrawer/FAnnouncementFiltersDrawer';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
-import { renderLogo } from 'navigation/utils/renderLogo';
 import React from 'react';
 import { AllAnnouncementsScreen } from 'screens/announcements/AllAnnouncements.screen';
 import sizes from 'themes/sizes';
+import locales from 'constants/locales';
 
 export const AllAnnouncementsDrawer = () => {
   const Drawer = createDrawerNavigator();
@@ -14,6 +14,7 @@ export const AllAnnouncementsDrawer = () => {
     <Drawer.Navigator
       drawerContent={() => <FAnnouncementFiltersDrawer />}
       initialRouteName={stackNavigatorNames.ALL_ANNOUNCEMENTS}
+      backBehavior="history"
       screenOptions={{
         drawerStyle: {
           width: sizes.WIDTH_90_PERCENTAGES,
@@ -26,6 +27,7 @@ export const AllAnnouncementsDrawer = () => {
         headerRightContainerStyle: {
           paddingRight: sizes.PADDING_15,
         },
+
       }}
     >
       <Drawer.Screen
@@ -33,9 +35,8 @@ export const AllAnnouncementsDrawer = () => {
         component={AllAnnouncementsScreen}
         options={{
           ...defaultHeaderOptions,
-          title: '',
+          title: locales.ANNOUNCEMENTS,
           headerLeft: () => null,
-          headerRight: () => renderLogo(),
         }}
       />
     </Drawer.Navigator>

@@ -1,6 +1,6 @@
 import { FMultiSelectOptions } from 'components/Inputs/MultiSelect/FMultiSelectOptions';
 import React, { useEffect } from 'react';
-import { View, Dimensions } from 'react-native';
+import { View } from 'react-native';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,11 +17,10 @@ export const MultiSelectScreen = () => {
 
   return (
     <View style={{
-      height: Dimensions.get('screen').height,
+      flexGrow: 2,
       backgroundColor: colors.WHITE,
       paddingHorizontal: sizes.PADDING_30,
       paddingVertical: sizes.PADDING_30,
-      flexGrow: 0,
     }}
     >
       <FMultiSelectOptions

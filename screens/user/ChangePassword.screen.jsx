@@ -107,7 +107,7 @@ export const ChangePasswordScreen = () => {
   const {
     setShowSuccessModal,
     drawSuccessModal,
-  } = useSuccessModal(modalsMessages.PASSWORD_CHANGED_SUCCESSFULLY, navigation.goBack());
+  } = useSuccessModal(modalsMessages.PASSWORD_CHANGED_SUCCESSFULLY, () => navigation.goBack());
 
   return (
     <FFormLayout>

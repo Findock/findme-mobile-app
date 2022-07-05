@@ -142,7 +142,7 @@ export const HomepageScreen = () => {
                 ...defaultBoxShadow,
                 paddingVertical: sizes.PADDING_30,
               }}
-              title={`${locales.ALL_FEMALE}\n${locales.ANNOUNCEMENTS}`}
+              title={`${locales.ALL_FEMALE}\n${locales.ANNOUNCEMENTS.toLowerCase()}`}
               titleSize={fonts.HEADING_LARGE}
               titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
               onPress={() => navigation.navigate(stackNavigatorNames.ALL_ANNOUNCEMENTS)}

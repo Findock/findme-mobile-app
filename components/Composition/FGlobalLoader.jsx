@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
+    backgroundColor: colors.WHITE,
     zIndex: 10,
   },
 });

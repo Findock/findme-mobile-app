@@ -40,15 +40,14 @@ export const FCreateAnnouncementForm = () => {
       const res = await createAnnouncementService({ ...dataForm });
       setLoading(false);
       clearDataForm();
-      navigation.reset({
-        index: 0,
-        routes: [{ name: stackNavigatorNames.HOMEPAGE }],
-      });
-      navigation.navigate(stackNavigatorNames.ANNOUNCEMENT_PREVIEW, {
-        id: res.data.id,
-        announcementAddedSuccessfullyModalVisible: true,
-        isNew: true,
-      });
+      navigation.navigate(
+        stackNavigatorNames.ANNOUNCEMENT_PREVIEW,
+        {
+          id: res.data.id,
+          announcementAddedSuccessfullyModalVisible: true,
+          isNew: true,
+        },
+      );
     } catch (error) {
       if (error.response && error.response.data) checkFormValidation(error.response.data);
       setLoading(false);

@@ -101,23 +101,25 @@ export const FLoginHistoryList = () => {
           title={locales.SOMETHING_WENT_WRONG}
         />
       )}
-      <FlatList
-        data={myAuthTokens}
-        renderItem={drawMyAuthTokensItems}
-        keyExtractor={(item) => item.id}
-        style={styles.list}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingBottom: sizes.PADDING_20,
-        }}
-        ItemSeparatorComponent={() => (
-          <View style={{
-            width: sizes.WIDTH_FULL,
-            paddingTop: sizes.PADDING_10,
+      <View style={{ flex: 1 }}>
+        <FlatList
+          data={myAuthTokens}
+          renderItem={drawMyAuthTokensItems}
+          keyExtractor={(item) => item.id}
+          style={styles.list}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{
+            paddingBottom: sizes.PADDING_20,
           }}
-          />
-        )}
-      />
+          ItemSeparatorComponent={() => (
+            <View style={{
+              width: sizes.WIDTH_FULL,
+              paddingTop: sizes.PADDING_10,
+            }}
+            />
+          )}
+        />
+      </View>
     </>
   );
 };

@@ -3,7 +3,7 @@ import { FInput } from 'components/Inputs/FInput';
 import inputTypes from 'constants/components/inputs/inputTypes';
 import placeholders from 'constants/components/inputs/placeholders';
 import React from 'react';
-import { View, Keyboard, StyleSheet } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
@@ -41,7 +41,8 @@ export const FMultiSelectInputWithSelectedOptions = ({
         placeholder={placeholders.SEARCH}
         marginBottom={0}
         showSoftInputOnFocus={false}
-        onChangeText={() => { }}
+        onChangeText={() => {
+        }}
         value=""
         caretHidden
         onPress={() => {
