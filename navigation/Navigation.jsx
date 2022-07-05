@@ -82,7 +82,7 @@ export const Navigation = () => {
       dispatch(removeToken());
     }
   };
-
+  console.log('a');
   return (
     <NavigationContainer>
       <Stack.Navigator>
