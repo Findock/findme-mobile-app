@@ -7,12 +7,27 @@ import fonts from 'themes/fonts';
 import { FStatus } from 'components/Composition/FStatus';
 import statusTypes from 'constants/components/statusTypes';
 import placements from 'themes/placements';
-import { useSelector } from 'react-redux';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
+import PropTypes from 'prop-types';
+import { parseDate } from 'utils/parseDate';
+import dateFormatTypes from 'constants/dateFormatTypes';
+import { calcPassedTime } from 'utils/calcPassedTime';
 
-export const FChatListItem = () => {
-  const me = useSelector((state) => state.me.me);
+export const FChatListItem = ({
+  sender,
+  message,
+  isUnread,
+  readDate,
+  sentDate,
+}) => {
+  const getSentDate = () => {
+    const oneWeek = 60 * 60 * 3600 * 7;
+    if (calcPassedTime(sentDate) >= oneWeek) {
+      return parseDate(dateFormatTypes.HOW_LONG_AGO, sentDate);
+    }
+    return parseDate(dateFormatTypes.DATE, sentDate);
+  };
 
   return (
     <View style={styles.container}>
@@ -20,7 +35,7 @@ export const FChatListItem = () => {
         <FAvatar
           size={sizes.WIDTH_50}
           isEditable={false}
-          imageUrl={me.profileImageUrl}
+          imageUrl={sender?.profileImageUrl}
         />
       </View>
       <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
@@ -34,7 +49,7 @@ export const FChatListItem = () => {
               <FHeading
                 size={fonts.HEADING_NORMAL}
                 weight={fonts.HEADING_WEIGHT_BOLD}
-                title={me.name}
+                title={sender.name}
                 numberOfLines={1}
                 ellipsizeMode="tail"
               />
@@ -44,7 +59,7 @@ export const FChatListItem = () => {
             <FHeading
               size={fonts.HEADING_EXTRA_SMALL}
               weight={fonts.HEADING_WEIGHT_REGULAR}
-              title="Przed chwila"
+              title={getSentDate()}
               color={colors.DARK_GRAY}
               align={placements.RIGHT}
             />
@@ -55,21 +70,23 @@ export const FChatListItem = () => {
             <FHeading
               size={fonts.HEADING_SMALL}
               weight={fonts.HEADING_WEIGHT_MEDIUM}
-              title="Widziałam tego psiaka wczoraj pod sklepem osiedlowym."
+              title={message}
               color={colors.DARK_GRAY}
               ellipsizeMode="tail"
               numberOfLines={2}
             />
           </View>
-          <View style={styles.messagesAmountBox}>
-            <FHeading
-              size={fonts.HEADING_EXTRA_SMALL}
-              weight={fonts.HEADING_WEIGHT_BOLD}
-              title="2"
-              align={placements.CENTER}
-              color={colors.WHITE}
-            />
-          </View>
+          {isUnread && (
+            <View style={styles.messagesAmountBox}>
+              <FHeading
+                size={fonts.HEADING_EXTRA_SMALL}
+                weight={fonts.HEADING_WEIGHT_BOLD}
+                title="2"
+                align={placements.CENTER}
+                color={colors.WHITE}
+              />
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -97,14 +114,13 @@ const styles = StyleSheet.create({
     flexBasis: sizes.BASIS_70_PERCENTAGES,
   },
   lastContainer: {
-    width: sizes.WIDTH_FULL,
+    flexBasis: sizes.BASIS_70_PERCENTAGES,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: placements.CENTER,
   },
   messageBox: {
     flexBasis: sizes.BASIS_80_PERCENTAGES,
-    marginLeft: sizes.MARGIN_15,
     marginTop: sizes.MARGIN_5,
   },
   messagesAmountBox: {
@@ -116,3 +132,16 @@ const styles = StyleSheet.create({
     justifyContent: placements.CENTER,
   },
 });
+
+FChatListItem.propTypes = {
+  sender: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    profileImageUrl: PropTypes.string,
+    lastLogin: PropTypes.string,
+  }).isRequired,
+  message: PropTypes.string,
+  isUnread: PropTypes.string.isRequired,
+  readDate: PropTypes.string.isRequired,
+  sentDate: PropTypes.string.isRequired,
+};

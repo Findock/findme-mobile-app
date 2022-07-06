@@ -21,7 +21,7 @@ import { useDrawerStatus } from '@react-navigation/drawer';
 import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
-import { FBadgeSelectInput } from '../../Inputs/FBadgeSelectInput';
+import { FBadgeSelectInput } from 'components/Inputs/FBadgeSelectInput';
 
 export const FAnnouncementFiltersDrawer = () => {
   const navigation = useNavigation();
@@ -124,7 +124,9 @@ export const FAnnouncementFiltersDrawer = () => {
   const selectedFilterArrayValuesHandler = (filterName, value) => {
     if (value === 0 || value === '') {
       if (filters[filterName].length === 0) return true;
-    } else return filters[filterName].includes(value);
+    } else {
+      return filters[filterName].includes(value);
+    }
   };
 
   const drawAnimalCategories = () => categories && categories.map((category, index) => (

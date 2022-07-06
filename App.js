@@ -4,7 +4,6 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import { SafeAreaView, StatusBar } from 'react-native';
 import store from 'store/store';
-import colors from 'themes/colors';
 import storybook from './storybook';
 
 const App = () => (
@@ -13,7 +12,6 @@ const App = () => (
       <SafeAreaView>
         <StatusBar
           barStyle="dark-content"
-          backgroundColor={colors.DANGER}
         />
       </SafeAreaView>
       <Navigation />

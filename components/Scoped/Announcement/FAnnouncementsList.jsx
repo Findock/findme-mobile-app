@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
-import {
-  ActivityIndicator, FlatList, Platform, StyleSheet, View,
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/modals/useErrorModal';
 import sizes from 'themes/sizes';
@@ -23,7 +21,8 @@ import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
 import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
-import { getNearbyAnnouncementsService } from '../../../services/announcement/getNearbyAnnouncements.service';
+import { getNearbyAnnouncementsService } from 'services/announcement/getNearbyAnnouncements.service';
+import { FActivityIndicator } from 'components/Composition/FActivityIndicator';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -307,14 +306,8 @@ export const FAnnouncementsList = ({
       );
     }
   };
-  const renderActivityIndicator = () => (!endReached
-    && (
-      <ActivityIndicator
-        animating
-        size={Platform.OS === 'ios' ? 'large' : sizes.ICON_30}
-        color={colors.GRAY}
-      />
-    ));
+  const renderActivityIndicator = () => !endReached && <FActivityIndicator />;
+
   return (
     isLoading ? <FSpinner />
       : (

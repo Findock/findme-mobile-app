@@ -45,7 +45,7 @@ import { FMapView } from 'components/Inputs/Map/FMapView';
 import { parsePhoneNumber } from 'utils/parsePhoneNumber';
 import { FActionsModal } from 'components/Composition/FActionsModal';
 import { makePhoneCall } from 'utils/makePhoneCall';
-import AnnouncementTypeEnum from '../../enums/AnnouncementTypeEnum';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();

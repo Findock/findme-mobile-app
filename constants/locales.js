@@ -98,4 +98,5 @@ export default {
   NEW_ANNOUNCEMENT: 'Nowe ogłoszenie',
   LOCATION_SHARED: 'Udostępniono lokalizację',
   USER: 'Użytkownik',
+  NO_MESSAGES: 'Nie masz jeszcze żadnych wiadomości',
 };
