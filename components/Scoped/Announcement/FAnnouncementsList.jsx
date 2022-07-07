@@ -294,7 +294,7 @@ export const FAnnouncementsList = ({
   const drawNoAnnouncementInfo = () => {
     if (!isLoading && announcements.length === 0) {
       return (
-        <View style={horizontal ? [styles.containerHorizontal, styles.centerView] : styles.centerView}>
+        <View>
           <FHeading
             align={placements.CENTER}
             size={fonts.HEADING_SMALL}
@@ -314,7 +314,7 @@ export const FAnnouncementsList = ({
         <>
           {drawNoAnnouncementInfo()}
           {drawErrorModal()}
-          <View style={horizontal ? [styles.containerHorizontal, styles.container] : styles.container}>
+          <View>
             <FlatList
               extraData={announcements}
               horizontal={horizontal}
@@ -323,7 +323,7 @@ export const FAnnouncementsList = ({
               ListFooterComponent={renderActivityIndicator}
               data={announcements}
               renderItem={drawAnnouncementCard}
-              contentContainerStyle={horizontal ? '' : styles.verticalSeparator}
+              contentContainerStyle={horizontal ? '' : getAll ? { paddingBottom: sizes.PADDING_150 } : styles.verticalSeparator}
               keyExtractor={(item) => item.id}
               numColumns={numColumns}
               scrollEnabled
@@ -334,13 +334,6 @@ export const FAnnouncementsList = ({
 };
 
 const styles = StyleSheet.create({
-  containerHorizontal: {
-    // alignItems: placements.CENTER,
-  },
-  container: {
-    // backgroundColor: colors.WHITE,
-    // flex: 1,
-  },
   centerView: {
     justifyContent: placements.CENTER,
     alignItems: placements.CENTER,
@@ -348,7 +341,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   verticalSeparator: {
-    // paddingBottom: sizes.PADDING_110,
     paddingVertical: sizes.PADDING_10,
   },
 });

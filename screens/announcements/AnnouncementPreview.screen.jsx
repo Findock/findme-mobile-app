@@ -450,6 +450,8 @@ export const AnnouncementPreviewScreen = () => {
               }}
               onChangeLocationDescription={() => {
               }}
+              showLocationNameInput={false}
+              showLocationDescriptionInput={false}
             />
           </View>
           <FButton
@@ -465,6 +467,9 @@ export const AnnouncementPreviewScreen = () => {
                 latitude: announcement.locationLat,
                 name: announcement.locationName,
               },
+              isInteractive: false,
+              showLocationNameInput: false,
+              showLocationDescriptionInput: false,
             }}
             to={stackNavigatorNames.MAP_PREVIEW_MODAL}
           />

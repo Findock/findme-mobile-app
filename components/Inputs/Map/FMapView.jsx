@@ -24,6 +24,8 @@ export const FMapView = ({
   height,
   width,
   isInteractive,
+  showLocationNameInput,
+  showLocationDescriptionInput,
   location = {
     locationName: '',
     locationDescription: '',
@@ -35,6 +37,7 @@ export const FMapView = ({
   lon,
   doNotLoadCoordinatesFromLocation = false,
   markerTitle,
+  inputsContainerStyles,
 }) => {
   const { granted: status } = useLocationPermission();
 
@@ -114,22 +117,24 @@ export const FMapView = ({
 
   return (
     <View>
-      {isInteractive && (
-        <View>
-          <FInput
-            caretHidden
-            placeholder={placeholders.MARK_ON_THE_MAP}
-            type={inputTypes.TEXT}
-            width={sizes.WIDTH_FULL}
-            showSoftInputOnFocus={false}
-            onChangeText={() => {
-            }}
-            onPress={() => {
-              Keyboard.dismiss();
-            }}
-            value={locationByCoords}
-          />
-          <View>
+      {(showLocationNameInput || showLocationDescriptionInput) && (
+        <View style={inputsContainerStyles}>
+          {showLocationNameInput && (
+            <FInput
+              caretHidden
+              placeholder={placeholders.MARK_ON_THE_MAP}
+              type={inputTypes.TEXT}
+              width={sizes.WIDTH_FULL}
+              showSoftInputOnFocus={false}
+              onChangeText={() => {
+              }}
+              onPress={() => {
+                Keyboard.dismiss();
+              }}
+              value={locationByCoords}
+            />
+          )}
+          {showLocationDescriptionInput && (
             <FInput
               type={inputTypes.TEXT}
               width={sizes.WIDTH_FULL}
@@ -137,7 +142,7 @@ export const FMapView = ({
               value={location.locationDescription}
               onChangeText={locationDescriptionInputHandler}
             />
-          </View>
+          )}
         </View>
       )}
       <View style={{
@@ -154,6 +159,7 @@ export const FMapView = ({
             region={coordinates}
             customMapStyle={mapStyle}
             onPress={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {
+              onChangeCoordinates();
             }}
             onPoiClick={isInteractive ? (e) => onChangeCoordinatesHandler(e) : () => {
             }}
@@ -216,6 +222,8 @@ FMapView.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   isInteractive: PropTypes.bool.isRequired,
+  showLocationDescriptionInput: PropTypes.bool.isRequired,
+  showLocationNameInput: PropTypes.bool.isRequired,
   location: PropTypes.shape({
     locationName: PropTypes.string,
     locationDescription: PropTypes.string,
