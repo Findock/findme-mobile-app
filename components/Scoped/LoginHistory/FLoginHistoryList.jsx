@@ -68,6 +68,7 @@ export const FLoginHistoryList = () => {
       return (
         <FSwipeButton
           actions={actions}
+          rounded={false}
         >
           <FLoginHistoryListItem
             key={item.id}

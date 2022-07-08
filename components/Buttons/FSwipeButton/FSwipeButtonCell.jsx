@@ -10,11 +10,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActionTypes';
 import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
 import PropTypes from 'prop-types';
+import { FHeading } from 'components/Composition/FHeading';
+import fonts from 'themes/fonts';
 
 export const FSwipeButtonCell = ({
   cellType,
   cellAction,
   onActionPress,
+  rounded,
 }) => {
   const getIconByCellAction = () => {
     switch (cellAction) {
@@ -70,10 +73,14 @@ export const FSwipeButtonCell = ({
     </TouchableOpacity>
   );
   const drawTextWithIconCell = () => (
-    <TouchableOpacity onPress={onActionPress}>
+    <TouchableOpacity
+      onPress={onActionPress}
+    >
       <View style={{
         ...styles.cellContainer,
         backgroundColor: getColorByCellAction(),
+        borderRadius: rounded ? sizes.RADIUS_15 : 0,
+        marginLeft: sizes.MARGIN_5,
       }}
       >
         <Ionicons
@@ -81,7 +88,12 @@ export const FSwipeButtonCell = ({
           color={colors.WHITE}
           size={sizes.ICON_20}
         />
-        <Text style={styles.title}>{getTitleByCellAction()}</Text>
+        <FHeading
+          title={getTitleByCellAction()}
+          color={colors.WHITE}
+          size={fonts.HEADING_SMALL}
+          weight={fonts.HEADING_WEIGHT_MEDIUM}
+        />
       </View>
     </TouchableOpacity>
   );
@@ -117,4 +129,5 @@ FSwipeButtonCell.propTypes = {
   cellType: PropTypes.string.isRequired,
   cellAction: PropTypes.string.isRequired,
   onActionPress: PropTypes.func.isRequired,
+  rounded: PropTypes.bool.isRequired,
 };

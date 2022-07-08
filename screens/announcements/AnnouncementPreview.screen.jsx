@@ -45,7 +45,7 @@ import { FMapView } from 'components/Inputs/Map/FMapView';
 import { parsePhoneNumber } from 'utils/parsePhoneNumber';
 import { FActionsModal } from 'components/Composition/FActionsModal';
 import { makePhoneCall } from 'utils/makePhoneCall';
-import AnnouncementTypeEnum from '../../enums/AnnouncementTypeEnum';
+import AnnouncementTypeEnum from 'enums/AnnouncementTypeEnum';
 
 export const AnnouncementPreviewScreen = () => {
   const route = useRoute();
@@ -450,6 +450,8 @@ export const AnnouncementPreviewScreen = () => {
               }}
               onChangeLocationDescription={() => {
               }}
+              showLocationNameInput={false}
+              showLocationDescriptionInput={false}
             />
           </View>
           <FButton
@@ -465,6 +467,9 @@ export const AnnouncementPreviewScreen = () => {
                 latitude: announcement.locationLat,
                 name: announcement.locationName,
               },
+              isInteractive: false,
+              showLocationNameInput: false,
+              showLocationDescriptionInput: false,
             }}
             to={stackNavigatorNames.MAP_PREVIEW_MODAL}
           />

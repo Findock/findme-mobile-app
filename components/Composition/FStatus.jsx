@@ -4,7 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
-import { getHalfBorderRadius } from '../../styles/utils/getHalfBorderRadius';
+import { getHalfBorderRadius } from 'styles/utils/getHalfBorderRadius';
 
 export const FStatus = ({
   status,

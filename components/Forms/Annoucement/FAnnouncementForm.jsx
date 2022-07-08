@@ -25,6 +25,8 @@ import announcementMessages from 'constants/components/inputs/errorMessages/anno
 import { filterErrorMessages } from 'utils/filterErrorMessages';
 import PropTypes from 'prop-types';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import modalsMessages from 'constants/components/modals/modalsMessages';
 
 export const FAnnouncementForm = ({
   dataForm,
@@ -41,8 +43,22 @@ export const FAnnouncementForm = ({
   onSubmit,
 }) => {
   const navigation = useNavigation();
+
+  const cancelFormHandler = () => {
+    if (isEdit) {
+      navigation.goBack();
+    } else {
+      navigation.navigate(stackNavigatorNames.HOMEPAGE);
+    }
+  };
+
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmationModal(modalsMessages.CANCEl_FROM_CONFIRMATION, cancelFormHandler);
   return (
-    <View>
+    <View style={{ flex: 1 }}>
+      {drawConfirmationModal()}
       {drawErrorModal()}
       {defaultPhotos && (
         <FImageSelectInput
@@ -116,37 +132,72 @@ export const FAnnouncementForm = ({
           errorMessage={filterErrorMessages(errors, announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR)}
         />
       </View>
-      <View>
+      <View style={{ flex: 1 }}>
         <FAnnouncementHeading title={locales.LOCATION} />
-        <FMapView
-          height={sizes.HEIGHT_400}
-          isInteractive
-          onChangeLocation={(locationName) => {
-            setDataForm({
+        <View style={{
+          marginTop: sizes.MARGIN_20,
+          height: sizes.HEIGHT_350,
+          width: sizes.WIDTH_FULL,
+        }}
+        >
+          <FMapView
+            doNotLoadCoordinatesFromLocation={isEdit}
+            isInteractive={false}
+            lat={+dataForm.locationLat}
+            lon={+dataForm.locationLon}
+            height={sizes.HEIGHT_200}
+            width={sizes.WIDTH_FULL}
+            onChangeLocation={(locationName) => {
+              setDataForm({
+                ...dataForm,
+                locationName,
+              });
+            }}
+            onChangeCoordinates={(coordinates) => {
+              setDataForm({
+                ...dataForm,
+                locationLat: coordinates.latitude,
+                locationLon: coordinates.longitude,
+              });
+            }}
+            onChangeLocationDescription={(locationDescription) => {
+              setDataForm({
+                ...dataForm,
+                locationDescription,
+              });
+            }}
+            location={{
+              locationName: dataForm.locationName,
+              locationDescription: dataForm.locationDescription,
+            }}
+            showLocationDescriptionInput
+            showLocationNameInput
+          />
+        </View>
+        <FButton
+          type={buttonTypes.LINK_BUTTON}
+          title={locales.ZOOM}
+          titleSize={fonts.HEADING_NORMAL}
+          titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+          buttonViewStyles={{ marginTop: sizes.MARGIN_10 }}
+          color={colors.PRIMARY}
+          navigationParams={{
+            location: {
+              longitude: +dataForm.locationLon,
+              latitude: +dataForm.locationLat,
+              name: dataForm.locationName,
+            },
+            isInteractive: true,
+            showLocationDescriptionInput: false,
+            showLocationNameInput: true,
+            onConfirm: (coordinates) => setDataForm({
               ...dataForm,
-              locationName,
-            });
+              locationLat: +coordinates?.latitude,
+              locationLon: +coordinates?.longitude,
+            }),
+            inputsContainerStyles: { paddingHorizontal: sizes.PADDING_15 },
           }}
-          onChangeCoordinates={(coordinates) => {
-            setDataForm({
-              ...dataForm,
-              locationLat: coordinates.latitude,
-              locationLon: coordinates.longitude,
-            });
-          }}
-          location={{
-            locationName: dataForm.locationName,
-            locationDescription: dataForm.locationDescription,
-          }}
-          onChangeLocationDescription={(locationDescription) => {
-            setDataForm({
-              ...dataForm,
-              locationDescription,
-            });
-          }}
-          lat={dataForm.locationLat}
-          lon={dataForm.locationLon}
-          doNotLoadCoordinatesFromLocation={isEdit}
+          to={stackNavigatorNames.MAP_PREVIEW_MODAL}
         />
       </View>
       <View style={styles.buttonsContainer}>
@@ -157,13 +208,7 @@ export const FAnnouncementForm = ({
           titleSize={fonts.HEADING_MEDIUM}
           titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
           buttonViewStyles={{ paddingHorizontal: sizes.PADDING_35 }}
-          onPress={() => {
-            if (isEdit) {
-              navigation.goBack();
-            } else {
-              navigation.navigate(stackNavigatorNames.HOMEPAGE);
-            }
-          }}
+          onPress={() => setShowConfirmationModal(true)}
         />
         <FButton
           type={buttonTypes.LOADING_BUTTON}
@@ -189,7 +234,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: sizes.WIDTH_FULL,
     justifyContent: 'space-between',
-    marginBottom: sizes.MARGIN_20,
+    marginTop: sizes.MARGIN_20,
   },
 });
 

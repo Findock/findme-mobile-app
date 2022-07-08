@@ -10,6 +10,7 @@ import { UserProfileNavigationStack } from 'navigation/stacks/UserProfileNavigat
 import { AddAnnouncementNavigationStack } from 'navigation/stacks/AddAnnouncementNavigationStack';
 import React, { useRef, useState } from 'react';
 import { MyFollowedAnnouncementsStackNavigation } from 'navigation/stacks/MyFollowedAnnouncementsStackNavigation';
+import { MessagesNavigationStack } from 'navigation/stacks/MessagesNavigationStack';
 
 export const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
@@ -173,9 +174,9 @@ export const BottomTabs = () => {
         }}
       />
       <Tab.Screen
-        name="Messages"
+        name={stackNavigatorNames.MESSAGES_TAB}
         navigationKey={`messages-navigation-stack-${messagesNavigationStackKey.toString()}`}
-        component={UserProfileNavigationStack}
+        component={MessagesNavigationStack}
         listeners={() => ({
           state: (state) => {
             if (!state.data.state.routes[3].state || state.data.state.routes[3].state.index === 0) {

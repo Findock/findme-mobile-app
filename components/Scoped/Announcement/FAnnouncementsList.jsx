@@ -1,7 +1,5 @@
 /* eslint-disable max-len */
-import {
-  ActivityIndicator, FlatList, Platform, StyleSheet, View,
-} from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useErrorModal } from 'hooks/modals/useErrorModal';
 import sizes from 'themes/sizes';
@@ -23,7 +21,8 @@ import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
 import { getLastViewedAnnouncementsService } from 'services/announcement/getLastViewedAnnouncements.service';
 import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
-import { getNearbyAnnouncementsService } from '../../../services/announcement/getNearbyAnnouncements.service';
+import { getNearbyAnnouncementsService } from 'services/announcement/getNearbyAnnouncements.service';
+import { FActivityIndicator } from 'components/Composition/FActivityIndicator';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -295,7 +294,7 @@ export const FAnnouncementsList = ({
   const drawNoAnnouncementInfo = () => {
     if (!isLoading && announcements.length === 0) {
       return (
-        <View style={horizontal ? [styles.containerHorizontal, styles.centerView] : styles.centerView}>
+        <View>
           <FHeading
             align={placements.CENTER}
             size={fonts.HEADING_SMALL}
@@ -307,21 +306,15 @@ export const FAnnouncementsList = ({
       );
     }
   };
-  const renderActivityIndicator = () => (!endReached
-    && (
-      <ActivityIndicator
-        animating
-        size={Platform.OS === 'ios' ? 'large' : sizes.ICON_30}
-        color={colors.GRAY}
-      />
-    ));
+  const renderActivityIndicator = () => !endReached && <FActivityIndicator />;
+
   return (
     isLoading ? <FSpinner />
       : (
         <>
           {drawNoAnnouncementInfo()}
           {drawErrorModal()}
-          <View style={horizontal ? [styles.containerHorizontal, styles.container] : styles.container}>
+          <View>
             <FlatList
               extraData={announcements}
               horizontal={horizontal}
@@ -330,7 +323,7 @@ export const FAnnouncementsList = ({
               ListFooterComponent={renderActivityIndicator}
               data={announcements}
               renderItem={drawAnnouncementCard}
-              contentContainerStyle={horizontal ? '' : styles.verticalSeparator}
+              contentContainerStyle={horizontal ? '' : getAll ? { paddingBottom: sizes.PADDING_150 } : styles.verticalSeparator}
               keyExtractor={(item) => item.id}
               numColumns={numColumns}
               scrollEnabled
@@ -341,13 +334,6 @@ export const FAnnouncementsList = ({
 };
 
 const styles = StyleSheet.create({
-  containerHorizontal: {
-    // alignItems: placements.CENTER,
-  },
-  container: {
-    // backgroundColor: colors.WHITE,
-    // flex: 1,
-  },
   centerView: {
     justifyContent: placements.CENTER,
     alignItems: placements.CENTER,
@@ -355,7 +341,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
   verticalSeparator: {
-    // paddingBottom: sizes.PADDING_110,
     paddingVertical: sizes.PADDING_10,
   },
 });

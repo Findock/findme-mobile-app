@@ -54,7 +54,10 @@ export const FCommentsModal = () => {
     }}
     >
       {drawSuccessModal()}
-      <FModalHeader title={comments.length === 0 ? locales.COMMENTS : `${locales.COMMENTS} ${comments.length}`} />
+      <FModalHeader
+        hasConfirmButton={false}
+        title={comments.length === 0 ? locales.COMMENTS : `${locales.COMMENTS} ${comments.length}`}
+      />
       <FComment
         isCommentCreator
         isUserCreator={route.params.isUserCreator}
