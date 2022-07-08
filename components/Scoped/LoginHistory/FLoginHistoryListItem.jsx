@@ -20,7 +20,7 @@ export const FLoginHistoryListItem = ({
   date,
 }) => {
   const drawDateDependingOnPassedTime = () => {
-    const oneDay = 60 * 60 * 3600;
+    const oneDay = (60 * 60 * 24) + new Date().getTime() / 1000;
     if (calcPassedTime(date) < oneDay) return parseDate(dateFormatTypes.HOW_LONG_AGO, date);
     return parseDate(dateFormatTypes.DATE_TIME, date);
   };

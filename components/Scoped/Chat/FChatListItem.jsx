@@ -17,17 +17,17 @@ import { calcPassedTime } from 'utils/calcPassedTime';
 export const FChatListItem = ({
   sender,
   message,
-  isUnread,
-  readDate,
+  unreadCount,
   sentDate,
 }) => {
   const getSentDate = () => {
-    const oneWeek = 60 * 60 * 3600 * 7;
-    if (calcPassedTime(sentDate) >= oneWeek) {
+    const oneWeek = (60 * 60 * 24 * 7) + new Date().getTime() / 1000;
+    if (calcPassedTime(sentDate) <= Math.floor(oneWeek)) {
       return parseDate(dateFormatTypes.HOW_LONG_AGO, sentDate);
     }
     return parseDate(dateFormatTypes.DATE, sentDate);
   };
+  const isSenderOnline = () => new Date().getTime() === new Date(sender.lastLogin).getTime();
 
   return (
     <View style={styles.container}>
@@ -41,10 +41,12 @@ export const FChatListItem = ({
       <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
         <View style={styles.middleContainer}>
           <View style={styles.topBox}>
-            <FStatus
-              status={statusTypes.ACTIVE}
-              style={{ marginRight: sizes.MARGIN_3 }}
-            />
+            {isSenderOnline() && (
+              <FStatus
+                status={statusTypes.ACTIVE}
+                style={{ marginRight: sizes.MARGIN_3 }}
+              />
+            )}
             <View style={{ paddingRight: sizes.PADDING_15 }}>
               <FHeading
                 size={fonts.HEADING_NORMAL}
@@ -76,12 +78,12 @@ export const FChatListItem = ({
               numberOfLines={2}
             />
           </View>
-          {isUnread && (
+          {unreadCount > 0 && (
             <View style={styles.messagesAmountBox}>
               <FHeading
                 size={fonts.HEADING_EXTRA_SMALL}
                 weight={fonts.HEADING_WEIGHT_BOLD}
-                title="2"
+                title={unreadCount}
                 align={placements.CENTER}
                 color={colors.WHITE}
               />
@@ -141,7 +143,6 @@ FChatListItem.propTypes = {
     lastLogin: PropTypes.string,
   }).isRequired,
   message: PropTypes.string,
-  isUnread: PropTypes.string.isRequired,
-  readDate: PropTypes.string.isRequired,
+  unreadCount: PropTypes.number.isRequired,
   sentDate: PropTypes.string.isRequired,
 };

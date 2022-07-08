@@ -1,3 +1,3 @@
 import authClient from 'api/authClient';
 
-export const getUserChatMessagesService = async (params) => authClient.get('chat', { ...params });
+export const getUserChatMessagesService = async () => authClient.get('chat');
