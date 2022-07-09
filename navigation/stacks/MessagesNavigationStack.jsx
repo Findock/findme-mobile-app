@@ -10,6 +10,7 @@ import { AnnouncementPreviewScreen } from 'screens/announcements/AnnouncementPre
 import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements.screen';
 import locales from 'constants/locales';
 import { MessagesScreen } from 'screens/chat/Messages.screen';
+import { MessagesPreviewScreen } from 'screens/chat/MessagesPreview.screen';
 
 export const MessagesNavigationStack = () => {
   const Stack = createNativeStackNavigator();
@@ -21,6 +22,14 @@ export const MessagesNavigationStack = () => {
         options={{
           ...defaultHeaderOptions,
           title: locales.MESSAGES,
+        }}
+      />
+      <Stack.Screen
+        name={stackNavigatorNames.MESSAGES_PREVIEW}
+        component={MessagesPreviewScreen}
+        options={{
+          ...defaultHeaderOptions,
+          title: '',
         }}
       />
       <Stack.Screen

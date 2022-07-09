@@ -25,6 +25,7 @@ export default {
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
   NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
   MESSAGES: 'Messages',
+  MESSAGES_PREVIEW: 'Messages Preview',
   MESSAGES_TAB: 'Messages Tab',
   HOME_TAB: 'Home Tab',
   USER_PROFILE_TAB: 'User Profile Tab',

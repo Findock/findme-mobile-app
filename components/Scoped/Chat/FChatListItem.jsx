@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { FAvatar } from 'components/Composition/FAvatar';
@@ -13,13 +13,19 @@ import PropTypes from 'prop-types';
 import { parseDate } from 'utils/parseDate';
 import dateFormatTypes from 'constants/dateFormatTypes';
 import { calcPassedTime } from 'utils/calcPassedTime';
+import { useNavigation } from '@react-navigation/native';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
+import locales from 'constants/locales';
 
 export const FChatListItem = ({
   sender,
   message,
   unreadCount,
   sentDate,
+  receiver,
 }) => {
+  const navigation = useNavigation();
+
   const getSentDate = () => {
     const oneWeek = (60 * 60 * 24 * 7) + new Date().getTime() / 1000;
     if (calcPassedTime(sentDate) <= Math.floor(oneWeek)) {
@@ -29,69 +35,82 @@ export const FChatListItem = ({
   };
   const isSenderOnline = () => new Date().getTime() === new Date(sender.lastLogin).getTime();
 
+  const redirectToChat = () => {
+    navigation.push(stackNavigatorNames.MESSAGES_PREVIEW, { sender });
+  };
+
+  const checkIfLastMessageWasSentByMe = () => sender.id === receiver.id;
+
+  const drawMessage = () => {
+    if (checkIfLastMessageWasSentByMe()) return `${locales.YOU}: ${message}`;
+    return message;
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={{ flexBasis: sizes.BASIS_20_PERCENTAGES }}>
-        <FAvatar
-          size={sizes.WIDTH_50}
-          isEditable={false}
-          imageUrl={sender?.profileImageUrl}
-        />
-      </View>
-      <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
-        <View style={styles.middleContainer}>
-          <View style={styles.topBox}>
-            {isSenderOnline() && (
-              <FStatus
-                status={statusTypes.ACTIVE}
-                style={{ marginRight: sizes.MARGIN_3 }}
-              />
-            )}
-            <View style={{ paddingRight: sizes.PADDING_15 }}>
-              <FHeading
-                size={fonts.HEADING_NORMAL}
-                weight={fonts.HEADING_WEIGHT_BOLD}
-                title={sender.name}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              />
-            </View>
-          </View>
-          <View style={{ flexBasis: sizes.BASIS_30_PERCENTAGES }}>
-            <FHeading
-              size={fonts.HEADING_EXTRA_SMALL}
-              weight={fonts.HEADING_WEIGHT_REGULAR}
-              title={getSentDate()}
-              color={colors.DARK_GRAY}
-              align={placements.RIGHT}
-            />
-          </View>
+    <TouchableWithoutFeedback onPress={redirectToChat}>
+      <View style={styles.container}>
+        <View style={{ flexBasis: sizes.BASIS_20_PERCENTAGES }}>
+          <FAvatar
+            size={sizes.WIDTH_50}
+            isEditable={false}
+            imageUrl={sender?.profileImageUrl}
+          />
         </View>
-        <View style={styles.lastContainer}>
-          <View style={styles.messageBox}>
-            <FHeading
-              size={fonts.HEADING_SMALL}
-              weight={fonts.HEADING_WEIGHT_MEDIUM}
-              title={message}
-              color={colors.DARK_GRAY}
-              ellipsizeMode="tail"
-              numberOfLines={2}
-            />
-          </View>
-          {unreadCount > 0 && (
-            <View style={styles.messagesAmountBox}>
+        <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
+          <View style={styles.middleContainer}>
+            <View style={styles.topBox}>
+              {isSenderOnline() && (
+                <FStatus
+                  status={statusTypes.ACTIVE}
+                  style={{ marginRight: sizes.MARGIN_3 }}
+                />
+              )}
+              <View style={{ paddingRight: sizes.PADDING_15 }}>
+                <FHeading
+                  size={fonts.HEADING_NORMAL}
+                  weight={fonts.HEADING_WEIGHT_BOLD}
+                  title={sender.name}
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                />
+              </View>
+            </View>
+            <View style={{ flexBasis: sizes.BASIS_30_PERCENTAGES }}>
               <FHeading
                 size={fonts.HEADING_EXTRA_SMALL}
-                weight={fonts.HEADING_WEIGHT_BOLD}
-                title={unreadCount}
-                align={placements.CENTER}
-                color={colors.WHITE}
+                weight={fonts.HEADING_WEIGHT_REGULAR}
+                title={getSentDate()}
+                color={colors.DARK_GRAY}
+                align={placements.RIGHT}
               />
             </View>
-          )}
+          </View>
+          <View style={styles.lastContainer}>
+            <View style={styles.messageBox}>
+              <FHeading
+                size={fonts.HEADING_SMALL}
+                weight={fonts.HEADING_WEIGHT_MEDIUM}
+                title={drawMessage()}
+                color={colors.DARK_GRAY}
+                ellipsizeMode="tail"
+                numberOfLines={2}
+              />
+            </View>
+            {unreadCount > 0 && (
+              <View style={styles.messagesAmountBox}>
+                <FHeading
+                  size={fonts.HEADING_EXTRA_SMALL}
+                  weight={fonts.HEADING_WEIGHT_BOLD}
+                  title={unreadCount}
+                  align={placements.CENTER}
+                  color={colors.WHITE}
+                />
+              </View>
+            )}
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -137,6 +156,12 @@ const styles = StyleSheet.create({
 
 FChatListItem.propTypes = {
   sender: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    profileImageUrl: PropTypes.string,
+    lastLogin: PropTypes.string,
+  }).isRequired,
+  receiver: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
     profileImageUrl: PropTypes.string,
