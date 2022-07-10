@@ -55,7 +55,7 @@ export const FAnnouncementForm = ({
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
-  } = useConfirmationModal(modalsMessages.CANCEl_FROM_CONFIRMATION, cancelFormHandler);
+  } = useConfirmationModal(modalsMessages.CANCEl_FORM_CONFIRMATION, cancelFormHandler);
   return (
     <View style={{ flex: 1 }}>
       {drawConfirmationModal()}
@@ -196,6 +196,7 @@ export const FAnnouncementForm = ({
               locationLon: +coordinates?.longitude,
             }),
             inputsContainerStyles: { paddingHorizontal: sizes.PADDING_15 },
+            hasConfirmButton: true,
           }}
           to={stackNavigatorNames.MAP_PREVIEW_MODAL}
         />

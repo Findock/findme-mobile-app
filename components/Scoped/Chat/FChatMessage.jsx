@@ -10,6 +10,12 @@ import sizes from 'themes/sizes';
 import { calcPassedTime } from 'utils/calcPassedTime';
 import { parseDate } from 'utils/parseDate';
 import dateFormatTypes from 'constants/dateFormatTypes';
+import { Ionicons } from '@expo/vector-icons';
+import icons from 'themes/icons';
+import locales from 'constants/locales';
+import placements from 'themes/placements';
+import { useNavigation } from '@react-navigation/native';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FChatMessage = ({
   message,
@@ -17,8 +23,12 @@ export const FChatMessage = ({
   sender,
   receiver,
   nextMessageSender,
+  isLastMessage,
+  locationLat,
+  locationLon,
 }) => {
   const me = useSelector((state) => state.me.me);
+  const navigation = useNavigation();
   const [
     showSentDate,
     setShowSentDate,
@@ -43,6 +53,56 @@ export const FChatMessage = ({
     return parseDate(dateFormatTypes.DATE_TIME, sentDate);
   };
 
+  const drawMessageContent = () => {
+    if (message) {
+      return (
+        <FHeading
+          size={fonts.HEADING_NORMAL}
+          weight={fonts.HEADING_WEIGHT_MEDIUM}
+          title={message}
+          color={isMyMessage() ? colors.WHITE : colors.BLACK}
+        />
+      );
+    }
+    if (+locationLat !== 0 && +locationLon !== 0) {
+      return (
+        <TouchableOpacity onPress={(e) => {
+          e.stopPropagation();
+          navigation.navigate(stackNavigatorNames.MAP_PREVIEW_MODAL, {
+            location: {
+              longitude: locationLon,
+              latitude: locationLat,
+            },
+            isInteractive: false,
+            showLocationNameInput: false,
+            showLocationDescriptionInput: false,
+            hasConfirmButton: false,
+          });
+        }}
+        >
+          <View style={{
+            flexDirection: 'row',
+            alignItems: placements.CENTER,
+          }}
+          >
+            <Ionicons
+              name={icons.LOCATION_OUTLINE}
+              size={sizes.ICON_22}
+              color={isMyMessage() ? colors.WHITE : colors.BLACK}
+              style={{ marginRight: sizes.MARGIN_5 }}
+            />
+            <FHeading
+              size={fonts.HEADING_NORMAL}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+              title={locales.SEE_LOCATION}
+              color={isMyMessage() ? colors.WHITE : colors.BLACK}
+            />
+          </View>
+        </TouchableOpacity>
+      );
+    }
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={opacities.OPACITY_08}
@@ -50,7 +110,7 @@ export const FChatMessage = ({
     >
       <View style={{
         alignItems: isMyMessage() ? 'flex-end' : 'flex-start',
-        marginBottom: isSameSenderAsBefore() ? sizes.MARGIN_8 : sizes.MARGIN_20,
+        marginBottom: isLastMessage ? 0 : isSameSenderAsBefore() ? sizes.MARGIN_8 : sizes.MARGIN_20,
       }}
       >
         <View style={{
@@ -58,12 +118,7 @@ export const FChatMessage = ({
           ...styles.messageContainer,
         }}
         >
-          <FHeading
-            size={fonts.HEADING_NORMAL}
-            weight={fonts.HEADING_WEIGHT_MEDIUM}
-            title={message}
-            color={isMyMessage() ? colors.WHITE : colors.BLACK}
-          />
+          {drawMessageContent()}
         </View>
         {showSentDate && (
           <View style={styles.dateContainer}>
@@ -112,4 +167,7 @@ FChatMessage.propTypes = {
     profileImageUrl: PropTypes.string,
     lastLogin: PropTypes.string,
   }).isRequired,
+  isLastMessage: PropTypes.bool,
+  locationLat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  locationLon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

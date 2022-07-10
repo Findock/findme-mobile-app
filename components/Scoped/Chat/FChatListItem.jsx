@@ -20,6 +20,8 @@ import locales from 'constants/locales';
 export const FChatListItem = ({
   sender,
   message,
+  locationLat,
+  locationLon,
   unreadCount,
   sentDate,
   receiver,
@@ -42,8 +44,12 @@ export const FChatListItem = ({
   const checkIfLastMessageWasSentByMe = () => sender.id === receiver.id;
 
   const drawMessage = () => {
-    if (checkIfLastMessageWasSentByMe()) return `${locales.YOU}: ${message}`;
-    return message;
+    let result = '';
+    if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}:`;
+    if (message) {
+      result += message;
+    } else if (+locationLat !== 0 && +locationLon !== 0) result += locales.LOCATION_SHARED;
+    return result;
   };
 
   return (
@@ -170,4 +176,6 @@ FChatListItem.propTypes = {
   message: PropTypes.string,
   unreadCount: PropTypes.number.isRequired,
   sentDate: PropTypes.string.isRequired,
+  locationLat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  locationLon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };

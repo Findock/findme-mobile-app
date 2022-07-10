@@ -28,5 +28,6 @@ export default {
   LOCATION_HAS_BEEN_SHARED: 'Twoja lokalizacja została udostępniona',
   DELETE_COMMENT: 'Jesteś pewnien, że chcesz usunąć ten komentarz? Tej akcji nie będzie można cofnąć.',
   COMMENT_HAS_BEEN_DELETED: 'Komentarz został usunięty!',
-  CANCEl_FROM_CONFIRMATION: 'Jesteś pewien, że chcesz anulować?',
+  CANCEl_FORM_CONFIRMATION: 'Jesteś pewien, że chcesz anulować?',
+  SHARE_CURRENT_LOCATION_CONFIRMATION: 'Na pewno chcesz udostępnić swoją bieżąca lokalizację?',
 };

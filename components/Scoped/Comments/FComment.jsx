@@ -564,6 +564,7 @@ export const FComment = ({
                         latitude: commentedAnnouncement.locationLat,
                         name: commentedAnnouncement.commentedAnnouncement.locationName,
                       },
+                      hasConfirmButton: false,
                     }}
                   />
                 </View>

@@ -61,6 +61,7 @@ export default {
   HEIGHT_54: 54,
   HEIGHT_60: 60,
   HEIGHT_80: 80,
+  HEIGHT_90: 90,
   HEIGHT_120: 120,
   HEIGHT_140: 140,
   HEIGHT_150: 150,

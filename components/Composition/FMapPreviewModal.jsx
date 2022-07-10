@@ -63,7 +63,7 @@ export const FMapPreviewModal = () => {
     <View style={styles.container}>
       <FModalHeader
         title={locales.LOCATION}
-        hasConfirmButton
+        hasConfirmButton={route.params?.hasConfirmButton}
         onConfirm={() => {
           if (route.params?.onConfirm) {
             route.params?.onConfirm(coordinates);

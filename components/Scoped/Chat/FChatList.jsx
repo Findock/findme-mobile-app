@@ -71,11 +71,6 @@ export const FChatList = () => {
     return item.lastMessage.sender;
   };
 
-  const getReceiver = (item) => {
-    if (me.id === item.lastMessage.receiver.id) return item.lastMessage.sender;
-    return item.lastMessage.receiver;
-  };
-
   const drawMessage = ({ item }) => (
     <FChatListItem
       key={item.lastMessage.id}
