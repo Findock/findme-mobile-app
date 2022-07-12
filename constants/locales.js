@@ -100,4 +100,6 @@ export default {
   USER: 'Użytkownik',
   NO_MESSAGES: 'Nie masz jeszcze żadnych wiadomości',
   YOU: 'Ty',
+  SEND: 'Wyślij',
+  SEND_PHOTO: 'Przesyła zdjęcie',
 };

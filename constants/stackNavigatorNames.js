@@ -23,6 +23,7 @@ export default {
   RECENTLY_CREATED_ANNOUNCEMENTS: 'Recently Created Announcements',
   COMMENTS_MODAL: 'Comments Modal',
   MAP_PREVIEW_MODAL: 'Map Preview Modal',
+  CHAT_SELECTED_PHOTO_MODAL: 'Chat Selected Photo Modal',
   NEARBY_ANNOUNCEMENTS: 'Nearby Announcements',
   MESSAGES: 'Messages',
   MESSAGES_PREVIEW: 'Messages Preview',

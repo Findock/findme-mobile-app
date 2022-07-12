@@ -3,7 +3,7 @@ import opacities from 'themes/opacities';
 import PropTypes from 'prop-types';
 import { FHeading } from 'components/Composition/FHeading';
 import fonts from 'themes/fonts';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
@@ -16,16 +16,18 @@ import locales from 'constants/locales';
 import placements from 'themes/placements';
 import { useNavigation } from '@react-navigation/native';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
+import { FImageWithFullscreenPreview } from 'components/Composition/FImageWithFullscreenPreview';
+import defaultBoxShadow from 'styles/defaultBoxShadow';
 
 export const FChatMessage = ({
   message,
   sentDate,
   sender,
-  receiver,
   nextMessageSender,
   isLastMessage,
   locationLat,
   locationLon,
+  photos,
 }) => {
   const me = useSelector((state) => state.me.me);
   const navigation = useNavigation();
@@ -62,6 +64,33 @@ export const FChatMessage = ({
           title={message}
           color={isMyMessage() ? colors.WHITE : colors.BLACK}
         />
+      );
+    }
+    if (photos[0]) {
+      const photo = photos[0];
+      return (
+        <TouchableOpacity>
+          <View style={{
+            width: sizes.WIDTH_FULL,
+            height: sizes.HEIGHT_200,
+            ...defaultBoxShadow,
+          }}
+          >
+            <FImageWithFullscreenPreview
+              key={photo.id}
+              networkImageUrl={photo.url}
+              imagePath=""
+              height={sizes.WIDTH_FULL}
+              width={sizes.HEIGHT_FULL}
+              imageHeight={sizes.HEIGHT_FULL}
+              imageWidth={sizes.WIDTH_FULL}
+              resizeMode={sizes.COVER}
+              isChildrenInside={false}
+              photos={photos.map((p) => p.url)}
+              canBeOpenAsFullscreen
+            />
+          </View>
+        </TouchableOpacity>
       );
     }
     if (+locationLat !== 0 && +locationLon !== 0) {
@@ -114,8 +143,10 @@ export const FChatMessage = ({
       }}
       >
         <View style={{
-          backgroundColor: isMyMessage() ? colors.PRIMARY : colors.GRAY,
-          ...styles.messageContainer,
+          backgroundColor: photos[0] ? colors.TRANSPARENT : isMyMessage() ? colors.PRIMARY : colors.GRAY,
+          padding: photos[0] ? 0 : sizes.PADDING_15,
+          borderRadius: sizes.RADIUS_15,
+          width: photos[0] ? sizes.WIDTH_HALF : sizes.WIDTH_80_PERCENTAGES,
         }}
         >
           {drawMessageContent()}
@@ -136,11 +167,6 @@ export const FChatMessage = ({
 };
 
 const styles = StyleSheet.create({
-  messageContainer: {
-    padding: sizes.PADDING_15,
-    borderRadius: sizes.RADIUS_15,
-    width: sizes.WIDTH_80_PERCENTAGES,
-  },
   dateContainer: {
     marginVertical: sizes.MARGIN_3,
   },
@@ -161,13 +187,11 @@ FChatMessage.propTypes = {
     profileImageUrl: PropTypes.string,
     lastLogin: PropTypes.string,
   }).isRequired,
-  receiver: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    profileImageUrl: PropTypes.string,
-    lastLogin: PropTypes.string,
-  }).isRequired,
   isLastMessage: PropTypes.bool,
   locationLat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   locationLon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  photos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+  })),
 };

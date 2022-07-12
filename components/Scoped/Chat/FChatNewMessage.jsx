@@ -15,23 +15,32 @@ import modalsMessages from 'constants/components/modals/modalsMessages';
 import * as Location from 'expo-location';
 import PropTypes from 'prop-types';
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import { pickImageFromCameraRoll } from 'utils/pickImageFromCameraRoll';
+import { appendFileToFormData } from 'utils/appendFileToFormData';
+import { takePhotoWithCamera } from 'utils/takePhotoWithCamera';
+import { useCameraRollPermission } from 'hooks/permissions/useCameraRollPermission';
+import { useCameraPermission } from 'hooks/permissions/useCameraPermission';
+import { useNavigation } from '@react-navigation/native';
+import { uploadChatPhotoService } from 'services/chat/uploadChatPhoto.service';
+import stackNavigatorNames from 'constants/stackNavigatorNames';
 
 export const FChatNewMessage = ({
   receiver,
   fetchUserMessages,
 }) => {
+  const navigation = useNavigation();
   const [
     message,
     setMessage,
   ] = useState('');
   const [
+    photo,
+    setPhoto,
+  ] = useState(null);
+  const [
     isSendMessageButtonDisabled,
     setIsSendMessageButtonDisabled,
   ] = useState(true);
-  const [
-    isAddPhotoButtonDisabled,
-    setIsAddPhotoButtonDisabled,
-  ] = useState(false);
   const {
     drawErrorModal,
     setShowErrorModal,
@@ -41,6 +50,16 @@ export const FChatNewMessage = ({
     granted: locationStatus,
     drawNoPermissionsModal: drawNoLocationPermissionModal,
   } = useLocationPermission();
+  const {
+    tryToAskForCameraRollPermissionsIfIsNotGranted,
+    drawNoPermissionsModal,
+    granted: status,
+  } = useCameraRollPermission();
+  const {
+    tryToAskForCameraPermissionsIfIsNotGranted,
+    drawNoPermissionsModal: drawNoCameraPermissionsModal,
+    granted: cameraStatus,
+  } = useCameraPermission();
 
   useEffect(() => {
     if (!message) {
@@ -50,21 +69,41 @@ export const FChatNewMessage = ({
     }
   }, [message]);
 
+  useEffect(() => {
+    if (photo) {
+      navigation.navigate(stackNavigatorNames.CHAT_SELECTED_PHOTO_MODAL, {
+        photo,
+        sendPhotoHandler,
+      });
+    }
+  }, [photo]);
+
   const newMessageHandler = (newMessage) => {
     setMessage(newMessage);
   };
 
   const resetMessageData = () => {
     setMessage('');
+    setPhoto(null);
     setIsSendMessageButtonDisabled(true);
   };
 
   const sendNewMessageHandler = async () => {
     try {
-      const newMessageData = {
-        message,
-      };
-      await sendChatMessageService(receiver.id, newMessageData);
+      await sendChatMessageService(receiver.id, { message });
+      resetMessageData();
+      fetchUserMessages();
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
+  const sendPhotoHandler = async () => {
+    try {
+      await sendChatMessageService(receiver.id, {
+        message: '',
+        photosIds: [photo.id],
+      });
       resetMessageData();
       fetchUserMessages();
     } catch (error) {
@@ -88,6 +127,45 @@ export const FChatNewMessage = ({
     }
   };
 
+  const uploadPhoto = async (source) => {
+    if (source === 'camera-roll') {
+      if (!status) tryToAskForCameraRollPermissionsIfIsNotGranted();
+    } else if (source === 'camera') {
+      if (!cameraStatus) tryToAskForCameraPermissionsIfIsNotGranted();
+    }
+    try {
+      if (source === 'camera-roll') {
+        if (status) {
+          await pickImageFromCameraRoll(async (result) => {
+            const formData = appendFileToFormData(result, 'chat-image.jpg');
+            const res = await uploadChatPhotoService(formData);
+            setPhoto({
+              id: res.id,
+              url: res.url,
+            });
+          }, {
+            allowsEditing: true,
+          });
+        }
+      } else if (source === 'camera') {
+        if (cameraStatus && status) {
+          await takePhotoWithCamera(async (result) => {
+            const formData = appendFileToFormData(result, 'chat-image.jpg');
+            const res = await uploadChatPhotoService(formData);
+            setPhoto({
+              id: res.id,
+              url: res.url,
+            });
+          }, {
+            allowsEditing: true,
+          });
+        }
+      }
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
   const {
     setShowConfirmationModal,
     drawConfirmationModal,
@@ -96,6 +174,8 @@ export const FChatNewMessage = ({
   return (
     <>
       {drawNoLocationPermissionModal()}
+      {drawNoPermissionsModal()}
+      {drawNoCameraPermissionsModal()}
       {drawConfirmationModal()}
       {drawErrorModal()}
       <View style={styles.container}>
@@ -118,8 +198,7 @@ export const FChatNewMessage = ({
                   padding: 0,
                   marginRight: sizes.MARGIN_12,
                 }}
-                // isDisabled={isAddPhotoButtonDisabled}
-                // onPress={() => uploadPhoto('camera-roll')}
+                onPress={() => uploadPhoto('camera-roll')}
               />
               <FButton
                 type={buttonTypes.ICON_BUTTON}
@@ -130,8 +209,7 @@ export const FChatNewMessage = ({
                   padding: 0,
                   marginRight: sizes.MARGIN_12,
                 }}
-                isDisabled={isAddPhotoButtonDisabled}
-                // onPress={() => uploadPhoto('camera')}
+                onPress={() => uploadPhoto('camera')}
               />
               <FButton
                 type={buttonTypes.ICON_BUTTON}

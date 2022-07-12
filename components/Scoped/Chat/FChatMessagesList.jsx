@@ -32,11 +32,11 @@ export const FChatMessagesList = ({
         message={item.message}
         nextMessageSender={messages[index - 1]?.sender}
         sender={item.sender}
-        receiver={item.receiver}
         key={item.id}
         isLastMessage={index === 0}
         locationLat={item.locationLat}
         locationLon={item.locationLon}
+        photos={item.photos}
       />
     </>
   );
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes.PADDING_15,
     backgroundColor: colors.WHITE,
     flex: 1,
-    transform: [{ scaleY: -1 }],
   },
 });
 
@@ -109,6 +108,10 @@ FChatMessagesList.propTypes = {
     locationLon: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     readDate: PropTypes.string,
     sentDate: PropTypes.string.isRequired,
+    photos: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      url: PropTypes.string,
+    })),
   }).isRequired),
   receiver: PropTypes.shape({
     id: PropTypes.number,

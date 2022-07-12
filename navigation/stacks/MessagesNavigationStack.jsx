@@ -11,6 +11,7 @@ import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements
 import locales from 'constants/locales';
 import { MessagesScreen } from 'screens/chat/Messages.screen';
 import { MessagesPreviewScreen } from 'screens/chat/MessagesPreview.screen';
+import { FChatSelectedPhotoModal } from 'components/Scoped/Chat/FChatSelectedPhotoModal';
 
 export const MessagesNavigationStack = () => {
   const Stack = createNativeStackNavigator();
@@ -24,14 +25,26 @@ export const MessagesNavigationStack = () => {
           title: locales.MESSAGES,
         }}
       />
-      <Stack.Screen
-        name={stackNavigatorNames.MESSAGES_PREVIEW}
-        component={MessagesPreviewScreen}
-        options={{
-          ...defaultHeaderOptions,
-          title: '',
-        }}
-      />
+      <Stack.Group screenOptions={{ ...defaultHeaderOptions }}>
+        <Stack.Screen
+          name={stackNavigatorNames.MESSAGES_PREVIEW}
+          component={MessagesPreviewScreen}
+          options={{
+            ...defaultHeaderOptions,
+            title: '',
+          }}
+        />
+        <Stack.Screen
+          options={{
+            presentation: 'modal',
+            headerShown: false,
+            animation: 'slide_from_bottom',
+
+          }}
+          name={stackNavigatorNames.CHAT_SELECTED_PHOTO_MODAL}
+          component={FChatSelectedPhotoModal}
+        />
+      </Stack.Group>
       <Stack.Screen
         name={stackNavigatorNames.USER_PROFILE_PREVIEW}
         component={UserProfilePreviewScreen}
