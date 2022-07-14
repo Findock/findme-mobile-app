@@ -76,6 +76,7 @@ export const MessagesPreviewScreen = () => {
   };
   return (
     <View style={styles.screen}>
+      {drawErrorModal()}
       {isLoading ? <FSpinner /> : (
         <FChatMessagesList
           messages={messages}
