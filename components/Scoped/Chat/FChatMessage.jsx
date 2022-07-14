@@ -81,8 +81,8 @@ export const FChatMessage = ({
 
   const getParsedDate = (date) => {
     const oneDay = (60 * 60 * 24) + new Date().getTime() / 1000;
-    if (calcPassedTime(sentDate) > oneDay) return parseDate(dateFormatTypes.TIME, sentDate);
-    return parseDate(dateFormatTypes.DATE_TIME, sentDate);
+    if (calcPassedTime(date) > oneDay) return parseDate(dateFormatTypes.TIME, date);
+    return parseDate(dateFormatTypes.DATE_TIME, date);
   };
 
   const drawMessageContent = () => {

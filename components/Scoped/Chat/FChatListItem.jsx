@@ -25,6 +25,7 @@ export const FChatListItem = ({
   unreadCount,
   sentDate,
   receiver,
+  photos,
 }) => {
   const navigation = useNavigation();
 
@@ -180,4 +181,8 @@ FChatListItem.propTypes = {
   sentDate: PropTypes.string.isRequired,
   locationLat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   locationLon: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  photos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+  })),
 };

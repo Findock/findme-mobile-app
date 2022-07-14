@@ -79,6 +79,7 @@ export const FChatList = () => {
       receiver={item.receiver}
       unreadCount={item.unreadCount}
       sentDate={item.lastMessage.sentDate}
+      photos={item.photos}
     />
   );
 
