@@ -1,9 +1,9 @@
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Animated, TouchableOpacity, View } from 'react-native';
 import opacities from 'themes/opacities';
 import PropTypes from 'prop-types';
 import { FHeading } from 'components/Composition/FHeading';
 import fonts from 'themes/fonts';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
@@ -30,11 +30,40 @@ export const FChatMessage = ({
   photos,
 }) => {
   const me = useSelector((state) => state.me.me);
+  const fadeAnimation = useRef(new Animated.Value(0)).current;
   const navigation = useNavigation();
+
   const [
     showSentDate,
     setShowSentDate,
   ] = useState(false);
+
+  useEffect(() => {
+    if (showSentDate) {
+      fadeIn();
+    } else {
+      fadeOut();
+    }
+  }, [showSentDate]);
+
+  const fadeIn = () => {
+    Animated.timing(fadeAnimation, {
+      toValue: 1,
+      duration: 100,
+      useNativeDriver: true,
+      delay: 100,
+    })
+      .start();
+  };
+  const fadeOut = () => {
+    Animated.timing(fadeAnimation, {
+      toValue: 0,
+      duration: 100,
+      useNativeDriver: true,
+      delay: 100,
+    })
+      .start();
+  };
 
   const toggleShowSentDate = () => {
     setShowSentDate(!showSentDate);
@@ -151,26 +180,26 @@ export const FChatMessage = ({
         >
           {drawMessageContent()}
         </View>
-        {showSentDate && (
-          <View style={styles.dateContainer}>
-            <FHeading
-              size={fonts.HEADING_EXTRA_SMALL}
-              weight={fonts.HEADING_WEIGHT_MEDIUM}
-              color={colors.DARK_GRAY}
-              title={getParsedSentDate()}
-            />
-          </View>
-        )}
+        <Animated.View style={{
+          marginVertical: fadeAnimation ? sizes.MARGIN_3 : 0,
+          transform: [{ scale: fadeAnimation ? 1 : 0 }],
+          opacity: fadeAnimation,
+        }}
+        >
+          {showSentDate
+            && (
+              <FHeading
+                size={fonts.HEADING_EXTRA_SMALL}
+                weight={fonts.HEADING_WEIGHT_MEDIUM}
+                color={colors.DARK_GRAY}
+                title={getParsedSentDate()}
+              />
+            )}
+        </Animated.View>
       </View>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  dateContainer: {
-    marginVertical: sizes.MARGIN_3,
-  },
-});
 
 FChatMessage.propTypes = {
   message: PropTypes.string,

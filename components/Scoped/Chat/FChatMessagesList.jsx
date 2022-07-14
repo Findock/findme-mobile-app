@@ -1,5 +1,5 @@
 import {
-  FlatList, KeyboardAvoidingView, StyleSheet, View,
+  Dimensions, FlatList, KeyboardAvoidingView, StyleSheet, View,
 } from 'react-native';
 import { FChatMessage } from 'components/Scoped/Chat/FChatMessage';
 import { FChatNewMessage } from 'components/Scoped/Chat/FChatNewMessage';
@@ -7,7 +7,11 @@ import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
+import { FButton } from 'components/Buttons/FButton';
+import buttonTypes from 'constants/components/buttonTypes';
+import icons from 'themes/icons';
+import placements from 'themes/placements';
 
 export const FChatMessagesList = ({
   messages,
@@ -15,12 +19,10 @@ export const FChatMessagesList = ({
   messagesListRef,
   fetchUserMessages,
 }) => {
-  const listHeight = useRef(0);
-
-  useEffect(() => {
-    messagesListRef.current.scrollToOffset({ y: listHeight.current });
-    messagesListRef.current.scrollToEnd();
-  }, [listHeight.current]);
+  const [
+    showScrollToBottomButton,
+    setShowScrollToBottomButton,
+  ] = useState(false);
 
   const drawMessages = ({
     item,
@@ -59,7 +61,28 @@ export const FChatMessagesList = ({
           flexGrow: 1,
           justifyContent: 'flex-end',
         }}
+        onScroll={(e) => {
+          if (!showScrollToBottomButton && e.nativeEvent.contentOffset.y >= 50) {
+            setShowScrollToBottomButton(true);
+          } else if (showScrollToBottomButton && e.nativeEvent.contentOffset.y <= 20) {
+            setShowScrollToBottomButton(false);
+          }
+        }}
       />
+      {showScrollToBottomButton && (
+        <FButton
+          type={buttonTypes.ICON_BUTTON}
+          icon={icons.ARROW_DOWN_OUTLINE}
+          backgroundColor={colors.SECONDARY}
+          iconSize={sizes.ICON_22}
+          color={colors.WHITE}
+          buttonViewStyles={styles.scrollToBottomButton}
+          onPress={() => messagesListRef.current.scrollToOffset({
+            y: 0,
+            animated: true,
+          })}
+        />
+      )}
       <KeyboardAvoidingView
         enabled
         behavior="padding"
@@ -85,6 +108,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes.PADDING_15,
     backgroundColor: colors.WHITE,
     flex: 1,
+  },
+  scrollToBottomButton: {
+    borderRadius: sizes.RADIUS_30,
+    padding: 0,
+    width: sizes.WIDTH_45,
+    height: sizes.HEIGHT_45,
+    zIndex: 20,
+    position: 'absolute',
+    bottom: sizes.POSITION_205,
+    left: (Dimensions.get('window').width / 2) - sizes.POSITION_30,
+    alignItems: placements.CENTER,
+    justifyContent: placements.CENTER,
   },
 });
 
