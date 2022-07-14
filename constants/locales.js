@@ -102,4 +102,5 @@ export default {
   YOU: 'Ty',
   SEND: 'Wyślij',
   SEND_PHOTO: 'Przesyła zdjęcie',
+  DISPLAYED: 'Wyświetlono',
 };

@@ -31,6 +31,7 @@ export const FChatMessagesList = ({
     <>
       <FChatMessage
         sentDate={item.sentDate}
+        readDate={item.readDate}
         message={item.message}
         nextMessageSender={messages[index - 1]?.sender}
         sender={item.sender}

@@ -22,6 +22,7 @@ import defaultBoxShadow from 'styles/defaultBoxShadow';
 export const FChatMessage = ({
   message,
   sentDate,
+  readDate,
   sender,
   nextMessageSender,
   isLastMessage,
@@ -78,7 +79,7 @@ export const FChatMessage = ({
     }
   };
 
-  const getParsedSentDate = () => {
+  const getParsedDate = (date) => {
     const oneDay = (60 * 60 * 24) + new Date().getTime() / 1000;
     if (calcPassedTime(sentDate) > oneDay) return parseDate(dateFormatTypes.TIME, sentDate);
     return parseDate(dateFormatTypes.DATE_TIME, sentDate);
@@ -179,6 +180,7 @@ export const FChatMessage = ({
         }}
         >
           {drawMessageContent()}
+
         </View>
         <Animated.View style={{
           marginVertical: fadeAnimation ? sizes.MARGIN_3 : 0,
@@ -192,10 +194,20 @@ export const FChatMessage = ({
                 size={fonts.HEADING_EXTRA_SMALL}
                 weight={fonts.HEADING_WEIGHT_MEDIUM}
                 color={colors.DARK_GRAY}
-                title={getParsedSentDate()}
+                title={getParsedDate(sentDate)}
               />
             )}
         </Animated.View>
+        {(isMyMessage() && readDate && isLastMessage && !showSentDate) && (
+          <View>
+            <FHeading
+              size={fonts.HEADING_EXTRA_SMALL}
+              weight={fonts.HEADING_WEIGHT_MEDIUM}
+              color={colors.DARK_GRAY}
+              title={`${locales.DISPLAYED} ${getParsedDate(readDate)}`}
+            />
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -204,6 +216,7 @@ export const FChatMessage = ({
 FChatMessage.propTypes = {
   message: PropTypes.string,
   sentDate: PropTypes.string.isRequired,
+  readDate: PropTypes.string,
   nextMessageSender: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
