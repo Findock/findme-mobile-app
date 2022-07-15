@@ -103,4 +103,5 @@ export default {
   SEND: 'Wyślij',
   SEND_PHOTO: 'Przesyła zdjęcie',
   DISPLAYED: 'Wyświetlono',
+  ACTIVE: 'Aktywny(a)',
 };

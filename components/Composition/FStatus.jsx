@@ -14,8 +14,6 @@ export const FStatus = ({
     switch (status) {
     case statusTypes.ACTIVE:
       return colors.SUCCESS;
-    case statusTypes.NEW_MESSAGE:
-      return colors.WARNING;
     default:
       return '';
     }

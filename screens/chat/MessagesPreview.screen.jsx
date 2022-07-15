@@ -6,6 +6,7 @@ import { Dimensions, StyleSheet, View } from 'react-native';
 import sizes from 'themes/sizes';
 import { getUserChatMessagesService } from 'services/chat/getUserChatMessages.service';
 import { FSpinner } from 'components/Composition/FSpinner';
+import { FChatMessagePreviewHeader } from 'components/Scoped/Chat/FChatMessagePreviewHeader';
 
 export const MessagesPreviewScreen = () => {
   const route = useRoute();
@@ -35,7 +36,15 @@ export const MessagesPreviewScreen = () => {
 
   useEffect(() => {
     if (sender) {
-      navigation.setOptions({ title: sender.name });
+      navigation.setOptions({
+        headerTitle: () => (
+          <FChatMessagePreviewHeader
+            name={sender.name}
+            profileImageUrl={sender.profileImageUrl}
+            loginDate={sender.loginDate}
+          />
+        ),
+      });
     }
   }, [sender]);
 
