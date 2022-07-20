@@ -72,6 +72,11 @@ export const FChatMessagesList = ({
     </>
   );
 
+  const scrollToBottom = () => messagesListRef.current.scrollToOffset({
+    y: 0,
+    animated: true,
+  });
+
   return (
     <View style={{
       flex: 1,
@@ -111,10 +116,7 @@ export const FChatMessagesList = ({
             iconSize={sizes.ICON_22}
             color={colors.WHITE}
             buttonViewStyles={styles.scrollToBottomButton}
-            onPress={() => messagesListRef.current.scrollToOffset({
-              y: 0,
-              animated: true,
-            })}
+            onPress={scrollToBottom}
           />
         </View>
       )}
@@ -131,10 +133,7 @@ export const FChatMessagesList = ({
             title={locales.NEW_MESSAGE}
             titleSize={fonts.HEADING_SMALL}
             titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
-            onPress={() => messagesListRef.current.scrollToOffset({
-              y: 0,
-              animated: true,
-            })}
+            onPress={scrollToBottom}
           />
         </View>
       )}
