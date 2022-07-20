@@ -470,6 +470,7 @@ export const AnnouncementPreviewScreen = () => {
               isInteractive: false,
               showLocationNameInput: false,
               showLocationDescriptionInput: false,
+              hasConfirmButton: false,
             }}
             to={stackNavigatorNames.MAP_PREVIEW_MODAL}
           />

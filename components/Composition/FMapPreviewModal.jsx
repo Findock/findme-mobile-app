@@ -8,6 +8,7 @@ import colors from 'themes/colors';
 import locales from 'constants/locales';
 import { FModalHeader } from 'components/Composition/FModalHeader';
 import { coordsDelta } from 'components/Inputs/Map/helper/mapHelper';
+import placements from 'themes/placements';
 
 export const FMapPreviewModal = () => {
   const route = useRoute();
@@ -63,7 +64,7 @@ export const FMapPreviewModal = () => {
     <View style={styles.container}>
       <FModalHeader
         title={locales.LOCATION}
-        hasConfirmButton
+        hasConfirmButton={route.params?.hasConfirmButton}
         onConfirm={() => {
           if (route.params?.onConfirm) {
             route.params?.onConfirm(coordinates);
@@ -71,7 +72,7 @@ export const FMapPreviewModal = () => {
         }}
       />
       <View style={{
-        justifyContent: 'center',
+        justifyContent: placements.CENTER,
         height: sizes.HEIGHT_FULL,
       }}
       >

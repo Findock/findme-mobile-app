@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getUserChatMessagesService } from 'services/chat/getUserChatMessages.service';
+import { getUserAllChatMessagesService } from 'services/chat/getUserAllChatMessages.service';
 import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import sizes from 'themes/sizes';
@@ -10,8 +10,10 @@ import fonts from 'themes/fonts';
 import colors from 'themes/colors';
 import locales from 'constants/locales';
 import { FChatListItem } from 'components/Scoped/Chat/FChatListItem';
+import { useSelector } from 'react-redux';
 
 export const FChatList = () => {
+  const me = useSelector((state) => state.me.me);
   const [
     isLoading,
     setIsLoading,
@@ -53,7 +55,7 @@ export const FChatList = () => {
       setIsLoading(true);
     }
     try {
-      const res = await getUserChatMessagesService();
+      const res = await getUserAllChatMessagesService();
       setMessages(res.data);
       if (checkIfMessagesAreDifferent(res.data)) {
         console.log('WIADOMOSCI SIE ZMIENILY');
@@ -64,13 +66,20 @@ export const FChatList = () => {
     setIsLoading(false);
   };
 
+  const getSender = (item) => {
+    if (me.id === item.lastMessage.sender.id) return item.lastMessage.receiver;
+    return item.lastMessage.sender;
+  };
+
   const drawMessage = ({ item }) => (
     <FChatListItem
       key={item.lastMessage.id}
       message={item.lastMessage.message || ''}
-      sender={item.lastMessage.sender}
+      sender={getSender(item)}
+      receiver={item.receiver}
       unreadCount={item.unreadCount}
       sentDate={item.lastMessage.sentDate}
+      photos={item.photos}
     />
   );
 
