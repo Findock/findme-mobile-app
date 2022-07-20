@@ -30,4 +30,7 @@ export default {
   COMMENT_HAS_BEEN_DELETED: 'Komentarz został usunięty!',
   CANCEl_FORM_CONFIRMATION: 'Jesteś pewien, że chcesz anulować?',
   SHARE_CURRENT_LOCATION_CONFIRMATION: 'Na pewno chcesz udostępnić swoją bieżąca lokalizację?',
+  ARCHIVE_CHAT_MESSAGE_CONFIRMATION: 'Jesteś pewien, ze chcesz zarchiwizować tę wiadomość?',
+  RESTORE_CHAT_MESSAGE_CONFIRMATION: 'Jesteś pewien, ze chcesz przywrócić tę wiadomość?',
+  CHAT_MESSAGE_ARCHIVED: 'Zarchiwizowano wiadomość',
 };

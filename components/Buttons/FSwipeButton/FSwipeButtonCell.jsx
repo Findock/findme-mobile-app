@@ -23,6 +23,8 @@ export const FSwipeButtonCell = ({
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
       return icons.TRASH;
+    case swipeButtonCellActionTypes.ARCHIVE:
+      return icons.FILE_TRAY_FULL;
     default:
       return '';
     }
@@ -32,6 +34,8 @@ export const FSwipeButtonCell = ({
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
       return locales.DELETE;
+    case swipeButtonCellActionTypes.ARCHIVE:
+      return locales.ARCHIVE;
     default:
       return '';
     }
@@ -40,6 +44,7 @@ export const FSwipeButtonCell = ({
   const getColorByCellAction = () => {
     switch (cellAction) {
     case swipeButtonCellActionTypes.DELETE:
+    case swipeButtonCellActionTypes.ARCHIVE:
       return colors.DANGER;
     default:
       return '';
