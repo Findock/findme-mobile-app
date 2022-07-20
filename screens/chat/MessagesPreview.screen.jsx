@@ -7,6 +7,7 @@ import sizes from 'themes/sizes';
 import { getUserChatMessagesService } from 'services/chat/getUserChatMessages.service';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { FChatMessagePreviewHeader } from 'components/Scoped/Chat/FChatMessagePreviewHeader';
+import { useSelector } from 'react-redux';
 
 export const MessagesPreviewScreen = () => {
   const route = useRoute();
@@ -14,6 +15,11 @@ export const MessagesPreviewScreen = () => {
   const sender = route.params?.sender;
   const messagesListRef = useRef();
   const interval = useRef(null);
+  const me = useSelector((state) => state.me.me);
+  const [
+    isNewMessage,
+    setIsNewMessage,
+  ] = useState(false);
 
   const [
     messages,
@@ -41,7 +47,7 @@ export const MessagesPreviewScreen = () => {
           <FChatMessagePreviewHeader
             name={sender.name}
             profileImageUrl={sender.profileImageUrl}
-            loginDate={sender.loginDate}
+            lastLogin={sender.lastLogin}
           />
         ),
       });
@@ -60,11 +66,13 @@ export const MessagesPreviewScreen = () => {
   }, [messages]);
 
   const checkIfMessagesAreDifferent = (newMessages) => {
-    if (messages.length !== newMessages.length) {
+    if (messages.length === newMessages.length) {
       return false;
     }
     return messages.some((m, index) => m.id !== newMessages[index].id);
   };
+
+  const isMyMessage = () => me.id === sender.id;
 
   const fetchUserMessages = async () => {
     if (messages.length === 0) {
@@ -74,8 +82,8 @@ export const MessagesPreviewScreen = () => {
       if (sender.id) {
         const res = await getUserChatMessagesService(sender.id);
         setMessages(res.data);
-        if (checkIfMessagesAreDifferent(res.data)) {
-          console.log('WIADOMOSCI SIE ZMIENILY');
+        if (checkIfMessagesAreDifferent(res.data) && !isMyMessage()) {
+          setIsNewMessage(true);
         }
       }
     } catch (error) {
@@ -92,6 +100,8 @@ export const MessagesPreviewScreen = () => {
           receiver={sender}
           messagesListRef={messagesListRef}
           fetchUserMessages={fetchUserMessages}
+          isNewMessage={isNewMessage}
+          setIsNewMessage={setIsNewMessage}
         />
       )}
     </View>

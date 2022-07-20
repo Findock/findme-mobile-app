@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import {
-  StyleSheet,
-  TextInput,
-  TouchableWithoutFeedback,
-  View,
+  StyleSheet, TextInput, TouchableWithoutFeedback, View,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import colors from 'themes/colors';
@@ -15,9 +12,27 @@ import PropTypes from 'prop-types';
 import { FErrorMessage } from 'components/Composition/FErrorMessage';
 
 export const FInput = ({
-  value, onChangeText, type, icon, iconPlacement, placeholder = '', maxLength = 256, errorMessage, rounded = false,
-  marginBottom = sizes.MARGIN_25, width, outline = false, onPress = () => { }, showSoftInputOnFocus = true, caretHidden = false,
-  textAreaHeight = sizes.HEIGHT_80, onBlur = () => {}, transparent, textAreaPaddingHorizontal,
+  value,
+  onChangeText,
+  type,
+  icon,
+  iconPlacement,
+  placeholder = '',
+  maxLength = 256,
+  errorMessage,
+  rounded = false,
+  marginBottom = sizes.MARGIN_25,
+  width,
+  outline = false,
+  onPress = () => {
+  },
+  showSoftInputOnFocus = true,
+  caretHidden = false,
+  textAreaHeight = sizes.HEIGHT_80,
+  onBlur = () => {
+  },
+  transparent,
+  textAreaPaddingHorizontal,
 }) => {
   const [
     isPasswordVisible,
@@ -31,7 +46,10 @@ export const FInput = ({
   };
   const getValue = () => {
     if (type === inputTypes.PHONE) {
-      if (value.slice(0, 3).toString() !== '+48' && value.length < 3) return '+48';
+      if (value.slice(0, 3)
+        .toString() !== '+48' && value.length < 3) {
+        return '+48';
+      }
     }
     return value;
   };

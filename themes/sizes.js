@@ -128,6 +128,7 @@ export default {
   POSITION_50: 50,
   POSITION_54: 54,
   POSITION_205: 205,
+  POSITION_428: 428,
 
   // BORDER
   BORDER_1: 1,

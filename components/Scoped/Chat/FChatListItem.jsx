@@ -49,9 +49,9 @@ export const FChatListItem = ({
     if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}:`;
     if (message) {
       result += message;
-    } else if (+locationLat !== 0 && +locationLon !== 0) {
+    } else if (locationLat && locationLon) {
       result += locales.LOCATION_SHARED;
-    } else if (photos[0]) result += locales.SEND_PHOTO;
+    } else if (photos && photos[0]) result += locales.SEND_PHOTO;
     return result;
   };
 

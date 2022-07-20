@@ -35,9 +35,11 @@ export const FChatSelectedPhotoModal = () => {
       <View style={styles.photoContainer}>
         <FImage
           networkImageUrl={photo.url}
+          imagePath=""
           isChildrenInside={false}
           resizeMode={sizes.CONTAIN}
           width={sizes.WIDTH_FULL}
+          height={sizes.HEIGHT_FULL}
         />
       </View>
       <View style={styles.buttonsContainer}>

@@ -104,4 +104,5 @@ export default {
   SEND_PHOTO: 'Przesyła zdjęcie',
   DISPLAYED: 'Wyświetlono',
   ACTIVE: 'Aktywny(a)',
+  NEW_MESSAGE: 'Nowa wiadomość',
 };

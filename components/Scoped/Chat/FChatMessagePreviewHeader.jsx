@@ -15,15 +15,15 @@ import placements from 'themes/placements';
 export const FChatMessagePreviewHeader = ({
   profileImageUrl,
   name,
-  loginDate,
+  lastLogin,
 }) => {
-  const isActive = calcPassedTime(loginDate) <= (new Date().getTime() + 60 * 60) / 1000;
+  const isActive = calcPassedTime(lastLogin) + 60 * 60 >= (new Date().getTime()) / 1000;
 
   const drawLastActivity = () => {
     const twoDays = (60 * 60 * 24 * 2) + new Date().getTime() / 1000;
     if (isActive) return '';
-    if (calcPassedTime(loginDate) < twoDays) return parseDate(dateFormatTypes.HOW_LONG_AGO, loginDate);
-    return parseDate(dateFormatTypes.DATE, loginDate);
+    if (calcPassedTime(lastLogin) < twoDays) return parseDate(dateFormatTypes.HOW_LONG_AGO, lastLogin);
+    return parseDate(dateFormatTypes.DATE, lastLogin);
   };
 
   return (
@@ -75,5 +75,5 @@ const styles = StyleSheet.create({
 FChatMessagePreviewHeader.propTypes = {
   profileImageUrl: PropTypes.string,
   name: PropTypes.string.isRequired,
-  loginDate: PropTypes.string.isRequired,
+  lastLogin: PropTypes.string.isRequired,
 };

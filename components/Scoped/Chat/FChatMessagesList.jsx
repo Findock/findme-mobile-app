@@ -1,5 +1,5 @@
 import {
-  Dimensions, FlatList, KeyboardAvoidingView, StyleSheet, View,
+  FlatList, Keyboard, KeyboardAvoidingView, StyleSheet, View,
 } from 'react-native';
 import { FChatMessage } from 'components/Scoped/Chat/FChatMessage';
 import { FChatNewMessage } from 'components/Scoped/Chat/FChatNewMessage';
@@ -7,22 +7,50 @@ import colors from 'themes/colors';
 import sizes from 'themes/sizes';
 import defaultBoxShadow from 'styles/defaultBoxShadow';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FButton } from 'components/Buttons/FButton';
 import buttonTypes from 'constants/components/buttonTypes';
 import icons from 'themes/icons';
 import placements from 'themes/placements';
+import fonts from 'themes/fonts';
+import locales from 'constants/locales';
 
 export const FChatMessagesList = ({
   messages,
   receiver,
   messagesListRef,
   fetchUserMessages,
+  isNewMessage,
+  setIsNewMessage,
 }) => {
   const [
-    showScrollToBottomButton,
-    setShowScrollToBottomButton,
+    canScrollToBottom,
+    setCanScrollToBottom,
   ] = useState(false);
+  const [
+    isKeyboardOpen,
+    setIsKeyboardOpen,
+  ] = useState(false);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setIsKeyboardOpen(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setIsKeyboardOpen(false);
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const drawMessages = ({
     item,
@@ -63,26 +91,52 @@ export const FChatMessagesList = ({
           justifyContent: 'flex-end',
         }}
         onScroll={(e) => {
-          if (!showScrollToBottomButton && e.nativeEvent.contentOffset.y >= 50) {
-            setShowScrollToBottomButton(true);
-          } else if (showScrollToBottomButton && e.nativeEvent.contentOffset.y <= 20) {
-            setShowScrollToBottomButton(false);
+          if (!canScrollToBottom && e.nativeEvent.contentOffset.y >= 50) {
+            setCanScrollToBottom(true);
+          } else if (canScrollToBottom && e.nativeEvent.contentOffset.y <= 20) {
+            setCanScrollToBottom(false);
           }
         }}
       />
-      {showScrollToBottomButton && (
-        <FButton
-          type={buttonTypes.ICON_BUTTON}
-          icon={icons.ARROW_DOWN_OUTLINE}
-          backgroundColor={colors.SECONDARY}
-          iconSize={sizes.ICON_22}
-          color={colors.WHITE}
-          buttonViewStyles={styles.scrollToBottomButton}
-          onPress={() => messagesListRef.current.scrollToOffset({
-            y: 0,
-            animated: true,
-          })}
-        />
+      {canScrollToBottom && !isNewMessage && (
+        <View style={{
+          ...styles.absoluteButtonContainer,
+          bottom: isKeyboardOpen ? sizes.POSITION_428 : sizes.POSITION_205,
+        }}
+        >
+          <FButton
+            type={buttonTypes.ICON_BUTTON}
+            icon={icons.ARROW_DOWN_OUTLINE}
+            backgroundColor={colors.SECONDARY}
+            iconSize={sizes.ICON_22}
+            color={colors.WHITE}
+            buttonViewStyles={styles.scrollToBottomButton}
+            onPress={() => messagesListRef.current.scrollToOffset({
+              y: 0,
+              animated: true,
+            })}
+          />
+        </View>
+      )}
+      {canScrollToBottom && isNewMessage && (
+        <View style={{
+          ...styles.absoluteButtonContainer,
+          bottom: isKeyboardOpen ? sizes.POSITION_428 : sizes.POSITION_205,
+        }}
+        >
+          <FButton
+            type={buttonTypes.TEXT_BUTTON}
+            backgroundColor={colors.SECONDARY}
+            color={colors.WHITE}
+            title={locales.NEW_MESSAGE}
+            titleSize={fonts.HEADING_SMALL}
+            titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
+            onPress={() => messagesListRef.current.scrollToOffset({
+              y: 0,
+              animated: true,
+            })}
+          />
+        </View>
       )}
       <KeyboardAvoidingView
         enabled
@@ -97,6 +151,9 @@ export const FChatMessagesList = ({
           <FChatNewMessage
             fetchUserMessages={fetchUserMessages}
             receiver={receiver}
+            messagesListRef={messagesListRef}
+            setCanScrollToBottom={setCanScrollToBottom}
+            setIsNewMessage={setIsNewMessage}
           />
         </View>
       </KeyboardAvoidingView>
@@ -115,12 +172,15 @@ const styles = StyleSheet.create({
     padding: 0,
     width: sizes.WIDTH_45,
     height: sizes.HEIGHT_45,
-    zIndex: 20,
-    position: 'absolute',
-    bottom: sizes.POSITION_205,
-    left: (Dimensions.get('window').width / 2) - sizes.POSITION_30,
     alignItems: placements.CENTER,
     justifyContent: placements.CENTER,
+  },
+  absoluteButtonContainer: {
+    zIndex: 5,
+    alignItems: placements.CENTER,
+    left: 0,
+    right: 0,
+    position: 'absolute',
   },
 });
 
@@ -156,4 +216,6 @@ FChatMessagesList.propTypes = {
     lastLogin: PropTypes.string,
   }).isRequired,
   fetchUserMessages: PropTypes.func,
+  isNewMessage: PropTypes.bool.isRequired,
+  setIsNewMessage: PropTypes.func.isRequired,
 };

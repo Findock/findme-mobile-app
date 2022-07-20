@@ -27,6 +27,9 @@ import stackNavigatorNames from 'constants/stackNavigatorNames';
 export const FChatNewMessage = ({
   receiver,
   fetchUserMessages,
+  messagesListRef,
+  setCanScrollToBottom,
+  setIsNewMessage,
 }) => {
   const navigation = useNavigation();
   const [
@@ -186,6 +189,14 @@ export const FChatNewMessage = ({
             transparent
             onChangeText={newMessageHandler}
             value={message}
+            onPress={() => {
+              setCanScrollToBottom(false);
+              setIsNewMessage(false);
+              messagesListRef.current.scrollToOffset({
+                y: 0,
+                animated: true,
+              });
+            }}
           />
           <View style={styles.buttonsContainer}>
             <View style={{ flexDirection: 'row' }}>
@@ -269,4 +280,6 @@ FChatNewMessage.propTypes = {
     lastLogin: PropTypes.string,
   }).isRequired,
   fetchUserMessages: PropTypes.func.isRequired,
+  setCanScrollToBottom: PropTypes.func.isRequired,
+  setIsNewMessage: PropTypes.func.isRequired,
 };
