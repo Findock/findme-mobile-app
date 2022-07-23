@@ -25,9 +25,10 @@ export const TopMessagesTabs = () => {
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: {
-          color: colors.PRIMARY,
           fontWeight: fonts.HEADING_WEIGHT_SEMIBOLD,
         },
+        tabBarInactiveTintColor: colors.DARK_GRAY,
+        tabBarActiveTintColor: colors.PRIMARY,
         tabBarIndicatorStyle: {
           backgroundColor: colors.PRIMARY,
         },
