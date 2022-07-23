@@ -24,7 +24,7 @@ import { archiveChatMessageService } from 'services/chat/archiveChatMessage.serv
 import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
 import { useRef } from 'react';
 import modalsMessages from 'constants/components/modals/modalsMessages';
-import { useSuccessModal } from 'hooks/modals/useSuccessModal';
+import { restoreArchivedChatMessageService } from 'services/chat/restoreArchivedChatMessage.service';
 
 export const FChatListItem = ({
   sender,
@@ -35,6 +35,9 @@ export const FChatListItem = ({
   sentDate,
   receiver,
   photos,
+  isActive,
+  setShowSuccessModal,
+  setSuccessModalTitle,
 }) => {
   const navigation = useNavigation();
   const {
@@ -42,7 +45,6 @@ export const FChatListItem = ({
     drawErrorModal,
   } = useErrorModal();
   const confirmationModalTitle = useRef('');
-  const successModalTitle = useRef('');
 
   const getSentDate = () => {
     const oneWeek = (60 * 60 * 24 * 7) + new Date().getTime() / 1000;
@@ -61,7 +63,7 @@ export const FChatListItem = ({
 
   const drawMessage = () => {
     let result = '';
-    if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}:`;
+    if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}: `;
     if (message) {
       result += message;
     } else if (locationLat && locationLon) {
@@ -69,7 +71,7 @@ export const FChatListItem = ({
     } else if (photos && photos[0]) result += locales.SEND_PHOTO;
     return result;
   };
-  const swipeButtonActions = [
+  const swipeButtonActionsForActiveMessage = [
     {
       cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
       cellAction: swipeButtonCellActionTypes.ARCHIVE,
@@ -80,10 +82,26 @@ export const FChatListItem = ({
     },
   ];
 
+  const swipeButtonActionsForArchivedMessage = [
+    {
+      cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
+      cellAction: swipeButtonCellActionTypes.RESTORE,
+      onActionPress: () => {
+        confirmationModalTitle.current = modalsMessages.RESTORE_CHAT_MESSAGE_CONFIRMATION;
+        setShowConfirmationModal(true);
+      },
+    },
+  ];
+
   const confirmationModalHandler = async () => {
     if (confirmationModalTitle.current === modalsMessages.ARCHIVE_CHAT_MESSAGE_CONFIRMATION) {
       await archiveMessageHandler();
-      successModalTitle.current = modalsMessages.CHAT_MESSAGE_ARCHIVED;
+      setSuccessModalTitle(modalsMessages.CHAT_MESSAGE_ARCHIVED);
+      setShowSuccessModal(true);
+    }
+    if (confirmationModalTitle.current === modalsMessages.RESTORE_CHAT_MESSAGE_CONFIRMATION) {
+      await restoreArchivedMessageHandler();
+      setSuccessModalTitle(modalsMessages.CHAT_MESSAGE_ARCHIVED);
       setShowSuccessModal(true);
     }
   };
@@ -93,11 +111,6 @@ export const FChatListItem = ({
     drawConfirmationModal,
   } = useConfirmationModal(confirmationModalTitle.current, confirmationModalHandler);
 
-  const {
-    setShowSuccessModal,
-    drawSuccessModal,
-  } = useSuccessModal(successModalTitle.current);
-
   const archiveMessageHandler = async () => {
     try {
       await archiveChatMessageService(sender.id);
@@ -105,13 +118,21 @@ export const FChatListItem = ({
       setShowErrorModal(true);
     }
   };
+
+  const restoreArchivedMessageHandler = async () => {
+    try {
+      await restoreArchivedChatMessageService(sender.id);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
   return (
     <>
       {drawErrorModal()}
       {drawConfirmationModal()}
-      {drawSuccessModal()}
       <FSwipeButton
-        actions={swipeButtonActions}
+        actions={isActive ? swipeButtonActionsForActiveMessage : swipeButtonActionsForArchivedMessage}
         rounded
       >
         <TouchableWithoutFeedback onPress={redirectToChat}>
@@ -245,4 +266,7 @@ FChatListItem.propTypes = {
     id: PropTypes.number,
     url: PropTypes.string,
   })),
+  isActive: PropTypes.bool.isRequired,
+  setSuccessModalTitle: PropTypes.func,
+  setShowSuccessModal: PropTypes.func,
 };

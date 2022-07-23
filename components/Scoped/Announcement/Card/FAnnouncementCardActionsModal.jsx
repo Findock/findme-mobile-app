@@ -112,7 +112,7 @@ export const FAnnouncementCardActionsModal = ({
             {(status === AnnouncementStatusEnum.ARCHIVED || status === AnnouncementStatusEnum.NOT_ACTIVE) && (
               <FButton
                 type={buttonTypes.TEXT_BUTTON}
-                title={locales.ACTIVATE}
+                title={locales.RESTORE}
                 titleSize={fonts.HEADING_MEDIUM}
                 titleWeight={fonts.HEADING_WEIGHT_MEDIUM}
                 color={colors.BLACK}

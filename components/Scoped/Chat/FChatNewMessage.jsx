@@ -74,9 +74,12 @@ export const FChatNewMessage = ({
 
   useEffect(() => {
     if (photo) {
-      navigation.navigate(stackNavigatorNames.CHAT_SELECTED_PHOTO_MODAL, {
-        photo,
-        sendPhotoHandler,
+      navigation.navigate(stackNavigatorNames.MESSAGES_TAB, {
+        screen: stackNavigatorNames.CHAT_SELECTED_PHOTO_MODAL,
+        params: {
+          photo,
+          sendPhotoHandler,
+        },
       });
     }
   }, [photo]);

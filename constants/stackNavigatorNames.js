@@ -32,6 +32,8 @@ export default {
   USER_PROFILE_TAB: 'User Profile Tab',
   FOLLOWED_ANNOUNCEMENTS_TAB: 'Followed Announcement Tab',
   ADD_ANNOUNCEMENT_TAB: 'Add Announcement Tab',
+  TOP_MESSAGES_TAB: 'Top Messages Tab',
   AUTH_ROOT: 'Auth Root',
   APP_ROOT: 'App Root',
+  ARCHIVED_MESSAGES: 'Archived Messages',
 };

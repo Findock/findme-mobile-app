@@ -1,16 +1,16 @@
 import { View } from 'react-native';
 import colors from 'themes/colors';
 import sizes from 'themes/sizes';
-import React from 'react';
 import { FChatList } from 'components/Scoped/Chat/FChatList';
+import React from 'react';
 
-export const MessagesScreen = () => (
+export const ArchivedMessagesScreen = () => (
   <View style={{
     backgroundColor: colors.WHITE,
     flex: 1,
     marginTop: sizes.MARGIN_1,
   }}
   >
-    <FChatList hasActiveMessages />
+    <FChatList hasActiveMessages={false} />
   </View>
 );
