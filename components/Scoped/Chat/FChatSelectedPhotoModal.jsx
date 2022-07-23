@@ -19,10 +19,10 @@ export const FChatSelectedPhotoModal = () => {
   ] = useState(null);
 
   useEffect(() => {
-    if (route.params.photo) {
-      setPhoto(route.params.photo);
+    if (route?.params?.photo) {
+      setPhoto(route?.params?.photo);
     }
-  }, [route.params?.photo]);
+  }, [route?.params?.photo]);
 
   const cancelHandler = () => {
     setPhoto(null);

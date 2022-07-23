@@ -11,9 +11,18 @@ import colors from 'themes/colors';
 import locales from 'constants/locales';
 import { FChatListItem } from 'components/Scoped/Chat/FChatListItem';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
+import { useSuccessModal } from 'hooks/modals/useSuccessModal';
+import { getArchivedChatMessagesService } from '../../../services/chat/getArchivedChatMessages.service';
 
-export const FChatList = () => {
+export const FChatList = ({ hasActiveMessages }) => {
   const me = useSelector((state) => state.me.me);
+  const [
+    successModalTitle,
+    setSuccessModalTitle,
+  ] = useState('');
+  const navigation = useNavigation();
   const [
     isLoading,
     setIsLoading,
@@ -50,13 +59,25 @@ export const FChatList = () => {
     return messages.some((m, index) => m.lastMessage.id !== newMessages[index].lastMessage.id);
   };
 
+  const setTopTabTitle = (messagesLength) => {
+    navigation.setOptions({
+      title: `${hasActiveMessages ? locales.ACTIVE_ALL : locales.ARCHIVED_ALL} ${messagesLength > 0 ? `(${messagesLength})` : ''}`,
+    });
+  };
+
   const fetchUserMessages = async () => {
-    if (messages.length === 0) {
-      setIsLoading(true);
-    }
+    // if (messages.length === 0) {
+    //   setIsLoading(true);
+    // }
     try {
-      const res = await getUserAllChatMessagesService();
+      let res;
+      if (hasActiveMessages) {
+        res = await getUserAllChatMessagesService();
+      } else {
+        res = await getArchivedChatMessagesService();
+      }
       setMessages(res.data);
+      setTopTabTitle(res.data?.length);
       if (checkIfMessagesAreDifferent(res.data)) {
         console.log('WIADOMOSCI SIE ZMIENILY');
       }
@@ -79,7 +100,11 @@ export const FChatList = () => {
       receiver={item.receiver}
       unreadCount={item.unreadCount}
       sentDate={item.lastMessage.sentDate}
-      photos={item.photos}
+      photos={item.lastMessage.photos}
+      isActive={hasActiveMessages}
+      successModalTitle={successModalTitle}
+      setShowSuccessModal={setShowSuccessModal}
+      setSuccessModalTitle={setSuccessModalTitle}
     />
   );
 
@@ -99,11 +124,17 @@ export const FChatList = () => {
     }
   };
 
+  const {
+    setShowSuccessModal,
+    drawSuccessModal,
+  } = useSuccessModal(successModalTitle);
+
   return (
     <>
       {isLoading && <FSpinner style={{ paddingTop: sizes.PADDING_30 }} />}
       {drawErrorModal()}
       {drawNoMessagesInfo()}
+      {drawSuccessModal()}
       <View style={{ flex: 1 }}>
         <FlatList
           extraData={messages}
@@ -141,3 +172,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.WHITE,
   },
 });
+
+FChatList.propTypes = {
+  hasActiveMessages: PropTypes.bool.isRequired,
+};

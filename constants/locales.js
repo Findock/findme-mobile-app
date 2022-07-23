@@ -66,7 +66,6 @@ export default {
   USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET: 'Użytkownik nie ma jeszcze żadnych ogłoszeń',
   NO_RECENTLY_CREATED_ANNOUNCEMENTS: 'W ostatnim czasie nie pojawiły się żadne nowe ogłoszenia',
   NO_NEARBY_ANNOUNCEMENTS: 'Nie znaleziono żadnych ogłoszeń w Twojej okolicy.',
-  ACTIVATE: 'Przywróć',
   SEARCH: 'Szukaj',
   RESET: 'Wyczyść',
   FILTERS: 'Filtry',
@@ -105,4 +104,7 @@ export default {
   DISPLAYED: 'Wyświetlono',
   ACTIVE: 'Aktywny(a)',
   NEW_MESSAGE: 'Nowa wiadomość',
+  ACTIVE_ALL: 'Aktywne',
+  ARCHIVED_ALL: 'Archiwalne',
+  RESTORE: 'Przywróć',
 };

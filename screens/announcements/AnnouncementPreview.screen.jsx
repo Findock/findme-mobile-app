@@ -545,7 +545,7 @@ export const AnnouncementPreviewScreen = () => {
               iconViewSize={sizes.WIDTH_60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE ? locales.ACTIVATE : locales.FINISH}
+              title={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE ? locales.RESTORE : locales.FINISH}
               isDisabled={announcement.status === AnnouncementStatusEnum.ARCHIVED}
               onPress={() => {
                 if (announcement.status === AnnouncementStatusEnum.ACTIVE) {
@@ -580,7 +580,7 @@ export const AnnouncementPreviewScreen = () => {
               iconViewSize={sizes.WIDTH_60}
               iconSize={sizes.ICON_30}
               color={colors.WHITE}
-              title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.ACTIVATE : locales.ARCHIVE}
+              title={announcement.status === AnnouncementStatusEnum.ARCHIVED ? locales.RESTORE : locales.ARCHIVE}
               isDisabled={announcement.status === AnnouncementStatusEnum.NOT_ACTIVE}
               onPress={() => {
                 if (announcement.status === AnnouncementStatusEnum.ACTIVE) {

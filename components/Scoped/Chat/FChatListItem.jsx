@@ -16,6 +16,15 @@ import { calcPassedTime } from 'utils/calcPassedTime';
 import { useNavigation } from '@react-navigation/native';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import locales from 'constants/locales';
+import swipeButtonCellTypes from 'constants/components/swipeButtonCellTypes';
+import swipeButtonCellActionTypes from 'constants/components/swipeButtonCellActionTypes';
+import { FSwipeButton } from 'components/Buttons/FSwipeButton/FSwipeButton';
+import { useErrorModal } from 'hooks/modals/useErrorModal';
+import { archiveChatMessageService } from 'services/chat/archiveChatMessage.service';
+import { useConfirmationModal } from 'hooks/modals/useConfirmationModal';
+import { useRef } from 'react';
+import modalsMessages from 'constants/components/modals/modalsMessages';
+import { restoreArchivedChatMessageService } from 'services/chat/restoreArchivedChatMessage.service';
 
 export const FChatListItem = ({
   sender,
@@ -26,8 +35,16 @@ export const FChatListItem = ({
   sentDate,
   receiver,
   photos,
+  isActive,
+  setShowSuccessModal,
+  setSuccessModalTitle,
 }) => {
   const navigation = useNavigation();
+  const {
+    setShowErrorModal,
+    drawErrorModal,
+  } = useErrorModal();
+  const confirmationModalTitle = useRef('');
 
   const getSentDate = () => {
     const oneWeek = (60 * 60 * 24 * 7) + new Date().getTime() / 1000;
@@ -46,7 +63,7 @@ export const FChatListItem = ({
 
   const drawMessage = () => {
     let result = '';
-    if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}:`;
+    if (checkIfLastMessageWasSentByMe()) result = `${locales.YOU}: `;
     if (message) {
       result += message;
     } else if (locationLat && locationLon) {
@@ -54,72 +71,136 @@ export const FChatListItem = ({
     } else if (photos && photos[0]) result += locales.SEND_PHOTO;
     return result;
   };
+  const swipeButtonActionsForActiveMessage = [
+    {
+      cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
+      cellAction: swipeButtonCellActionTypes.ARCHIVE,
+      onActionPress: () => {
+        confirmationModalTitle.current = modalsMessages.ARCHIVE_CHAT_MESSAGE_CONFIRMATION;
+        setShowConfirmationModal(true);
+      },
+    },
+  ];
+
+  const swipeButtonActionsForArchivedMessage = [
+    {
+      cellType: swipeButtonCellTypes.ICON_WITH_TEXT,
+      cellAction: swipeButtonCellActionTypes.RESTORE,
+      onActionPress: () => {
+        confirmationModalTitle.current = modalsMessages.RESTORE_CHAT_MESSAGE_CONFIRMATION;
+        setShowConfirmationModal(true);
+      },
+    },
+  ];
+
+  const confirmationModalHandler = async () => {
+    if (confirmationModalTitle.current === modalsMessages.ARCHIVE_CHAT_MESSAGE_CONFIRMATION) {
+      await archiveMessageHandler();
+      setSuccessModalTitle(modalsMessages.CHAT_MESSAGE_ARCHIVED);
+      setShowSuccessModal(true);
+    }
+    if (confirmationModalTitle.current === modalsMessages.RESTORE_CHAT_MESSAGE_CONFIRMATION) {
+      await restoreArchivedMessageHandler();
+      setSuccessModalTitle(modalsMessages.CHAT_MESSAGE_ARCHIVED);
+      setShowSuccessModal(true);
+    }
+  };
+
+  const {
+    setShowConfirmationModal,
+    drawConfirmationModal,
+  } = useConfirmationModal(confirmationModalTitle.current, confirmationModalHandler);
+
+  const archiveMessageHandler = async () => {
+    try {
+      await archiveChatMessageService(sender.id);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
+
+  const restoreArchivedMessageHandler = async () => {
+    try {
+      await restoreArchivedChatMessageService(sender.id);
+    } catch (error) {
+      setShowErrorModal(true);
+    }
+  };
 
   return (
-    <TouchableWithoutFeedback onPress={redirectToChat}>
-      <View style={styles.container}>
-        <View style={{ flexBasis: sizes.BASIS_20_PERCENTAGES }}>
-          <FAvatar
-            size={sizes.WIDTH_50}
-            isEditable={false}
-            imageUrl={sender?.profileImageUrl}
-          />
-        </View>
-        <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
-          <View style={styles.middleContainer}>
-            <View style={styles.topBox}>
-              {isSenderOnline() && (
-                <FStatus
-                  status={statusTypes.ACTIVE}
-                  style={{ marginRight: sizes.MARGIN_3 }}
-                />
-              )}
-              <View style={{ paddingRight: sizes.PADDING_15 }}>
-                <FHeading
-                  size={fonts.HEADING_NORMAL}
-                  weight={fonts.HEADING_WEIGHT_BOLD}
-                  title={sender.name}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                />
-              </View>
-            </View>
-            <View style={{ flexBasis: sizes.BASIS_30_PERCENTAGES }}>
-              <FHeading
-                size={fonts.HEADING_EXTRA_SMALL}
-                weight={fonts.HEADING_WEIGHT_REGULAR}
-                title={getSentDate()}
-                color={colors.DARK_GRAY}
-                align={placements.RIGHT}
+    <>
+      {drawErrorModal()}
+      {drawConfirmationModal()}
+      <FSwipeButton
+        actions={isActive ? swipeButtonActionsForActiveMessage : swipeButtonActionsForArchivedMessage}
+        rounded
+      >
+        <TouchableWithoutFeedback onPress={redirectToChat}>
+          <View style={styles.container}>
+            <View style={{ flexBasis: sizes.BASIS_20_PERCENTAGES }}>
+              <FAvatar
+                size={sizes.WIDTH_50}
+                isEditable={false}
+                imageUrl={sender?.profileImageUrl}
               />
             </View>
-          </View>
-          <View style={styles.lastContainer}>
-            <View style={styles.messageBox}>
-              <FHeading
-                size={fonts.HEADING_SMALL}
-                weight={fonts.HEADING_WEIGHT_MEDIUM}
-                title={drawMessage()}
-                color={colors.DARK_GRAY}
-                ellipsizeMode="tail"
-                numberOfLines={2}
-              />
-            </View>
-            {unreadCount > 0 && (
-              <View style={styles.messagesAmountBox}>
-                <FHeading
-                  size={fonts.HEADING_EXTRA_SMALL}
-                  weight={fonts.HEADING_WEIGHT_BOLD}
-                  title={unreadCount}
-                  align={placements.CENTER}
-                  color={colors.WHITE}
-                />
+            <View style={{ flexBasis: sizes.BASIS_80_PERCENTAGES }}>
+              <View style={styles.middleContainer}>
+                <View style={styles.topBox}>
+                  {isSenderOnline() && (
+                    <FStatus
+                      status={statusTypes.ACTIVE}
+                      style={{ marginRight: sizes.MARGIN_3 }}
+                    />
+                  )}
+                  <View style={{ paddingRight: sizes.PADDING_15 }}>
+                    <FHeading
+                      size={fonts.HEADING_NORMAL}
+                      weight={fonts.HEADING_WEIGHT_BOLD}
+                      title={sender.name}
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    />
+                  </View>
+                </View>
+                <View style={{ flexBasis: sizes.BASIS_30_PERCENTAGES }}>
+                  <FHeading
+                    size={fonts.HEADING_EXTRA_SMALL}
+                    weight={fonts.HEADING_WEIGHT_REGULAR}
+                    title={getSentDate()}
+                    color={colors.DARK_GRAY}
+                    align={placements.RIGHT}
+                  />
+                </View>
               </View>
-            )}
+              <View style={styles.lastContainer}>
+                <View style={styles.messageBox}>
+                  <FHeading
+                    size={fonts.HEADING_SMALL}
+                    weight={fonts.HEADING_WEIGHT_MEDIUM}
+                    title={drawMessage()}
+                    color={colors.DARK_GRAY}
+                    ellipsizeMode="tail"
+                    numberOfLines={2}
+                  />
+                </View>
+                {unreadCount > 0 && (
+                  <View style={styles.messagesAmountBox}>
+                    <FHeading
+                      size={fonts.HEADING_EXTRA_SMALL}
+                      weight={fonts.HEADING_WEIGHT_BOLD}
+                      title={unreadCount}
+                      align={placements.CENTER}
+                      color={colors.WHITE}
+                    />
+                  </View>
+                )}
+              </View>
+            </View>
           </View>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </FSwipeButton>
+    </>
   );
 };
 
@@ -185,4 +266,7 @@ FChatListItem.propTypes = {
     id: PropTypes.number,
     url: PropTypes.string,
   })),
+  isActive: PropTypes.bool.isRequired,
+  setSuccessModalTitle: PropTypes.func,
+  setShowSuccessModal: PropTypes.func,
 };

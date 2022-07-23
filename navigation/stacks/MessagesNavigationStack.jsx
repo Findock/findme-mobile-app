@@ -1,31 +1,31 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import stackNavigatorNames from 'constants/stackNavigatorNames';
 import defaultHeaderOptions from 'navigation/styles/defaultHeaderOptions';
-import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
-import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
-import { FMapPreviewModal } from 'components/Composition/FMapPreviewModal';
 import React from 'react';
-import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
-import { AnnouncementPreviewScreen } from 'screens/announcements/AnnouncementPreview.screen';
-import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements.screen';
-import locales from 'constants/locales';
-import { MessagesScreen } from 'screens/chat/Messages.screen';
 import { MessagesPreviewScreen } from 'screens/chat/MessagesPreview.screen';
 import { FChatSelectedPhotoModal } from 'components/Scoped/Chat/FChatSelectedPhotoModal';
+import { TopMessagesTabs } from 'navigation/top-tabs/TopMessagesTabs';
+import { FMapPreviewModal } from 'components/Composition/FMapPreviewModal';
+import { FCommentsModal } from 'components/Scoped/Comments/FCommentsModal';
+import headerWithoutShadowOptions from 'navigation/styles/headerWithoutShadowOptions';
+import { UserAnnouncementsScreen } from 'screens/announcements/UserAnnouncements.screen';
+import { AnnouncementPreviewScreen } from 'screens/announcements/AnnouncementPreview.screen';
+import { UserProfilePreviewScreen } from 'screens/UserProfilePreview.screen';
+import locales from 'constants/locales';
 
 export const MessagesNavigationStack = () => {
   const Stack = createNativeStackNavigator();
   return (
     <Stack.Navigator>
-      <Stack.Screen
-        name={stackNavigatorNames.MESSAGES}
-        component={MessagesScreen}
-        options={{
-          ...defaultHeaderOptions,
-          title: locales.MESSAGES,
-        }}
-      />
-      <Stack.Group screenOptions={{ ...defaultHeaderOptions }}>
+      <Stack.Group>
+        <Stack.Screen
+          name={stackNavigatorNames.TOP_MESSAGES_TAB}
+          component={TopMessagesTabs}
+          options={{
+            ...defaultHeaderOptions,
+            title: locales.MESSAGES,
+          }}
+        />
         <Stack.Screen
           name={stackNavigatorNames.MESSAGES_PREVIEW}
           component={MessagesPreviewScreen}
