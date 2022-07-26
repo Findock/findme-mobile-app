@@ -97,7 +97,7 @@ export const FChatList = ({ hasActiveMessages }) => {
 
   const drawMessage = ({ item }) => (
     <FChatListItem
-      key={item.lastMessage.id}
+      key={`${hasActiveMessages ? 'active-message-' : 'archived-message-'}${item.lastMessage.id}`}
       message={item.lastMessage.message || ''}
       sender={getSender(item)}
       receiver={item.receiver}

@@ -7,6 +7,8 @@ import meSlice from 'store/me/meSlice';
 import multiSelectSlice from 'store/multi-select/multiSelectSlice';
 import selectSlice from 'store/select/selectSlice';
 import commentsSlice from 'store/comments/commentsSlice';
+import chatSlice from 'store/chat/chatSlice';
+import followedAnnouncementsSlice from 'store/followed-announcements/followedAnnouncements';
 
 export default configureStore({
   reducer: {
@@ -18,5 +20,7 @@ export default configureStore({
     announcement: announcementSlice,
     filtersOptions: filtersOptionsSlice,
     comments: commentsSlice,
+    chat: chatSlice,
+    followedAnnouncements: followedAnnouncementsSlice,
   },
 });
