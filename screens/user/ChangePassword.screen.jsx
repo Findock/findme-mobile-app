@@ -101,7 +101,6 @@ export const ChangePasswordScreen = () => {
         setShowSuccessModal(true);
         setErrors([]);
       } catch (error) {
-        console.log(error.response);
         setLoading(false);
         if (error.response && error.response.data) {
           checkPasswordValidation(error.response.data);
