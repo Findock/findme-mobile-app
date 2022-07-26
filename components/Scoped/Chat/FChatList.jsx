@@ -18,6 +18,7 @@ import { getArchivedChatMessagesService } from '../../../services/chat/getArchiv
 
 export const FChatList = ({ hasActiveMessages }) => {
   const me = useSelector((state) => state.me.me);
+  const isFetching = useRef(true);
   const [
     successModalTitle,
     setSuccessModalTitle,
@@ -66,11 +67,12 @@ export const FChatList = ({ hasActiveMessages }) => {
   };
 
   const fetchUserMessages = async () => {
-    // if (messages.length === 0) {
-    //   setIsLoading(true);
-    // }
+    if (isFetching.current) {
+      setIsLoading(true);
+    }
     try {
       let res;
+      isFetching.current = true;
       if (hasActiveMessages) {
         res = await getUserAllChatMessagesService();
       } else {
@@ -81,6 +83,7 @@ export const FChatList = ({ hasActiveMessages }) => {
       if (checkIfMessagesAreDifferent(res.data)) {
         console.log('WIADOMOSCI SIE ZMIENILY');
       }
+      isFetching.current = false;
     } catch (error) {
       setShowErrorModal(true);
     }
