@@ -9,4 +9,5 @@ export default {
   INVALID_PHONE_NUMBER: 'Nieprawidłowy numer telefonu',
   INVALID_OLD_PASSWORD: 'Nieprawidłowe stare hasło',
   PASSWORDS_ARE_NOT_THE_SAME: 'Hasła różnią się od siebie',
+  NEW_PASSWORD_THE_SAME_AS_OLD_PASSWORD: 'Nowe hasło nie może być takie samo jak poprzednie',
 };

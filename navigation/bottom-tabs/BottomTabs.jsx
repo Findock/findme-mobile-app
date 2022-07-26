@@ -86,8 +86,6 @@ export const BottomTabs = () => {
     />
   );
 
-  console.log(unreadMessagesAmountState);
-
   return (
     <Tab.Navigator
       screenOptions={{
