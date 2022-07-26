@@ -73,7 +73,11 @@ export const ChangePasswordScreen = () => {
     const errs = [];
     if (statusCode === 400) {
       if (message.join(' ')
-        .includes('old')) {
+        .includes('same as')) {
+        errs.push(userMessages.NEW_PASSWORD_THE_SAME_AS_OLD_PASSWORD);
+      }
+      if (message.join(' ')
+        .includes('oldPassword')) {
         errs.push(userMessages.INVALID_OLD_PASSWORD);
       }
       if (message.join(' ')
@@ -97,6 +101,7 @@ export const ChangePasswordScreen = () => {
         setShowSuccessModal(true);
         setErrors([]);
       } catch (error) {
+        console.log(error.response);
         setLoading(false);
         if (error.response && error.response.data) {
           checkPasswordValidation(error.response.data);
@@ -145,7 +150,8 @@ export const ChangePasswordScreen = () => {
           placeholder={placeholders.PASS_NEW_PASSWORD}
           onChangeText={newPasswordInputHandler}
           errorMessage={filterErrorMessages(errors, userMessages.PASSWORD_MUST_BE_LONGER_OR_EQUAL_TO_6)
-            || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)}
+            || filterErrorMessages(errors, userMessages.PASSWORDS_ARE_NOT_THE_SAME)
+            || filterErrorMessages(errors, userMessages.NEW_PASSWORD_THE_SAME_AS_OLD_PASSWORD)}
           width={sizes.WIDTH_FULL}
           value={dataForm.newPassword}
         />
