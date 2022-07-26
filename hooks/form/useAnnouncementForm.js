@@ -4,6 +4,9 @@ import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
+import { FModal } from 'components/Composition/FModal';
+import modalsMessages from 'constants/components/modals/modalsMessages';
+import modalTypes from 'constants/components/modals/modalTypes';
 
 export const useAnnouncementForm = (form = {
   title: '',
@@ -38,6 +41,10 @@ export const useAnnouncementForm = (form = {
   const [
     loading,
     setLoading,
+  ] = useState(false);
+  const [
+    showInvalidFormDataModal,
+    setShowInvalidFormDataModal,
   ] = useState(false);
   const {
     setShowErrorModal,
@@ -140,12 +147,23 @@ export const useAnnouncementForm = (form = {
         .includes('coatColorsIds')) {
         errs.push(announcementMessages.CHOOSE_AT_LEAST_ONE_COAT_COLOR);
       }
+      setShowInvalidFormDataModal(true);
     }
     if (statusCode === 500) {
       setShowErrorModal(true);
     }
     setErrors([...errs]);
   };
+
+  const drawInvalidFormDataModal = () => (
+    <FModal
+      title={modalsMessages.INVALID_FORM_DATA}
+      type={modalTypes.INFO_ERROR_MODAL}
+      setVisible={setShowErrorModal}
+      visible={showInvalidFormDataModal}
+      onContinue={() => setShowInvalidFormDataModal(false)}
+    />
+  );
 
   return {
     dataForm,
@@ -160,5 +178,6 @@ export const useAnnouncementForm = (form = {
     setShowErrorModal,
     drawErrorModal,
     setAnnouncementType,
+    drawInvalidFormDataModal,
   };
 };
