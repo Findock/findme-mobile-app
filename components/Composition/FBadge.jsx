@@ -1,6 +1,6 @@
 import { FHeading } from 'components/Composition/FHeading';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import colors from 'themes/colors';
 import fonts from 'themes/fonts';
 import placements from 'themes/placements';
@@ -8,7 +8,10 @@ import sizes from 'themes/sizes';
 import PropTypes from 'prop-types';
 
 export const FBadge = ({
-  title, color, isFill, style,
+  title,
+  color,
+  isFill,
+  style,
 }) => {
   const getStylesDependingOnIsFill = () => {
     if (isFill) {
