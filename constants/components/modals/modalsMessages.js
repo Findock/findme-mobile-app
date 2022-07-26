@@ -34,4 +34,5 @@ export default {
   RESTORE_CHAT_MESSAGE_CONFIRMATION: 'Jesteś pewien, że chcesz przywrócić tę wiadomość?',
   CHAT_MESSAGE_ARCHIVED: 'Zarchiwizowano wiadomość',
   CHAT_MESSAGE_RESTORED: 'Przywrócono wiadomość',
+  INVALID_FORM_DATA: 'Nie uzupełniłeś prawidłowo formularza!',
 };

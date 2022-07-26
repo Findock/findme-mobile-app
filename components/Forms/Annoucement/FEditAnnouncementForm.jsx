@@ -10,6 +10,7 @@ import { updateAnnouncementService } from 'services/announcement/updateAnnouncem
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { View } from 'react-native';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import locales from 'constants/locales';
 
 export const FEditAnnouncementForm = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ export const FEditAnnouncementForm = () => {
     loading,
     setLoading,
     announcementType,
+    drawInvalidFormDataModal,
   } = useAnnouncementForm();
 
   useEffect(() => {
@@ -43,15 +45,24 @@ export const FEditAnnouncementForm = () => {
 
   useEffect(() => {
     if (announcement) {
+      navigation.setOptions({
+        title: `${locales.ANNOUNCEMENT_EDITION} ${announcement.title}`,
+      });
+    }
+  }, [announcement]);
+
+  useEffect(() => {
+    if (announcement) {
       dispatch(setSelectedOptions(announcement.distinctiveFeatures));
       setDefaultPhotos([
         ...announcement.photos.map((photo) => ({
           id: photo.id,
           url: photo.url,
-        })).concat((new Array(6 - announcement.photos.length).fill({
-          id: null,
-          url: '',
-        }))),
+        }))
+          .concat((new Array(6 - announcement.photos.length).fill({
+            id: null,
+            url: '',
+          }))),
       ]);
       setDataForm({
         title: announcement.title,
@@ -125,6 +136,7 @@ export const FEditAnnouncementForm = () => {
       setLoading={setLoading}
       onSubmit={onSubmit}
       isEdit
+      drawInvalidFormDataModal={drawInvalidFormDataModal}
     />
   );
 };

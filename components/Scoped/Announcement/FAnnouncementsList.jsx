@@ -6,8 +6,6 @@ import sizes from 'themes/sizes';
 import colors from 'themes/colors';
 import { FSpinner } from 'components/Composition/FSpinner';
 import { getMyAnnouncementsService } from 'services/announcement/getMyAnnouncements.service';
-import { FHeading } from 'components/Composition/FHeading';
-import fonts from 'themes/fonts';
 import placements from 'themes/placements';
 import locales from 'constants/locales';
 import { FAnnouncementCard } from 'components/Scoped/Announcement/Card/FAnnouncementCard';
@@ -23,6 +21,8 @@ import { getLastViewedAnnouncementsService } from 'services/announcement/getLast
 import { getRecentlyCreatedAnnouncementsService } from 'services/announcement/getRecentlyCreatedAnnouncements.service';
 import { getNearbyAnnouncementsService } from 'services/announcement/getNearbyAnnouncements.service';
 import { FActivityIndicator } from 'components/Composition/FActivityIndicator';
+import { FEmptyList } from 'components/Composition/FEmptyList';
+import emptyListMessages from 'constants/components/emptyListMessages';
 
 export const FAnnouncementsList = ({
   isMe,
@@ -274,38 +274,43 @@ export const FAnnouncementsList = ({
 
   const getInfoTitle = () => {
     if (userId) {
-      return locales.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
+      return emptyListMessages.USER_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
     }
     if (onlyFavorites) {
-      return locales.NO_FOLLOWED_ANNOUNCEMENTS;
+      return emptyListMessages.NO_FOLLOWED_ANNOUNCEMENTS;
     }
     if (isMe) {
-      return locales.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
+      return emptyListMessages.YOU_DONT_HAVE_ANY_ANNOUNCEMENTS_YET;
     }
     if (recentlyCreated) {
-      return locales.NO_RECENTLY_CREATED_ANNOUNCEMENTS;
+      return emptyListMessages.NO_RECENTLY_CREATED_ANNOUNCEMENTS;
     }
     if (nearby) {
-      return locales.NO_NEARBY_ANNOUNCEMENTS;
+      return emptyListMessages.NO_NEARBY_ANNOUNCEMENTS;
     }
-    return locales.ANNOUNCEMENTS_NOT_FOUND;
+    return emptyListMessages.ANNOUNCEMENTS_NOT_FOUND;
+  };
+
+  const checkWhenDrawIconInEmptyList = () => {
+    if (getInfoTitle() === emptyListMessages.NO_RECENTLY_CREATED_ANNOUNCEMENTS
+      || (getInfoTitle() === emptyListMessages.ANNOUNCEMENTS_NOT_FOUND && lastViewed)) {
+      return false;
+    }
+    return true;
   };
 
   const drawNoAnnouncementInfo = () => {
     if (!isLoading && announcements.length === 0) {
       return (
-        <View>
-          <FHeading
-            align={placements.CENTER}
-            size={fonts.HEADING_SMALL}
-            color={colors.DARK_GRAY}
-            weight={fonts.HEADING_WEIGHT_REGULAR}
-            title={getInfoTitle()}
-          />
-        </View>
+        <FEmptyList
+          withIcon={checkWhenDrawIconInEmptyList()}
+          title={getInfoTitle()}
+          style={{ marginTop: sizes.MARGIN_10 }}
+        />
       );
     }
   };
+
   const renderActivityIndicator = () => !endReached && <FActivityIndicator />;
 
   return (

@@ -12,7 +12,7 @@ export const useErrorModal = (goBack = false, goBackTo = '') => {
   ] = useState(false);
 
   const onContinue = () => {
-    if (goBack) return navigation.goBack();
+    if (goBack && navigation.canGoBack()) return navigation.goBack();
     if (goBackTo) return navigation.navigate(goBackTo);
   };
 

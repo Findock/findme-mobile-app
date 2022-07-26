@@ -4,9 +4,7 @@ import { useErrorModal } from 'hooks/modals/useErrorModal';
 import { FSpinner } from 'components/Composition/FSpinner';
 import sizes from 'themes/sizes';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { FHeading } from 'components/Composition/FHeading';
 import placements from 'themes/placements';
-import fonts from 'themes/fonts';
 import colors from 'themes/colors';
 import locales from 'constants/locales';
 import { FChatListItem } from 'components/Scoped/Chat/FChatListItem';
@@ -14,10 +12,13 @@ import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 import { useSuccessModal } from 'hooks/modals/useSuccessModal';
-import { getArchivedChatMessagesService } from '../../../services/chat/getArchivedChatMessages.service';
+import { FEmptyList } from 'components/Composition/FEmptyList';
+import emptyListMessages from 'constants/components/emptyListMessages';
+import { getArchivedChatMessagesService } from 'services/chat/getArchivedChatMessages.service';
 
 export const FChatList = ({ hasActiveMessages }) => {
   const me = useSelector((state) => state.me.me);
+  const isFetching = useRef(true);
   const [
     successModalTitle,
     setSuccessModalTitle,
@@ -66,11 +67,12 @@ export const FChatList = ({ hasActiveMessages }) => {
   };
 
   const fetchUserMessages = async () => {
-    // if (messages.length === 0) {
-    //   setIsLoading(true);
-    // }
+    if (isFetching.current) {
+      setIsLoading(true);
+    }
     try {
       let res;
+      isFetching.current = true;
       if (hasActiveMessages) {
         res = await getUserAllChatMessagesService();
       } else {
@@ -81,6 +83,7 @@ export const FChatList = ({ hasActiveMessages }) => {
       if (checkIfMessagesAreDifferent(res.data)) {
         console.log('WIADOMOSCI SIE ZMIENILY');
       }
+      isFetching.current = false;
     } catch (error) {
       setShowErrorModal(true);
     }
@@ -94,7 +97,7 @@ export const FChatList = ({ hasActiveMessages }) => {
 
   const drawMessage = ({ item }) => (
     <FChatListItem
-      key={item.lastMessage.id}
+      key={`${hasActiveMessages ? 'active-message-' : 'archived-message-'}${item.lastMessage.id}`}
       message={item.lastMessage.message || ''}
       sender={getSender(item)}
       receiver={item.receiver}
@@ -111,15 +114,10 @@ export const FChatList = ({ hasActiveMessages }) => {
   const drawNoMessagesInfo = () => {
     if (!isLoading && messages.length === 0) {
       return (
-        <View style={styles.centerView}>
-          <FHeading
-            align={placements.CENTER}
-            size={fonts.HEADING_SMALL}
-            color={colors.DARK_GRAY}
-            weight={fonts.HEADING_WEIGHT_REGULAR}
-            title={locales.NO_MESSAGES}
-          />
-        </View>
+        <FEmptyList
+          withIcon
+          title={emptyListMessages.NO_MESSAGES}
+        />
       );
     }
   };

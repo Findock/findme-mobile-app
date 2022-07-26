@@ -8,12 +8,17 @@ import { StyleSheet, View } from 'react-native';
 import { HomepageNavigationStack } from 'navigation/stacks/HomepageNavigationStack';
 import { UserProfileNavigationStack } from 'navigation/stacks/UserProfileNavigationStack';
 import { AddAnnouncementNavigationStack } from 'navigation/stacks/AddAnnouncementNavigationStack';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MyFollowedAnnouncementsStackNavigation } from 'navigation/stacks/MyFollowedAnnouncementsStackNavigation';
 import { MessagesNavigationStack } from 'navigation/stacks/MessagesNavigationStack';
+import { getUserAllChatMessagesService } from 'services/chat/getUserAllChatMessages.service';
+import { setUnreadMessagesAmount } from 'store/chat/chatSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const BottomTabs = () => {
   const Tab = createBottomTabNavigator();
+  const dispatch = useDispatch();
+  const unreadMessagesAmountState = useSelector((state) => state.chat.unreadMessagesAmount);
   const shouldRefreshHomeTab = useRef(false);
   const shouldRefreshUserProfileTab = useRef(false);
   const shouldRefreshAddAnnouncementTab = useRef(false);
@@ -39,6 +44,36 @@ export const BottomTabs = () => {
     followedAnnouncementsNavigationStackKey,
     setFollowedAnnouncementsNavigationStackKey,
   ] = useState(0);
+  const interval = useRef(null);
+  const [
+    messages,
+    setMessages,
+  ] = useState([]);
+
+  useEffect(() => fetchActiveMessages(), []);
+
+  useEffect(() => {
+    if (interval.current) clearInterval(interval.current);
+    interval.current = setInterval(() => {
+      fetchActiveMessages();
+    }, 1000);
+
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, [messages]);
+
+  const fetchActiveMessages = async () => {
+    const res = await getUserAllChatMessagesService();
+    if (res.data) {
+      setMessages(res.data);
+      let unreadMessagesAmount = 0;
+      res.data.forEach((message) => {
+        if (message.unreadCount > 1) unreadMessagesAmount++;
+      });
+      dispatch(setUnreadMessagesAmount(unreadMessagesAmount));
+    }
+  };
 
   const drawIcon = (
     icon,
@@ -50,6 +85,8 @@ export const BottomTabs = () => {
       color={color}
     />
   );
+
+  console.log(unreadMessagesAmountState);
 
   return (
     <Tab.Navigator
@@ -203,6 +240,10 @@ export const BottomTabs = () => {
           tabBarIcon: ({
             color,
           }) => drawIcon(icons.MAIL_OUTLINE, color),
+          tabBarBadge: unreadMessagesAmountState,
+          tabBarBadgeStyle: {
+            opacity: unreadMessagesAmountState > 0 ? 1 : 0,
+          },
         }}
       />
       <Tab.Screen

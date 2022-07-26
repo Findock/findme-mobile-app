@@ -19,6 +19,7 @@ export const FCreateAnnouncementForm = () => {
     loading,
     setLoading,
     announcementType,
+    drawInvalidFormDataModal,
   } = useAnnouncementForm();
   const navigation = useNavigation();
   const route = useRoute();
@@ -68,6 +69,7 @@ export const FCreateAnnouncementForm = () => {
       setShowErrorModal={setShowErrorModal}
       onSubmit={onSubmit}
       isEdit={false}
+      drawInvalidFormDataModal={drawInvalidFormDataModal}
     />
   );
 };

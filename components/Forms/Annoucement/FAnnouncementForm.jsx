@@ -41,6 +41,7 @@ export const FAnnouncementForm = ({
   announcementType,
   loading,
   onSubmit,
+  drawInvalidFormDataModal,
 }) => {
   const navigation = useNavigation();
 
@@ -60,6 +61,7 @@ export const FAnnouncementForm = ({
     <View style={{ flex: 1 }}>
       {drawConfirmationModal()}
       {drawErrorModal()}
+      {drawInvalidFormDataModal()}
       {defaultPhotos && (
         <FImageSelectInput
           style={styles.horizontalScrollViewContainer}

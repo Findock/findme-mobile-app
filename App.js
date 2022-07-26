@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 import { Navigation } from 'navigation/Navigation';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
-import { SafeAreaView, StatusBar } from 'react-native';
+import { Platform, SafeAreaView, StatusBar } from 'react-native';
 import store from 'store/store';
 import storybook from './storybook';
 
@@ -11,7 +11,8 @@ const App = () => (
     <Provider store={store}>
       <SafeAreaView>
         <StatusBar
-          barStyle="dark-content"
+          networkActivityIndicatorVisible
+          barStyle={`${Platform.OS === 'ios' ? 'dark-content' : 'default'}`}
         />
       </SafeAreaView>
       <Navigation />
