@@ -516,6 +516,16 @@ export const AnnouncementPreviewScreen = () => {
               }}
             />
           </View>
+          {announcement.isUserCreator && (
+            <View style={{ marginBottom: sizes.MARGIN_10 }}>
+              <FHeading
+                size={fonts.HEADING_SMALL}
+                weight={fonts.HEADING_WEIGHT_MEDIUM}
+                title={`${locales.VIEWS_AMOUNT} ${announcement.viewsAmount}`}
+                color={colors.DARK_GRAY}
+              />
+            </View>
+          )}
           <View style={{ marginBottom: sizes.MARGIN_100 }}>
             <FSimpleComment
               commentsAmount={comments ? comments.length : 0}
