@@ -10,6 +10,7 @@ import { updateAnnouncementService } from 'services/announcement/updateAnnouncem
 import { setSelectedOptions } from 'store/multi-select/multiSelectSlice';
 import { View } from 'react-native';
 import { setUpdatedAnnouncement } from 'store/announcement/announcementSlice';
+import locales from 'constants/locales';
 
 export const FEditAnnouncementForm = () => {
   const dispatch = useDispatch();
@@ -41,6 +42,14 @@ export const FEditAnnouncementForm = () => {
   useEffect(() => {
     fetchAnnouncement();
   }, []);
+
+  useEffect(() => {
+    if (announcement) {
+      navigation.setOptions({
+        title: `${locales.ANNOUNCEMENT_EDITION} ${announcement.title}`,
+      });
+    }
+  }, [announcement]);
 
   useEffect(() => {
     if (announcement) {

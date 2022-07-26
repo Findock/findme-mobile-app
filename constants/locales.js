@@ -107,4 +107,5 @@ export default {
   ACTIVE_ALL: 'Aktywne',
   ARCHIVED_ALL: 'Archiwalne',
   RESTORE: 'Przywróć',
+  ANNOUNCEMENT_EDITION: 'Edycja ogłoszenia',
 };
